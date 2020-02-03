@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  31 JAN 2020 08:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  3 FEB 2020 15:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -878,10 +878,46 @@ ABD: EveryShipout initializing macros
 \c@lstlisting=\count156
  [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1] [2]
-LaTeX Font Info:    Try loading font information for U+msa on input line 162.
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
+Package natbib Warning: Citation `eager2014' on page 1 undefined on input line 
+144.
+
+
+Package natbib Warning: Citation `paniw2017' on page 1 undefined on input line 
+144.
+
+
+Package natbib Warning: Citation `nunney2002' on page 1 undefined on input line
+ 144.
+
+
+Package natbib Warning: Citation `waples2006' on page 1 undefined on input line
+ 144.
+
+
+Package natbib Warning: Citation `mccue1998b' on page 1 undefined on input line
+ 144.
+
+
+Package natbib Warning: Citation `heinrich2018' on page 1 undefined on input li
+ne 144.
+
+
+Package natbib Warning: Citation `ritland1983' on page 1 undefined on input lin
+e 144.
+
+
+Package natbib Warning: Citation `evans2005' on page 1 undefined on input line 
+144.
+
+
+Package natbib Warning: Citation `eckhart2011' on page 1 undefined on input lin
+e 146.
+
+[1] [2]
+LaTeX Font Info:    Try loading font information for U+msa on input line 162.
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 162.
@@ -892,6 +928,42 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Underfull \hbox (badness 10000) in paragraph at lines 166--166
 []|\OT1/cmr/m/n/12 Density-independent
  []
+
+
+Package natbib Warning: Citation `cohen1966' on page 3 undefined on input line 
+168.
+
+
+Package natbib Warning: Citation `cohen1968' on page 3 undefined on input line 
+168.
+
+
+Package natbib Warning: Citation `ellner1985' on page 3 undefined on input line
+ 168.
+
+
+Package natbib Warning: Citation `ellner1985a' on page 3 undefined on input lin
+e 168.
+
+
+Package natbib Warning: Citation `cohen1967' on page 3 undefined on input line 
+168.
+
+
+Package natbib Warning: Citation `easterling2000' on page 3 undefined on input 
+line 168.
+
+
+Package natbib Warning: Citation `venable2007' on page 3 undefined on input lin
+e 170.
+
+
+Package natbib Warning: Citation `gremer2014' on page 3 undefined on input line
+ 170.
+
+
+Package natbib Warning: Citation `gremer2016' on page 3 undefined on input line
+ 170.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 174--174
@@ -914,17 +986,40 @@ Overfull \hbox (4.0513pt too wide) in paragraph at lines 207--208
 s in Jan-uary and post-germination
  []
 
-[5] [6] [7] [8] [9] [10]
-Missing character: There is no Ã in font cmr12!
-Missing character: There is no © in font cmr12!
-Missing character: There is no Ã in font cmr12!
-Missing character: There is no ¤ in font cmr12!
- [11] [12]
-Missing character: There is no Ã in font cmr12!
-Missing character: There is no © in font cmr12!
-Missing character: There is no Ã in font cmr12!
-Missing character: There is no ¤ in font cmr12!
- [13] [14] [15]
+[5] [6] [7] [8] [9]
+
+Package natbib Warning: Citation `eckhart2011' on page 10 undefined on input li
+ne 351.
+
+[10]
+
+Package natbib Warning: Citation `linden2011' on page 11 undefined on input lin
+e 365.
+
+[11] [12]
+
+Package natbib Warning: Citation `linden2011' on page 13 undefined on input lin
+e 410.
+
+[13]
+
+Package natbib Warning: Citation `venable2007' on page 14 undefined on input li
+ne 441.
+
+[14]
+
+Package natbib Warning: Citation `gremer2014' on page 15 undefined on input lin
+e 463.
+
+
+Package natbib Warning: Citation `gremer2014' on page 15 undefined on input lin
+e 467.
+
+[15]
+
+Package natbib Warning: Citation `cohen1966' on page 16 undefined on input line
+ 479.
+
 <../figures/obs_pred_germ.pdf, id=72, page=1, 794.97pt x 614.295pt>
 File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
@@ -1048,7 +1143,20 @@ Missing character: There is no ¤ in font cmr12!
 [21]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ³ in font cmr12!
-) [22] (./seedBankMS.aux) ) 
+)
+
+Package natbib Warning: There were undefined citations.
+
+[22] (./seedBankMS.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  18823 strings out of 493014
  363458 string characters out of 6133351
@@ -1057,26 +1165,25 @@ Here is how much of TeX's memory you used:
  13777 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,19n,76p,1061b,919s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/
-cm-super/cm-super-ts1.enc}</usr/local/texlive/2016/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmbxti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmib10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsf
-onts/cmextra/cmmib8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmss8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-tt12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm12
-00.pfb>
-Output written on seedBankMS.pdf (23 pages, 237734 bytes).
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on seedBankMS.pdf (23 pages, 237754 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  122 compressed objects within 2 object streams
