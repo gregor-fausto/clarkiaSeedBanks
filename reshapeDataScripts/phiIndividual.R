@@ -6,7 +6,7 @@ options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Set appropriate directories
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/reshapeData/")
+setwd("~/Dropbox/projects/clarkiaScripts/data/reshapeData/")
 # -------------------------------------------------------------------
 # Load packages
 # -------------------------------------------------------------------
@@ -95,6 +95,6 @@ regressionDf$U <- as.factor(regressionDf$U)
 # -------------------------------------------------------------------
 # Save data object
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/data/cleanData")
+setwd("~/Dropbox/clarkiaSeedBanks/library/dataForAnalysis")
 phiIndDF <- regressionDf
 save(phiIndDF, file = "phiIndDF.RData")
