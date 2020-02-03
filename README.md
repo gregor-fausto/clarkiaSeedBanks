@@ -1,2 +1,12 @@
-# clarkiaSeedBanks
-Clarkia seed bank project
+
+### Seed banks in Clarkia xantiana
+
+Siegmund, G.-F., and M. A. Geber.
+
+-----
+
+### Abstract
+
+….
+
+-----
