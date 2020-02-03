@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------
-# 
-# SURVIVAL TO FRUITING (SIGMA)
+# Script to clean, organize, and reshape the data on 
+# Counts for seedlings and number of fruiting plants
 # -------------------------------------------------------------------
 rm(list=ls(all=TRUE)) # clear R environment
 options(stringsAsFactors = FALSE)
@@ -98,5 +98,5 @@ sigmaDF$uniquePosition <- as.factor(sigmaDF$uniquePosition)
 # -------------------------------------------------------------------
 # Save data object
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/data/cleanData")
+setwd("~/Dropbox/clarkiaSeedBanks/library/dataForAnalysis")
 save(sigmaDF, file = "sigmaDF.RData")
