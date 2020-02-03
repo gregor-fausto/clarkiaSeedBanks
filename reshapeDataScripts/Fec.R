@@ -6,7 +6,7 @@ options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Set appropriate directories
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/reshapeData/")
+setwd("~/Dropbox/projects/clarkiaScripts/data/reshapeData/")
 # -------------------------------------------------------------------
 # Load packages
 # -------------------------------------------------------------------
@@ -137,5 +137,5 @@ fecDF$otherClarkia <- as.factor(fecDF$otherClarkia)
 # -------------------------------------------------------------------
 # Save data object
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/data/cleanData")
+setwd("~/Dropbox/clarkiaSeedBanks/library/dataForAnalysis")
 save(fecDF, file = "fecDF.RData")
