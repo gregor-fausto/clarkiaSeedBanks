@@ -7,7 +7,7 @@ options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Set appropriate directories
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/reshapeData/")
+setwd("~/Dropbox/projects/clarkiaScripts/data/reshapeData/")
 # -------------------------------------------------------------------
 # Loading required packages
 # -------------------------------------------------------------------
