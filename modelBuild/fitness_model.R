@@ -22,7 +22,7 @@ set.seed(10)
 # Import and organize data
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/data/cleanData")
+setwd("~/Dropbox/clarkiaSeedBanks/dataForAnalysis")
 load(file="sigmaDF.RData") 
 
 setwd("~/Dropbox/projects/clarkiaScripts/data/cleanData")
