@@ -16,3 +16,40 @@ Siegmund, G.-F., and M. A. Geber.
 ....
 
 ---
+
+### Repository Directory
+
+1. `library` contains the [...] datasets associated with the paper. I have included the metadata for each dataset below. 
+
+2. `reshapeDataScripts` contains the R scripts used to download and reshape the datasets.
+
+3. `modelBuild` contains the R scripts to fit models.
+
+4. `modelCodeJAGS` contains the JAGS scripts.
+
+5. `analysisCode` contains scripts to analyze model output.
+
+6. `products` contains a folder with the R scripts used to make all figures and tables, and a folder with the manuscript.
+
+----
+
+### Library Metadata
+
+#### sigmaDF
+
+Metadata for the seedling survival to fruiting dataset described in the Methods and Appendices XXXX.
+
+```{r, echo = FALSE}
+load(file = "~/Dropbox/projects/clarkiaScripts/data/cleanData/sigmaDF.RData")
+df <- sigmaDF[,c(1:6)]
+dt <- data.frame(field = names(df))
+dt$description[1] <- "name of site, see methods and Appendix XX"
+dt$description[2] <- "year of ..."
+dt$description[3] <- "transect identifier, see Methods and Appendix XX"
+dt$description[4] <- "position within transect identifier, see Methods and Appendix XX"
+dt$description[5] <- "number of seedlings at plot"
+dt$description[6] <- "number of fruiting plants at plot"
+kable(dt)
+```
+
+<br>
