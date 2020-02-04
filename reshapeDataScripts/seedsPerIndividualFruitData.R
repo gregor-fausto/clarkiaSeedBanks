@@ -16,7 +16,7 @@ library(reshape2) # manipulate data frames
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Import and organize data
-# note; all these data come from permanet plots
+# note; all these data come from permanent plots
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 seeds <- read.csv(file = "seeds.csv", header=TRUE)
@@ -29,9 +29,10 @@ par(mfrow=c(2,1))
 hist(seeds$noSeedsPerFruit)
 hist(seeds$noSeedsPerUndFruit,add=TRUE,col="red")
 hist(seeds$noSeedsPerDamFruit,add=TRUE,col="blue")
-hist(summarySeeds$meanSeedsPerFruitEq)
-hist(summarySeeds$meanSeedsPerUndFruit,add=TRUE,col="red")
-hist(summarySeeds$meanSeedsPerDamFruit,add=TRUE,col="blue")
+
+# hist(summarySeeds$meanSeedsPerFruitEq)
+# hist(summarySeeds$meanSeedsPerUndFruit,add=TRUE,col="red")
+# hist(summarySeeds$meanSeedsPerDamFruit,add=TRUE,col="blue")
 
 plot(density(seeds$noSeedsPerFruit,na.rm=TRUE),ylim=c(0,0.08))
 lines(density(seeds$noSeedsPerUndFruit,na.rm=TRUE),col="red")
@@ -42,8 +43,10 @@ lines(density(seeds$noSeedsPerDamFruit,na.rm=TRUE),col="blue")
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # question whether or not to just include from permanent plot
-df<-seeds %>% dplyr::select(-permanentPlot) %>% tidyr::gather(variable, response, -c(year,site))
-df<-df[complete.cases(df), ]
+df <- seeds %>% 
+  dplyr::select(-permanentPlot) %>% 
+  tidyr::gather(variable, response, -c(year,site))
+df <- df[complete.cases(df), ]
 
 # -------------------------------------------------------------------
 # Create regression data frame 
