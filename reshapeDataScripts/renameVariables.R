@@ -6,11 +6,7 @@ options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Set appropriate directories
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/stanAnalysis/cleanData")
-# -------------------------------------------------------------------
-# Loading required packages
-# -------------------------------------------------------------------
-library(rstan) # stan interface
+setwd("~/Dropbox/clarkiaSeedBanks/library/dataForAnalysis")
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Import and organize data
@@ -19,7 +15,6 @@ library(rstan) # stan interface
 load(file="sigmaDF.RData")
 load(file="fecDF.RData")
 load(file="phiIndDF.RData")
-load(file="s1g1DF.RData")
 
 reassign<-function(df){
   df$site<-ifelse(df$site=="BG","BGU",as.character(df$site))
@@ -38,13 +33,11 @@ reassign<-function(df){
 sigmaDF$site<-as.factor(reassign(sigmaDF)$site)
 fecDF$site<-as.factor(reassign(fecDF)$site)
 phiIndDF$site<-as.factor(reassign(phiIndDF)$site)
-s1g1DF$site<-as.factor(reassign(s1g1DF)$site)
 
 # -------------------------------------------------------------------
 # Save data object
 # -------------------------------------------------------------------
-setwd("~/Dropbox/projects/clarkiaScripts/stanAnalysis/cleanData")
+setwd("~/Dropbox/clarkiaSeedBanks/library/dataForAnalysis")
 save(sigmaDF, file = "sigmaDF.RData")
 save(fecDF, file = "fecDF.RData")
 save(phiIndDF, file = "phiIndDF.RData")
-save(s1g1DF, file = "s1g1DF.RData")
