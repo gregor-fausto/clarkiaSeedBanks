@@ -55,6 +55,8 @@ df$noFruitingPlants[df$noSeedlings==0 &
 df <- df %>% 
   dplyr::filter(!is.na(noFruitingPlants) & !is.na(failToFruit))
 
+sigmaDF <- df
+
 # site, transect and position as factors
 sigmaDF$uniqueTransect <- as.factor(sigmaDF$uniqueTransect)
 sigmaDF$uniquePosition <- as.factor(sigmaDF$uniquePosition)
