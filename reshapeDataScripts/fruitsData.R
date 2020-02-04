@@ -77,41 +77,13 @@ fruitsConvert <- fruitsConvert %>%
   dplyr::select(-TFE)
 
 fruits <- rbind(filter(fruits,year<2013),fruitsConvert)
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Import predictor variables
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# site variables
-climate <- read.csv(file = "allClimate.csv", header=TRUE) %>% 
-  dplyr::filter(demography==1) %>%
-  dplyr::select(-c(demography,T_summer,P_summer,T_springSummer,P_springSummer))
-siteAbiotic <- read.csv(file = "siteAbiotic.csv", header=TRUE)
-# make otherClarkia a factor (0 for no other Clarkia sp., 1 for other Clarkia sp.)
-siteAbiotic$otherClarkia[siteAbiotic$otherClarkia>0] <- 1
-siteAbiotic$otherClarkia<-as.factor(siteAbiotic$otherClarkia)
-# rename abiotic variables
-names(siteAbiotic)[6]="rock";names(siteAbiotic)[7]="aspect";
-names(siteAbiotic)[8]="azimuth";names(siteAbiotic)[9]="slope";
-# seedling density
-setwd("~/Dropbox/projects/clarkiaScripts/reshapeData")
-df_survival <- read.csv(file = "survival.csv", header=TRUE)
-df_survival$position<-as.character(df_survival$position)
+
 # -------------------------------------------------------------------
 # Create regression data frame 
 # -------------------------------------------------------------------
 fecDF <- dplyr::select(fruits, c(site, year, transect, position,
                                  noFruitingPlants,
-                                 totalFruitEquivalents)) %>%
-  left_join(dplyr::select(df_survival,c(site,year,
-                                 transect,position,
-                                 noSeedlings)),
-            by=c('site','year','transect','position')) %>%
-  left_join(dplyr::select(siteAbiotic,
-                   c(site,azimuth,slope,rock,otherClarkia, easting)),
-            by=c('site'))  %>%
-  dplyr::left_join(climate,
-                   by=c('site','year'))
+                                 totalFruitEquivalents)) 
 # -------------------------------------------------------------------
 # Clean up data for regression
 # -------------------------------------------------------------------
@@ -128,8 +100,6 @@ fecDF$uniquePosition<-paste3(fecDF$site,
                             fecDF$position,sep="")
 
 # site, transect and position as factors
-fecDF$site <- as.factor(fecDF$site)
-fecDF$rock <- as.factor(fecDF$rock)
 fecDF$uniqueTransect <- as.factor(fecDF$uniqueTransect)
 fecDF$uniquePosition <- as.factor(fecDF$uniquePosition)
 fecDF$otherClarkia <- as.factor(fecDF$otherClarkia)
