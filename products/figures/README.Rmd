@@ -30,10 +30,10 @@ matchFun<-function(figureFile = figFile){
 ```{r, echo = FALSE,warnings=FALSE,message=FALSE}
 df <- list.files(path = "~/Dropbox/clarkiaSeedBanks/products/figures",pattern="pdf")
 dt <- data.frame(figureFilename = df)
-dt$scriptFilename[1] <- suppressWarnings(matchFun(df[1]))
-dt$scriptFilename[2] <- suppressWarnings(matchFun(df[2]))
-dt$scriptFilename[3] <- suppressWarnings(matchFun(df[3]))
-dt$scriptFilename[4] <- suppressWarnings(matchFun(df[4]))
+
+for(i in 1:dim(dt)[1]){
+  dt$scriptFilename[i] <- suppressWarnings(matchFun(df[i]))
+}
 kable(dt)
 ```
 
