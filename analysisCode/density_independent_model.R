@@ -174,17 +174,19 @@ optimaCalc<-function(s1,s2,s3,rs){
   optima<-unlist(lapply(site.optima,maxfun))
 }
 
-trials <- replicate(
-  50, 
-  optimaCalc(s1 = s1, s2 = s2, s3 = s3, rs= rs),
-  simplify = FALSE
-)
+# uncomment to re-estimate mean.optima
+# need to save mean.optima to create figure
+# trials <- replicate(
+#   50, 
+#   optimaCalc(s1 = s1, s2 = s2, s3 = s3, rs= rs),
+#   simplify = FALSE
+# )
 
 set.seed(10)
 mean.optima = apply(matrix(unlist(trials),ncol=17,byrow=TRUE),2,mean)
 
 optimalG<-matrix(unlist(trials),ncol=17,byrow=TRUE)
-save(optimalG,file="~/Dropbox/modelsF2019/output/optimalG")
+#save(optimalG,file="~/Dropbox/modelsF2019/output/optimalG")
 
 load("~/Dropbox/modelsF2019/output/optimalG")
 
