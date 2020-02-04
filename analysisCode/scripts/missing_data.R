@@ -86,5 +86,5 @@ p<-phiDat %>%
 
 missing_dat<-unique(rbind(s,f,p))
 
-save(missing_dat,file="~/Dropbox/modelsF2019/output/missingness")
+save(missing_dat,file="~/Dropbox/clarkiaSeedBanks/analysisCode/output/missingness")
 
