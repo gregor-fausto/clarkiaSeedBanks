@@ -55,43 +55,7 @@ df$noFruitingPlants[df$noSeedlings==0 &
 df <- df %>% 
   dplyr::filter(!is.na(noFruitingPlants) & !is.na(failToFruit))
 
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Import predictor variables
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-climate <- read.csv(file = "allClimate.csv", header=TRUE) %>% 
-  dplyr::filter(demography==1) %>%
-  dplyr::select(-c(demography,T_summer,P_summer,T_springSummer,P_springSummer))
-siteAbiotic <- read.csv(file = "siteAbiotic.csv", header=TRUE)
-# rename abiotic variables
-names(siteAbiotic)[6]="rock";names(siteAbiotic)[7]="aspect";
-names(siteAbiotic)[8]="azimuth";names(siteAbiotic)[9]="slope";
-# -------------------------------------------------------------------
-# Create regression data frame 
-# -------------------------------------------------------------------
-sigmaDF <- df %>%
-  dplyr::left_join(dplyr::select(siteAbiotic,
-                   c(site,azimuth,slope,rock)),
-            by=c('site')) %>%
-  dplyr::left_join(climate,
-                   by=c('site','year'))
-# -------------------------------------------------------------------
-# Clean up data for regression
-# -------------------------------------------------------------------
-# remove column with number of seedlings
-# sigmaDF <- sigmaDF[,-5]
-
-# create unique transect/site variables
-sigmaDF$uniqueTransect<-paste(sigmaDF$site,
-                              sigmaDF$transect,sep="")
-sigmaDF$uniquePosition<-paste(sigmaDF$site,
-                              sigmaDF$transect,
-                              sigmaDF$position,sep="")
-
 # site, transect and position as factors
-sigmaDF$site <- as.factor(sigmaDF$site)
-sigmaDF$rock <- as.factor(sigmaDF$rock)
 sigmaDF$uniqueTransect <- as.factor(sigmaDF$uniqueTransect)
 sigmaDF$uniquePosition <- as.factor(sigmaDF$uniquePosition)
 
