@@ -1,0 +1,40 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+library(knitr)
+```
+
+### Figures and corresponding scripts
+
+```{r, echo=FALSE,warnings=FALSE}
+# hacky function to get file names that generate figures
+scriptDir = c("~/Dropbox/clarkiaSeedBanks/analysisCode/scripts/")
+files <- list.files(path = scriptDir)
+  
+matchFun<-function(figureFile = figFile){
+  
+  matchVector=c()
+  
+  for(i in 1:length(files)){
+    fileInput = readLines(paste0(scriptDir,files[i]))
+    tf_string<-grepl(figureFile,fileInput)
+    matchVector[i]<-ifelse(sum(tf_string)==1,TRUE,FALSE)
+  }
+  files[matchVector]
+  
+}
+```
+
+```{r, echo = FALSE,warnings=FALSE,message=FALSE}
+df <- list.files(path = "~/Dropbox/clarkiaSeedBanks/products/figures",pattern="pdf")
+dt <- data.frame(figureFilename = df)
+dt$scriptFilename[1] <- suppressWarnings(matchFun(df[1]))
+dt$scriptFilename[2] <- suppressWarnings(matchFun(df[2]))
+dt$scriptFilename[3] <- suppressWarnings(matchFun(df[3]))
+dt$scriptFilename[4] <- suppressWarnings(matchFun(df[4]))
+kable(dt)
+```
+
+<br>

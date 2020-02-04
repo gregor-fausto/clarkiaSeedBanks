@@ -1,0 +1,3 @@
+cd ~/Dropbox/clarkiaSeedBanks/analysisCode/scripts
+
+grep -Ril -e 'obs_pred_germ.pdf' .
