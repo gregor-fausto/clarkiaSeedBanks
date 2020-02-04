@@ -66,7 +66,7 @@ cor.HPDI <- hdi(cor.post, .95)
 
 
 pdf(
-  "~/Dropbox/modelsF2019/figures/germ_surv_correlation.pdf",
+  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation.pdf",
   onefile=TRUE,
   paper="USr",
   height = 7.5, width = 10)
