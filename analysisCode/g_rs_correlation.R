@@ -94,7 +94,7 @@ cor.BCI <- quantile(cor.post, c(.025, .5, .975))
 cor.HPDI <- hdi(cor.post, .95)
 
 pdf(
-  "~/Dropbox/modelsF2019/figures/germ_rs_correlation.pdf",
+  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation.pdf",
   onefile=TRUE,
   paper="USr",
   height = 7.5, width = 10)
