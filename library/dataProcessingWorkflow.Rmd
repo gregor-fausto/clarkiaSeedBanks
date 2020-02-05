@@ -18,6 +18,11 @@ The files for data analysis are originally found in the shared Dropbox folder `.
 
 I last ran this on 02/05/20 at 3:18 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 
+Additional changes:
+
+- saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xlsx`
+- saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xlsx`
+
 ### Processing data {#processing-data-link}
 
 Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
@@ -56,8 +61,8 @@ setwd("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites")
 
 filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
 worksheet_2006.2010 <- filenames[1:5]
-worksheet_2011.2012 <- filenames[6:7]
-worksheet_2013.2015 <- filenames[8:10]
+worksheet_2011.2012 <- filenames[7:8]
+worksheet_2013.2015 <- filenames[9:11]
 print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
 ```
 
@@ -85,10 +90,9 @@ unlist(lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol))
 unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
 ````
 
-The data files for 2006-2011 have two columns. The data files include 1 sheet with the following data: 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the undamaged fruit.
+The data files for 2006-2010 have two columns. The data files include 1 sheet with the following data: 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the undamaged fruit.
 
 ```{r}
-
 yearExtract<-function(x){
   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
   tmp<-tmp[!is.na(tmp)]
@@ -126,8 +130,47 @@ summary20062010<-seed20062010 %>%
 kable(summary20062010, caption="Summary table of the number of counts of seeds from undamaged fruits")
 ```
 
-
 The data files for 2011-2012 have four columns: (1) a column for the site at which the undamaged fruit was collected, (2) a column for the number of seeds in the undamaged fruit, and (3) a column indicating whether the fruit was collected from a permanent plot or from across the site. (4) An additional column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. 
+
+```{r}
+yearExtract<-function(x){
+  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+  tmp<-tmp[!is.na(tmp)]
+  tmp
+}
+
+years <- unlist(lapply(fileList[6:7],yearExtract))
+
+reshapeFun <- function(x){
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedCount = `Seed no per fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+}
+
+# Step 1: import the table taking only cell values and ignoring the formatting
+tidyExcel <- read_excel(fileList[6]) 
+
+tidyExcel <- xlsx_cells(fileList[6]) 
+
+
+tmp[tmp$data_type == "character", c("address","character")]
+
+x <- xlsx_cells(titanic)
+dplyr::glimpse(tmp)
+
+fileDfs<-lapply(fileList[6:7],read_excel)
+fileDfs<-lapply(fileDfs,reshapeFun)
+
+for(i in 1:length(years)){
+  fileDfs[[i]] <- fileDfs[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+seed20062010 <- fileDfs %>% 
+  purrr::reduce(full_join) 
+```
+
 
 From 2013-2015, we collected data on the number of seeds per undamaged fruit and the number of seeds per damaged fruit. The data files thus include two sheets, 1 for the number of seeds per undamaged fruit and 1 for the numbe of seeds per damaged fruit. At each site, undamaged fruits were collected from plants spread across the entire site. The data files thus include 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the fruit. 
 

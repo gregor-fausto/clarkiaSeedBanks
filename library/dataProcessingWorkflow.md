@@ -187,6 +187,41 @@ seed20062010 <- fileDfs %>%
     ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
     ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
 
+It might be useful to summarize the datasets:
+
+``` r
+summary20062010<-seed20062010 %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = n()) %>%
+  tidyr::spread(key="year",value="count")
+kable(summary20062010, caption="Summary table of the number of counts of seeds from undamaged fruits")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| BG   |   21 |   21 |   41 |   30 |   30 |
+| BR   |   20 |   20 |   32 |   30 |   29 |
+| CF   |   20 |   20 |   30 |   29 |   34 |
+| CP3  |   20 |   20 |   41 |   30 |   30 |
+| DEM  |   20 |   20 |   29 |   30 |   32 |
+| DLW  |   20 |   20 |   22 |   30 |   31 |
+| EC   |   20 |   20 |   29 |   30 |   31 |
+| FR   |   20 |   20 |   31 |   30 |   31 |
+| GCN  |   20 |   20 |   29 |   30 |   32 |
+| KYE  |   20 |   20 |   30 |   30 |   30 |
+| LCE  |   20 |   20 |   30 |   30 |   32 |
+| LCW  |   20 |   20 |   28 |   30 |   35 |
+| LO   |   32 |   32 |   30 |   30 |   37 |
+| MC   |   20 |   20 |   29 |   30 |   35 |
+| OKRE |   20 |   20 |   26 |   30 |   30 |
+| OKRW |   20 |   20 |   33 |   30 |   34 |
+| OSR  |   20 |   20 |   32 |   30 |   30 |
+| S22  |   20 |   20 |   33 |   30 |   28 |
+| SM   |   20 |   20 |   31 |   29 |   32 |
+| URS  |   18 |   30 |   25 |   30 |   30 |
+
+Summary table of the number of counts of seeds from undamaged fruits
+
 The data files for 2011-2012 have four columns: (1) a column for the
 site at which the undamaged fruit was collected, (2) a column for the
 number of seeds in the undamaged fruit, and (3) a column indicating
