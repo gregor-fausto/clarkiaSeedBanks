@@ -22,6 +22,7 @@ Additional changes:
 
 - saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xlsx`
 - saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xlsx`
+- deleted empty rows at the bottom of the file `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xlsx`; these are filled with some formatting and otherwise may give problems with data importing
 
 ### Processing data {#processing-data-link}
 
@@ -61,17 +62,14 @@ setwd("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites")
 
 filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
 worksheet_2006.2010 <- filenames[1:5]
-worksheet_2011.2012 <- filenames[7:8]
-worksheet_2013.2015 <- filenames[9:11]
+worksheet_2011.2012 <- filenames[c(7,9)]
+worksheet_2013.2015 <- filenames[10:12]
 print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
-```
 
-read excel data
-
-```{r}
 seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
 fileList<-paste0("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/",seedFiles)
 ```
+
 Check and count which spreadsheets have multiple sheets:
 
 ```{r}
@@ -120,16 +118,6 @@ seed20062010 <- fileDfs %>%
   purrr::reduce(full_join) 
 ```
 
-It might be useful to summarize the datasets:
-
-```{r}
-summary20062010<-seed20062010 %>%
-  dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
-  tidyr::spread(key="year",value="count")
-kable(summary20062010, caption="Summary table of the number of counts of seeds from undamaged fruits")
-```
-
 The data files for 2011-2012 have four columns: (1) a column for the site at which the undamaged fruit was collected, (2) a column for the number of seeds in the undamaged fruit, and (3) a column indicating whether the fruit was collected from a permanent plot or from across the site. (4) An additional column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. 
 
 ```{r}
@@ -145,13 +133,14 @@ reshapeFun <- function(x){
 x %>%
   dplyr::rename(site='Site') %>%
   dplyr::rename(seedCount = `Seed no per fruit`) %>%
-  dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+  dplyr::mutate(damageStatusBinary = 0)
 }
 
 appendFontColor <- function(x){
 
 # Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x) 
+tidyExcel <- read_excel(x,na="NA") 
+tidyExcel <- reshapeFun(tidyExcel)
 
 # Step 2: import one column of the table, taking only the formatting and not the
 # cell values
@@ -163,35 +152,51 @@ font_colours <- xlsx_formats(x)$local$font$color$rgb
 # Import all the cells, filter out the header row, filter for the first column,
 # and create a new column `font_colour` of the font colours, by looking up the
 # local_format_id of each cell in the `font_colours` pallette.
-fonts <-
-  xlsx_cells(x, sheet = 1) %>%
+fonts <- xlsx_cells(x, sheet = 1) %>%
   filter(row >= 2, col == 1) %>% # Omit the header row
   mutate(font_colour = font_colours[local_format_id]) %>%
   select(font_colour)
 
 # Step 3: append the `font` column to the rest of the data
-bind_cols(tidyExcel, fonts)
+tmp <- bind_cols(tidyExcel, fonts)
+
+out <- tmp %>% 
+  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000",1,0)) %>%
+  dplyr::select(-font_colour)
+
+return(out)
+
 }
 
-appendFontColor(fileList[6])
-
-tmp[tmp$data_type == "character", c("address","character")]
-
-x <- xlsx_cells(titanic)
-dplyr::glimpse(tmp)
-
-fileDfs<-lapply(fileList[6:7],read_excel)
-fileDfs<-lapply(fileDfs,reshapeFun)
+fileDfs<-lapply(fileList[6:7],appendFontColor)
 
 for(i in 1:length(years)){
   fileDfs[[i]] <- fileDfs[[i]] %>%
       dplyr::mutate(year=years[i])
 }
 
-seed20062010 <- fileDfs %>% 
+seed20112012 <- fileDfs %>% 
   purrr::reduce(full_join) 
 ```
 
+It might be useful to summarize the datasets:
+
+```{r}
+summary20062010<-seed20062010 %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = n()) %>%
+  tidyr::spread(key="year",value="count")
+
+summary20112012<-seed20112012 %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = n()) %>%
+  tidyr::spread(key="year",value="count")
+
+summaryTable <- summary20062010 %>%
+  dplyr::full_join(summary20112012)
+kable(summaryTable, caption="Summary table of the number of counts of seeds from undamaged fruits")
+```
 
 From 2013-2015, we collected data on the number of seeds per undamaged fruit and the number of seeds per damaged fruit. The data files thus include two sheets, 1 for the number of seeds per undamaged fruit and 1 for the numbe of seeds per damaged fruit. At each site, undamaged fruits were collected from plants spread across the entire site. The data files thus include 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the fruit. 
 

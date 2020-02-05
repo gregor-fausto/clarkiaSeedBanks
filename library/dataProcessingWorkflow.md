@@ -27,6 +27,21 @@ now a copy of those in the shared Dropbox folder. For the time being,
 the copy of the files remains outside of the folder that gets updated on
 Git.
 
+Additional changes:
+
+  - saved
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xls`
+    as
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2011.xlsx`
+  - saved
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xls`
+    as
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xlsx`
+  - deleted empty rows at the bottom of the file
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2012.xlsx`;
+    these are filled with some formatting and otherwise may give
+    problems with data importing
+
 ### Processing data
 
 Load the libraries for data processing (see
@@ -89,16 +104,14 @@ setwd("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites")
 
 filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
 worksheet_2006.2010 <- filenames[1:5]
-worksheet_2011.2012 <- filenames[6:7]
-worksheet_2013.2015 <- filenames[8:10]
+worksheet_2011.2012 <- filenames[c(7,9)]
+worksheet_2013.2015 <- filenames[10:12]
 print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
 ```
 
-    ##  [1] "seeds_2006.xls" "seeds_2007.xls" "seeds_2008.xls" "seeds_2009.xls"
-    ##  [5] "seeds_2010.xls" "seeds_2011.xls" "seeds_2012.xls" "seeds_2013.xls"
-    ##  [9] "seeds_2014.xls" "seeds_2015.xls"
-
-read excel data
+    ##  [1] "seeds_2006.xls"  "seeds_2007.xls"  "seeds_2008.xls"  "seeds_2009.xls" 
+    ##  [5] "seeds_2010.xls"  "seeds_2011.xlsx" "seeds_2012.xlsx" "seeds_2013.xls" 
+    ##  [9] "seeds_2014.xls"  "seeds_2015.xls"
 
 ``` r
 seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
@@ -137,7 +150,7 @@ unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
 
     ## [1] 5 6 5
 
-The data files for 2006-2011 have two columns. The data files include 1
+The data files for 2006-2010 have two columns. The data files include 1
 sheet with the following data: 1 column for the site at which the
 undamaged fruit was collected, and 1 column for the number of seeds in
 the undamaged fruit.
@@ -187,41 +200,6 @@ seed20062010 <- fileDfs %>%
     ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
     ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
 
-It might be useful to summarize the datasets:
-
-``` r
-summary20062010<-seed20062010 %>%
-  dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
-  tidyr::spread(key="year",value="count")
-kable(summary20062010, caption="Summary table of the number of counts of seeds from undamaged fruits")
-```
-
-| site | 2006 | 2007 | 2008 | 2009 | 2010 |
-| :--- | ---: | ---: | ---: | ---: | ---: |
-| BG   |   21 |   21 |   41 |   30 |   30 |
-| BR   |   20 |   20 |   32 |   30 |   29 |
-| CF   |   20 |   20 |   30 |   29 |   34 |
-| CP3  |   20 |   20 |   41 |   30 |   30 |
-| DEM  |   20 |   20 |   29 |   30 |   32 |
-| DLW  |   20 |   20 |   22 |   30 |   31 |
-| EC   |   20 |   20 |   29 |   30 |   31 |
-| FR   |   20 |   20 |   31 |   30 |   31 |
-| GCN  |   20 |   20 |   29 |   30 |   32 |
-| KYE  |   20 |   20 |   30 |   30 |   30 |
-| LCE  |   20 |   20 |   30 |   30 |   32 |
-| LCW  |   20 |   20 |   28 |   30 |   35 |
-| LO   |   32 |   32 |   30 |   30 |   37 |
-| MC   |   20 |   20 |   29 |   30 |   35 |
-| OKRE |   20 |   20 |   26 |   30 |   30 |
-| OKRW |   20 |   20 |   33 |   30 |   34 |
-| OSR  |   20 |   20 |   32 |   30 |   30 |
-| S22  |   20 |   20 |   33 |   30 |   28 |
-| SM   |   20 |   20 |   31 |   29 |   32 |
-| URS  |   18 |   30 |   25 |   30 |   30 |
-
-Summary table of the number of counts of seeds from undamaged fruits
-
 The data files for 2011-2012 have four columns: (1) a column for the
 site at which the undamaged fruit was collected, (2) a column for the
 number of seeds in the undamaged fruit, and (3) a column indicating
@@ -229,6 +207,122 @@ whether the fruit was collected from a permanent plot or from across the
 site. (4) An additional column has notes: some seed counts were randomly
 resampled from previous years’ counts and some sites did not have any
 undamaged fruits in the given year.
+
+``` r
+yearExtract<-function(x){
+  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+  tmp<-tmp[!is.na(tmp)]
+  tmp
+}
+
+years <- unlist(lapply(fileList[6:7],yearExtract))
+```
+
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+``` r
+reshapeFun <- function(x){
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedCount = `Seed no per fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 0)
+}
+
+appendFontColor <- function(x){
+
+# Step 1: import the table taking only cell values and ignoring the formatting
+tidyExcel <- read_excel(x,na="NA") 
+tidyExcel <- reshapeFun(tidyExcel)
+
+# Step 2: import one column of the table, taking only the formatting and not the
+# cell values
+
+# `formats` is a pallette of fill colours that can be indexed by the
+# `local_format_id` of a given cell to get the fill colour of that cell
+font_colours <- xlsx_formats(x)$local$font$color$rgb
+
+# Import all the cells, filter out the header row, filter for the first column,
+# and create a new column `font_colour` of the font colours, by looking up the
+# local_format_id of each cell in the `font_colours` pallette.
+fonts <- xlsx_cells(x, sheet = 1) %>%
+  filter(row >= 2, col == 1) %>% # Omit the header row
+  mutate(font_colour = font_colours[local_format_id]) %>%
+  select(font_colour)
+
+# Step 3: append the `font` column to the rest of the data
+tmp <- bind_cols(tidyExcel, fonts)
+
+out <- tmp %>% 
+  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000",1,0)) %>%
+  dplyr::select(-font_colour)
+
+return(out)
+
+}
+
+fileDfs<-lapply(fileList[6:7],appendFontColor)
+
+for(i in 1:length(years)){
+  fileDfs[[i]] <- fileDfs[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+seed20112012 <- fileDfs %>% 
+  purrr::reduce(full_join) 
+```
+
+    ## Joining, by = c("site", "seedCount", "permanentPlot", "damageStatusBinary", "fieldData", "year")
+
+It might be useful to summarize the datasets:
+
+``` r
+summary20062010<-seed20062010 %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = n()) %>%
+  tidyr::spread(key="year",value="count")
+
+summary20112012<-seed20112012 %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = n()) %>%
+  tidyr::spread(key="year",value="count")
+
+summaryTable <- summary20062010 %>%
+  dplyr::full_join(summary20112012)
+```
+
+    ## Joining, by = "site"
+
+``` r
+kable(summaryTable, caption="Summary table of the number of counts of seeds from undamaged fruits")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   21 |   21 |   41 |   30 |   30 |   28 |   30 |
+| BR   |   20 |   20 |   32 |   30 |   29 |   30 |   30 |
+| CF   |   20 |   20 |   30 |   29 |   34 |   30 |   30 |
+| CP3  |   20 |   20 |   41 |   30 |   30 |   29 |   30 |
+| DEM  |   20 |   20 |   29 |   30 |   32 |   27 |   30 |
+| DLW  |   20 |   20 |   22 |   30 |   31 |   28 |   30 |
+| EC   |   20 |   20 |   29 |   30 |   31 |   26 |   30 |
+| FR   |   20 |   20 |   31 |   30 |   31 |   31 |   30 |
+| GCN  |   20 |   20 |   29 |   30 |   32 |   30 |   30 |
+| KYE  |   20 |   20 |   30 |   30 |   30 |   30 |   30 |
+| LCE  |   20 |   20 |   30 |   30 |   32 |   30 |    1 |
+| LCW  |   20 |   20 |   28 |   30 |   35 |   32 |   30 |
+| LO   |   32 |   32 |   30 |   30 |   37 |   32 |   30 |
+| MC   |   20 |   20 |   29 |   30 |   35 |   30 |   30 |
+| OKRE |   20 |   20 |   26 |   30 |   30 |   28 |   30 |
+| OKRW |   20 |   20 |   33 |   30 |   34 |   28 |   30 |
+| OSR  |   20 |   20 |   32 |   30 |   30 |   28 |   30 |
+| S22  |   20 |   20 |   33 |   30 |   28 |   23 |   30 |
+| SM   |   20 |   20 |   31 |   29 |   32 |   30 |   30 |
+| URS  |   18 |   30 |   25 |   30 |   30 |   27 |   30 |
+
+Summary table of the number of counts of seeds from undamaged fruits
 
 From 2013-2015, we collected data on the number of seeds per undamaged
 fruit and the number of seeds per damaged fruit. The data files thus
