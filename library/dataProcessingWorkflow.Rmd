@@ -6,11 +6,44 @@ output: github_document
 
 I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
 
-Load the librarires for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
+Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(readxl)
+library(knitr)
+library(lubridate)
 ```
 
+Start with the survival data. Scripts for the original processing I did is located in the following folder. I want to document when I last updated these files before I start updating the workflow. None of the original scripts are going to be changed. 
+
+```{r}
+dir = c("/Users/Gregor/Dropbox/projects/clarkiaScripts/code/reshapeDataScripts/")
+files = list.files(path=dir)
+dt <- data.frame(files)
+fileModified <- function(x){file.info(paste0(dir,x))$mtime}
+
+for(i in 1:dim(dt)[1]){
+  dt[i,2] <- ymd_hms(fileModified(files[i])) %>%
+    data.frame() %>% rename(dateTime='.') 
+}
+
+kable(dt)
+```
+
+Start with the survival data. Scripts for the original processing I did is located in the following folder. I want to document when I last updated these files before I start updating the workflow. None of the original scripts are going to be changed. 
+
+```{r}
+dir = c("/Users/Gregor/Dropbox/projects/clarkiaScripts/code/reshapeDataScripts/")
+files = list.files(path=dir)
+dt <- data.frame(files)
+fileModified <- function(x){file.info(paste0(dir,x))$mtime}
+
+for(i in 1:dim(dt)[1]){
+  dt[i,2] <- ymd_hms(fileModified(files[i])) %>%
+    data.frame() %>% rename(dateTime='.') 
+}
+
+kable(dt)
+```
 
