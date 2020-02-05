@@ -1,5 +1,5 @@
 ---
-output: html_notebook
+output: github_document
 ---
 
 ### Data processing workflow
