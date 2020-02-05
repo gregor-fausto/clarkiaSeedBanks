@@ -18,8 +18,10 @@ library(knitr)
 library(lubridate)
 ```
 
-Start with the survival data. scripts for the original processing I did
-is located in the following folder
+Start with the survival data. Scripts for the original processing I did
+is located in the following folder. I want to document when I last
+updated these files before I start updating the workflow. None of the
+original scripts are going to be changed.
 
 ``` r
 dir = c("/Users/Gregor/Dropbox/projects/clarkiaScripts/code/reshapeDataScripts/")
@@ -53,3 +55,18 @@ kable(dt)
 | reshapeSeeds.R                        | 2016-12-23 19:52:24 |
 | reshapeSiteVariables.R                | 2017-12-08 14:23:44 |
 | reshapeSurvivalFecundity.R            | 2016-10-18 08:56:25 |
+
+Start with the seed data. This is file `.../reshapeSeeds.R` file in the
+list above
+
+``` r
+setwd("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites")
+
+filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
+worksheet_2006.2010 <- filenames[1:5]
+worksheet_2011.2012 <- filenames[6:7]
+worksheet_2013.2015 <- filenames[8:10]
+worksheet_2013.2015
+```
+
+    ## [1] "seeds_2013.xls" "seeds_2014.xls" "seeds_2015.xls"

@@ -31,19 +31,16 @@ for(i in 1:dim(dt)[1]){
 kable(dt)
 ```
 
-Start with the survival data. Scripts for the original processing I did is located in the following folder. I want to document when I last updated these files before I start updating the workflow. None of the original scripts are going to be changed. 
+Start with the seed data. This is file `.../reshapeSeeds.R` file in the list above
 
 ```{r}
-dir = c("/Users/Gregor/Dropbox/projects/clarkiaScripts/code/reshapeDataScripts/")
-files = list.files(path=dir)
-dt <- data.frame(files)
-fileModified <- function(x){file.info(paste0(dir,x))$mtime}
+setwd("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites")
 
-for(i in 1:dim(dt)[1]){
-  dt[i,2] <- ymd_hms(fileModified(files[i])) %>%
-    data.frame() %>% rename(dateTime='.') 
-}
-
-kable(dt)
+filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
+worksheet_2006.2010 <- filenames[1:5]
+worksheet_2011.2012 <- filenames[6:7]
+worksheet_2013.2015 <- filenames[8:10]
+print(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
 ```
+
 
