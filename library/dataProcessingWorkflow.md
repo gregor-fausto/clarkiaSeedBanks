@@ -204,7 +204,25 @@ data files have empty columns between the data and the notes.
 One issue is that formatting is used in these data files. The tidyxl
 packages retains cell information.
 
+Write a function to take data frames for 2006-2010 and rename the two
+columns to lowercase and camelCase, add a binary variable for whether or
+not the seeds were damaged (all of these fruits are undamaged), and add
+a binary variable for whether or not the fruits were collected in a
+permanent plot.
+
 ``` r
-library(tidyxl)
-#lapply(fileList[8:10],xlsx_cells,sheet=2)
+# lapply(fileList[1:5],read_excel)[1]
+# 
+# reshapeFun06 <- function(x){
+# x %>%
+#   dplyr::rename(site='Site') %>%
+#   dplyr::rename(seedsCount = `Seed no per fruit`) %>%
+#   dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+# 
+# }
+# 
+# lapply(fileList[1:5],read_excel)[[1]] %>%
+# +   dplyr::rename(site='Site') %>%
+# +   dplyr::rename(seedsCount = `Seed no per fruit`)
+# #
 ```
