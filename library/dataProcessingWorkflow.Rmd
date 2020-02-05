@@ -148,11 +148,32 @@ x %>%
   dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
 }
 
+appendFontColor <- function(x){
+
 # Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(fileList[6]) 
+tidyExcel <- read_excel(x) 
 
-tidyExcel <- xlsx_cells(fileList[6]) 
+# Step 2: import one column of the table, taking only the formatting and not the
+# cell values
 
+# `formats` is a pallette of fill colours that can be indexed by the
+# `local_format_id` of a given cell to get the fill colour of that cell
+font_colours <- xlsx_formats(x)$local$font$color$rgb
+
+# Import all the cells, filter out the header row, filter for the first column,
+# and create a new column `font_colour` of the font colours, by looking up the
+# local_format_id of each cell in the `font_colours` pallette.
+fonts <-
+  xlsx_cells(x, sheet = 1) %>%
+  filter(row >= 2, col == 1) %>% # Omit the header row
+  mutate(font_colour = font_colours[local_format_id]) %>%
+  select(font_colour)
+
+# Step 3: append the `font` column to the rest of the data
+bind_cols(tidyExcel, fonts)
+}
+
+appendFontColor(fileList[6])
 
 tmp[tmp$data_type == "character", c("address","character")]
 
