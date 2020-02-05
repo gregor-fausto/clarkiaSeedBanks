@@ -6,6 +6,16 @@ output: github_document
 
 I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
 
+#### File directories
+
+The files for data analysis are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
+
+`cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
+
+I last ran this on 02/05/20 at 3:18 PM. The files in this directory are now a copy of those in the shared Dropbox folder.
+
+#### Processing data
+
 Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
 
 ```{r, message=FALSE, warning=FALSE}
