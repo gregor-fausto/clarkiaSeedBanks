@@ -47,7 +47,6 @@ print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
 read excel data
 
 ```{r}
-
 seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
 fileList<-paste0("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/",seedFiles)
 ```
@@ -78,9 +77,20 @@ The sheets for damaged fruits have the following columns: 1 column for the site 
 
 One issue is that formatting is used in these data files. The tidyxl packages retains cell information.
 
-```{r}
-library(tidyxl)
-#lapply(fileList[8:10],xlsx_cells,sheet=2)
+Write a function to take data frames for 2006-2010 and rename the two columns to lowercase and camelCase, add a binary variable for whether or not the seeds were damaged (all of these fruits are undamaged), and add a binary variable for whether or not the fruits were collected in a permanent plot.
 
+```{r}
+lapply(fileList[1:5],read_excel)[1]
+
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedsCount = `Seed no per fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+
+
+lapply(fileList[1:5],read_excel)[[1]] %>%
++   dplyr::rename(site='Site') %>%
++   dplyr::rename(seedsCount = `Seed no per fruit`)
+#
 ```
 
