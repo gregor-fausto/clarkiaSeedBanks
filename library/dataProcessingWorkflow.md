@@ -7,9 +7,9 @@ packages `tidyverse` and `readxl` (documentation:
 the data processing workflow:
 <https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6>.
 
-  - [File directories](#file-directory-link)
-  - [Processing data](#processing-data-link)
-  - [Seeds per fruit data](#seeds-per-fruit-data-link)
+  - [File directories](#file-directories)
+  - [Processing data](#processing-data)
+  - [Seeds per fruit data](#seeds-per-fruit-data)
 
 ### File directories
 
