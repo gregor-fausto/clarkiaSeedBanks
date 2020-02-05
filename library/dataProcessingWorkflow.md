@@ -16,6 +16,7 @@ library(tidyverse)
 library(readxl)
 library(knitr)
 library(lubridate)
+library(tidyxl)
 ```
 
 Scripts for the original processing I did is located in the following
@@ -72,3 +73,138 @@ print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
     ##  [1] "seeds_2006.xls" "seeds_2007.xls" "seeds_2008.xls" "seeds_2009.xls"
     ##  [5] "seeds_2010.xls" "seeds_2011.xls" "seeds_2012.xls" "seeds_2013.xls"
     ##  [9] "seeds_2014.xls" "seeds_2015.xls"
+
+read excel data
+
+``` r
+seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
+fileList<-paste0("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/",seedFiles)
+```
+
+Check and count which spreadsheets have multiple sheets:
+
+``` r
+nSheets<-lapply(lapply(fileList,excel_sheets),length)
+```
+
+Check the number of columns in each spreadshseet:
+
+``` r
+lapply(lapply(fileList[1:7],read_excel),ncol)
+```
+
+    ## [[1]]
+    ## [1] 2
+    ## 
+    ## [[2]]
+    ## [1] 2
+    ## 
+    ## [[3]]
+    ## [1] 2
+    ## 
+    ## [[4]]
+    ## [1] 2
+    ## 
+    ## [[5]]
+    ## [1] 2
+    ## 
+    ## [[6]]
+    ## [1] 4
+    ## 
+    ## [[7]]
+    ## [1] 4
+
+``` r
+lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol)
+```
+
+    ## New names:
+    ## * `` -> ...4
+
+    ## New names:
+    ## * `` -> ...4
+    ## * `` -> ...5
+
+    ## [[1]]
+    ## [1] 4
+    ## 
+    ## [[2]]
+    ## [1] 5
+    ## 
+    ## [[3]]
+    ## [1] 6
+
+``` r
+lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol)
+```
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+    ## * `` -> ...5
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+
+    ## [[1]]
+    ## [1] 5
+    ## 
+    ## [[2]]
+    ## [1] 6
+    ## 
+    ## [[3]]
+    ## [1] 5
+
+From 2006-2012, we collected data on the number of seeds per undamaged
+fruit. At each site, undamaged fruits were collected from plants spread
+across the entire site. The data files thus include 1 sheet with the
+following data: 1 column for the site at which the undamaged fruit was
+collected, and 1 column for the number of seeds in the undamaged fruit.
+
+The data files for 2011-2012 have three data columns: 1 column for the
+site at which the undamaged fruit was collected, 1 column for the number
+of seeds in the undamaged fruit, and 1 column indicating whether the
+fruit was collected from a permanent plot or from across the site. A
+fourth column has notes: some seed counts were randomly resampled from
+previous years’ counts and some sites did not have any undamaged fruits
+in the given year.
+
+Start by processing these files; to do is including information on
+permanent plot as NA, removing the notes, talk to Monica about putting
+any files with additional formatting into xlsx?
+
+From 2013-2015, we collected data on the number of seeds per undamaged
+fruit and the number of seeds per damaged fruit. The data files thus
+include two sheets, 1 for the number of seeds per undamaged fruit and 1
+for the numbe of seeds per damaged fruit. At each site, undamaged fruits
+were collected from plants spread across the entire site. The data files
+thus include 1 column for the site at which the undamaged fruit was
+collected, and 1 column for the number of seeds in the fruit.
+
+The sheets for undamaged fruits have the following columns: 1 column for
+the site at which the undamaged fruit was collected, 1 column for the
+number of seeds in the undamaged fruit, and 1 column indicating whether
+the fruit was collected from a permanent plot or from across the site. A
+fourth column has notes: some seed counts were randomly resampled from
+previous years’ counts and some sites did not have any undamaged fruits
+in the given year. Some of the data files have empty columns between the
+data and the notes.
+
+The sheets for damaged fruits have the following columns: 1 column for
+the site at which the damaged fruit was collected, and 1 column for the
+number of seeds in the damaged fruit. Another column has notes: some
+sites did not have any damaged fruits in the given year. Some of the
+data files have empty columns between the data and the notes.
+
+One issue is that formatting is used in these data files. The tidyxl
+packages retains cell information.
+
+``` r
+library(tidyxl)
+#lapply(fileList[8:10],xlsx_cells,sheet=2)
+```

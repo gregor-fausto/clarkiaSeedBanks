@@ -76,11 +76,11 @@ The sheets for undamaged fruits have the following columns: 1 column for the sit
 
 The sheets for damaged fruits have the following columns: 1 column for the site at which the damaged fruit was collected, and 1 column for the number of seeds in the damaged fruit. Another column has notes: some sites did not have any damaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
-One issue is that formatting is used in these data files. The tidyxl packages retains cell information
+One issue is that formatting is used in these data files. The tidyxl packages retains cell information.
 
 ```{r}
 library(tidyxl)
-lapply(fileList[8:10],xlsx_cells,sheet=2)
+#lapply(fileList[8:10],xlsx_cells,sheet=2)
 
 ```
 
