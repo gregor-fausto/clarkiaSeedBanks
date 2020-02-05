@@ -1,0 +1,16 @@
+---
+output: html_notebook
+---
+
+### Data processing workflow
+
+I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
+
+Load the librarires for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+
