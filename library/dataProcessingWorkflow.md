@@ -7,6 +7,28 @@ packages `tidyverse` and `readxl` (documentation:
 the data processing workflow:
 <https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6>.
 
+  - [File directories](#file-directory-link)
+  - [Processing data](#processing-data-link)
+  - [Seeds per fruit data](#seeds-per-fruit-data-link)
+
+### File directories
+
+The files for data analysis are originally found in the shared Dropbox
+folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a
+folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold
+a copy of these files. To copy the files, I run the following in my
+Terminal:
+
+`cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/*
+/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
+
+I last ran this on 02/05/20 at 3:18 PM. The files in this directory are
+now a copy of those in the shared Dropbox folder. For the time being,
+the copy of the files remains outside of the folder that gets updated on
+Git.
+
+### Processing data
+
 Load the libraries for data processing (see
 <https://github.com/r-lib/rlang/issues/669> for the overwrite message I
 am suppressing)
@@ -57,11 +79,13 @@ kable(dt)
 | reshapeSiteVariables.R                | 2017-12-08 14:23:44 |
 | reshapeSurvivalFecundity.R            | 2016-10-18 08:56:25 |
 
+### Seeds per fruit data
+
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the
 list above
 
 ``` r
-setwd("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites")
+setwd("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites")
 
 filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
 worksheet_2006.2010 <- filenames[1:5]
@@ -78,105 +102,98 @@ read excel data
 
 ``` r
 seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
-fileList<-paste0("/Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/",seedFiles)
+fileList<-paste0("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/",seedFiles)
 ```
 
 Check and count which spreadsheets have multiple sheets:
 
 ``` r
 nSheets<-lapply(lapply(fileList,excel_sheets),length)
+unlist(nSheets)
 ```
+
+    ##  [1] 1 1 1 1 1 1 1 2 2 2
 
 Check the number of columns in each spreadshseet:
 
 ``` r
-lapply(lapply(fileList[1:7],read_excel),ncol)
+# files for 2006-2012
+unlist(lapply(lapply(fileList[1:7],read_excel),ncol))
 ```
 
-    ## [[1]]
-    ## [1] 2
-    ## 
-    ## [[2]]
-    ## [1] 2
-    ## 
-    ## [[3]]
-    ## [1] 2
-    ## 
-    ## [[4]]
-    ## [1] 2
-    ## 
-    ## [[5]]
-    ## [1] 2
-    ## 
-    ## [[6]]
-    ## [1] 4
-    ## 
-    ## [[7]]
-    ## [1] 4
+    ## [1] 2 2 2 2 2 4 4
 
 ``` r
-lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol)
+# files for 2013-2015, sheet 1
+unlist(lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol))
 ```
 
-    ## New names:
-    ## * `` -> ...4
-
-    ## New names:
-    ## * `` -> ...4
-    ## * `` -> ...5
-
-    ## [[1]]
-    ## [1] 4
-    ## 
-    ## [[2]]
-    ## [1] 5
-    ## 
-    ## [[3]]
-    ## [1] 6
+    ## [1] 4 5 6
 
 ``` r
-lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol)
+# files for 2013-2015, sheet 2
+unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
 ```
 
-    ## New names:
-    ## * `` -> ...3
-    ## * `` -> ...4
+    ## [1] 5 6 5
 
-    ## New names:
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
+The data files for 2006-2011 have two columns. The data files include 1
+sheet with the following data: 1 column for the site at which the
+undamaged fruit was collected, and 1 column for the number of seeds in
+the undamaged fruit.
 
-    ## New names:
-    ## * `` -> ...3
-    ## * `` -> ...4
+``` r
+yearExtract<-function(x){
+  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+  tmp<-tmp[!is.na(tmp)]
+  tmp
+}
 
-    ## [[1]]
-    ## [1] 5
-    ## 
-    ## [[2]]
-    ## [1] 6
-    ## 
-    ## [[3]]
-    ## [1] 5
+years <- unlist(lapply(fileList[1:5],yearExtract))
+```
 
-From 2006-2012, we collected data on the number of seeds per undamaged
-fruit. At each site, undamaged fruits were collected from plants spread
-across the entire site. The data files thus include 1 sheet with the
-following data: 1 column for the site at which the undamaged fruit was
-collected, and 1 column for the number of seeds in the undamaged fruit.
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
 
-The data files for 2011-2012 have three data columns: 1 column for the
-site at which the undamaged fruit was collected, 1 column for the number
-of seeds in the undamaged fruit, and 1 column indicating whether the
-fruit was collected from a permanent plot or from across the site. A
-fourth column has notes: some seed counts were randomly resampled from
-previous years’ counts and some sites did not have any undamaged fruits
-in the given year.
+``` r
+reshapeFun <- function(x){
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedCount = `Seed no per fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+}
 
-Start by processing these files; to do is including information on
-permanent plot as NA, removing the notes, talk to Monica about putting
-any files with additional formatting into xlsx?
+fileDfs<-lapply(fileList[1:5],read_excel)
+fileDfs<-lapply(fileDfs,reshapeFun)
+
+for(i in 1:length(years)){
+  fileDfs[[i]] <- fileDfs[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+seed20062010 <- fileDfs %>% 
+  purrr::reduce(full_join) 
+```
+
+    ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
+    ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
+    ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
+    ## Joining, by = c("site", "seedCount", "damageStatusBinary", "permanentPlotBinary", "year")
+
+The data files for 2011-2012 have four columns: (1) a column for the
+site at which the undamaged fruit was collected, (2) a column for the
+number of seeds in the undamaged fruit, and (3) a column indicating
+whether the fruit was collected from a permanent plot or from across the
+site. (4) An additional column has notes: some seed counts were randomly
+resampled from previous years’ counts and some sites did not have any
+undamaged fruits in the given year.
 
 From 2013-2015, we collected data on the number of seeds per undamaged
 fruit and the number of seeds per damaged fruit. The data files thus
@@ -209,20 +226,3 @@ columns to lowercase and camelCase, add a binary variable for whether or
 not the seeds were damaged (all of these fruits are undamaged), and add
 a binary variable for whether or not the fruits were collected in a
 permanent plot.
-
-``` r
-# lapply(fileList[1:5],read_excel)[1]
-# 
-# reshapeFun06 <- function(x){
-# x %>%
-#   dplyr::rename(site='Site') %>%
-#   dplyr::rename(seedsCount = `Seed no per fruit`) %>%
-#   dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
-# 
-# }
-# 
-# lapply(fileList[1:5],read_excel)[[1]] %>%
-# +   dplyr::rename(site='Site') %>%
-# +   dplyr::rename(seedsCount = `Seed no per fruit`)
-# #
-```

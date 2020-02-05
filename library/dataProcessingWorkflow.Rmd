@@ -6,7 +6,12 @@ output: github_document
 
 I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
 
-#### File directories
+- [File directories](#file-directory-link)
+- [Processing data](#processing-data-link)
+- [Seeds per fruit data](#seeds-per-fruit-data-link)
+
+
+### File directories {#file-directory-link}
 
 The files for data analysis are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
@@ -14,7 +19,7 @@ The files for data analysis are originally found in the shared Dropbox folder `.
 
 I last ran this on 02/05/20 at 3:18 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 
-#### Processing data
+### Processing data {#processing-data-link}
 
 Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
 
@@ -41,6 +46,9 @@ for(i in 1:dim(dt)[1]){
 
 kable(dt)
 ```
+
+### Seeds per fruit data {#seeds-per-fruit-data-link}
+
 
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the list above
 
