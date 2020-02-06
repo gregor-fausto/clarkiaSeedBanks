@@ -11,6 +11,7 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 - [Seeds per fruit data](#seeds-per-fruit-data)
 - [Fruits per plant data](#fruits-per-plant-data)
 - [Seedlings and fruiting plant data](#seedlings-and-fruiting-plant-data)
+- [Seed bag data](#seed-bag-data)
 
 ### File directories
 
@@ -365,22 +366,66 @@ kable(summaryDamaged20132012, caption="Summary table of the number of counts of 
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r}
+# dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+# 
+# tmp <- read_excel(paste0(dir,"Surv_Fec_env_06-15.xls"),sheet = 1,na="NA")
+# surv_fec <- tmp %>%
+#   dplyr::rename(year=year_spring)
+# 
+# ###########################################################################
+# # Survival and fecundity
+# ###########################################################################
+# survival <- surv_fec %>%
+#   select(c(site,year,transect,position,seedling.,fruitpl.,tot_or_undamaged_frperpl.,damaged_frpl.))
+# 
+# survival <- survival %>%
+#   dplyr::rename(noSeedlings = seedling.) %>%
+#   dplyr::rename(noFruitingPlants = fruitpl.) %>%
+#   dplyr::rename(noTotalFruitEqUndFruitsPerPl = tot_or_undamaged_frperpl.) %>%
+#   dplyr::rename(noDamFruitsPerPl = damaged_frpl.)
+```
+### Seed bag data
+
+Data for seed bags from the field.
+
+```{r}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 
-tmp <- read_excel(paste0(dir,"Surv_Fec_env_06-15.xls"),sheet = 1,na="NA")
-surv_fec <- surv_fec %>%
-  dplyr::rename(year=year_spring)
+tmp <- read_excel(paste0(dir,"seed bag data.xls"),sheet = 1,na=c("NA","?"))
 
-###########################################################################
-# Survival and fecundity
-###########################################################################
-survival <- surv_fec %>%
-  select(c(site,year,transect,position,seedling.,fruitpl.,tot_or_undamaged_frperpl.,damaged_frpl.))
+seedBags <- tmp %>%
+  dplyr::rename(bagNo = 'bag #') %>%
+  dplyr::rename(round = 'Round') %>%
+  dplyr::rename(yearStart = 'Start_yr(Oct)') %>%
+  dplyr::rename(age = 'Age') %>%
+  dplyr::rename(yearData = 'Yr_germ(Jan)/viability(Oct)') %>%
+  dplyr::rename(seedlingJan = 'Jan_germ') %>%
+  dplyr::rename(intactJan = 'Jan_intact') %>%
+  dplyr::rename(totalJan = 'Jan_total') %>%
+  dplyr::rename(intactOct = 'Oct_intact') %>%
+  dplyr::select(-c("viability%"))
 
-survival <- survival %>%
-  dplyr::rename(noSeedlings = seedling.) %>%
-  dplyr::rename(noFruitingPlants = fruitpl.) %>%
-  dplyr::rename(noTotalFruitEqUndFruitsPerPl = tot_or_undamaged_frperpl.) %>%
-  dplyr::rename(noDamFruitsPerPl = damaged_frpl.)
+# january germinants
+summarySeedBags<-seedBags  %>%
+  tidyr::unite("yearAge", yearData,age,sep="-age") %>%
+  dplyr::group_by(yearAge,site) %>%
+  dplyr::summarise(count = sum(!is.na(seedlingJan))) %>%
+  tidyr::spread(key=c("yearAge"),value="count")
+
+kable(summarySeedBags, caption="Summary table of the number of seed bags counted in January for intact and germinated seeds")
+
+# october intacts
+summarySeedBags<-seedBags  %>%
+  tidyr::unite("yearAge", yearData,age,sep="-age") %>%
+  dplyr::group_by(yearAge,site) %>%
+  dplyr::summarise(count = sum(!is.na(intactOct))) %>%
+  tidyr::spread(key=c("yearAge"),value="count")
+
+kable(summarySeedBags, caption="Summary table of the number of seed bags counted in October for intact seeds")
+
 ```
+
+Data for viability trials in the lab. 
+
+
 

@@ -13,6 +13,7 @@ the data processing workflow:
   - [Fruits per plant data](#fruits-per-plant-data)
   - [Seedlings and fruiting plant
     data](#seedlings-and-fruiting-plant-data)
+  - [Seed bag data](#seed-bag-data)
 
 ### File directories
 
@@ -617,3 +618,118 @@ Summary table of the number of counts of seeds from damaged fruits
 ### Fruits per plant data
 
 ### Seedlings and fruiting plant data
+
+Start with the survival data. This is file `.../reshapeSeeds.R` file in
+the list above.
+
+``` r
+# dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+# 
+# tmp <- read_excel(paste0(dir,"Surv_Fec_env_06-15.xls"),sheet = 1,na="NA")
+# surv_fec <- tmp %>%
+#   dplyr::rename(year=year_spring)
+# 
+# ###########################################################################
+# # Survival and fecundity
+# ###########################################################################
+# survival <- surv_fec %>%
+#   select(c(site,year,transect,position,seedling.,fruitpl.,tot_or_undamaged_frperpl.,damaged_frpl.))
+# 
+# survival <- survival %>%
+#   dplyr::rename(noSeedlings = seedling.) %>%
+#   dplyr::rename(noFruitingPlants = fruitpl.) %>%
+#   dplyr::rename(noTotalFruitEqUndFruitsPerPl = tot_or_undamaged_frperpl.) %>%
+#   dplyr::rename(noDamFruitsPerPl = damaged_frpl.)
+```
+
+### Seed bag data
+
+``` r
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+
+tmp <- read_excel(paste0(dir,"seed bag data.xls"),sheet = 1,na=c("NA","?"))
+
+seedBags <- tmp %>%
+  dplyr::rename(bagNo = 'bag #') %>%
+  dplyr::rename(round = 'Round') %>%
+  dplyr::rename(yearStart = 'Start_yr(Oct)') %>%
+  dplyr::rename(age = 'Age') %>%
+  dplyr::rename(yearData = 'Yr_germ(Jan)/viability(Oct)') %>%
+  dplyr::rename(seedlingJan = 'Jan_germ') %>%
+  dplyr::rename(intactJan = 'Jan_intact') %>%
+  dplyr::rename(totalJan = 'Jan_total') %>%
+  dplyr::rename(intactOct = 'Oct_intact') %>%
+  dplyr::select(-c("viability%"))
+
+# january germinants
+summarySeedBags<-seedBags  %>%
+  tidyr::unite("yearAge", yearData,age,sep="-age") %>%
+  dplyr::group_by(yearAge,site) %>%
+  dplyr::summarise(count = sum(!is.na(seedlingJan))) %>%
+  tidyr::spread(key=c("yearAge"),value="count")
+
+kable(summarySeedBags, caption="Summary table of the number of seed bags counted in January for intact and germinated seeds")
+```
+
+| site | 2007-age1 | 2008-age1 | 2008-age2 | 2009-age1 | 2009-age2 | 2009-age3 |
+| :--- | --------: | --------: | --------: | --------: | --------: | --------: |
+| BG   |        10 |        10 |         7 |        10 |        10 |         5 |
+| BR   |        10 |        10 |         9 |        10 |        10 |        10 |
+| CF   |        10 |        10 |        10 |        10 |        10 |        10 |
+| CP3  |        10 |        10 |         9 |        10 |         6 |         7 |
+| DEM  |         9 |        10 |         7 |        10 |         7 |         6 |
+| DLW  |        10 |         9 |         8 |         9 |        10 |         6 |
+| EC   |        11 |         9 |         8 |        10 |        10 |         8 |
+| FR   |        10 |         9 |         8 |        10 |         9 |         5 |
+| GCN  |        10 |        10 |         9 |        10 |         9 |         6 |
+| KYE  |        10 |        10 |        10 |        10 |        10 |         9 |
+| LCE  |        10 |        10 |         9 |         9 |         7 |         7 |
+| LCW  |        10 |        10 |         9 |        10 |        10 |         9 |
+| LO   |        10 |         9 |        10 |        10 |        11 |         9 |
+| MC   |        10 |        10 |         9 |        10 |         9 |         9 |
+| OKRE |        10 |        11 |         9 |        10 |         9 |         9 |
+| OKRW |        10 |        10 |        10 |        10 |         9 |         8 |
+| OSR  |        10 |        10 |         8 |        10 |        10 |         9 |
+| S22  |        10 |        10 |         8 |        10 |        10 |         8 |
+| SM   |        10 |        10 |         8 |         9 |        10 |        10 |
+| URS  |        10 |         9 |         5 |        10 |        10 |         3 |
+
+Summary table of the number of seed bags counted in January for intact
+and germinated seeds
+
+``` r
+# october intacts
+summarySeedBags<-seedBags  %>%
+  tidyr::unite("yearAge", yearData,age,sep="-age") %>%
+  dplyr::group_by(yearAge,site) %>%
+  dplyr::summarise(count = sum(!is.na(intactOct))) %>%
+  tidyr::spread(key=c("yearAge"),value="count")
+
+kable(summarySeedBags, caption="Summary table of the number of counts of intact seeds in October from seed bags")
+```
+
+| site | 2007-age1 | 2008-age1 | 2008-age2 | 2009-age1 | 2009-age2 | 2009-age3 |
+| :--- | --------: | --------: | --------: | --------: | --------: | --------: |
+| BG   |         7 |        10 |         6 |        10 |        10 |         3 |
+| BR   |        10 |        10 |         9 |        10 |        10 |         9 |
+| CF   |        10 |        10 |        10 |        10 |        10 |        10 |
+| CP3  |         7 |        10 |         9 |         9 |         6 |         7 |
+| DEM  |         8 |         9 |         7 |        10 |         7 |         6 |
+| DLW  |         9 |         9 |         8 |         9 |         9 |         6 |
+| EC   |         9 |        10 |         8 |        10 |        10 |         8 |
+| FR   |         9 |         8 |         8 |        10 |        10 |         4 |
+| GCN  |        10 |        10 |         9 |        10 |         9 |         7 |
+| KYE  |        10 |        10 |         9 |        10 |         9 |         9 |
+| LCE  |        10 |        10 |         9 |         9 |         7 |         9 |
+| LCW  |        10 |        10 |         9 |         5 |         7 |         8 |
+| LO   |        10 |         9 |        10 |        10 |        11 |         9 |
+| MC   |        10 |        10 |         9 |        10 |         9 |         9 |
+| OKRE |        10 |        11 |        10 |        10 |         7 |         9 |
+| OKRW |        10 |        10 |         9 |         8 |         9 |         8 |
+| OSR  |        10 |        10 |         8 |        10 |         9 |         9 |
+| S22  |         9 |        10 |         8 |        10 |        10 |         8 |
+| SM   |         9 |        10 |         8 |         9 |        10 |        10 |
+| URS  |         7 |         9 |         5 |         9 |         9 |         4 |
+
+Summary table of the number of counts of intact seeds in October from
+seed bags
