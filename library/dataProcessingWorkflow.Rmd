@@ -431,6 +431,30 @@ kable(summarySeedBags, caption="Summary table of the number of seed bags counted
 
 ```
 
+```{r}
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
+
+tmp <- read_excel(paste0(dir,"germ_viab_data_final_updated.xlsx"),sheet = 1,na=c("NA","?"))
+
+viabilityRawData <- tmp %>%
+  dplyr::rename(site = 'population') %>%
+  dplyr::rename(bagNo = 'bag#') %>%
+  dplyr::rename(round = 'Round') %>%
+  dplyr::rename(age = 'Age') %>%
+  dplyr::rename(block = 'Block') %>%
+  dplyr::rename(germStart = '#tested_for_germination') %>%
+  dplyr::rename(germCount = '#germinating') %>%
+  dplyr::rename(germPerc = '%Germ') %>%
+  dplyr::rename(germNot = '#not germinated') %>%
+  dplyr::rename(viabStart = '#tested_for_viability') %>%
+  dplyr::rename(viabStain = '#viable(stained_red)') %>%
+  dplyr::rename(viabPerc = '%viability') %>%
+  dplyr::rename(condTest = '#not_germinated=#tested_for_viability?') %>%
+  dplyr::rename(viabPerc2 = '%Viabil') %>%
+  dplyr::rename(viabTotal = 'Overall_viability')
+
+```
+
 Data for viability trials in the lab. 
 
 
