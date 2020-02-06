@@ -27,6 +27,12 @@ Additional changes:
 - saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2013.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2013.xlsx`
 - deleted empty rows at the bottom of the file `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2013.xlsx`; these are filled with some formatting and otherwise may give problems with data importing
 
+- saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xlsx`
+- deleted empty rows at the bottom of the file `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xlsx`, sheet 2; these are filled with some formatting and otherwise may give problems with data importing
+
+- saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xlsx`
+
+
 ### Processing data {#processing-data-link}
 
 Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
@@ -209,7 +215,7 @@ x %>%
 appendFontColor <- function(x){
 
 # Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x,na="NA") 
+tidyExcel <- read_excel(x,na="NA",sheet=1) 
 tidyExcel <- reshapeFun(tidyExcel)
 
 # Step 2: import one column of the table, taking only the formatting and not the
@@ -256,6 +262,68 @@ seedUndamaged20132015 %>%
 
 The sheets for damaged fruits have the following columns: 1 column for the site at which the damaged fruit was collected, and 1 column for the number of seeds in the damaged fruit. Another column has notes: some sites did not have any damaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
+```{r}
+yearExtract<-function(x){
+  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+  tmp<-tmp[!is.na(tmp)]
+  tmp
+}
+
+years <- unlist(lapply(fileList[8:10],yearExtract))
+
+reshapeFun <- function(x){
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedCount = `Seed no per damaged fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 1, permanentPlot = NA)
+}
+
+appendFontColor <- function(x){
+
+# Step 1: import the table taking only cell values and ignoring the formatting
+tidyExcel <- read_excel(x,na=c("NA","MA"),sheet=2) 
+tidyExcel <- reshapeFun(tidyExcel)
+
+# Step 2: import one column of the table, taking only the formatting and not the
+# cell values
+
+# `formats` is a pallette of fill colours that can be indexed by the
+# `local_format_id` of a given cell to get the fill colour of that cell
+font_colours <- xlsx_formats(x)$local$font$color$rgb
+
+# Import all the cells, filter out the header row, filter for the first column,
+# and create a new column `font_colour` of the font colours, by looking up the
+# local_format_id of each cell in the `font_colours` pallette.
+fonts <- xlsx_cells(x, sheet = 2) %>%
+  filter(row >= 2, col == 1) %>% # Omit the header row
+  mutate(font_colour = font_colours[local_format_id]) %>%
+  select(font_colour)
+
+# Step 3: append the `font` column to the rest of the data
+tmp <- bind_cols(tidyExcel, fonts)
+
+out <- tmp %>% 
+  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
+  dplyr::select(-font_colour)
+
+return(out)
+
+}
+
+fileDfs<-lapply(fileList[8:10],appendFontColor)
+
+for(i in 1:length(years)){
+  fileDfs[[i]] <- fileDfs[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+seedDamaged20132015 <- fileDfs %>% 
+  purrr::reduce(full_join) 
+
+seedDamaged20132015 %>% 
+  dplyr::filter(permanentPlot!=fieldData)
+```
 
 
 It might be useful to summarize the datasets:
@@ -263,15 +331,20 @@ It might be useful to summarize the datasets:
 ```{r}
 summary20062010<-seed20062010 %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summary20112012<-seed20112012 %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summaryUndamaged20132012<-seedUndamaged20132015  %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
+  tidyr::spread(key="year",value="count")
+
+summaryDamaged20132012<-seedDamaged20132015  %>%
   dplyr::group_by(year,site) %>%
   dplyr::summarise(count = n()) %>%
   tidyr::spread(key="year",value="count")
@@ -281,6 +354,8 @@ summaryTable <- summary20062010 %>%
   dplyr::full_join(summaryUndamaged20132012)
 
 kable(summaryTable, caption="Summary table of the number of counts of seeds from undamaged fruits")
+
+kable(summaryDamaged20132012, caption="Summary table of the number of counts of seeds from damaged fruits")
 ```
 
 One issue is that formatting is used in these data files. The tidyxl packages retains cell information.

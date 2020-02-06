@@ -54,6 +54,21 @@ Additional changes:
     these are filled with some formatting and otherwise may give
     problems with data importing
 
+  - saved
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xls`
+    as
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xlsx`
+
+  - deleted empty rows at the bottom of the file
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xlsx`,
+    sheet 2; these are filled with some formatting and otherwise may
+    give problems with data importing
+
+  - saved
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xls`
+    as
+    `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xlsx`
+
 ### Processing data
 
 Load the libraries for data processing (see
@@ -342,7 +357,7 @@ x %>%
 appendFontColor <- function(x){
 
 # Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x,na="NA") 
+tidyExcel <- read_excel(x,na="NA",sheet=1) 
 tidyExcel <- reshapeFun(tidyExcel)
 
 # Step 2: import one column of the table, taking only the formatting and not the
@@ -411,20 +426,121 @@ number of seeds in the damaged fruit. Another column has notes: some
 sites did not have any damaged fruits in the given year. Some of the
 data files have empty columns between the data and the notes.
 
+``` r
+yearExtract<-function(x){
+  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+  tmp<-tmp[!is.na(tmp)]
+  tmp
+}
+
+years <- unlist(lapply(fileList[8:10],yearExtract))
+```
+
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+    
+    ## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+``` r
+reshapeFun <- function(x){
+x %>%
+  dplyr::rename(site='Site') %>%
+  dplyr::rename(seedCount = `Seed no per damaged fruit`) %>%
+  dplyr::mutate(damageStatusBinary = 1, permanentPlot = NA)
+}
+
+appendFontColor <- function(x){
+
+# Step 1: import the table taking only cell values and ignoring the formatting
+tidyExcel <- read_excel(x,na=c("NA","MA"),sheet=2) 
+tidyExcel <- reshapeFun(tidyExcel)
+
+# Step 2: import one column of the table, taking only the formatting and not the
+# cell values
+
+# `formats` is a pallette of fill colours that can be indexed by the
+# `local_format_id` of a given cell to get the fill colour of that cell
+font_colours <- xlsx_formats(x)$local$font$color$rgb
+
+# Import all the cells, filter out the header row, filter for the first column,
+# and create a new column `font_colour` of the font colours, by looking up the
+# local_format_id of each cell in the `font_colours` pallette.
+fonts <- xlsx_cells(x, sheet = 2) %>%
+  filter(row >= 2, col == 1) %>% # Omit the header row
+  mutate(font_colour = font_colours[local_format_id]) %>%
+  select(font_colour)
+
+# Step 3: append the `font` column to the rest of the data
+tmp <- bind_cols(tidyExcel, fonts)
+
+out <- tmp %>% 
+  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
+  dplyr::select(-font_colour)
+
+return(out)
+
+}
+
+fileDfs<-lapply(fileList[8:10],appendFontColor)
+```
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+    ## * `` -> ...5
+
+    ## New names:
+    ## * `` -> ...3
+    ## * `` -> ...4
+
+``` r
+for(i in 1:length(years)){
+  fileDfs[[i]] <- fileDfs[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+seedDamaged20132015 <- fileDfs %>% 
+  purrr::reduce(full_join) 
+```
+
+    ## Joining, by = c("site", "seedCount", "permanentPlot", "damageStatusBinary", "fieldData", "year")
+
+    ## Joining, by = c("site", "seedCount", "permanentPlot", "damageStatusBinary", "fieldData", "year")
+
+``` r
+seedDamaged20132015 %>% 
+  dplyr::filter(permanentPlot!=fieldData)
+```
+
+    ## # A tibble: 0 x 6
+    ## # … with 6 variables: site <chr>, seedCount <dbl>, permanentPlot <lgl>,
+    ## #   damageStatusBinary <dbl>, fieldData <dbl>, year <dbl>
+
 It might be useful to summarize the datasets:
 
 ``` r
 summary20062010<-seed20062010 %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summary20112012<-seed20112012 %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summaryUndamaged20132012<-seedUndamaged20132015  %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
+  tidyr::spread(key="year",value="count")
+
+summaryDamaged20132012<-seedDamaged20132015  %>%
   dplyr::group_by(year,site) %>%
   dplyr::summarise(count = n()) %>%
   tidyr::spread(key="year",value="count")
@@ -453,18 +569,47 @@ kable(summaryTable, caption="Summary table of the number of counts of seeds from
 | FR   |   20 |   20 |   31 |   30 |   31 |   31 |   30 |   30 |   46 |   30 |
 | GCN  |   20 |   20 |   29 |   30 |   32 |   30 |   30 |   30 |   28 |   29 |
 | KYE  |   20 |   20 |   30 |   30 |   30 |   30 |   30 |   30 |   30 |   29 |
-| LCE  |   20 |   20 |   30 |   30 |   32 |   30 |    1 |    1 |   30 |   38 |
-| LCW  |   20 |   20 |   28 |   30 |   35 |   32 |   30 |   30 |    1 |    1 |
-| LO   |   32 |   32 |   30 |   30 |   37 |   32 |   30 |   30 |   30 |    1 |
+| LCE  |   20 |   20 |   30 |   30 |   32 |   30 |    0 |    0 |   30 |   38 |
+| LCW  |   20 |   20 |   28 |   30 |   35 |   32 |   30 |   30 |    1 |    0 |
+| LO   |   32 |   32 |   30 |   30 |   37 |   32 |   30 |   30 |   30 |    0 |
 | MC   |   20 |   20 |   29 |   30 |   35 |   30 |   30 |   30 |   46 |   35 |
 | OKRE |   20 |   20 |   26 |   30 |   30 |   28 |   30 |   30 |   18 |   24 |
-| OKRW |   20 |   20 |   33 |   30 |   34 |   28 |   30 |   30 |   30 |    1 |
+| OKRW |   20 |   20 |   33 |   30 |   34 |   28 |   30 |   30 |   30 |    0 |
 | OSR  |   20 |   20 |   32 |   30 |   30 |   28 |   30 |   30 |   30 |   37 |
 | S22  |   20 |   20 |   33 |   30 |   28 |   23 |   30 |   30 |   23 |   30 |
 | SM   |   20 |   20 |   31 |   29 |   32 |   30 |   30 |   30 |   30 |    8 |
-| URS  |   18 |   30 |   25 |   30 |   30 |   27 |   30 |   30 |    1 |    1 |
+| URS  |   18 |   30 |   25 |   30 |   30 |   27 |   30 |   30 |    1 |    0 |
 
 Summary table of the number of counts of seeds from undamaged fruits
+
+``` r
+kable(summaryDamaged20132012, caption="Summary table of the number of counts of seeds from damaged fruits")
+```
+
+| site | 2013 | 2014 | 2015 |
+| :--- | ---: | ---: | ---: |
+| BG   |   17 |   20 |   11 |
+| BR   |   24 |   25 |   23 |
+| CF   |   22 |   29 |   27 |
+| CP3  |   23 |   11 |    9 |
+| DEM  |    5 |   14 |   25 |
+| DLW  |    8 |    1 |   30 |
+| EC   |   12 |   22 |    8 |
+| FR   |    2 |   25 |   15 |
+| GCN  |    1 |    1 |    3 |
+| KYE  |   23 |   34 |   15 |
+| LCE  |    1 |   11 |   15 |
+| LCW  |    1 |    1 |    1 |
+| LO   |    4 |   14 |    1 |
+| MC   |    4 |   15 |   15 |
+| OKRE |   13 |    8 |    9 |
+| OKRW |    1 |    4 |    1 |
+| OSR  |    1 |   19 |   26 |
+| S22  |    1 |    3 |    2 |
+| SM   |    1 |    3 |    1 |
+| URS  |    1 |    1 |    1 |
+
+Summary table of the number of counts of seeds from damaged fruits
 
 One issue is that formatting is used in these data files. The tidyxl
 packages retains cell information.
