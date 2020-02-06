@@ -15,11 +15,17 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 
 ### File directories
 
-The files for data analysis are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
+The files holding datasets are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
 
 I last ran this on 02/05/20 at 3:18 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+
+An additional folder holding datasets is originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
+
+`cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/`
+
+I last ran this on 02/06/20 at 10:50 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 
 Additional changes:
 
