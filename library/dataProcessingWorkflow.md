@@ -10,6 +10,9 @@ the data processing workflow:
   - [File directories](#file-directories)
   - [Processing data](#processing-data)
   - [Seeds per fruit data](#seeds-per-fruit-data)
+  - [Fruits per plant data](#fruits-per-plant-data)
+  - [Seedlings and fruiting plant
+    data](#seedlings-and-fruiting-plant-data)
 
 ### File directories
 
@@ -542,7 +545,7 @@ summaryUndamaged20132012<-seedUndamaged20132015  %>%
 
 summaryDamaged20132012<-seedDamaged20132015  %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summaryTable <- summary20062010 %>%
@@ -593,29 +596,24 @@ kable(summaryDamaged20132012, caption="Summary table of the number of counts of 
 | CF   |   22 |   29 |   27 |
 | CP3  |   23 |   11 |    9 |
 | DEM  |    5 |   14 |   25 |
-| DLW  |    8 |    1 |   30 |
+| DLW  |    8 |    0 |   30 |
 | EC   |   12 |   22 |    8 |
 | FR   |    2 |   25 |   15 |
-| GCN  |    1 |    1 |    3 |
+| GCN  |    0 |    0 |    3 |
 | KYE  |   23 |   34 |   15 |
-| LCE  |    1 |   11 |   15 |
-| LCW  |    1 |    1 |    1 |
-| LO   |    4 |   14 |    1 |
+| LCE  |    0 |   11 |   15 |
+| LCW  |    0 |    0 |    0 |
+| LO   |    4 |   14 |    0 |
 | MC   |    4 |   15 |   15 |
 | OKRE |   13 |    8 |    9 |
-| OKRW |    1 |    4 |    1 |
+| OKRW |    0 |    4 |    0 |
 | OSR  |    1 |   19 |   26 |
 | S22  |    1 |    3 |    2 |
-| SM   |    1 |    3 |    1 |
-| URS  |    1 |    1 |    1 |
+| SM   |    1 |    3 |    0 |
+| URS  |    0 |    0 |    0 |
 
 Summary table of the number of counts of seeds from damaged fruits
 
-One issue is that formatting is used in these data files. The tidyxl
-packages retains cell information.
+### Fruits per plant data
 
-Write a function to take data frames for 2006-2010 and rename the two
-columns to lowercase and camelCase, add a binary variable for whether or
-not the seeds were damaged (all of these fruits are undamaged), and add
-a binary variable for whether or not the fruits were collected in a
-permanent plot.
+### Seedlings and fruiting plant data

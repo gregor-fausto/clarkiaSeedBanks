@@ -9,6 +9,8 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 - [File directories](#file-directories)
 - [Processing data](#processing-data)
 - [Seeds per fruit data](#seeds-per-fruit-data)
+- [Fruits per plant data](#fruits-per-plant-data)
+- [Seedlings and fruiting plant data](#seedlings-and-fruiting-plant-data)
 
 ### File directories
 
@@ -95,7 +97,7 @@ unlist(lapply(lapply(fileList[1:7],read_excel),ncol))
 unlist(lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol))
 # files for 2013-2015, sheet 2
 unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
-````
+```
 
 The data files for 2006-2010 have two columns. The data files include 1 sheet with the following data: 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the undamaged fruit.
 
@@ -325,7 +327,6 @@ seedDamaged20132015 %>%
   dplyr::filter(permanentPlot!=fieldData)
 ```
 
-
 It might be useful to summarize the datasets:
 
 ```{r}
@@ -346,7 +347,7 @@ summaryUndamaged20132012<-seedUndamaged20132015  %>%
 
 summaryDamaged20132012<-seedDamaged20132015  %>%
   dplyr::group_by(year,site) %>%
-  dplyr::summarise(count = n()) %>%
+  dplyr::summarise(count = sum(!is.na(seedCount))) %>%
   tidyr::spread(key="year",value="count")
 
 summaryTable <- summary20062010 %>%
@@ -358,9 +359,7 @@ kable(summaryTable, caption="Summary table of the number of counts of seeds from
 kable(summaryDamaged20132012, caption="Summary table of the number of counts of seeds from damaged fruits")
 ```
 
-One issue is that formatting is used in these data files. The tidyxl packages retains cell information.
-
-Write a function to take data frames for 2006-2010 and rename the two columns to lowercase and camelCase, add a binary variable for whether or not the seeds were damaged (all of these fruits are undamaged), and add a binary variable for whether or not the fruits were collected in a permanent plot.
-
+### Fruits per plant data
+### Seedlings and fruiting plant data
 
 
