@@ -65,7 +65,6 @@ kable(dt)
 
 ### Seeds per fruit data {#seeds-per-fruit-data-link}
 
-
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r}
@@ -362,4 +361,26 @@ kable(summaryDamaged20132012, caption="Summary table of the number of counts of 
 ### Fruits per plant data
 ### Seedlings and fruiting plant data
 
+
+Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
+
+```{r}
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+
+tmp <- read_excel(paste0(dir,"Surv_Fec_env_06-15.xls"),sheet = 1,na="NA")
+surv_fec <- surv_fec %>%
+  dplyr::rename(year=year_spring)
+
+###########################################################################
+# Survival and fecundity
+###########################################################################
+survival <- surv_fec %>%
+  select(c(site,year,transect,position,seedling.,fruitpl.,tot_or_undamaged_frperpl.,damaged_frpl.))
+
+survival <- survival %>%
+  dplyr::rename(noSeedlings = seedling.) %>%
+  dplyr::rename(noFruitingPlants = fruitpl.) %>%
+  dplyr::rename(noTotalFruitEqUndFruitsPerPl = tot_or_undamaged_frperpl.) %>%
+  dplyr::rename(noDamFruitsPerPl = damaged_frpl.)
+```
 
