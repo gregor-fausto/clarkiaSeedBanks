@@ -80,7 +80,6 @@ pIntactJan2 <- ggplot(seedBags,aes(x=site,y=intactJan,fill=site,color=site))+
   geom_hline(yintercept=globalMean,linetype="dashed")
 pIntactJan2
 
-
 # seeds in October
 seedBagsSummary <- seedBags %>%
   dplyr::group_by(site,yearData) %>%
@@ -111,6 +110,7 @@ pIntactOct2 <- ggplot(seedBags,aes(x=site,y=intactOct,fill=site,color=site))+
   ggtitle('Figure: Intact seeds in October, Age 1') +
   geom_hline(yintercept=globalMean,linetype="dashed")
 pIntactOct2
+
 # 
 # 
 # p1 <- ggplot(seedBagsSummary, aes(x = site, y = seedlingsMean, fill = site))+
