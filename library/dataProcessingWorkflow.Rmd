@@ -411,6 +411,8 @@ seedBags <- tmp %>%
   dplyr::rename(intactOct = 'Oct_intact') %>%
   dplyr::select(-c("viability%"))
 
+save(seedBags,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/seedBagsData.rda")
+
 # january germinants
 summarySeedBags<-seedBags  %>%
   tidyr::unite("yearAge", yearData,age,sep="-age") %>%
