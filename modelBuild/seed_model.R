@@ -312,10 +312,12 @@ update(jm, n.iter = n.update)
 intercepts = c("alphaS1","alphaG1","alphaS2","alphaS3")
 #slopes = c("betaS1","betaG1","betaS2")
 #variances = c("sigmaS1","sigmaG1","sigmaS2")
-viab = c("mu.b","sigma.b","alpha")
-sims = c("yv.sim","yt.sim","yg.sim","yo.sim","yt2.sim")
+viab = c("mu.b","sigma.b")
+#sims = c("yv.sim","yt.sim","yg.sim","yo.sim","yt2.sim")
+
+
 
 # chain (n.iter)
-zc = coda.samples(jm, variable.names = c(intercepts,viab,sims), n.iter = n.iter)
+zc = coda.samples(jm, variable.names = c(intercepts,viab), n.iter = n.iter, thin=10)
 
-save(zc,file="~/Dropbox/modelsF2019/output/seedbagfit")
+save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagfit.rds")
