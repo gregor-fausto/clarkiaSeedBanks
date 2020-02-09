@@ -23,8 +23,8 @@ set.seed(10)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # setwd and read data files
-setwd("~/Dropbox/modelsF2019/seedBags")
-df <- read.csv(file="seedBags.csv",header=TRUE)
+load("/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/seedBagsData.rda")
+df <- seedBags
 
 # -------------------------------------------------------------------
 # Clean and organize seed bag data
@@ -121,7 +121,7 @@ datTwo$year.index <- as.integer(as.factor(datTwo$yearStart))
 
 # pass data to list for JAGS
 data = list(
-  yg = as.double(dat$seedling),
+  yg = as.double(dat$seedlingJan),
   yt = as.double(dat$totalJan),
   yo = as.double(dat$intactOct),
   yv = as.double(dat$y_new),
@@ -189,8 +189,8 @@ inits = list(
         )
 )
 
-setwd("~/Dropbox/modelsF2019/models")
-sink("seed_modelJAGS.R")
+#setwd("Users/Gregor/Dropbox/clarkiaSeedBags/modelBuild/jagsScripts")
+sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/seed_modelJAGS.R")
 cat("
     model { 
     
@@ -255,22 +255,22 @@ cat("
     # v viability
     p[i] <- ilogit(alpha[i])
     yv[i] ~ dbin( p[i] , nv[i])
-    yv.sim[i] ~ dbinom(p[i], nv[i]) 
+    # yv.sim[i] ~ dbinom(p[i], nv[i]) 
 
     # s1 seed survival
     ps[i] = ilogit(alphaS1[site[i]])
     yt[i] ~ dbin(ps[i], n[i])
-    yt.sim[i] ~ dbinom(ps[i], n[i]) 
+    # yt.sim[i] ~ dbinom(ps[i], n[i]) 
 
     # g1 seed germination
     pg[i] = ilogit(alphaG1[site[i]])
     yg[i] ~ dbin(pg[i]*(p[i])^(1/3), yt[i])
-    yg.sim[i] ~ dbinom(pg[i]*(p[i])^(1/3), yt[i]) 
+    # yg.sim[i] ~ dbinom(pg[i]*(p[i])^(1/3), yt[i]) 
 
     # s2 seed survival
     pr[i] = ilogit(alphaS2[site[i]])
     yo[i] ~ dbin(pr[i], yt[i]-yg[i])
-    yo.sim[i] ~ dbinom(pr[i], yt[i]-yg[i]) 
+    # yo.sim[i] ~ dbinom(pr[i], yt[i]-yg[i]) 
 
     } 
 
@@ -283,7 +283,7 @@ cat("
     # s3 seed survival
     ps3[i] = ilogit(alphaS3[site2[i]])
     yt2[i] ~ dbin(ps2[i]*(1-pg2[i])*pr2[i]*ps3[i], n2[i])
-    yt2.sim[i] ~ dbinom(ps2[i]*(1-pg2[i])*pr2[i]*ps3[i], n2[i])
+    # yt2.sim[i] ~ dbinom(ps2[i]*(1-pg2[i])*pr2[i]*ps3[i], n2[i])
     
     }
     }
@@ -300,8 +300,10 @@ n.iter = 10000
 
 # Call to JAGS
 
+dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
+
 # tuning (n.adapt)
-jm = jags.model("seed_modelJAGS.R", data = data, inits = inits,
+jm = jags.model(paste0(dir,"seed_modelJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
