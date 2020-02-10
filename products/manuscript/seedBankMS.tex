@@ -193,19 +193,50 @@ Starting in 2007, there are (1) estimates of fruits/plant and seeds/fruit that p
 
 There are two experiments conducted at non-overlapping points in time we use to estimate transitions in the seed bank. From 2006-2010, Geber and collaborators buried seeds in bags and periodically dug them up to count seedlings and intact, viable seeds. This data estimates transitions leading to germination or survival of seeds that are 1, 2, and 3 years old. Starting in 2013, Geber and collaborators placed seeds in pots and counted seedlings. This data estimates transitions of seeds in the soil seed bank but cannot separate germination and survival in the same way as the first experiment.
 
+Here, we analyze data from an experiment that involved burying seeds in seed bags (2005-2009). 
+
+\subsection*{Seed bag burial experiments}
+
+To determine how seed survival and germination varied among populations of \textit{C. xantiana}, we conducted a series of seed burial experiments. We started these seed burial experiments in three subsequent years (2005, 2006, 2007) to obtain multiple estimates for seed survival and germination.
+
+In June-July 2005, we collected seeds at each of the 20 populations included in this study. In October 2005, we buried 30 5 $\times$ 5-cm nylon mesh bags at each site. Each nylon mesh bag contained 100 seeds collected at that population. In January 2006, we removed 10 of these bags and counted the number of germinated seedlings and the number of ungerminated, intact seeds in each bag. We then returned the ungerminated, intact seeds to the resealed bag and returned the bag to the field. In October 2006, we removed these bags and counted the number of ungerminated, intact seeds. We collected the following data:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed count of seeds in the seed bags at the start of the experiment in October in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y_{_{\mathrm{intact}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year,  assumed to be measured perfectly 
+	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y_{_{\mathrm{total}} ijt}$= observed count of ungerminated, intact seeds plus germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $y_{_{\mathrm{surv}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 	
+\end{itemize}
+
+\subsection*{Viability trials}
+
+In the lab, we conducted germination trials and viability assays on subsets of the seeds from each bag to estimate the viability of the ungerminated, intact seeds. First, we placed up to 15 seeds from each bag on to moist filter paper in a disposable cup and observed germination over 10 days; we counted and removed germinants every 2 days. 
+
+After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were sliced in half and individually placed into the wells of 96-well plates filled with a solution of tetrazolium chloride, which stains viable tissue red (ref). We covered the plates with foil. Each 96-well plate contained seed from at least one bag per site of a given seed-age class. Two or three tests of up to 15 seeds each were conducted for each bag. We checked and counted for viable seeds every 2 days for 10 days. 
+
+We collected the following data: 
+
+\begin{itemize}
+	\item $n_{_{\mathrm{germ}} ijt}$ = observed count of seeds at the start of the germination trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly
+	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $n_{_{\mathrm{viab}} ijt}$ = observed count of seeds at the start of the viability trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+\end{itemize}
+
 \subsection*{Parameter estimates for belowground transitions}
 
-Here, we analyze data from an experiment that involved burying seeds in seed bags (2005-2009). We seek to estimate (1) seed survival for different periods of the year or as a monthly rate, (2) germination of 0-, 1- and 2-year old seeds, and (3) viability of intact seeds unearthed in October. 
+Overall, the aim of our model was to combine the estimates of seed survival and germination that we obtained from the seed burial experiment in the field with the viability data from the lab trials. We seek to estimate (1) seed survival for different periods of the year or as a monthly rate, (2) germination of 0-, 1- and 2-year old seeds, and (3) viability of intact seeds unearthed in October. 
 
-Figure 1 illustrates the transitions in the first year the seed bags are buried. There are two boxes: one for the seed bag experiment and one for the viability trials. In the seed bag experiment, I split January into two steps, one for just before germination and one for just after. Solid arrows represent transitions and are labeled with corresponding vital rates. In the models, I have adopted $s_1 = \phi$, $g_1=\gamma$, $s_2 = \rho$, and $v_1 = \upsilon$. 
+Figure~\ref{fig:seedBagDiagram} illustrates the transitions in the first year the seed bags are buried. There are two boxes: one for the seed bag experiment and one for the viability trials. In the seed bag experiment, I split January into two steps, one for just before germination and one for just after. Solid arrows represent transitions and are labeled with corresponding vital rates. In the models, I have adopted $s_1 = \phi$, $g_1=\gamma$, $s_2 = \rho$, and $v_1 = \upsilon$. 
  
-In the seed bag experiment, the parameter $s_1$ is the proportion of seeds from the start of the experiment that remain intact in January. In January, the remaining seeds are in one possible state: intact (this includes viable and non-viable seeds). We assume that there is no decay during germination (seed loss happens over extended periods of time, not instantaneously in January) so that the number of seeds before germination is equal to the number of seeds and seedlings after germination. At this point, the seeds have transitioned into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and thus remain dormant. Because non-viable seeds could not have germinated (forbidden state 3), all other intact seeds would have been non-viable (4). 
+The probability that seeds from the start of the experiment remain intact in January is represented as $s_1$. In January, all seeds are intact (this includes viable and non-viable seeds). I assume that there is no decay during germination (i.e., seed loss does not instantaneously in January). The number of intact seeds before germination is equal to the number of seeds and seedlings after germination. At this point, the seeds transition into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and remain dormant. All (3) other intact seeds are non-viable because (4) seeds that were not viable could not have germinated. 
 
-I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds (the sum of $(1-g_1)v_1^{\frac{1}{3}}$ and $(1-g_1)(1-v_1^{\frac{1}{3}})$. For the purposes of parameter estimation, we only represent the number of seedlings\textemdash viability is estimated separately. 
+I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds (the sum of $(1-g_1)v_1^{\frac{1}{3}}$ and $(1-g_1)(1-v_1^{\frac{1}{3}})$. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
 
-We want to incorporate the loss of viability into our model. We assume that the rate of loss of viability is constant, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the total seeds in January pre-germination is viable ($v_1^{\frac{1}{3}}$) and some of those viable seeds germinate. We include viability in our estimates of germination rate so as to not overestimate the true germination rate. The number of seeds that remain intact are those that do not germinate ($1-g_1$), which includes both viable ($v_1^{\frac{1}{3}}$) and non-viable ($1-v_1^{\frac{1}{3}}$) seeds. Seeds that germinate must be viable. 
+I need to make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the total seeds in January pre-germination is viable ($v_1^{\frac{1}{3}}$) and some of those viable seeds germinate. I include viability in estimates of germination rate so as to not overestimate the true germination rate. The number of seeds that remain intact are those that do not germinate ($1-g_1$), which includes both viable ($v_1^{\frac{1}{3}}$) and non-viable ($1-v_1^{\frac{1}{3}}$) seeds. Seeds that germinate must be viable. 
 
-Here, we use viability in our germination estimates. For the full life cycle, this would model the rates of intact seeds and only incorporate viability in the germination transition. 
+Here, I use viability in our germination estimates. For the full life cycle, this models the transition probabilities for intact seeds and only incorporates viability in the germination transition. 
 
 \begin{figure}
 \begin{tikzpicture}[
@@ -255,33 +286,24 @@ Here, we use viability in our germination estimates. For the full life cycle, th
 
   \end{tikzpicture}
   \caption{Diagram of data from the seed bag experiments and viability trials.}\label{figure1}
-
+ \label{fig:seedBagDiagram}
 \end{figure}
 
-\subsection*{Viability trials}
+\subsection*{Seed survival and germination model}
 
-In October (year $t+1$), we first removed the bags and counted the number of ungerminated, intact seeds. In the lab, we conducted germination trials and viability assays on subsets of the seeds from each bag to estimate the viability of the ungerminated, intact seeds. We collected the following data: 
+Overall, the aim of the model is to combine the estimates of seed survival and germination that we obtained from the seed burial experiment in the field with the viability data from the lab trials. 
 
-\begin{itemize}
-	\item $n_{_{\mathrm{germ}} ijt}$ = observed count of seeds at the start of the germination trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly
-	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $n_{_{\mathrm{viab}} ijt}$ = observed count of seeds at the start of the viability trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-\end{itemize}
+I fit the following model for bag $i$ at site $j$ in year $k$:
+%
+\begin{align}
+  \begin{split}
+ [\bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{viab}}} ] \propto
+ \\ & \times  \mathrm{binomial} ( y^{\mathrm{viab}}_{ij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
+  \end{split}
+\end{align}
 
-\subsection*{Seed bag experiments}
-In October (year $t$), we buried 10 5 $\times$ 5-cm nylon mesh bags at each site, each containing 100 seeds collected at the site in June-July. In January (year $t+1$), we removed these 10 bags and counted the number of germinated seedlings and the number of ungerminated, intact seeds in each bag. We then returned the ungerminated, intact seeds to the resealed bag and returned the bag to the field. In October (year $t+1$), we removed these bags and counted the number of ungerminated, intact seeds. We collected the following data:
-
-\begin{itemize}
-	\item $n_{ijt}$ = observed count of seeds in the seed bags at the start of the experiment in October in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{intact}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year,  assumed to be measured perfectly 
-	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{total}} ijt}$= observed count of ungerminated, intact seeds plus germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 	
-	\item $y_{_{\mathrm{surv}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 	
-\end{itemize}
-
-We fit the following model for bag $i$ at site $j$ in year $k$:
-
+I fit the following model for bag $i$ at site $j$ in year $k$:
+%
 \begin{align}
   \begin{split}
  [ \bm{\phi}, \bm{\gamma}, \bm{\rho}, \bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{total}}},  \bm{y_{\mathrm{germ}}},  \bm{y_{\mathrm{surv}}}, \bm{y_{\mathrm{viab}}} ] \propto \\
@@ -299,7 +321,7 @@ We fit the following model for bag $i$ at site $j$ in year $k$:
 \end{align}
 %
 where
-
+%
 \begin{align}
   \begin{split}
 \mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
@@ -308,7 +330,7 @@ where
   \end{split}
 \end{align}
 %
-We fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
+I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
 
 \section*{Seedling survival to fruiting}
 
@@ -433,9 +455,9 @@ where
 %
 where the negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\mu}$.
 
-\subsection*{Correlation between germination probability and per-capita reproductive success}
+\subsection*{Correlation between germination probability and variance in per-capita reproductive success}
 
-I assessed whether the observed germination probability was negatively correlated with per-capita reproductive success (\cite{venable2007}). Reproductive success $F_{jk}$ at site $j$ in year $k$ was calculated at the per year and per site level as follows:
+I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}). Reproductive success $F_{jk}$ at site $j$ in year $k$ was calculated at the per year and per site level as follows:
 
 \begin{align}
   \begin{split}
@@ -453,15 +475,15 @@ where
   \end{split}
 \end{align}
 %
-To calculate the temporal variation in fitness for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I obtained a posterior distribution for the geometric SD of per capita reproductive success; I used this and the posterior distribution of germination probability from model XX to calculate the correlation between germination and fitness variance. Using this approach, I obtained a distribution of correlation estimates. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction.
+To calculate the temporal variation in fitness for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I obtained a posterior distribution for the geometric SD of per capita reproductive success; I used this and the posterior distribution of germination probability from model XX to calculate the correlation between germination and fitness variance. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction.
 
 \subsection*{Correlation between germination probability and seed survival}
 
-I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival as $s_2 s_3$ as the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of correlation estimates. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction.
+I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival as $s_2 s_3$ as the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction.
 
 \subsection*{Density-independent model for germination probability}
 
-We used estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). Briefly, we parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We can use the following equation to summarize \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
+We used estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). Briefly, we parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We use the following equation to summarize \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
 
 \begin{align}
   \begin{split}
@@ -469,20 +491,13 @@ We used estimates of seed survival and reproductive success to investigate the a
   \end{split}
 \end{align}
 %
-The parameters in this equation were fit in models corresponding to equations (1, 3, 5, 8). Seed survival rates ($s_0, s_1, s_2, s_3$) population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit. Variation is incorporated into the model by having $Y(t)$ vary between years.
+The parameters in this equation were fit in models corresponding to equations (1, 3, 5, 8). Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit. Variation is incorporated into the model by having $Y(t)$ vary between years.
 
-I numerically calculated the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly selected values 1000 from the posterior distribution for reproductive success. I used this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability was calculated as the value of G that maximized geometric mean of the population growth rate. I repeated the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions. 
+I numerically calculated the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly selected values 1000 from the posterior distribution for reproductive success. I used this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability is estimated as the value of G that maximized geometric mean of the population growth rate. I repeated the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions. 
 
-A model in which per-capita reproductive success is density-independent predicts that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate a density-independent model for germination probability, I compared observed germination probability to predicted germination optima.
+A model in which per-capita reproductive success is density-independent predicts that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate a density-independent model for germination probability, I compared observed germination probability to predicted germination optima. I plot this comparison in Figure~\ref{fig:obs_pred}. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed.
 
 \section*{Results}
-\begin{figure}[h]
-   \centering
-  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/obs_pred_germ.pdf}  
-    \caption{ Observed germination probability plotted against the optimal germination probability predicted by a density-independent model. For each population, the observed germination probability is the obtained from the model for seed bank vital rates. Each point is the population-specific median of the posterior of $g_1$ for a model fit to data from seed bag experiments from 2006--2009. Data was pooled across years. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed. }
- \label{fig:obs_pred}
-\end{figure}
 
 \begin{figure}
 \centering
@@ -490,14 +505,12 @@ A model in which per-capita reproductive success is density-independent predicts
 \centering
        \includegraphics[page=1,width=1\textwidth]{../figures/germ_rs_correlation.pdf}  
 \end{subfigure}
-
 \begin{subfigure}[h]{.9\textwidth}
 \centering
        \includegraphics[page=2,width=1\textwidth]{../figures/germ_rs_correlation.pdf}  
 \end{subfigure}
-
  \caption{ The top panel shows the observed germination probability plotted against the temporal variation in per capita reproductive success. The bottom panel shows the posterior distribution of correlation between observed germination probability and geometric SD of per capita reproductive success; the median correlation is negative (-0.16) but the 95\% credible interval overlaps 0. }
- 
+   \label{fig:germ_rs_correlation}
  \end{figure}
 
  
@@ -507,15 +520,21 @@ A model in which per-capita reproductive success is density-independent predicts
 \centering
        \includegraphics[page=1,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
 \end{subfigure}
-
 \begin{subfigure}[h]{.9\textwidth}
 \centering
        \includegraphics[page=2,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
 \end{subfigure}
-
  \caption{ The top panel shows the observed germination probability plotted against probability of seed survival. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.16) and the 95\% credible interval does not overlap 0. }
- 
+  \label{fig:germ_surv_correlation}
  \end{figure}
+ 
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/obs_pred_germ.pdf}  
+    \caption{ Observed germination probability plotted against the optimal germination probability predicted by a density-independent model. For each population, the observed germination probability is the obtained from the model for seed bank vital rates. Each point is the population-specific median of the posterior of $g_1$ for a model fit to data from seed bag experiments from 2006--2009. Data was pooled across years. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed. }
+ \label{fig:obs_pred}
+\end{figure}
 
 \clearpage
 \bibliography{/Users/gregor/Dropbox/bibliography/seeds}
