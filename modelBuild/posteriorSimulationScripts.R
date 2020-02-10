@@ -1,4 +1,8 @@
 
+library(bayesplot)
+color_scheme_set("brightblue")
+
+
 rm(list=ls(all=TRUE)) # clear R environment
 
 load(file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagfit.rds")
@@ -36,6 +40,8 @@ bayesplot::ppc_stat_grouped(data$yt, tmp[samps,],group=data$site, stat="var") +
                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
 
 # Seed survival (g1)
+# yg.sim[i] ~ dbinom(pg[i]*(p[i])^(1/3), yt[i]) 
+
 
 # Seed survival (s2)
 
