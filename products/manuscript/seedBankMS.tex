@@ -300,15 +300,10 @@ Each bag $i$ from site $j$ in year $k$ had $h$ trials. The problem is most bags 
 \begin{align}
   \begin{split}
  [\bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{gt}}}, \bm{n_{\mathrm{vt}}}, \bm{y_{\mathrm{gt}}},  \bm{y_{\mathrm{vt}}} ] \propto
- \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H}  \mathrm{binomial} ( y^{\mathrm{viab}}_{hij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
-  \end{split}
-\end{align}
-%
-where
-%
-\begin{align}
-  \begin{split}
-\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
+ \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H} \prod_{k=1}^{K}  \mathrm{binomial} ( y^{\mathrm{gt}}_{hijk} | n^{\mathrm{gt}}_{hijk}, \mathrm{logit}^{-1}(\alpha_{ijk}) )
+ \\ & \times \mathrm{binomial} ( y^{\mathrm{vt}}_{hijk} | n^{\mathrm{vt}}_{hijk}, \mathrm{logit}^{-1}(\alpha_{ijk})  ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma_{jk} )
+  \\ & \times \mathrm{normal} ( \mu_{jk} | 0 , 100 ) \mathrm{uniform} ( \sigma_{jk} | 0,100)
   \end{split}
 \end{align}
 
