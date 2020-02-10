@@ -321,3 +321,4 @@ viab = c("mu.b","sigma.b")
 zc = coda.samples(jm, variable.names = c(intercepts,viab), n.iter = n.iter, thin=10)
 
 save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagfit.rds")
+save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagdata.rds")
