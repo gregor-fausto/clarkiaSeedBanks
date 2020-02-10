@@ -436,7 +436,7 @@ kable(summarySeedBags, caption="Summary table of the number of seed bags counted
 ```{r}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
 
-tmp <- read_excel(paste0(dir,"germ_viab_data_final_updated.xlsx"),sheet = 1,na=c("NA","?"))
+tmp <- read_excel(paste0(dir,"germ_viab_data_final_updated.xlsx"),sheet = 1,na=c("NA","?","."))
 
 viabilityRawData <- tmp %>%
   dplyr::rename(site = 'population') %>%
@@ -455,7 +455,15 @@ viabilityRawData <- tmp %>%
   dplyr::rename(viabPerc2 = '%Viabil') %>%
   dplyr::rename(viabTotal = 'Overall_viability')
 
+# october intacts
+summaryViabilityData<-viabilityRawData  %>%
+  dplyr::group_by(round,age,bagNo,site) %>%
+  dplyr::summarise(n = n())
+
+hist(summaryViabilityData$n)
 ```
+
+The majority of bags had 1-2 tests (equally split). A small number had 3 test and an even smaller had 4. But clearly need to consider that bags were tested twice. 
 
 Data for viability trials in the lab. 
 
