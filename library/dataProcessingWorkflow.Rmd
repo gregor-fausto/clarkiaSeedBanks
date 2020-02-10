@@ -462,6 +462,29 @@ summaryViabilityData<-viabilityRawData  %>%
 
 hist(summaryViabilityData$n)
 ```
+Rows of concern in the viability trials
+```{r}
+
+# rows where the number of seeds that didn't germinate
+# is less than the number of seeds that started the viability trials
+error<-viabilityRawData %>% dplyr::filter(germNot<viabStart) 
+
+# add rows where bag lacks number
+error <- viabilityRawData %>% dplyr::filter(bagNo=="?") %>% 
+  bind_rows(error)
+
+# add one row where viabStart is NA
+# how is this different from no seeds starting
+error <- viabilityRawData %>% dplyr::filter(is.na(viabStart)) %>%
+  bind_rows(error)
+
+# conditional test is coded incorrectly
+error<-viabilityRawData %>% dplyr::filter(germNot==viabStart&condTest=="N") %>%
+  bind_rows(error)
+
+kable(error, caption="Table of rows in the viability trials data set that need to be checked for problems")
+
+```
 
 The majority of bags had 1-2 tests (equally split). A small number had 3 test and an even smaller had 4. But clearly need to consider that bags were tested twice. 
 

@@ -17,7 +17,7 @@ the data processing workflow:
 
 ### File directories
 
-The files for data analysis are originally found in the shared Dropbox
+The files holding datasets are originally found in the shared Dropbox
 folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a
 folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold
 a copy of these files. To copy the files, I run the following in my
@@ -27,6 +27,21 @@ Terminal:
 /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
 
 I last ran this on 02/05/20 at 3:18 PM. The files in this directory are
+now a copy of those in the shared Dropbox folder. For the time being,
+the copy of the files remains outside of the folder that gets updated on
+Git.
+
+An additional folder holding datasets is originally found in the shared
+Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from
+monica/`. I created a folder on my local Dropbox
+`/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To
+copy the files, I run the following in my Terminal:
+
+`cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\
+monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\
+scripts/files\ from\ monica/`
+
+I last ran this on 02/06/20 at 10:50 AM. The files in this directory are
 now a copy of those in the shared Dropbox folder. For the time being,
 the copy of the files remains outside of the folder that gets updated on
 Git.
@@ -644,6 +659,8 @@ the list above.
 
 ### Seed bag data
 
+Data for seed bags from the field.
+
 ``` r
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 
@@ -660,6 +677,8 @@ seedBags <- tmp %>%
   dplyr::rename(totalJan = 'Jan_total') %>%
   dplyr::rename(intactOct = 'Oct_intact') %>%
   dplyr::select(-c("viability%"))
+
+save(seedBags,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/seedBagsData.rda")
 
 # january germinants
 summarySeedBags<-seedBags  %>%
@@ -705,7 +724,7 @@ summarySeedBags<-seedBags  %>%
   dplyr::summarise(count = sum(!is.na(intactOct))) %>%
   tidyr::spread(key=c("yearAge"),value="count")
 
-kable(summarySeedBags, caption="Summary table of the number of counts of intact seeds in October from seed bags")
+kable(summarySeedBags, caption="Summary table of the number of seed bags counted in October for intact seeds")
 ```
 
 | site | 2007-age1 | 2008-age1 | 2008-age2 | 2009-age1 | 2009-age2 | 2009-age3 |
@@ -731,5 +750,107 @@ kable(summarySeedBags, caption="Summary table of the number of counts of intact 
 | SM   |         9 |        10 |         8 |         9 |        10 |        10 |
 | URS  |         7 |         9 |         5 |         9 |         9 |         4 |
 
-Summary table of the number of counts of intact seeds in October from
-seed bags
+Summary table of the number of seed bags counted in October for intact
+seeds
+
+``` r
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
+
+tmp <- read_excel(paste0(dir,"germ_viab_data_final_updated.xlsx"),sheet = 1,na=c("NA","?","."))
+
+viabilityRawData <- tmp %>%
+  dplyr::rename(site = 'population') %>%
+  dplyr::rename(bagNo = 'bag#') %>%
+  dplyr::rename(round = 'Round') %>%
+  dplyr::rename(age = 'Age') %>%
+  dplyr::rename(block = 'Block') %>%
+  dplyr::rename(germStart = '#tested_for_germination') %>%
+  dplyr::rename(germCount = '#germinating') %>%
+  dplyr::rename(germPerc = '%Germ') %>%
+  dplyr::rename(germNot = '#not germinated') %>%
+  dplyr::rename(viabStart = '#tested_for_viability') %>%
+  dplyr::rename(viabStain = '#viable(stained_red)') %>%
+  dplyr::rename(viabPerc = '%viability') %>%
+  dplyr::rename(condTest = '#not_germinated=#tested_for_viability?') %>%
+  dplyr::rename(viabPerc2 = '%Viabil') %>%
+  dplyr::rename(viabTotal = 'Overall_viability')
+
+# october intacts
+summaryViabilityData<-viabilityRawData  %>%
+  dplyr::group_by(round,age,bagNo,site) %>%
+  dplyr::summarise(n = n())
+
+hist(summaryViabilityData$n)
+```
+
+![](dataProcessingWorkflow_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+Rows of concern in the viability trials
+
+``` r
+# rows where the number of seeds that didn't germinate
+# is less than the number of seeds that started the viability trials
+error<-viabilityRawData %>% dplyr::filter(germNot<viabStart) 
+
+# add rows where bag lacks number
+error <- viabilityRawData %>% dplyr::filter(bagNo=="?") %>% 
+  bind_rows(error)
+
+# add one row where viabStart is NA
+# how is this different from no seeds starting
+error <- viabilityRawData %>% dplyr::filter(is.na(viabStart)) %>%
+  bind_rows(error)
+
+# conditional test is coded incorrectly
+error<-viabilityRawData %>% dplyr::filter(germNot==viabStart&condTest=="N") %>%
+  bind_rows(error)
+
+kable(error, caption="Table of rows in the viability trials data set that need to be checked for problems")
+```
+
+| site | bagNo | round | age | block | germStart | germCount |  germPerc | germNot | viabStart | viabStain |  viabPerc | condTest | viabPerc2 | viabTotal |
+| :--- | ----: | ----: | --: | ----: | --------: | --------: | --------: | ------: | --------: | --------: | --------: | :------- | --------: | --------: |
+| BR   |    25 |     1 |   1 |     4 |         9 |         0 | 0.0000000 |       9 |         9 |         2 | 0.2222222 | N        | 0.2222222 | 0.2222222 |
+| DEM  |    13 |     1 |   1 |     4 |        15 |         6 | 0.4000000 |       9 |         9 |         8 | 0.8888889 | N        | 0.8888889 | 0.9333333 |
+| DEM  |    16 |     1 |   1 |     5 |        15 |         8 | 0.5333333 |       7 |         7 |         7 | 1.0000000 | N        | 1.0000000 | 1.0000000 |
+| KYE  |    15 |     1 |   1 |     4 |        15 |         5 | 0.3333333 |      10 |        10 |         7 | 0.7000000 | N        | 0.7000000 | 0.8000000 |
+| LCE  |    19 |     1 |   1 |     5 |        10 |         0 | 0.0000000 |      10 |        10 |         2 | 0.2000000 | N        | 0.2000000 | 0.2000000 |
+| LCW  |    26 |     1 |   1 |     5 |        15 |         5 | 0.3333333 |      10 |        10 |         7 | 0.7000000 | N        | 0.7000000 | 0.8000000 |
+| LO   |     5 |     1 |   1 |     4 |        15 |         9 | 0.6000000 |       6 |         6 |         5 | 0.8333333 | N        | 0.8333333 | 0.9333333 |
+| LO   |     9 |     1 |   1 |     5 |        15 |         5 | 0.3333333 |      10 |        10 |         9 | 0.9000000 | N        | 0.9000000 | 0.9333333 |
+| MC   |    30 |     1 |   1 |     5 |        15 |         5 | 0.3333333 |      10 |        10 |        10 | 1.0000000 | N        | 1.0000000 | 1.0000000 |
+| OKRW |    25 |     1 |   1 |     4 |         8 |         0 | 0.0000000 |       8 |         8 |         3 | 0.3750000 | N        | 0.3750000 | 0.3750000 |
+| OSR  |     6 |     1 |   1 |     5 |        15 |         8 | 0.5333333 |       7 |         7 |         7 | 1.0000000 | N        | 1.0000000 | 1.0000000 |
+| URS  |    17 |     1 |   1 |     4 |        15 |         6 | 0.4000000 |       9 |         9 |         5 | 0.5555556 | N        | 0.5555556 | 0.7333333 |
+| LO   |     8 |     1 |   1 |    16 |         1 |         0 | 0.0000000 |       1 |        NA |        NA |        NA | N        |        NA | 0.0000000 |
+| CF   |     8 |     1 |   1 |     5 |        15 |         7 | 0.4666667 |       8 |         9 |         8 | 0.8888889 | N        | 0.8888889 | 0.9407407 |
+| CF   |     7 |     1 |   3 |    11 |         3 |         2 | 0.6666667 |       1 |         3 |         0 | 0.0000000 | N        | 0.0000000 | 0.6666667 |
+| DLW  |    29 |     1 |   1 |     5 |        15 |         6 | 0.4000000 |       9 |        10 |         9 | 0.9000000 | N        | 0.9000000 | 0.9400000 |
+| DLW  |    29 |     1 |   1 |    10 |        14 |         5 | 0.3571429 |       9 |        10 |         4 | 0.4000000 | N        | 0.4000000 | 0.6142857 |
+| FR   |     1 |     1 |   1 |     9 |        15 |        10 | 0.6666667 |       5 |         6 |         4 | 0.6666667 | N        | 0.6666667 | 0.8888889 |
+| FR   |    27 |     1 |   1 |    10 |        15 |         8 | 0.5333333 |       7 |         8 |         1 | 0.1250000 | N        | 0.1250000 | 0.5916667 |
+| FR   |     2 |     1 |   2 |     7 |        15 |         7 | 0.4666667 |       8 |        10 |         9 | 0.9000000 | N        | 0.9000000 | 0.9466667 |
+| GCN  |    11 |     1 |   2 |     5 |        15 |        11 | 0.7333333 |       4 |         9 |         8 | 0.8888889 | N        | 0.8888889 | 0.9703704 |
+| GCN  |    47 |     2 |   2 |     9 |        15 |         6 | 0.4000000 |       9 |        10 |         6 | 0.6000000 | N        | 0.6000000 | 0.7600000 |
+| KYE  |     3 |     1 |   1 |    13 |        15 |        10 | 0.6666667 |       5 |         6 |         5 | 0.8333333 | N        | 0.8333333 | 0.9444444 |
+| KYE  |     9 |     1 |   3 |    11 |        15 |         6 | 0.4000000 |       9 |        10 |         9 | 0.9000000 | N        | 0.9000000 | 0.9400000 |
+| LCE  |    26 |     1 |   2 |     4 |        15 |         6 | 0.4000000 |       9 |        10 |         0 | 0.0000000 | N        | 0.0000000 | 0.4000000 |
+| LCE  |    30 |     1 |   2 |     6 |        15 |         8 | 0.5333333 |       7 |        10 |         7 | 0.7000000 | N        | 0.7000000 | 0.8600000 |
+| LCW  |    14 |     1 |   1 |    14 |         3 |         0 | 0.0000000 |       3 |         4 |         0 | 0.0000000 | N        | 0.0000000 | 0.0000000 |
+| LCW  |    27 |     1 |   1 |    10 |        15 |        12 | 0.8000000 |       3 |         4 |         2 | 0.5000000 | N        | 0.5000000 | 0.9000000 |
+| MC   |    28 |     1 |   1 |    10 |         4 |         3 | 0.7500000 |       1 |         2 |         0 | 0.0000000 | N        | 0.0000000 | 0.7500000 |
+| MC   |    23 |     1 |   2 |     8 |        15 |        12 | 0.8000000 |       3 |         7 |         1 | 0.1428571 | N        | 0.1428571 | 0.8285714 |
+| OKRE |    57 |     2 |   1 |     4 |        15 |        12 | 0.8000000 |       3 |         4 |         3 | 0.7500000 | N        | 0.7500000 | 0.9500000 |
+| OKRE |    22 |     1 |   2 |     4 |        15 |        14 | 0.9333333 |       1 |         2 |         0 | 0.0000000 | N        | 0.0000000 | 0.9333333 |
+| OKRW |    19 |     1 |   2 |     7 |        15 |        13 | 0.8666667 |       2 |         4 |         0 | 0.0000000 | N        | 0.0000000 | 0.8666667 |
+| OSR  |    17 |     1 |   2 |    12 |        15 |         6 | 0.4000000 |       9 |        10 |         4 | 0.4000000 | N        | 0.4000000 | 0.6400000 |
+| SM   |    21 |     1 |   1 |     8 |        10 |         1 | 0.1000000 |       9 |        10 |         2 | 0.2000000 | N        | 0.2000000 | 0.2800000 |
+| URS  |    13 |     1 |   2 |     1 |        15 |         8 | 0.5333333 |       7 |         8 |         3 | 0.3750000 | N        | 0.3750000 | 0.7083333 |
+
+Table of rows in the viability trials data set that need to be checked
+for problems
+
+The majority of bags had 1-2 tests (equally split). A small number had 3
+test and an even smaller had 4. But clearly need to consider that bags
+were tested twice.
+
+Data for viability trials in the lab.
