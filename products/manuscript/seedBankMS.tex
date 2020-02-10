@@ -293,16 +293,28 @@ Here, I use viability in our germination estimates. For the full life cycle, thi
 
 Overall, the aim of the model is to combine the estimates of seed survival and germination that we obtained from the seed burial experiment in the field with the viability data from the lab trials. 
 
-I fit the following model for bag $i$ at site $j$ in year $k$:
+\subsubsection*{Model for viability trial data}
+
+Each bag $i$ from site $j$ in year $k$ had $h$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
 %
 \begin{align}
   \begin{split}
- [\bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{viab}}} ] \propto
- \\ & \times  \mathrm{binomial} ( y^{\mathrm{viab}}_{ij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
+ [\bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{gt}}}, \bm{n_{\mathrm{vt}}}, \bm{y_{\mathrm{gt}}},  \bm{y_{\mathrm{vt}}} ] \propto
+ \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H}  \mathrm{binomial} ( y^{\mathrm{viab}}_{hij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
+  \end{split}
+\end{align}
+%
+where
+%
+\begin{align}
+  \begin{split}
+\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
   \end{split}
 \end{align}
 
-I fit the following model for bag $i$ at site $j$ in year $k$:
+\subsubsection*{Model for seed burial experiment data}
+
+To estimate the survival and germination of seeds in each population, I fit the following model for bag $i$ at site $j$ in year $k$. 
 %
 \begin{align}
   \begin{split}
@@ -329,7 +341,43 @@ where
 \mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})
   \end{split}
 \end{align}
+
+
+
+I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
+
+\subsubsection*{Full model}
+
+To estimate the survival and germination of seeds in each population, I fit the following model for bag $i$ at site $j$ in year $k$:
 %
+\begin{align}
+  \begin{split}
+ [ \bm{\phi}, \bm{\gamma}, \bm{\rho}, \bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{total}}},  \bm{y_{\mathrm{germ}}},  \bm{y_{\mathrm{surv}}}, \bm{y_{\mathrm{viab}}} ] \propto \\
+   & \prod_{j=1}^{J} \prod_{i=1}^{I} % \prod_{k=1}^{K}  
+   \mathrm{binomial} ( y^{\mathrm{tot}}_{ij} | n_{ij}, \mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{j} ) ) 
+ \\ & \times \mathrm{binomial} ( y^{\mathrm{germ}}_{ij}  | y^{\mathrm{tot}}_{ij}  , \mathrm{f}_2( \gamma_{j} , \alpha_{ijk}) )
+ \\ & \times \mathrm{binomial} ( y^{\mathrm{surv}}_{ij} | y^{\mathrm{tot}}_{ij}  -  y^{\mathrm{germ}}_{ij}   , \mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{j} ) ) 
+ \\ & \times  \mathrm{binomial} ( y^{\mathrm{viab}}_{ij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
+    \\ & \times \mathrm{normal} ( \alpha^{s1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{g1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{s2}_{0,j} | 0, 10)  
+    \\ & \times \mathrm{normal} ( \beta^{s1}_{j} | 0, \sigma_j^{s1}) \mathrm{normal} ( \beta^{g1}_{j} | 0, \sigma_j^{g1}) \mathrm{normal} ( \beta^{s2}_{j} | 0, \sigma_j^{s2}) 
+    \\ & \times \mathrm{uniform} ( \sigma_j^{s1} | 0, 100) \mathrm{uniform} ( \sigma_j^{g1} | 0, 100)  \mathrm{uniform} ( \sigma_j^{s2} | 0, 100)   
+  \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma_{jk} )
+  \\ & \times \mathrm{normal} ( \mu_{jk} | 0 , 100 ) \mathrm{uniform} ( \sigma_{jk} | 0,100).
+  \end{split}
+\end{align}
+%
+where
+%
+\begin{align}
+  \begin{split}
+\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
+\mathrm{f}_2(\alpha^{g1}_{0,j} , \beta^{g1}_{jk},  \alpha_{ijk} ) ) & = \gamma_{jk} \times v_{ijk}^\frac{1}{3} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \times ( \mathrm{logit}^{-1}(\alpha_{ijk}))^\frac{1}{3} \\
+\mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})
+  \end{split}
+\end{align}
+
+These models relate the average seed survival in each population to the seed survival observed in a given year through a linear model. The function has a parameter for the average seed survival in each population, and a parameter for the seed survival of each population in each year. I treated seed survival as a binomially-distributed random variable because the data come from an experiment in which we buried a known number of seeds and counted seeds. Thus for the $i$th observation, I parameterized a binomial distribution in terms of a probability and a known number of trials. I sampled a 95\% credible interval from the posterior predictive distribution for seed survival for each site and compared it to the seed burial experiments to assess whether the model from the seed burial experiments could predict the seed survival in seed burial experiments. 
+
 I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
 
 \section*{Seedling survival to fruiting}

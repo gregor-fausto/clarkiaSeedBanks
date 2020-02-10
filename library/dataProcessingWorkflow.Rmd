@@ -461,6 +461,9 @@ summaryViabilityData<-viabilityRawData  %>%
   dplyr::summarise(n = n())
 
 hist(summaryViabilityData$n)
+
+
+ggplot(viabilityRawData %>% dplyr::filter(round==1)) + geom_boxplot(aes(x=site,y=viabTotal,color=bagNo))
 ```
 Rows of concern in the viability trials
 ```{r}

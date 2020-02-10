@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 FEB 2020 15:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 FEB 2020 16:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -914,69 +914,69 @@ Overfull \hbox (4.0513pt too wide) in paragraph at lines 235--236
 s in Jan-uary and post-germination
  []
 
-[7] [8] [9] [10] [11]
+[7] [8] [9] [10] [11] [12] [13]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
- [12] [13]
+ [14] [15]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
- [14] [15] [16] [17]
-<../figures/germ_rs_correlation.pdf, id=78, page=1, 794.97pt x 614.295pt>
+ [16] [17] [18] [19]
+<../figures/germ_rs_correlation.pdf, id=85, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 506.
+t line 554.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_rs_correlation.pdf, id=79, page=2, 794.97pt x 614.295pt>
+<../figures/germ_rs_correlation.pdf, id=86, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 510.
+t line 558.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 31.85117pt on input line 514.
+LaTeX Warning: Float too large for page by 31.85117pt on input line 562.
 
-<../figures/germ_surv_correlation.pdf, id=80, page=1, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=87, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 521.
+put line 569.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_surv_correlation.pdf, id=81, page=2, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=88, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 525.
+put line 573.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 17.35117pt on input line 529.
+LaTeX Warning: Float too large for page by 17.35117pt on input line 577.
 
-<../figures/obs_pred_germ.pdf, id=82, page=1, 794.97pt x 614.295pt>
+<../figures/obs_pred_germ.pdf, id=89, page=1, 794.97pt x 614.295pt>
 File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
 <use ../figures/obs_pred_germ.pdf, page 1>
 Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 534.
+ 582.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[18] [19 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
-df>] [20 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
-on.pdf>] [21 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
+[20] [21 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
+df>] [22 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
+on.pdf>] [23 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
 Underfull \hbox (badness 4872) in paragraph at lines 65--74
 []\OT1/cmr/m/n/12 S. Ell-ner.  ESS ger-mi-na-tion strate-gies in ran-domly vary
 -ing en-vi-ron-ments. II.
@@ -994,7 +994,7 @@ Underfull \hbox (badness 5008) in paragraph at lines 65--74
   URL
  []
 
-[22
+[24
 
 ]
 Underfull \hbox (badness 5771) in paragraph at lines 76--85
@@ -1045,14 +1045,14 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
-[23]
+[25]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ³ in font cmr12!
-) [24] (./seedBankMS.aux) ) 
+) [26] (./seedBankMS.aux) ) 
 Here is how much of TeX's memory you used:
  18826 strings out of 493014
  363530 string characters out of 6133351
- 455422 words of memory out of 5000000
+ 460422 words of memory out of 5000000
  21993 multiletter control sequences out of 15000+600000
  13777 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1076,10 +1076,10 @@ m/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
 mti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm12
 00.pfb>
-Output written on seedBankMS.pdf (25 pages, 240010 bytes).
+Output written on seedBankMS.pdf (27 pages, 244536 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
- 127 compressed objects within 2 object streams
+ 187 PDF objects out of 1000 (max. 8388607)
+ 131 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
