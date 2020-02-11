@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 FEB 2020 16:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  11 FEB 2020 11:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -930,7 +930,7 @@ File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 549.
+t line 553.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
 <../figures/germ_rs_correlation.pdf, id=86, page=2, 794.97pt x 614.295pt>
@@ -938,18 +938,18 @@ File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 553.
+t line 557.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 31.85117pt on input line 557.
+LaTeX Warning: Float too large for page by 31.85117pt on input line 561.
 
 <../figures/germ_surv_correlation.pdf, id=87, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 564.
+put line 568.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
 <../figures/germ_surv_correlation.pdf, id=88, page=2, 794.97pt x 614.295pt>
@@ -957,18 +957,18 @@ File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 568.
+put line 572.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 17.35117pt on input line 572.
+LaTeX Warning: Float too large for page by 17.35117pt on input line 576.
 
 <../figures/obs_pred_germ.pdf, id=89, page=1, 794.97pt x 614.295pt>
 File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
 <use ../figures/obs_pred_germ.pdf, page 1>
 Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 577.
+ 581.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
@@ -1076,7 +1076,7 @@ m/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
 mti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm12
 00.pfb>
-Output written on seedBankMS.pdf (27 pages, 244563 bytes).
+Output written on seedBankMS.pdf (27 pages, 244923 bytes).
 PDF statistics:
  187 PDF objects out of 1000 (max. 8388607)
  131 compressed objects within 2 object streams
