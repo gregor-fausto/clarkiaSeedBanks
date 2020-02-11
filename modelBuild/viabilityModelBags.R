@@ -74,14 +74,16 @@ dat$site.index <- as.integer(as.factor(dat$site))
 # dat$year.index <- as.integer(as.factor(dat$yearStart))
 
 # having problem converting site-bag number to numeric properly for JAGS call
-dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
-as.numeric(dat$siteBag)
-as.numeric("a")
+# dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
+# as.numeric(dat$siteBag)
+# as.numeric("a")
 
 # pass data to list for JAGS
 data = list(
   yv = as.double(dat$germCount),
   nv = as.double(dat$germStart),
+  yv2 = as.double(dat$viabStain),
+  nv2 = as.double(dat$viabStart),
   N = nrow(dat),
   bag = as.double(as.factor(paste0(dat$site,dat$bagNo))),
   nbags = length(unique(as.factor(paste0(dat$site,dat$bagNo)))),
@@ -105,7 +107,9 @@ data = list(
 #   )
 # )
 
-inits = list(list(p = rep(.1,data$nbags)),list(p = rep(.5,data$nbags)), list(p = rep(.9,data$nbags)))
+inits = list(list(p = rep(.1,data$nbags),p2 = rep(.1,data$nbags)),
+             list(p = rep(.5,data$nbags),p2 = rep(.5,data$nbags)), 
+             list(p = rep(.9,data$nbags),p2 = rep(.9,data$nbags)))
 
 #setwd("Users/Gregor/Dropbox/clarkiaSeedBags/modelBuild/jagsScripts")
 sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/viabilityModelJAGS.R")
@@ -114,13 +118,15 @@ cat("
     
     for(j in 1:nbags){
         p[j] ~ dbeta(1, 1)
+        #p2[j] ~ dbeta(1,1)
     }
 
     for(i in 1:N){
 
     # v viability
-    yv[i] ~ dbinom( p[bag[i]] , nv[i])
-    yv.sim[i] ~ dbinom(p[bag[i]], nv[i]) 
+    yv[i] ~ dbinom( p[bag[i]] , nv[i] )
+    yv2[i] ~ dbinom( p[bag[i]] , nv2[i] )
+    #yv.sim[i] ~ dbinom(p[bag[i]], nv[i] ) 
     
     }
     }
@@ -147,12 +153,12 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p","yv.sim")
+viab = c("p","p2")
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc, params = c("p","yv.sim"))
+MCMCsummary(zc, params = c("p","p2"))
 
 bayesplot::ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample((n.iter*length(inits))/n.thin,1000), ]) +
   theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in seed bags in January", 
