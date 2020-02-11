@@ -307,6 +307,10 @@ Each bag $i$ from site $j$ in year $k$ had $h$ trials. The problem is most bags 
   \end{split}
 \end{align}
 
+I started considering applying the probabilities from the conditional probability tree. This might make sense but then I realize that I've gone down this rabbit hole before. Not all of the seeds that didn't germinate were tested. But I'm not sure how else to control for that besides....
+
+Where P(V) = P(V|Gc)*P(Gc) + P(V|G)*P(G)
+
 \subsubsection*{Model for seed burial experiment data}
 
 To estimate the survival and germination of seeds in each population, I fit the following model for bag $i$ at site $j$ in year $k$. 
