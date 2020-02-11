@@ -74,11 +74,15 @@ dat$site.index <- as.integer(as.factor(dat$site))
 # dat$year.index <- as.integer(as.factor(dat$yearStart))
 
 # having problem converting site-bag number to numeric properly for JAGS call
- dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
+ #dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
 
  library(tidyverse)
- dat$siteBag = as.factor(dat$siteBag)
- dat$siteBag<-fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
+
+ dat<-dat %>% 
+   tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
+   dplyr::mutate(siteBag = as.factor(siteBag))
+ 
+ dat$siteBag<-forcats::fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
 
 # pass data to list for JAGS
 data = list(
@@ -87,8 +91,8 @@ data = list(
   yv2 = as.double(dat$viabStain),
   nv2 = as.double(dat$viabStart),
   N = nrow(dat),
-  bag = as.double(as.factor(paste0(dat$site,dat$bagNo))),
-  nbags = length(unique(as.factor(paste0(dat$site,dat$bagNo)))),
+  bag = as.double(dat$siteBag),
+  nbags = length(unique(dat$siteBag)),
   site = as.double(dat$site.index),
   nsites = length(unique(dat$site.index)),
   year = as.double(dat$round),
@@ -155,12 +159,7 @@ viab = c("p","p2","vJoint")
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-cbind(dat$bagNo,data$bag)
-
 MCMCsummary(zc, params = c("p","p2","vJoint"))
-plot(MCMCchains(zc,params="vJoint"))
-g <- MCMCchains(zc,params="p")
-gc<-apply(MCMCchains(zc,params="p"),2,function(x) 1-x)
 
 save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelFit.rds")
 save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelData.rds")
