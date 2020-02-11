@@ -17,30 +17,6 @@ library(tidyr)
 library(HDInterval)
 
 set.seed(10)
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Import and organize seed bag data
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# setwd and read data files
-load("/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/seedBagsData.rda")
-df <- seedBags
-
-# -------------------------------------------------------------------
-# Clean and organize seed bag data
-# -------------------------------------------------------------------
-df$seedStart<-100
-
-df$seedStart <- as.integer(df$seedStart)
-
-df$totalJan <- ifelse(df$totalJan>100,100,df$totalJan)
-
-df <- df %>% dplyr::rename(bag=bagNo)
-
-## FOR NOW REMOVE MISSING DATA AND PROBLEMS
-df<-subset(df,!is.na(df$totalJan))
-df<-subset(df,!is.na(df$intactOct))
-df<-subset(df,!(intactJan<intactOct))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------

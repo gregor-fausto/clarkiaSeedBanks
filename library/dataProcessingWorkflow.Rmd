@@ -455,6 +455,8 @@ viabilityRawData <- tmp %>%
   dplyr::rename(viabPerc2 = '%Viabil') %>%
   dplyr::rename(viabTotal = 'Overall_viability')
 
+save(viabilityRawData,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/viabilityRawData.rds")
+
 # october intacts
 summaryViabilityData<-viabilityRawData  %>%
   dplyr::group_by(round,age,bagNo,site) %>%
