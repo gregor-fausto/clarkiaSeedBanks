@@ -63,8 +63,7 @@ df<-df %>%
 
 ## AGE 1 SEEDS
 dat<-df %>% 
-  dplyr::filter(age==1) %>%
-  dplyr::filter(site=="BG")
+  dplyr::filter(age==1)
 
 # remove missing data for now
 # learn how to model these
@@ -78,10 +77,12 @@ dat$site.index <- as.integer(as.factor(dat$site))
 
  library(tidyverse)
 
+# assign variable that combines site and bag; unique id for each bag
  dat<-dat %>% 
    tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
    dplyr::mutate(siteBag = as.factor(siteBag))
- 
+
+# relevel variable
  dat$siteBag<-forcats::fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
 
 # pass data to list for JAGS
@@ -94,9 +95,7 @@ data = list(
   bag = as.double(dat$siteBag),
   nbags = length(unique(dat$siteBag)),
   site = as.double(dat$site.index),
-  nsites = length(unique(dat$site.index)),
-  year = as.double(dat$round),
-  nyears = length(unique(dat$round))
+  nsites = length(unique(dat$site.index))
 )
 
 inits = list(list(p = rep(.1,data$nbags),p2 = rep(.1,data$nbags)),
@@ -122,13 +121,31 @@ cat("
     # v viability
     yv[i] ~ dbinom( p[bag[i]] , nv[i] )
     yv2[i] ~ dbinom( p2[bag[i]] , nv2[i] )
+    
+    yv.sim[i] ~ dbinom( p[bag[i]], nv[i] )
+    yv2.sim[i] ~ dbinom( p2[bag[i]], nv2[i] )
 
+    # # code for deviance from Lunn 2013
+    prop[i] <- yv[i]/nv[i]
+    prop2[i] <- yv2[i]/nv2[i]
+    
+    Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[bag[i]]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[bag[i]]))
+    sign[i] <- 2*step(prop[i] - p[bag[i]]) - 1
+    dev.res[i] <- sign[i]*sqrt(Ds[i])
+    
     }
+    
+    # calculate saturated deviance
+    dev.sat <- sum(Ds[])
     
     # derived quantity
     for(i in 1:nbags){
         vJoint[i] = p[i] + p2[i]*(1-p[i])
     }
+    
+    mean.data <- mean(yv)
+    mean.sim <- mean(yv.sim)
+    p.mean <- step(mean.sim - mean.data)
     
     }
     ", fill = TRUE)
@@ -155,11 +172,64 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 update(jm, n.iter = n.update)
 
 viab = c("p","p2","vJoint")
+postCheck = c("p.mean","yv.sim","yv2.sim")
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
+zc = coda.samples(jm, variable.names = c(postCheck), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc, params = c("p","p2","vJoint"))
 
 save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelFit.rds")
 save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelData.rds")
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Posterior Predictive Checks
+
+# notes: check group = interaction(dat$site,dat$yearStart)
+# for stat density grouped plots
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+postCheck = c("p.mean","yv.sim","yv2.sim","dev.sat")
+zc = coda.samples(jm, variable.names = c(postCheck), n.iter = n.iter, thin = n.thin)
+MCMCsummary(zc, params = c("p.mean","dev.sat"))
+
+hist(MCMCchains(zc,params="dev.sat")); abline(v=data$N,col="red")
+
+library(bayesplot)
+color_scheme_set("brightblue")
+
+library(gridExtra)
+
+iter<-dim(MCMCchains(zc,params=
+                       "yv.sim"))[1]
+
+# germination trial
+ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ]) +
+  theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in germination trials", 
+                                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
+
+ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=interaction(data$bag)) +
+  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted germination trials", 
+                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
+
+# not all trials have >1 replicate so variance is a moot point for those
+
+# viability trial
+ppc_dens_overlay(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ]) +
+  theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in viability trials", 
+                                    caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
+
+ppc_stat_grouped(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ],group=interaction(dat$bagNo)) +
+  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted viability trials", 
+                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
+
+
