@@ -84,8 +84,8 @@ sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/viabilityMod
 cat("
     model { 
     
-    theta ~ dunif(0,1)
-    #kappa ~ dpar(alpha=shape,c=scale)
+    # theta ~ dunif(0,1)
+    # kappa ~ dpar(alpha=shape,c=scale)
     # kappa ~ dpar(1.5,1)
     
     for(j in 1:nbags){
@@ -107,13 +107,16 @@ cat("
     prop2[i] <- yv2[i]/nv2[i]
     
     Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[bag[i]]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[bag[i]]))
-    sign[i] <- 2*step(prop[i] - p[bag[i]]) - 1
-    dev.res[i] <- sign[i]*sqrt(Ds[i])
+    Ds2[i] <- 2*nv2[i]*(prop2[i])*log((prop2[i]+0.00001)/p2[bag[i]]) + (1-prop2[i])*log((1-prop2[i]+0.00001)/(1-p2[bag[i]]))
+
+   # sign[i] <- 2*step(prop[i] - p[bag[i]]) - 1
+   # dev.res[i] <- sign[i]*sqrt(Ds[i])
     
     }
     
     # calculate saturated deviance
     dev.sat <- sum(Ds[])
+    dev.sat2 <- sum(Ds2[])
     
     # derived quantity
     for(i in 1:nbags){
@@ -170,14 +173,15 @@ save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabili
 library(bayesplot)
 library(gridExtra)
 
-postCheck = c("p.mean","yv.sim","yv2.sim","dev.sat")
+postCheck = c("p.mean","yv.sim","yv2.sim","dev.sat","dev.sat2")
 zc = coda.samples(jm, variable.names = c(postCheck), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc, params = c("p.mean","dev.sat"))
+MCMCsummary(zc, params = c("p.mean","dev.sat","dev.sat2"))
 
-# Conn et al. suggested saturated deviance should be roughly
+# Conn et al. 2018 suggested saturated deviance should be roughly
 # equal to the sample size - but what is OK for this?
 hist(MCMCchains(zc,params="dev.sat")); abline(v=data$N,col="red")
+hist(MCMCchains(zc,params="dev.sat2")); abline(v=data$N,col="red")
 
 color_scheme_set("brightblue")
 
@@ -188,9 +192,10 @@ ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ]) +
   theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in germination trials", 
                                      caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
 
-ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=interaction(data$bag)) +
-  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted germination trials", 
-                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
+# these would be very large plots!
+# ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=interaction(data$bag)) +
+#   theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted germination trials", 
+#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
 
 # not all trials have >1 replicate so variance is a moot point for those
 
@@ -199,6 +204,46 @@ ppc_dens_overlay(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ])
   theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in viability trials", 
                                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
 
-ppc_stat_grouped(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ],group=interaction(dat$bagNo)) +
-  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted viability trials", 
-                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
+# these would be very large plots!
+# ppc_stat_grouped(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ],group=interaction(dat$bagNo)) +
+#   theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted viability trials", 
+#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
+
+
+# observed vs. predicted
+plot(data$yv,apply(MCMCchains(zc,params="yv.sim"),2,mean),
+     xlim=c(0,15),ylim=c(0,15),
+     pch=16,cex=.5);abline(a=0,b=1)
+plot(data$yv2,apply(MCMCchains(zc,params="yv2.sim"),2,mean),
+     xlim=c(0,15),ylim=c(0,15),
+     pch=16,cex=.5);abline(a=0,b=1)
+
+# observed vs. predicted
+plot(apply(MCMCchains(zc,params="yv.sim"),2,mean),data$yv,
+     xlim=c(0,15),ylim=c(0,15),
+     pch=16,cex=.25);abline(a=0,b=1)
+plot(apply(MCMCchains(zc,params="yv2.sim"),2,mean),data$yv2,
+     xlim=c(0,15),ylim=c(0,15),
+     pch=16,cex=.25);abline(a=0,b=1)
+
+load("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelFit.rds")
+
+# compare observed proportion vs. predicted probabilities
+d<-apply(MCMCchains(zc,params="p"),2,mean) %>% as.data.frame() 
+d<-data.frame(cbind(d,siteBag=unique(dat$siteBag))) %>% dplyr::rename(est='.')
+d<-dat %>%
+  dplyr::left_join(d,by="siteBag")
+
+plot(d$est,data$yv/data$nv,
+     xlim=c(0,1),ylim=c(0,1),
+     pch=16,cex=.25);abline(a=0,b=1)
+
+# compare observed proportion vs. predicted probabilities
+d<-apply(MCMCchains(zc,params="p2"),2,mean) %>% as.data.frame() 
+d<-data.frame(cbind(d,siteBag=unique(dat$siteBag))) %>% dplyr::rename(est='.')
+d<-dat %>%
+  dplyr::left_join(d,by="siteBag")
+
+plot(d$est,data$yv2/data$nv2,
+     xlim=c(0,1),ylim=c(0,1),
+     pch=16,cex=.25);abline(a=0,b=1)
