@@ -118,21 +118,24 @@ cat("
     
     theta ~ dunif(0,1)
     #kappa ~ dpar(alpha=shape,c=scale)
-    kappa ~ dpar(1.5,1)
+    # kappa ~ dpar(1.5,1)
     
     for(j in 1:nbags){
         p[j] ~ dbeta(1, 1)
-        #p2[j] ~ dbeta(1,1)
+        p2[j] ~ dbeta(1,1)
     }
 
     for(i in 1:N){
 
     # v viability
     yv[i] ~ dbinom( p[bag[i]] , nv[i] )
-   # yv2[i] ~ dbinom( p[bag[i]] , nv2[i] )
+    yv2[i] ~ dbinom( p2[bag[i]] , nv2[i] )
     #yv.sim[i] ~ dbinom(p[bag[i]], nv[i] ) 
     
+    vJoint[i] = p[bag[i]] +p2[bag[i]]*(1-bag[i])
+    
     }
+    
     }
     ", fill = TRUE)
 sink()
@@ -157,12 +160,19 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p","p2")
+viab = c("p","p2","vJoint")
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc, params = c("p","p2"))
+MCMCsummary(zc, params = c("p","p2","vJoint"))
+
+g <- MCMCchains(zc,params="p")
+gc<-apply(MCMCchains(zc,params="p"),2,function(x) 1-x)
+v <- MCMCchains(zc,params="p2")
+
+hist(g[,5]+v[,5]*gc[,5],breaks=20); abline(v=c(.35,.6,.63))
+
 
 bayesplot::ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample((n.iter*length(inits))/n.thin,1000), ]) +
   theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in seed bags in January", 
