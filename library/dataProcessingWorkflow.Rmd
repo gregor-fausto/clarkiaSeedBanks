@@ -494,6 +494,3 @@ kable(error, caption="Table of rows in the viability trials data set that need t
 The majority of bags had 1-2 tests (equally split). A small number had 3 test and an even smaller had 4. But clearly need to consider that bags were tested twice. 
 
 Data for viability trials in the lab. 
-
-
-

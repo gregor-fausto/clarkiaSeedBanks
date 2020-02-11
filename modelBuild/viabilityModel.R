@@ -24,42 +24,35 @@ set.seed(10)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # setwd and read data files
-setwd("~/Dropbox/modelsF2019/viability/")
-df2 <- read.csv(file="viability.csv",header=TRUE)
+load("/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/viabilityRawData.rds")
+df <- viabilityRawData
 
-df2 <- df2 %>% dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
-df2$bag <-as.integer(as.numeric(df2$bag))
+df <- df %>% 
+  dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
+df$bag <-as.integer(as.numeric(df$bagNo))
 
 ## FOR NOW REMOVE MISSING DATA AND PROBLEMS
-df2<-subset(df2,!is.na(df2$germStart))
-df2<-subset(df2,!is.na(df2$germCount))
-df2<-subset(df2,!is.na(df2$viabStart))
-df2<-subset(df2,!is.na(df2$viabStain))
+df<-subset(df,!is.na(df$germStart))
+df<-subset(df,!is.na(df$germCount))
+df<-subset(df,!is.na(df$viabStart))
+df<-subset(df,!is.na(df$viabStain))
 
 ## data check
-df2 %>% dplyr::filter(germStart - germCount - viabStart<0)
-#
+df %>% dplyr::filter(germStart - germCount - viabStart<0)
+
+# filter out rows with problems
+df<-df %>% 
+  dplyr::filter(germStart - germCount - viabStart >= 0)
+
 # -------------------------------------------------------------------
 # Summarize viability trial data 
 # -------------------------------------------------------------------
 
-df2 <- df2 %>%
+df <- df %>%
   dplyr::mutate(n_new = germCount+viabStart,
                 y_new = germCount+viabStain) %>%
   dplyr::group_by(site,round,age,bag) %>%
   dplyr::summarise(y_new=sum(y_new),n_new=sum(n_new))
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Join datasets
-# not sure if it's necessary to join but not sure how else to index
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-df_joined <- df %>%
-  dplyr::left_join(df2,by=c("site","bag","round","age"))
-
-# df_joined<-df_joined %>%
-#   dplyr::group_by(site,round,age,bag) 
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -69,104 +62,41 @@ df_joined <- df %>%
 # -------------------------------------------------------------------
 
 ## AGE 1 SEEDS
-dat<-df_joined %>% 
-  #dplyr::filter(round=="1") %>% 
+dat<-df %>% 
   dplyr::filter(age==1)
 
 # remove missing data for now
 # learn how to model these
 dat <- dat[!is.na(dat$n_new),]
 
-names(dat)[1] <- "site"
 dat$site.index <- as.integer(as.factor(dat$site))
-dat$year.index <- as.integer(as.factor(dat$yearStart))
-
-## AGE 2 SEEDS
-datTwo<-df_joined %>% 
-  #dplyr::filter(round=="1") %>% 
-  dplyr::filter(age==2)
-
-# remove missing data for now
-# learn how to model these
-datTwo <- datTwo[!is.na(datTwo$n_new),]
-
-names(datTwo)[1] <- "site"
-datTwo$site.index <- as.integer(as.factor(datTwo$site))
-datTwo$year.index <- as.integer(as.factor(datTwo$yearStart))
-
+# dat$year.index <- as.integer(as.factor(dat$yearStart))
 
 # pass data to list for JAGS
 data = list(
-  yg = as.double(dat$seedlingJan),
-  yt = as.double(dat$totalJan),
-  yo = as.double(dat$intactOct),
   yv = as.double(dat$y_new),
-  n = as.double(dat$seedStart),
   nv = as.double(dat$n_new),
   N = nrow(dat),
   site = as.double(dat$site.index),
   nsites = length(unique(dat$site.index)),
-  year = as.double(dat$year.index),
-  nyears = length(unique(dat$year.index)),
-  
-  yt2 = as.double(datTwo$totalJan),
-  n2 = as.double(datTwo$seedStart),
-  N2 = nrow(datTwo),
-  site2 = as.double(datTwo$site.index),
-  nsites2 = length(unique(datTwo$site.index)),
-  year2 = as.double(datTwo$year.index),
-  nyears2 = length(unique(datTwo$year.index))
 )
 
 # right now each bag has its own prior;
 # want to give nsite priors 
 inits = list(
   list( sigma.b = matrix(rep(50,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-        #alpha = rep(-10, data$N),
-        # sigmaS1 = rep(.1, data$nsites), 
-        # sigmaG1 = rep(.1, data$nsites), 
-        # sigmaS2 = rep(.1, data$nsites),
-        alphaS1 = rep(-10, data$nsites), 
-        alphaG1 = rep(-10, data$nsites), 
-        alphaS2 = rep(-10, data$nsites),
-        alphaS3 = rep(0, data$nsites)
-        # betaS1 = matrix(-10, nrow=data$nsites,ncol=data$nyears), 
-        # betaG1 = matrix(-10, nrow=data$nsites,ncol=data$nyears), 
-        # betaS2 = matrix(-10, nrow=data$nsites,ncol=data$nyears)
+        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
         ),
   list( sigma.b = matrix(rep(10,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears),
-        #alpha = rep(0, data$N),
-        # sigmaS1 = rep(.5, data$nsites), 
-        # sigmaG1 = rep(.5, data$nsites), 
-        # sigmaS2 = rep(.5, data$nsites),
-        alphaS1 = rep(0, data$nsites), 
-        alphaG1 = rep(0, data$nsites), 
-        alphaS2 = rep(0, data$nsites),
-        alphaS3 = rep(0, data$nsites)
-        # betaS1 = matrix(0, nrow=data$nsites,ncol=data$nyears), 
-        # betaG1 = matrix(0, nrow=data$nsites,ncol=data$nyears), 
-        # betaS2 = matrix(0, nrow=data$nsites,ncol=data$nyears)
+        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
         ),
   list( sigma.b = matrix(rep(20,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-        #alpha = rep(10, data$N),
-        #sigmaS1 = rep(.9, data$nsites), 
-        #sigmaG1 = rep(.9, data$nsites), 
-        #sigmaS2 = rep(.9, data$nsites),
-        alphaS1 = rep(10, data$nsites), 
-        alphaG1 = rep(10, data$nsites), 
-        alphaS2 = rep(10, data$nsites),
-        alphaS3 = rep(0, data$nsites)
-        # betaS1 = matrix(10, nrow=data$nsites,ncol=data$nyears), 
-        # betaG1 = matrix(10, nrow=data$nsites,ncol=data$nyears), 
-        # betaS2 = matrix(10, nrow=data$nsites,ncol=data$nyears)
+        mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
         )
 )
 
 #setwd("Users/Gregor/Dropbox/clarkiaSeedBags/modelBuild/jagsScripts")
-sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/seed_modelJAGS.R")
+sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/viabilityModelJAGS.R")
 cat("
     model { 
     
@@ -184,39 +114,11 @@ cat("
     }
     }
 
-    # # seed bags
-    # for(j in 1:nsites){
-    # sigmaS1[j] ~ dunif(0,100)
-    # tauS1[j] <- 1/(sigmaS1[j] * sigmaS1[j])
-    # 
-    # sigmaG1[j] ~ dunif(0,100)
-    # tauG1[j] <- 1/(sigmaG1[j] * sigmaG1[j])
-    # 
-    # sigmaS2[j] ~ dunif(0,100)
-    # tauS2[j] <- 1/(sigmaS2[j] * sigmaS2[j])
-    # }
 
     ##############
     ## priors
     ##############
     
-    # site intercepts
-    for(j in 1:nsites){
-    alphaS1[j] ~ dnorm(0, .001)
-    alphaG1[j] ~ dnorm(0, .001)
-    alphaS2[j] ~ dnorm(0, .001)
-    alphaS3[j] ~ dnorm(0, .001)
-    }
-
-    # year intercepts
-    # for(j in 1:nsites){
-    # for(k in 1:nyears){
-    # betaS1[j,k] ~ dnorm(0, tauS1[j])
-    # betaG1[j,k] ~ dnorm(0, tauG1[j])
-    # betaS2[j,k] ~ dnorm(0, tauS2[j])
-    # }
-    # }
-    # 
     # viability trials 1 prior for each trial
     for(i in 1:N){
     alpha[i] ~ dnorm(mu.b[site[i],year[i]],  tau.b[site[i],year[i]])
@@ -232,34 +134,6 @@ cat("
     p[i] <- ilogit(alpha[i])
     yv[i] ~ dbin( p[i] , nv[i])
     # yv.sim[i] ~ dbinom(p[i], nv[i]) 
-
-    # s1 seed survival
-    ps[i] = ilogit(alphaS1[site[i]])
-    yt[i] ~ dbin(ps[i], n[i])
-    # yt.sim[i] ~ dbinom(ps[i], n[i]) 
-
-    # g1 seed germination
-    pg[i] = ilogit(alphaG1[site[i]])
-    yg[i] ~ dbin(pg[i]*(p[i])^(1/3), yt[i])
-    # yg.sim[i] ~ dbinom(pg[i]*(p[i])^(1/3), yt[i]) 
-
-    # s2 seed survival
-    pr[i] = ilogit(alphaS2[site[i]])
-    yo[i] ~ dbin(pr[i], yt[i]-yg[i])
-    # yo.sim[i] ~ dbinom(pr[i], yt[i]-yg[i]) 
-
-    } 
-
-    for(i in 1:N2){
-    
-    ps2[i] = ilogit(alphaS1[site[i]])
-    pg2[i] = ilogit(alphaG1[site[i]])
-    pr2[i] = ilogit(alphaS2[site[i]])
-
-    # s3 seed survival
-    ps3[i] = ilogit(alphaS3[site2[i]])
-    yt2[i] ~ dbin(ps2[i]*(1-pg2[i])*pr2[i]*ps3[i], n2[i])
-    # yt2.sim[i] ~ dbinom(ps2[i]*(1-pg2[i])*pr2[i]*ps3[i], n2[i])
     
     }
     }
@@ -279,22 +153,18 @@ n.iter = 10000
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seed_modelJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-intercepts = c("alphaS1","alphaG1","alphaS2","alphaS3")
-#slopes = c("betaS1","betaG1","betaS2")
-#variances = c("sigmaS1","sigmaG1","sigmaS2")
-viab = c("mu.b","sigma.b")
-#sims = c("yv.sim","yt.sim","yg.sim","yo.sim","yt2.sim")
 
+viab = c("mu.b","sigma.b")
 
 
 # chain (n.iter)
-zc = coda.samples(jm, variable.names = c(intercepts,viab), n.iter = n.iter, thin=10)
+zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin=10)
 
-save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagfit.rds")
-save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/seedbagdata.rds")
+save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelFit.rds")
+save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelData.rds")
