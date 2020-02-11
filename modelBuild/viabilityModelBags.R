@@ -131,9 +131,12 @@ cat("
     yv[i] ~ dbinom( p[bag[i]] , nv[i] )
     yv2[i] ~ dbinom( p2[bag[i]] , nv2[i] )
     #yv.sim[i] ~ dbinom(p[bag[i]], nv[i] ) 
+  
+    }
     
-    vJoint[i] = p[bag[i]] +p2[bag[i]]*(1-bag[i])
-    
+    # derived quantity
+    for(i in 1:nbags){
+        vJoint[i] = p[i] + p2[i]*(1-p[i])
     }
     
     }
@@ -166,10 +169,9 @@ viab = c("p","p2","vJoint")
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc, params = c("p","p2","vJoint"))
-
+plot(MCMCchains(zc,params="vJoint"))
 g <- MCMCchains(zc,params="p")
 gc<-apply(MCMCchains(zc,params="p"),2,function(x) 1-x)
-v <- MCMCchains(zc,params="p2")
 
 hist(g[,5]+v[,5]*gc[,5],breaks=20); abline(v=c(.35,.6,.63))
 

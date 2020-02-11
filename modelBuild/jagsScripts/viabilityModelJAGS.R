@@ -16,9 +16,11 @@
     yv[i] ~ dbinom( p[bag[i]] , nv[i] )
     yv2[i] ~ dbinom( p2[bag[i]] , nv2[i] )
     #yv.sim[i] ~ dbinom(p[bag[i]], nv[i] ) 
+  
+    }
     
-    vJoint[i] = p[bag[i]] +p2[bag[i]]*(1-bag[i])
-    
+    for(i in 1:nbags){
+        vJoint[i] = p[i] + p2[i]*(1-p[i])
     }
     
     }
