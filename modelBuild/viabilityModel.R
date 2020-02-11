@@ -79,6 +79,8 @@ data = list(
   N = nrow(dat),
   site = as.double(dat$site.index),
   nsites = length(unique(dat$site.index)),
+  year = as.double(dat$round),
+  nyears = length(unique(dat$round))
 )
 
 # right now each bag has its own prior;
@@ -159,9 +161,7 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-
 viab = c("mu.b","sigma.b")
-
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin=10)
