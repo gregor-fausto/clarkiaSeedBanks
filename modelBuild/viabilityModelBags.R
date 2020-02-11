@@ -46,29 +46,15 @@ df<-df %>%
   dplyr::filter(germStart - germCount - viabStart >= 0)
 
 # -------------------------------------------------------------------
-# Summarize viability trial data 
-# -------------------------------------------------------------------
-# 
-# df <- df %>%
-#   dplyr::mutate(n_new = germCount+viabStart,
-#                 y_new = germCount+viabStain) %>%
-#   dplyr::group_by(site,round,age,bag) %>%
-#   dplyr::summarise(y_new=sum(y_new),n_new=sum(n_new))
-
-# -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Multiple-site model (3 year)
 # Log-odds parameterization for viability, trials summed across bags
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-## AGE 1 SEEDS
+# AGE 1 SEEDS
 dat<-df %>% 
   dplyr::filter(age==1)
-
-dat$site.index <- as.integer(as.factor(dat$site))
-# dat$year.index <- as.integer(as.factor(dat$yearStart))
-
 
 # assign variable that combines site and bag; unique id for each bag
  dat<-dat %>% 
@@ -86,9 +72,7 @@ data = list(
   nv2 = as.double(dat$viabStart),
   N = nrow(dat),
   bag = as.double(dat$siteBag),
-  nbags = length(unique(dat$siteBag)),
-  site = as.double(dat$site.index),
-  nsites = length(unique(dat$site.index))
+  nbags = length(unique(dat$siteBag))
 )
 
 # set inits for JAGS
