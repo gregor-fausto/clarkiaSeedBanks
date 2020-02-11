@@ -74,9 +74,11 @@ dat$site.index <- as.integer(as.factor(dat$site))
 # dat$year.index <- as.integer(as.factor(dat$yearStart))
 
 # having problem converting site-bag number to numeric properly for JAGS call
-# dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
-# as.numeric(dat$siteBag)
-# as.numeric("a")
+ dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
+
+ library(tidyverse)
+ dat$siteBag = as.factor(dat$siteBag)
+ dat$siteBag<-fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
 
 # pass data to list for JAGS
 data = list(
@@ -92,20 +94,6 @@ data = list(
   year = as.double(dat$round),
   nyears = length(unique(dat$round))
 )
-
-# right now each bag has its own prior;
-# want to give nsite priors 
-# inits = list(
-#   list( sigma.b = matrix(rep(50,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-#         mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
-#   ),
-#   list( sigma.b = matrix(rep(10,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-#         mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
-#   ),
-#   list( sigma.b = matrix(rep(20,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears), 
-#         mu.b = matrix(rep(0,data$nsites*data$nyears),nrow=data$nsites,ncol=data$nyears)
-#   )
-# )
 
 inits = list(list(p = rep(.1,data$nbags),p2 = rep(.1,data$nbags)),
              list(p = rep(.5,data$nbags),p2 = rep(.5,data$nbags)), 
@@ -130,8 +118,7 @@ cat("
     # v viability
     yv[i] ~ dbinom( p[bag[i]] , nv[i] )
     yv2[i] ~ dbinom( p2[bag[i]] , nv2[i] )
-    #yv.sim[i] ~ dbinom(p[bag[i]], nv[i] ) 
-  
+
     }
     
     # derived quantity
@@ -168,21 +155,12 @@ viab = c("p","p2","vJoint")
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
+cbind(dat$bagNo,data$bag)
+
 MCMCsummary(zc, params = c("p","p2","vJoint"))
 plot(MCMCchains(zc,params="vJoint"))
 g <- MCMCchains(zc,params="p")
 gc<-apply(MCMCchains(zc,params="p"),2,function(x) 1-x)
-
-hist(g[,5]+v[,5]*gc[,5],breaks=20); abline(v=c(.35,.6,.63))
-
-
-bayesplot::ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample((n.iter*length(inits))/n.thin,1000), ]) +
-  theme_bw() + xlim(c(0,15)) + labs(title="Posterior predictive checks for seeds counted in seed bags in January", 
-                                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
-
-bayesplot::ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample((n.iter*length(inits))/n.thin,1000), ],group=interaction(dat$bagNo)) +
-  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted in seed bags in January", 
-                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
 
 save(zc,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelFit.rds")
 save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelData.rds")
