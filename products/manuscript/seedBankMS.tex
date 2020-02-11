@@ -218,10 +218,10 @@ After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were
 We collected the following data: 
 
 \begin{itemize}
-	\item $n_{_{\mathrm{germ}} ijt}$ = observed count of seeds at the start of the germination trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly
-	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $n_{_{\mathrm{viab}} ijt}$ = observed count of seeds at the start of the viability trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $n_{_{\mathrm{germ}} ijt}$ = observed count of seeds at the start of the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly
+	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $n_{_{\mathrm{viab}} ijt}$ = observed count of seeds at the start of the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ site, in the $t^{th}$ year, assumed to be measured perfectly 
 \end{itemize}
 
 \subsection*{Parameter estimates for belowground transitions}
@@ -296,14 +296,14 @@ Overall, the aim of the model is to combine the estimates of seed survival and g
 \subsubsection*{Model for viability trial data}
 
 Each bag $i$ from site $j$ in year $k$ had $h$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
+
+For the germination trials, I estimated a probability of germination for each bag, $\theta^\mathrm{g}$. Because the goal of the lab experiments was to provide an estimate of viability in each bag, I was not interested in modeling the viability in each bag as coming from a population of viabilities at the population level. I provided each parameter with an uninformative beta (1,1) prior. I did not apply hyperpriors because (see above).
 %
 \begin{align}
   \begin{split}
- [\bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{gt}}}, \bm{n_{\mathrm{vt}}}, \bm{y_{\mathrm{gt}}},  \bm{y_{\mathrm{vt}}} ] \propto
- \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H} \prod_{k=1}^{K}  \mathrm{binomial} ( y^{\mathrm{gt}}_{hijk} | n^{\mathrm{gt}}_{hijk}, \mathrm{logit}^{-1}(\alpha_{ijk}) )
- \\ & \times \mathrm{binomial} ( y^{\mathrm{vt}}_{hijk} | n^{\mathrm{vt}}_{hijk}, \mathrm{logit}^{-1}(\alpha_{ijk})  ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma_{jk} )
-  \\ & \times \mathrm{normal} ( \mu_{jk} | 0 , 100 ) \mathrm{uniform} ( \sigma_{jk} | 0,100)
+ [\bm{\theta^{\mathrm{g}}} | & \bm{n^{\mathrm{g}}}, \bm{y^{\mathrm{g}}} ] \propto
+ \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H} \prod_{k=1}^{K}  \mathrm{binomial} ( y^{\mathrm{g}}_{hijk} | n^{\mathrm{g}}_{hijk}, \mathrm{logit}^{-1}(\theta^{\mathrm{g}}_{ijk}) )
+   \\ & \times \mathrm{beta} (  \theta^{\mathrm{g}}_{ijk} | 1 , 1 )
   \end{split}
 \end{align}
 
