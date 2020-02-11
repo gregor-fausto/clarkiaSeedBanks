@@ -34,7 +34,7 @@
     # v viability
     p[i] <- ilogit(alpha[i])
     yv[i] ~ dbin( p[i] , nv[i])
-    # yv.sim[i] ~ dbinom(p[i], nv[i]) 
+     yv.sim[i] ~ dbinom(p[i], nv[i]) 
     
     }
     }

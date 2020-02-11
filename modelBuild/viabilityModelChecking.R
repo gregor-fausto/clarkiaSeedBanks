@@ -9,36 +9,18 @@ MCMCsummary(zc, params = c("mu.b","sigma.b"))
 load("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabilityModelData.rds")
 
 library(ggplot2)
+library(bayesplot)
 
-getParameters <- function(codaObject,x) { codaObject[,stringr::str_detect(colnames(codaObject),x)] }
+iter=3000
 
-## Seeds in seed bags in January
-parameter = "p"
+ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ]) +
+  theme_bw() + xlim(c(0,100)) + labs(title="Posterior predictive checks for viable seeds in viability trials", 
+                                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
 
-merged.data.frame = Reduce(function(...) merge(..., all=T), zc)
+ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=interaction(dat$site)) +
+  theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted in viability trials", 
+                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
 
-aS1 <- getParameters(merged.data.frame,parameter)
-ps<-apply(aS1,2,boot::inv.logit)
-
-
-tmp <- matrix(nrow=3000,ncol=544)
-for(i in 1:length(data$nv)){
-  tmp[,i]<-rbinom(n=length(ps[,data$site[i]]),size=data$nv[i],p=ps[,data$site[i]])
-}
-
-samps<-sample(3000,1000)
-
-yv.sim =     # yv.sim[i] ~ dbinom(p[i], nv[i]) 
-
-
-ggplot() +
-  geom_histogram(data=data %>% as.data.frame,aes(yv)) +
-  facet_wrap(~site) +
-  theme_bw()
-
-par(mfrow=c(4,5))
-for(i in 1:data$nsites){
-  d <- data %>% as.data.frame %>% dplyr::filter(site==i)
-  hist(d$yv, breaks = 20, freq = FALSE) 
-  lines(density(tmp[,data$site==i]), col = "red")
-}
+ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=dat$site, stat="var") +
+  theme_bw() + labs(title="Posterior predictive checks for the variance of seeds counted in viability trials", 
+                    caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")

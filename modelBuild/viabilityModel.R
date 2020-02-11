@@ -135,7 +135,7 @@ cat("
     # v viability
     p[i] <- ilogit(alpha[i])
     yv[i] ~ dbin( p[i] , nv[i])
-    # yv.sim[i] ~ dbinom(p[i], nv[i]) 
+     yv.sim[i] ~ dbinom(p[i], nv[i]) 
     
     }
     }
@@ -161,7 +161,7 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("mu.b","sigma.b", "p")
+viab = c("mu.b","sigma.b", "yv.sim")
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin=10)
