@@ -24,3 +24,6 @@ ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],gr
 ppc_stat_grouped(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],group=dat$site, stat="var") +
   theme_bw() + labs(title="Posterior predictive checks for the variance of seeds counted in viability trials", 
                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
+
+plot(data$yv,apply(MCMCchains(zc,params="yv.sim")[sample(iter,1000), ],2,median),pch=16,cex=0.5)
+abline(a=0,b=1)
