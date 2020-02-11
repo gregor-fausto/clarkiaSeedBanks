@@ -15,6 +15,7 @@ library(ggplot2)
 library(reshape2)
 library(tidyr)
 library(HDInterval)
+library(tidyverse)
 
 set.seed(10)
 
@@ -65,17 +66,9 @@ df<-df %>%
 dat<-df %>% 
   dplyr::filter(age==1)
 
-# remove missing data for now
-# learn how to model these
-# dat <- dat[!is.na(dat$n_new),]
-
 dat$site.index <- as.integer(as.factor(dat$site))
 # dat$year.index <- as.integer(as.factor(dat$yearStart))
 
-# having problem converting site-bag number to numeric properly for JAGS call
- #dat<-dat %>% tidyr::unite(siteBag,c("site","bagNo"),sep="")
-
- library(tidyverse)
 
 # assign variable that combines site and bag; unique id for each bag
  dat<-dat %>% 
@@ -98,11 +91,11 @@ data = list(
   nsites = length(unique(dat$site.index))
 )
 
+# set inits for JAGS
 inits = list(list(p = rep(.1,data$nbags),p2 = rep(.1,data$nbags)),
              list(p = rep(.5,data$nbags),p2 = rep(.5,data$nbags)), 
              list(p = rep(.9,data$nbags),p2 = rep(.9,data$nbags)))
 
-#setwd("Users/Gregor/Dropbox/clarkiaSeedBags/modelBuild/jagsScripts")
 sink("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/viabilityModelJAGS.R")
 cat("
     model { 
@@ -172,11 +165,9 @@ jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
 update(jm, n.iter = n.update)
 
 viab = c("p","p2","vJoint")
-postCheck = c("p.mean","yv.sim","yv2.sim")
 
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
-zc = coda.samples(jm, variable.names = c(postCheck), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc, params = c("p","p2","vJoint"))
 
@@ -191,26 +182,22 @@ save(data,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/output/viabili
 # for stat density grouped plots
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityModelJAGS.R"), data = data, inits = inits,
-                n.chains = length(inits), n.adapt = n.adapt)
 
-# burn-in (n.update)
-update(jm, n.iter = n.update)
+library(bayesplot)
+library(gridExtra)
 
 postCheck = c("p.mean","yv.sim","yv2.sim","dev.sat")
 zc = coda.samples(jm, variable.names = c(postCheck), n.iter = n.iter, thin = n.thin)
+
 MCMCsummary(zc, params = c("p.mean","dev.sat"))
 
+# Conn et al. suggested saturated deviance should be roughly
+# equal to the sample size - but what is OK for this?
 hist(MCMCchains(zc,params="dev.sat")); abline(v=data$N,col="red")
 
-library(bayesplot)
 color_scheme_set("brightblue")
 
-library(gridExtra)
-
-iter<-dim(MCMCchains(zc,params=
-                       "yv.sim"))[1]
+iter<-dim(MCMCchains(zc,params="yv.sim"))[1]
 
 # germination trial
 ppc_dens_overlay(data$yv, MCMCchains(zc,params="yv.sim")[sample(iter,1000), ]) +
@@ -231,5 +218,3 @@ ppc_dens_overlay(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ])
 ppc_stat_grouped(data$yv2, MCMCchains(zc,params="yv2.sim")[sample(iter,1000), ],group=interaction(dat$bagNo)) +
   theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted viability trials", 
                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
-
-
