@@ -295,7 +295,7 @@ Overall, the aim of the model is to combine the estimates of seed survival and g
 
 \subsubsection*{Model for viability trial data}
 
-In the lab, we conducted Each bag $i$ from site $j$ in year $k$ had $n$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
+Each bag $i$ from site $j$ in year $k$ had $n$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
 
 For the germination trials, I estimated a probability of germination for each bag, $\theta^\mathrm{g}$. Because the goal of the lab experiments was to provide an estimate of viability in each bag, I was not interested in modeling the viability in each bag as coming from a population of viabilities at the population level. I provided each parameter with an uninformative beta (1,1) prior. I did not apply hyperpriors because (see above).
 %
@@ -310,6 +310,13 @@ For the germination trials, I estimated a probability of germination for each ba
 I started considering applying the probabilities from the conditional probability tree. This might make sense but then I realize that I've gone down this rabbit hole before. Not all of the seeds that didn't germinate were tested. But I'm not sure how else to control for that besides....
 
 Where P(V) = P(V|Gc)*P(Gc) + P(V|G)*P(G)
+
+If there are missing data, it might make sense to estimate a per-site/year viability from hyperpriors. In other words, we would a distribution for theta defined by hyperpriors set at the population level. Each population would get its own set of hyperpriors. Then when we are looking to get the viability of a given bag in a given year, if the data are missing we would draw from the hyperpriors for a site mean rather than propagate NAs. 
+
+A figure that would help is one that plots the predicted vs. observed proportions for the germination and viability experiments for one site. 
+ Maybe start with partial pool with direct parameterization of theta via a beta prior on each bag. The goal of the experiment is bag-specific viability. Reasons to include site would be to
+
+
 
 \subsubsection*{Model for seed burial experiment data}
 

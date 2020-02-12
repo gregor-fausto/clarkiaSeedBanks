@@ -64,6 +64,8 @@ dat$siteBag<-forcats::fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
 
 # pass data to list for JAGS
 data = list(
+  yg = as.double(dat$germCount),
+  ng = as.double(dat$germStart),
   yv = as.double(dat$viabStain),
   nv = as.double(dat$viabStart),
   N = nrow(dat),
@@ -95,7 +97,9 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(p = .1), list(p = .5), list(p = .9))
+inits = list(list(pv = .1,pg = .1), 
+             list(pv = .5,pg = .5), 
+             list(pv = .9,pg = .9))
 
 # Call to JAGS
 
@@ -106,12 +110,12 @@ jm = jags.model(paste0(dir,"viabilityBagsCompletePoolingJAGS.R"), data = data, i
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p")
+viab = c("pv","pg")
 
 # chain (n.iter)
 zc_pool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_pool, params = c("p"))
+MCMCsummary(zc_pool, params = c("pv","pg"))
 save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityCompletePoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -121,9 +125,9 @@ save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityC
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(p = rep(.1,data$N)),
-                  list(p = rep(.5,data$N)),
-                  list(p = rep(.9,data$N)))
+inits = list(list(pv = rep(.1,data$N), pg = rep(.1,data$N)),
+             list(pv = rep(.5,data$N), pg = rep(.5,data$N)),
+             list(pv = rep(.9,data$N), pg = rep(.9,data$N)))
 
 # Call to JAGS
 
@@ -134,12 +138,12 @@ jm = jags.model(paste0(dir,"viabilityBagsNoPoolingJAGS.R"), data = data, inits =
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p")
+viab = c("pv", "pg")
 
 # chain (n.iter)
 zc_nopool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_nopool, params = c("p"))
+MCMCsummary(zc_nopool, params = c("pv", "pg"))
 save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityNoPoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -149,9 +153,9 @@ save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilit
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(p = rep(.1,data$nbags)),
-             list(p = rep(.5,data$nbags)),
-             list(p = rep(.9,data$nbags)))
+inits = list(list(pv = rep(.1,data$nbags), pg = rep(.1,data$nbags)),
+             list(pv = rep(.5,data$nbags), pg = rep(.5,data$nbags)),
+             list(pv = rep(.9,data$nbags), pg = rep(.9,data$nbags)))
 
 # Call to JAGS
 
@@ -162,12 +166,12 @@ jm = jags.model(paste0(dir,"viabilityBagsPartialPoolingJAGS.R"), data = data, in
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p")
+viab = c("pv", "pg")
 
 # chain (n.iter)
 zc_partialpool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_partialpool, params = c("p"))
+MCMCsummary(zc_partialpool, params = c("pv", "pg"))
 save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -306,16 +310,16 @@ p_partialpoolhyper<- dat %>%
 
 df_plot2<-data.frame(x = rep(data$yv / data$nv, 5),
                      group = rep(data$bag, 5),
-           y = c(rep(p_pool$theta_50,N),
-                 p_nopool$theta_50,
-                 p_partialpool$theta_50,
-                 p_partialpoollogs$theta_50,
-                 p_partialpoolhyper$theta_50),
-           model = c(rep("complete pooling", N),
-                     rep("no pooling", N),
-                     rep("partial pooling", N),
-                     rep('partial pooling, logit', N),
-                     rep("partial pooling, hyperpriors", N)))
+                     y = c(rep(p_pool$theta_50,N),
+                           p_nopool$theta_50,
+                           p_partialpool$theta_50,
+                           p_partialpoollogs$theta_50,
+                           p_partialpoolhyper$theta_50),
+                     model = c(rep("complete pooling", N),
+                               rep("no pooling", N),
+                               rep("partial pooling", N),
+                               rep('partial pooling, logit', N),
+                               rep("partial pooling, hyperpriors", N)))
 
 pop_mean <- sum(data$yv) / sum(data$nv);
 
