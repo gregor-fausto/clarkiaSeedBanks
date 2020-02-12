@@ -42,6 +42,7 @@ df<-subset(df,!is.na(df$totalJan))
 df<-subset(df,!is.na(df$intactOct))
 df<-subset(df,!(intactJan<intactOct))
 
+
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Import and organize viability trial data
@@ -51,6 +52,24 @@ df<-subset(df,!(intactJan<intactOct))
 setwd("~/Dropbox/modelsF2019/viability/")
 df2 <- read.csv(file="viability.csv",header=TRUE)
 
+# another check
+seedBurial <- df %>% dplyr::select(site,bag,round,age) %>%
+  dplyr::mutate(seedBurial = 1)
+viabilityTrial <- df2 %>% dplyr::select(site,bag,round,age) %>%
+  dplyr::mutate(viabilityTrial = 1)
+
+joinedDF<-seedBurial %>% 
+  dplyr::full_join(viabilityTrial) 
+  
+dplyr::group_by(site,round,age) %>%
+  dplyr::count(seedBurial,viabilityTrial)
+    
+  joinedDF %>% 
+    dplyr::filter(site=="BR"&round==1&age==2)
+
+  # wy are there seed bags that show up in the seed burial experiment
+  # but not in the viability trial experiment?
+  
 df2 <- df2 %>% dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
 df2$bag <-as.integer(as.numeric(df2$bag))
 

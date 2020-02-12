@@ -295,7 +295,7 @@ Overall, the aim of the model is to combine the estimates of seed survival and g
 
 \subsubsection*{Model for viability trial data}
 
-Each bag $i$ from site $j$ in year $k$ had $h$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
+In the lab, we conducted Each bag $i$ from site $j$ in year $k$ had $n$ trials. The problem is most bags only had 2 trials so it's difficult to estimate a variance. I want to estimate a bag-specific viability because that is what I would use in the seed bag survival and germination model to put a bag-specific viability rather than a site-specific viability. I fit the following model for trial $h$ for bag $i$ at site $j$ in year $k$:
 
 For the germination trials, I estimated a probability of germination for each bag, $\theta^\mathrm{g}$. Because the goal of the lab experiments was to provide an estimate of viability in each bag, I was not interested in modeling the viability in each bag as coming from a population of viabilities at the population level. I provided each parameter with an uninformative beta (1,1) prior. I did not apply hyperpriors because (see above).
 %

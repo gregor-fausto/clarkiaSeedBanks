@@ -64,10 +64,8 @@ dat$siteBag<-forcats::fct_relevel(dat$siteBag, as.vector(unique(dat$siteBag)))
 
 # pass data to list for JAGS
 data = list(
-  yv = as.double(dat$germCount),
-  nv = as.double(dat$germStart),
-  yv2 = as.double(dat$viabStain),
-  nv2 = as.double(dat$viabStart),
+  yv = as.double(dat$viabStain),
+  nv = as.double(dat$viabStart),
   N = nrow(dat),
   bag = as.double(dat$siteBag),
   nbags = length(unique(dat$siteBag))
@@ -238,7 +236,7 @@ viab = c("p")
 zc_partialpoolhyper = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_partialpoolhyper, params = c("p"))
-save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolHyperpriorsFit.rds")
+save(zc_partialpoolhyper,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolHyperpriorsFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -337,8 +335,23 @@ plot_bda3_fig_5_4 <-
   xlab("observed proportion, y[n] / K[n]") +
   ylab("chance of success, theta[n]") +
   theme_bw() +
+  geom_smooth(method="lm",aes(color=model),se=FALSE) +
   scale_color_manual(values=as.vector(alphabet(26))) +
   ggtitle("Posterior Medians and 80% intervals\n(red line: population mean;  blue line: MLE)")
 plot_bda3_fig_5_4
+
+model_comparison <-
+  ggplot(df_plot2, aes(x=x, y=y)) +
+  geom_hline(aes(yintercept=pop_mean), colour="lightpink") +
+  geom_abline(intercept=0, slope=1, colour="skyblue") +
+  geom_point(aes(color=as.factor(model)), size=0.75) +
+  scale_x_continuous(breaks = seq(0,1,by=.1)) +
+  xlab("observed proportion, y[n] / K[n]") +
+  ylab("chance of success, theta[n]") +
+  theme_bw() +
+  geom_smooth(method="lm",aes(color=model),se=FALSE) +
+  scale_color_manual(values=as.vector(cols25(5))) +
+  ggtitle("Posterior Medians and 80% intervals\n(red line: population mean;  blue line: MLE)")
+model_comparison
 
 
