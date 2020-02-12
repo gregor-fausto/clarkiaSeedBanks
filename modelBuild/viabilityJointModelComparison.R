@@ -110,12 +110,12 @@ jm = jags.model(paste0(dir,"viabilityJointCompletePoolingJAGS.R"), data = data, 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("pv","pg")
+viab = c("pv","pg","viability")
 
 # chain (n.iter)
 zc_pool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_pool, params = c("pv","pg"))
+MCMCsummary(zc_pool, params = c("pv","pg","viability"))
 save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointCompletePoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -138,12 +138,12 @@ jm = jags.model(paste0(dir,"viabilityJointNoPoolingJAGS.R"), data = data, inits 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("pv", "pg")
+viab = c("pv", "pg", "viability")
 
 # chain (n.iter)
 zc_nopool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_nopool, params = c("pv", "pg"))
+MCMCsummary(zc_nopool, params = c("pv", "pg", "viability"))
 save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointNoPoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -166,12 +166,12 @@ jm = jags.model(paste0(dir,"viabilityJointPartialPoolingJAGS.R"), data = data, i
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("pv", "pg")
+viab = c("pv", "pg","viability")
 
 # chain (n.iter)
 zc_partialpool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_partialpool, params = c("pv", "pg"))
+MCMCsummary(zc_partialpool, params = c("pv", "pg","viability"))
 save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolFit.rds")
 
 # -------------------------------------------------------------------
@@ -185,7 +185,7 @@ inits = list(
   list( sigma.v = 50, sigma.g = 50,
         mu.v = 0, mu.g = 0) ,
   list( sigma.v = 20, sigma.g = 20, 
-        mu.v = 0, mu. g = 0)  ,
+        mu.v = 0, mu.g = 0)  ,
   list( sigma.v = 10, sigma.g = 10,
         mu.v = 0, mu.g = 0)  
 ) 
@@ -200,12 +200,12 @@ jm = jags.model(paste0(dir,"viabilityJointPartialPoolingLogsJAGS.R"), data = dat
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("pv", "pg")
+viab = c("pv", "pg", "viability")
 
 # chain (n.iter)
 zc_partialpoollogs = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_partialpoollogs, params = c("p"))
+MCMCsummary(zc_partialpoollogs, params = c("pv","pg","viability"))
 save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolLogsFit.rds")
 
 # -------------------------------------------------------------------
@@ -221,7 +221,7 @@ inits = list(
   list( theta.v = .5, kappa.v = 1.5,
         theta.g = .5, kappa.g = 1.5)  ,
   list( theta.v = .9, kappa.v = 2,
-        theta.v = .9, kappa.v = 2)  
+        theta.g = .9, kappa.g = 2)  
 ) 
 
 
@@ -234,12 +234,12 @@ jm = jags.model(paste0(dir,"viabilityJointPartialPoolingHyperpriorsJAGS.R"), dat
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("pv", "pg")
+viab = c("pv", "pg", "viability")
 
 # chain (n.iter)
 zc_partialpoolhyper = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_partialpoolhyper, params = c("p"))
+MCMCsummary(zc_partialpoolhyper, params = c("pv","pg","viability"))
 save(zc_partialpoolhyper,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolHyperpriorsFit.rds")
 
 # -------------------------------------------------------------------
@@ -252,6 +252,8 @@ x<-list.files("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/")
 
 x<-x[sapply(x,stringr::str_detect,pattern="Fit")]
 x<-x[sapply(x,stringr::str_detect,pattern="Pool")]
+x<-x[sapply(x,stringr::str_detect,pattern="Joint")]
+
 
 x<-paste0("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/",x)
 
@@ -261,11 +263,13 @@ library(MCMCvis)
 
 N = dim(dat)[1]
 
-ss_pool = MCMCchains(zc_pool,params="p")
-ss_nopool = MCMCchains(zc_nopool,params="p")
-ss_partialpool = MCMCchains(zc_partialpool,params="p")
-ss_partialpoollogs = MCMCchains(zc_partialpoollogs,params="p")
-ss_partialpoolhyper = MCMCchains(zc_partialpoolhyper,params="p")
+focalParameter="viability"
+
+ss_pool = MCMCchains(zc_pool,params="viability")
+ss_nopool = MCMCchains(zc_nopool,params="viability")
+ss_partialpool = MCMCchains(zc_partialpool,params="viability")
+ss_partialpoollogs = MCMCchains(zc_partialpoollogs,params="viability")
+ss_partialpoolhyper = MCMCchains(zc_partialpoolhyper,params="viability")
 
 rm(zc_pool,zc_nopool,zc_partialpool,zc_partialpoollogs,zc_partialpoolhyper)
 
@@ -296,6 +300,12 @@ p_partialpoollogs <- t(apply(ss_partialpoollogs,2,function(x) quantile(x,probs=c
   data.frame %>% 
   dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
 
+p_partialpoollogs <- p_partialpoollogs %>% 
+  bind_cols(bagNoUnique = 1:dim(p_partialpoollogs)[1])
+
+p_partialpoollogs<- dat %>%
+  dplyr::bind_cols(bagNoUnique = data$bag) %>%
+  dplyr::left_join(p_partialpoollogs,by="bagNoUnique") 
 #
 p_partialpoolhyper <- t(apply(ss_partialpoolhyper,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
   data.frame %>% 
@@ -306,22 +316,30 @@ p_partialpoolhyper <- p_partialpoolhyper %>%
 
 p_partialpoolhyper<- dat %>%
   dplyr::bind_cols(bagNoUnique = data$bag) %>%
-  dplyr::left_join(p_partialpoolhyper,by="bagNoUnique") 
+  dplyr::left_join(p_partialpoolhyper,by="bagNoUnique")
 
-df_plot2<-data.frame(x = rep(data$yv / data$nv, 5),
-                     group = rep(data$bag, 5),
-                     y = c(rep(p_pool$theta_50,N),
-                           p_nopool$theta_50,
-                           p_partialpool$theta_50,
-                           p_partialpoollogs$theta_50,
-                           p_partialpoolhyper$theta_50),
+lapply(list(p_pool,p_nopool,p_partialpool,p_partialpoollogs,p_partialpoolhyper),dim)
+
+plot(p_partialpool$theta_50,p_partialpoollogs$theta_50);abline(a=0,b=1)
+plot(p_partialpool$theta_50,p_partialpoolhyper$theta_50);abline(a=0,b=1)
+
+df_plot2<-data.frame(group = rep(data$bag, 5),
                      model = c(rep("complete pooling", N),
                                rep("no pooling", N),
                                rep("partial pooling", N),
                                rep('partial pooling, logit', N),
-                               rep("partial pooling, hyperpriors", N)))
+                               rep("partial pooling, hyperpriors", N)),
+                     y = c(rep(p_pool$theta_50,N),
+                           p_nopool$theta_50,
+                           p_partialpool$theta_50,
+                           p_partialpoollogs$theta_50,
+                           p_partialpoolhyper$theta_50))
 
-pop_mean <- sum(data$yv) / sum(data$nv);
+dfPlot <- df_plot2 %>% 
+  group_by(model) %>%
+  mutate(row = row_number()) %>%
+  tidyr::pivot_wider(names_from = model, values_from = y) %>% 
+  select(-row)
 
 # expand color palette to see pooling
 library(pals)
@@ -329,9 +347,12 @@ pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome,
           stepped, tol, watlington,
           show.names=FALSE)
 
+pairs(dfPlot[,2:6])
+
+
+
 plot_bda3_fig_5_4 <-
-  ggplot(df_plot2, aes(x=x, y=y)) +
-  geom_hline(aes(yintercept=pop_mean), colour="lightpink") +
+  ggplot(dfPlot, aes(x=`complete pooling`, y= `no pooling`)) +
   geom_abline(intercept=0, slope=1, colour="skyblue") +
   facet_grid(. ~ model) +
   geom_errorbar(aes(ymin=c(rep(p_pool$theta_10,N),

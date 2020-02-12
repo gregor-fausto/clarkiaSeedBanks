@@ -1,28 +1,25 @@
 model { 
   
   for(j in 1:nbags){
-    p[j] ~ dbeta(1, 1)
+      pg[j] ~ dbeta(1, 1)
+      pv[j] ~ dbeta(1, 1)
   }
   
   for(i in 1:N){
-    
+
+      # g germination
+      yg[i] ~ dbinom( pg[bag[i]] , ng[i] )
+      
     # v viability
-    yv[i] ~ dbinom( p[bag[i]] , nv[i] )
+    yv[i] ~ dbinom( pv[bag[i]] , nv[i] )
 
-    yv.sim[i] ~ dbinom( p[bag[i]], nv[i] )
-
-    # # code for deviance from Lunn 2013
-    prop[i] <- yv[i]/nv[i]
-
-    Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[bag[i]]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[bag[i]]))
+      yg.sim[i] ~ dbinom( pg[bag[i]], ng[i] )
+      yv.sim[i] ~ dbinom( pv[bag[i]], nv[i] )
     
   }
   
-  # calculate saturated deviance
-  dev.sat <- sum(Ds[])
-  
-  mean.data <- mean(yv)
-  mean.sim <- mean(yv.sim)
-  p.mean <- step(mean.sim - mean.data)
-  
+                                        # derived quantity block: viability
+    for(j in 1:nbags){
+    viability[j] = pg[j]+pv[j]*(1-pg[j])
+  }
 }

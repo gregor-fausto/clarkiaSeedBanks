@@ -2,44 +2,43 @@ model {
   
   # hyperpriors
 
-  mu ~ dnorm(0,.0001)
-      
-  sigma ~ dunif(0,100)
-  tau <- 1/(sigma * sigma)
+  mu.g ~ dnorm(0,.0001)    
+  sigma.g ~ dunif(0,100)
+  tau.g <- 1/(sigma.g * sigma.g)
+    
+  mu.v ~ dnorm(0,.0001)      
+  sigma.v ~ dunif(0,100)
+  tau.v <- 1/(sigma.v * sigma.v)
 
   # priors
   
   for(j in 1:nbags){
-    alpha[j] ~ dnorm(mu, tau)
+      alpha.g[j] ~ dnorm(mu.g, tau.g)
+      alpha.v[j] ~ dnorm(mu.v, tau.v)
   }
   
   #l ikelihood
   
-  for(i in 1:N){
+    for(i in 1:N){
+        
+    # g germination
+    pg[i] <- ilogit(alpha.g[bag[i]])
+    yg[i] ~ dbinom( pg[i] , ng[i] )
     
     # v viability
-    p[i] <- ilogit(alpha[bag[i]])
-    yv[i] ~ dbinom( p[i] , nv[i] )
+    pv[i] <- ilogit(alpha.v[bag[i]])
+    yv[i] ~ dbinom( pv[i] , nv[i] )
 
-    yv.sim[i] ~ dbinom( p[i], nv[i] )
-    
-    # # code for deviance from Lunn 2013
-    prop[i] <- yv[i]/nv[i]
-    
-    Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[i]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[i]))
+        yg.sim[i] ~ dbinom( pg[i], ng[i] )
+        yv.sim[i] ~ dbinom( pv[i], nv[i] )
     
   }
   
-  # generated quantity
-  for (i in 1:N){
-    theta[i] <- ilogit(alpha[bag[i]])
-  }
-  
-  # calculate saturated deviance
-  dev.sat <- sum(Ds[])
-  
-  mean.data <- mean(yv)
-  mean.sim <- mean(yv.sim)
-  p.mean <- step(mean.sim - mean.data)
+  # derived quantity: viability
+    for ( j in 1:nbags){
+        t.g[j] = ilogit(alpha.g[j])
+        t.v[j] = ilogit(alpha.v[j])
+        viability[j] = t.g[j] + t.v[j]*(1-t.g[j])
+        }
   
 }
