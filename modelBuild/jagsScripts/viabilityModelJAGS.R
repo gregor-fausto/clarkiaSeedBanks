@@ -7,7 +7,7 @@
     
     for(j in 1:nbags){
         p[j] ~ dbeta(1, 1)
-        p2[j] ~ dbeta(1,1)
+        p2[j] ~ dbeta(1, 1)
     }
 
     for(i in 1:N){

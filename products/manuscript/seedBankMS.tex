@@ -302,8 +302,8 @@ For the germination trials, I estimated a probability of germination for each ba
 \begin{align}
   \begin{split}
  [\bm{\theta^{\mathrm{g}}} | & \bm{n^{\mathrm{g}}}, \bm{y^{\mathrm{g}}} ] \propto
- \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H} \prod_{k=1}^{K}  \mathrm{binomial} ( y^{\mathrm{g}}_{hijk} | n^{\mathrm{g}}_{hijk}, \mathrm{logit}^{-1}(\theta^{\mathrm{g}}_{ijk}) )
-   \\ & \times \mathrm{beta} (  \theta^{\mathrm{g}}_{ijk} | 1 , 1 )
+ \\  & \prod_{j=1}^{J} \prod_{i=1}^{I}  \prod_{h=1}^{H} \prod_{k=1}^{K}  \mathrm{binomial} ( y^{\mathrm{g}}_{hijk} | n^{\mathrm{g}}_{hijk}, \theta^{\mathrm{g}}_{ijk} )
+\mathrm{beta} (  \theta^{\mathrm{g}}_{ijk} | 1 , 1 )
   \end{split}
 \end{align}
 
