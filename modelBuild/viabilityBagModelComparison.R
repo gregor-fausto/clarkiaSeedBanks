@@ -179,9 +179,15 @@ save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/via
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(p = rep(.1,data$nbags)),
-             list(p = rep(.5,data$nbags)),
-             list(p = rep(.9,data$nbags)))
+inits = list(
+  list( sigma = 50, 
+        mu = 0) ,
+  list( sigma = 20, 
+        mu = 0)  ,
+  list( sigma = 10, 
+        mu = 0)  
+) 
+
 
 # Call to JAGS
 
@@ -195,11 +201,10 @@ update(jm, n.iter = n.update)
 viab = c("p")
 
 # chain (n.iter)
-zc_partialpool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
+zc_partialpoollogs = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_partialpool, params = c("p"))
-save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolFit.rds")
-
+MCMCsummary(zc_partialpoollogs, params = c("p"))
+save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolLogsFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------

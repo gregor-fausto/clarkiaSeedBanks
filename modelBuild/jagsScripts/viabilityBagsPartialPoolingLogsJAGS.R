@@ -1,21 +1,38 @@
 model { 
   
+  # hyperpriors
+
+  mu ~ dnorm(0,.0001)
+      
+  sigma ~ dunif(0,100)
+  tau <- 1/(sigma * sigma)
+
+  # priors
+  
   for(j in 1:nbags){
-    p[j] ~ dbeta(1, 1)
+    alpha[j] ~ dnorm(mu, tau)
   }
+  
+  #l ikelihood
   
   for(i in 1:N){
     
     # v viability
-    yv[i] ~ dbinom( p[bag[i]] , nv[i] )
+    p[i] <- ilogit(alpha[bag[i]])
+    yv[i] ~ dbinom( p[i] , nv[i] )
 
-    yv.sim[i] ~ dbinom( p[bag[i]], nv[i] )
-
+    yv.sim[i] ~ dbinom( p[i], nv[i] )
+    
     # # code for deviance from Lunn 2013
     prop[i] <- yv[i]/nv[i]
-
-    Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[bag[i]]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[bag[i]]))
     
+    Ds[i] <- 2*nv[i]*(prop[i])*log((prop[i]+0.00001)/p[i]) + (1-prop[i])*log((1-prop[i]+0.00001)/(1-p[i]))
+    
+  }
+  
+  # generated quantity
+  for (i in 1:N){
+    theta[i] <- ilogit(alpha[bag[i]])
   }
   
   # calculate saturated deviance
