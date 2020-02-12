@@ -208,6 +208,40 @@ save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
+# Partial pooling: hyperpriors
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+
+# set inits for JAGS
+inits = list(
+  list( theta = .1, 
+        kappa = 1.1) ,
+  list( theta = .5, 
+        kappa = 1.5)  ,
+  list( theta = .9, 
+        kappa = 2)  
+) 
+
+
+# Call to JAGS
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"viabilityBagsPartialPoolingHyperpriorsJAGS.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+viab = c("p")
+
+# chain (n.iter)
+zc_partialpoolhyper = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
+
+MCMCsummary(zc_partialpoolhyper, params = c("p"))
+save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolHyperpriorsFit.rds")
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Model comparison
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -217,17 +251,22 @@ N = dim(dat)[1]
 ss_pool = MCMCchains(zc_pool,params="p")
 ss_nopool = MCMCchains(zc_nopool,params="p")
 ss_partialpool = MCMCchains(zc_partialpool,params="p")
+ss_partialpoollogs = MCMCchains(zc_partialpoollogs,params="p")
+ss_partialpoolhyper = MCMCchains(zc_partialpoolhyper,params="p")
 
-rm(zc_pool,zc_nopool,zc_partialpool)
+rm(zc_pool,zc_nopool,zc_partialpool,zc_partialpoollogs,zc_partialpoolhyper)
 
+#
 p_pool <- t(apply(ss_pool,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
   data.frame %>% 
   dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
 
+#
 p_nopool <- t(apply(ss_nopool,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
   data.frame %>% 
   dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
 
+#
 p_partialpool <- t(apply(ss_partialpool,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
   data.frame %>% 
   dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
@@ -239,14 +278,35 @@ p_partialpool<- dat %>%
   dplyr::bind_cols(bagNoUnique = data$bag) %>%
   dplyr::left_join(p_partialpool,by="bagNoUnique") 
 
-df_plot2<-data.frame(x = rep(data$yv / data$nv, 3),
-                     group = rep(data$bag, 3),
+#
+p_partialpoollogs <- t(apply(ss_partialpoollogs,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
+  data.frame %>% 
+  dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
+
+#
+p_partialpoolhyper <- t(apply(ss_partialpoolhyper,2,function(x) quantile(x,probs=c(.1,.5,.9)))) %>%
+  data.frame %>% 
+  dplyr::rename(theta_50 = X50.,theta_10 = X10., theta_90 = X90.)
+
+p_partialpoolhyper <- p_partialpoolhyper %>% 
+  bind_cols(bagNoUnique = 1:dim(p_partialpoolhyper)[1])
+
+p_partialpoolhyper<- dat %>%
+  dplyr::bind_cols(bagNoUnique = data$bag) %>%
+  dplyr::left_join(p_partialpoolhyper,by="bagNoUnique") 
+
+df_plot2<-data.frame(x = rep(data$yv / data$nv, 5),
+                     group = rep(data$bag, 5),
            y = c(rep(p_pool$theta_50,N),
                  p_nopool$theta_50,
-                 p_partialpool$theta_50),
+                 p_partialpool$theta_50,
+                 p_partialpoollogs$theta_50,
+                 p_partialpoolhyper$theta_50),
            model = c(rep("complete pooling", N),
                      rep("no pooling", N),
-                     rep("partial pooling", N)))
+                     rep("partial pooling", N),
+                     rep('partial pooling, logit', N),
+                     rep("partial pooling, hyperpriors", N)))
 
 pop_mean <- sum(data$yv) / sum(data$nv);
 
@@ -263,10 +323,14 @@ plot_bda3_fig_5_4 <-
   facet_grid(. ~ model) +
   geom_errorbar(aes(ymin=c(rep(p_pool$theta_10,N),
                            p_nopool$theta_10,
-                           p_partialpool$theta_10),
+                           p_partialpool$theta_10,
+                           p_partialpoollogs$theta_10,
+                           p_partialpoolhyper$theta_10),
                     ymax=c(rep(p_pool$theta_90,N),
                            p_nopool$theta_90,
-                           p_partialpool$theta_90)),
+                           p_partialpool$theta_90,
+                           p_partialpoollogs$theta_90,
+                           p_partialpoolhyper$theta_90)),
                 width=0.005, colour="gray60") +
   geom_point(aes(color=as.factor(group)), size=0.75) +
   scale_x_continuous(breaks = seq(0,1,by=.1)) +
@@ -274,7 +338,6 @@ plot_bda3_fig_5_4 <-
   ylab("chance of success, theta[n]") +
   theme_bw() +
   scale_color_manual(values=as.vector(alphabet(26))) +
-  guide
   ggtitle("Posterior Medians and 80% intervals\n(red line: population mean;  blue line: MLE)")
 plot_bda3_fig_5_4
 
