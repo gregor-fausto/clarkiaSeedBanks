@@ -341,6 +341,63 @@ dfPlot <- df_plot2 %>%
   tidyr::pivot_wider(names_from = model, values_from = y) %>% 
   select(-row)
 
+df_plotlo<-data.frame(group = rep(data$bag, 5),
+                     model = c(rep("complete pooling", N),
+                               rep("no pooling", N),
+                               rep("partial pooling", N),
+                               rep('partial pooling, logit', N),
+                               rep("partial pooling, hyperpriors", N)),
+                     y = c(rep(p_pool$theta_10,N),
+                           p_nopool$theta_10,
+                           p_partialpool$theta_10,
+                           p_partialpoollogs$theta_10,
+                           p_partialpoolhyper$theta_10))
+
+dfPlotLo <- df_plotlo %>% 
+  group_by(model) %>%
+  mutate(row = row_number()) %>%
+  tidyr::pivot_wider(names_from = model, values_from = y) %>% 
+  select(-row)
+
+
+df_plothi<-data.frame(group = rep(data$bag, 5),
+                      model = c(rep("complete pooling", N),
+                                rep("no pooling", N),
+                                rep("partial pooling", N),
+                                rep('partial pooling, logit', N),
+                                rep("partial pooling, hyperpriors", N)),
+                      y = c(rep(p_pool$theta_90,N),
+                            p_nopool$theta_90,
+                            p_partialpool$theta_90,
+                            p_partialpoollogs$theta_90,
+                            p_partialpoolhyper$theta_90))
+
+dfPlotHi <- df_plothi %>% 
+  group_by(model) %>%
+  mutate(row = row_number()) %>%
+  tidyr::pivot_wider(names_from = model, values_from = y) %>% 
+  select(-row)
+
+library(GGally)
+ggpairs(dfPlot[,2:6], aes(alpha = 0.4))
+
+
+# ggplot() + 
+#   geom_point(data = dfPlot,aes(x = `no pooling`,y = `partial pooling`)) + 
+#   geom_errorbar(aes(x= dfPlot$`no pooling`, ymin = dfPlotLo$`partial pooling`,ymax = dfPlotHi$`partial pooling`)) +
+#   geom_errorbarh(aes(y= dfPlot$`partial pooling`, xmin = dfPlotLo$`no pooling`,xmax = dfPlotHi$`no pooling`))
+# 
+# ggplot() + 
+#   geom_point(data = dfPlot,aes(x = `partial pooling`,y = `partial pooling, logit`)) + 
+#   geom_errorbar(aes(x= dfPlot$`partial pooling`, ymin = dfPlotLo$`partial pooling, logit`,ymax = dfPlotHi$`partial pooling, logit`)) +
+#   geom_errorbarh(aes(y= dfPlot$`partial pooling, logit`, xmin = dfPlotLo$`partial pooling`,xmax = dfPlotHi$`partial pooling`))
+# 
+# ggplot() + 
+#   geom_point(data = dfPlot,aes(x = `partial pooling`,y = `partial pooling, hyperpriors`)) + 
+#   geom_errorbar(aes(x= dfPlot$`partial pooling`, ymin = dfPlotLo$`partial pooling, hyperpriors`,ymax = dfPlotHi$`partial pooling, hyperpriors`)) +
+#   geom_errorbarh(aes(y= dfPlot$`partial pooling, hyperpriors`, xmin = dfPlotLo$`partial pooling`,xmax = dfPlotHi$`partial pooling`))
+
+
 # expand color palette to see pooling
 library(pals)
 pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome, 
@@ -349,7 +406,7 @@ pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome,
 
 pairs(dfPlot[,2:6])
 
-
+ggpairs
 
 plot_bda3_fig_5_4 <-
   ggplot(dfPlot, aes(x=`complete pooling`, y= `no pooling`)) +
