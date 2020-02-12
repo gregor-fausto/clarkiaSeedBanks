@@ -104,7 +104,7 @@ inits = list(list(pv = .1,pg = .1),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityBagsCompletePoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityJointCompletePoolingJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -116,7 +116,7 @@ viab = c("pv","pg")
 zc_pool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_pool, params = c("pv","pg"))
-save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityCompletePoolFit.rds")
+save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointCompletePoolFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -132,7 +132,7 @@ inits = list(list(pv = rep(.1,data$N), pg = rep(.1,data$N)),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityBagsNoPoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityJointNoPoolingJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -144,7 +144,7 @@ viab = c("pv", "pg")
 zc_nopool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_nopool, params = c("pv", "pg"))
-save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityNoPoolFit.rds")
+save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointNoPoolFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -160,7 +160,7 @@ inits = list(list(pv = rep(.1,data$nbags), pg = rep(.1,data$nbags)),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityBagsPartialPoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityJointPartialPoolingJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -172,7 +172,7 @@ viab = c("pv", "pg")
 zc_partialpool = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_partialpool, params = c("pv", "pg"))
-save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolFit.rds")
+save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -182,31 +182,31 @@ save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/via
 
 # set inits for JAGS
 inits = list(
-  list( sigma = 50, 
-        mu = 0) ,
-  list( sigma = 20, 
-        mu = 0)  ,
-  list( sigma = 10, 
-        mu = 0)  
+  list( sigma.v = 50, sigma.g = 50,
+        mu.v = 0, mu.g = 0) ,
+  list( sigma.v = 20, sigma.g = 20, 
+        mu.v = 0, mu. g = 0)  ,
+  list( sigma.v = 10, sigma.g = 10,
+        mu.v = 0, mu.g = 0)  
 ) 
 
 
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityBagsPartialPoolingLogsJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityJointPartialPoolingLogsJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p")
+viab = c("pv", "pg")
 
 # chain (n.iter)
 zc_partialpoollogs = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_partialpoollogs, params = c("p"))
-save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolLogsFit.rds")
+save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolLogsFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -216,31 +216,31 @@ save(zc_partialpoollogs,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks
 
 # set inits for JAGS
 inits = list(
-  list( theta = .1, 
-        kappa = 1.1) ,
-  list( theta = .5, 
-        kappa = 1.5)  ,
-  list( theta = .9, 
-        kappa = 2)  
+  list( theta.v = .1, kappa.v = 1.1, 
+        theta.g = .1, kappa.g = 1.1) ,
+  list( theta.v = .5, kappa.v = 1.5,
+        theta.g = .5, kappa.g = 1.5)  ,
+  list( theta.v = .9, kappa.v = 2,
+        theta.v = .9, kappa.v = 2)  
 ) 
 
 
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityBagsPartialPoolingHyperpriorsJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"viabilityJointPartialPoolingHyperpriorsJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-viab = c("p")
+viab = c("pv", "pg")
 
 # chain (n.iter)
 zc_partialpoolhyper = coda.samples(jm, variable.names = c(viab), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_partialpoolhyper, params = c("p"))
-save(zc_partialpoolhyper,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPartialPoolHyperpriorsFit.rds")
+save(zc_partialpoolhyper,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityJointPartialPoolHyperpriorsFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
