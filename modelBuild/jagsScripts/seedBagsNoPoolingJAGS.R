@@ -5,7 +5,7 @@
     ## priors
     ##############
 
-        for(j in 1:nbags_burial){
+        for(j in 1:nbags){
         # lab experiments
         pg[j] ~ dbeta( 1 , 1 )
         pv[j] ~ dbeta( 1 , 1 )
@@ -33,8 +33,8 @@
 
         }
 
-        for(j in 1:nbags_burial){
-            viability[j] = pg[bag[j]] + pv[bag[j]]*(1-pg[bag[j]])
+        for(j in 1:nbags){
+            viability[j] = pg[j] + pv[j]*(1-pg[j])
             }
 
 
@@ -45,10 +45,10 @@
 
             # g1 seed germination
             y_seedlings[i] ~ dbin(ps[i]*(viability[bag_burial[i]]^(1/3)), y_total[i])
-            
-            ySeedlingsSim[i] ~ dbinom(ps[i]*(viability[bag_burial[i]]^(1/3)), y_total[i]) 
+
+            ySeedlingsSim[i] ~ dbinom(ps[i]*(viability[bag_burial[i]]^(1/3)), y_total[i])
             yTotalSim[i] ~ dbin(pi[i], n_buried[i])
-    } 
+    }
 
     }
     

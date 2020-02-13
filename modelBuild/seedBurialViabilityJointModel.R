@@ -118,8 +118,8 @@ referenceTable<-data.frame(id=union(l2$id,l1$id)) %>%
 
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1) %>%
-    dplyr::filter(site=="BG")
+    dplyr::filter(age==3) %>%
+    dplyr::filter(site=="LCW")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -139,6 +139,15 @@ viabilityExperiment<-viabilityExperiment %>%
   dplyr::left_join(referenceTable,by="id")
 
 
+ref2<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
+  dplyr::mutate(idNo2 = 1:length(id)) 
+
+seedBagExperiment<-seedBagExperiment %>%
+  dplyr::left_join(ref2,by="id")
+
+viabilityExperiment<-viabilityExperiment %>%
+  dplyr::left_join(ref2,by="id")
+
 # relevel variable
 # not necessary CAN DELETE
 # seedBagExperiment$siteBag<-forcats::fct_relevel(seedBagExperiment$siteBag, as.vector(unique(ve$siteBag)))
@@ -152,8 +161,8 @@ data = list(
   yv = as.double(viabilityExperiment$viabStain),
   nv = as.double(viabilityExperiment$viabStart),
   N = nrow(viabilityExperiment),
-  bag = as.double(viabilityExperiment$idNo),
-  nbags = length(unique(viabilityExperiment$idNo)), 
+  bag = as.double(viabilityExperiment$idNo2),
+  nbags = max(ref2$idNo2), 
   
   # Seed burial experiment, year one
   y_seedlings = as.double(seedBagExperiment$seedlingJan),
@@ -162,8 +171,8 @@ data = list(
   n_buried = as.double(seedBagExperiment$seedStart),
   N_burial = nrow(seedBagExperiment),
   
-  bag_burial = as.double(seedBagExperiment$idNo),
-  nbags_burial = length(unique(seedBagExperiment$idNo))
+  bag_burial = as.double(seedBagExperiment$idNo2)
+  #nbags_burial = length(unique(seedBagExperiment$idNo))
 )
 
 save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
@@ -223,11 +232,11 @@ MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(pv = rep(.1,data$nbags_burial),pg = rep(.1,data$nbags_burial),
+inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
                   pi = rep(.1,data$N_burial), ps = rep(.1,data$N_burial)), 
-             list(pv = rep(.5,data$nbags_burial),pg = rep(.5,data$nbags_burial),
+             list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
                   pi = rep(.5,data$N_burial), ps = rep(.5,data$N_burial)), 
-             list(pv = rep(.9,data$nbags_burial),pg = rep(.9,data$nbags_burial),
+             list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
                   pi = rep(.9,data$N_burial), ps = rep(.9,data$N_burial)))
 
 # Call to JAGS
