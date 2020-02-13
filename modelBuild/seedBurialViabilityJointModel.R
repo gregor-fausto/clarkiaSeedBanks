@@ -152,8 +152,8 @@ data = list(
   yv = as.double(viabilityExperiment$viabStain),
   nv = as.double(viabilityExperiment$viabStart),
   N = nrow(viabilityExperiment),
-  bag = as.double(viabilityExperiment$siteBag),
-  nbags = length(unique(viabilityExperiment$siteBag)), 
+  bag = as.double(viabilityExperiment$idNo),
+  nbags = length(unique(viabilityExperiment$idNo)), 
   
   # Seed burial experiment, year one
   y_seedlings = as.double(seedBagExperiment$seedlingJan),
@@ -162,8 +162,8 @@ data = list(
   n_buried = as.double(seedBagExperiment$seedStart),
   N_burial = nrow(seedBagExperiment),
   
-  bag_burial = as.double(seedBagExperiment$siteBag),
-  nbags_burial = length(unique(seedBagExperiment$siteBag))
+  bag_burial = as.double(seedBagExperiment$idNo),
+  nbags_burial = length(unique(seedBagExperiment$idNo))
 )
 
 save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
@@ -216,67 +216,32 @@ MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# Posterior Predictive Checks
-
-# notes: check group = interaction(dat$site,dat$yearStart)
-# for stat density grouped plots
+# No pooling for both datasets - not possible for joining the datasets;
+# Viability has to at least be pooled to the bag level;
+# No pooling for the seed burials
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-library(gridExtra)
-library(bayesplot)
-library(dplyr)
 
-color_scheme_set("brightblue")
+# set inits for JAGS
+inits = list(list(pv = .1,pg = .1, pi = .1, ps = .1), 
+             list(pv = .5,pg = .5, pi = .5, ps = .5), 
+             list(pv = .9,pg = .9, pi = .9, ps = .9))
 
-load("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsCompletePoolingFit.rds")
-load("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
+# Call to JAGS
 
-iter<-dim(MCMCchains(zc_pool,params="yvSim"))[1]
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"seedBagsCompletePoolingJAGS.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
 
+# burn-in (n.update)
+update(jm, n.iter = n.update)
 
-pdf(
-  "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/products/seedBagsCompletePoolingPPC.pdf",
-  onefile=TRUE,
-  paper="USr",
-  height = 5.5, width = 10)
+parsToMonitor = c("pv","pg","pi","ps","viability")
+sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
+# chain (n.iter)
+zc_pool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-# Seed survival (s1)
-ppc_dens_overlay(data$y_total, MCMCchains(zc_pool,params="yTotalSim")[sample(iter,1000), ]) +
-  theme_bw() + xlim(c(0,100)) + labs(title="Posterior predictive checks for seeds counted in seed bags in January", 
-                                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
+MCMCsummary(zc_pool, params = c("pv","pg","pi","ps","viability"))
+save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsCompletePoolingFit.rds")
+MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 
-# ppc_stat_grouped(data$y_total, MCMCchains(zc_pool,params="yTotalSim")[sample(iter,1000), ],group=data$bag_burial) +
-#   theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted in seed bags in January", 
-#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")  
-
-# Seed germination (g1)
-ppc_dens_overlay(data$y_seedlings, MCMCchains(zc_pool,params="ySeedlingsSim")[sample(iter,1000), ]) +
-  theme_bw() + labs(title="Posterior predictive checks for germinated seeds counted in seed bags in January", 
-                    caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
-
-# ppc_stat_grouped(data$y_seedlings, MCMCchains(zc_pool,params="ySeedlingsSim")[sample(iter,1000), ],group=data$bag_burial) +
-#   theme_bw() + labs(title="Posterior predictive checks for the mean of germinated seeds counted in seed bags in January", 
-#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
-
-# Viability trials
-# need to restrict data to responses that have data
-# see github issue here https://github.com/stan-dev/bayesplot/issues/151
-
-ppc_dens_overlay(data$yv[!is.na(data$yv)], MCMCchains(zc_pool,params="yvSim")[sample(iter,1000), !is.na(data$yv)]) +
-  theme_bw() + labs(title="Posterior predictive checks for viability trials", 
-                    caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
-
-# ppc_stat_grouped(data$yv[!is.na(data$yv)], MCMCchains(zc_pool,params="yvSim")[sample(iter,1000), !is.na(data$yv)],group=data$bag[!is.na(data$yv)]) +
-#   theme_bw() + labs(title="Posterior predictive checks for the mean of viability trials", 
-#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
-
-# Germination experiment
-ppc_dens_overlay(data$yg[!is.na(data$yg)], MCMCchains(zc_pool,params="ygSim")[sample(iter,1000), !is.na(data$yg)]) +
-  theme_bw() + labs(title="Posterior predictive checks for germination trials", 
-                    caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
-
-# ppc_stat_grouped(data$yg[!is.na(data$yg)], MCMCchains(zc_pool,params="ygSim")[sample(iter,1000), !is.na(data$yg)],group=data$bag[!is.na(data$yg)]) +
-#   theme_bw() + labs(title="Posterior predictive checks for the mean of germination trials", 
-#                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
-
-dev.off()
