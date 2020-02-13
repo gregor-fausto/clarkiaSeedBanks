@@ -30,16 +30,18 @@ df <- df %>%
   dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
 df$bag <-as.integer(as.numeric(df$bagNo))
 
-## FOR NOW REMOVE MISSING DATA AND PROBLEMS
-df<-subset(df,!is.na(df$germStart))
-df<-subset(df,!is.na(df$germCount))
-df<-subset(df,!is.na(df$viabStart))
-df<-subset(df,!is.na(df$viabStain))
+
+# one row is coded differently so that 
+# viabStart=NA and viabStain=NA
+# all others have viabStart=NA and viabStain=NA
+# recode
+df[is.na(df$viabStart),]$viabStart = 0
 
 ## data check
-df %>% dplyr::filter(germStart - germCount - viabStart<0)
+df %>% dplyr::filter(germStart - germCount - viabStart<0) 
 
 # filter out rows with problems
+# these need to be corrected
 df<-df %>% 
   dplyr::filter(germStart - germCount - viabStart >= 0)
 
@@ -51,8 +53,7 @@ df<-df %>%
 
 # AGE 1 SEEDS
 dat<-df %>% 
-  dplyr::filter(age==1) #%>%
-  #dplyr::filter(site=="BG"|site=="BR")
+  dplyr::filter(age==1)
 
 # assign variable that combines site and bag; unique id for each bag
 dat<-dat %>% 

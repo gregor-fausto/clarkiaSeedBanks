@@ -313,6 +313,8 @@ Where P(V) = P(V|Gc)*P(Gc) + P(V|G)*P(G)
 
 If there are missing data, it might make sense to estimate a per-site/year viability from hyperpriors. In other words, we would a distribution for theta defined by hyperpriors set at the population level. Each population would get its own set of hyperpriors. Then when we are looking to get the viability of a given bag in a given year, if the data are missing we would draw from the hyperpriors for a site mean rather than propagate NAs. 
 
+The dataset has NAs in the viability stain column. These are there because the viability trial started with 0 seeds. Viability trials started with 0 seeds when all/most of the seeds in the germination trials germinated. The estimated probability for the (0,NA) set is 0.5; this is because the result provides no new information. One approach might be to throw these rows out entirely or to just take the germination probablity as the true probability. However, because the probabliity of being viable if not germinating is multiplied by the probablility of not germinating, the effect is quite small when most of the seeds germinate. 
+
 A figure that would help is one that plots the predicted vs. observed proportions for the germination and viability experiments for one site. 
  Maybe start with partial pool with direct parameterization of theta via a beta prior on each bag. The goal of the experiment is bag-specific viability. Reasons to include site would be to
 
