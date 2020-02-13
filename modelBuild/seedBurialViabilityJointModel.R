@@ -99,23 +99,32 @@ viabilityExperiment<-viabilityExperiment %>%
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
+# ## filter the dataset for testing purposes
+# filterData<-function(x) {
+#   x %>%
+#     dplyr::filter(age==3)
+# }
+# 
+# seedBagExperiment<-filterData(seedBagExperiment)
+# viabilityExperiment<-filterData(viabilityExperiment)
+
 # create data frames that index each dataset based on an id
 # that uniquely identifies each site, bag, round, and age of the bag
 
-l1<-seedBagExperiment %>%
-  dplyr::select(site,bagNo,round,age) %>%
-  tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-  unique()
-
-l2<-viabilityExperiment %>%
-  dplyr::select(site,bagNo,round,age) %>%
-  tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-  unique()
-
-# create a long list of all the id's found across both datasets
-
-referenceTable<-data.frame(id=union(l2$id,l1$id)) %>%
-  dplyr::mutate(idNo = 1:length(id)) 
+# l1<-seedBagExperiment %>%
+#   dplyr::select(site,bagNo,round,age) %>%
+#   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
+#   unique()
+# 
+# l2<-viabilityExperiment %>%
+#   dplyr::select(site,bagNo,round,age) %>%
+#   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
+#   unique()
+# 
+# # create a long list of all the id's found across both datasets
+# 
+# referenceTable<-data.frame(id=union(l2$id,l1$id)) %>%
+#   dplyr::mutate(idNo = 1:length(id)) 
 
 ## filter the dataset for testing purposes
 filterData<-function(x) {
@@ -133,14 +142,14 @@ viabilityExperiment<-filterData(viabilityExperiment)
 seedBagExperiment<-seedBagExperiment %>%
   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
   tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
-  dplyr::mutate(siteBag = as.factor(siteBag)) %>%
-  dplyr::left_join(referenceTable,by="id")
+   dplyr::mutate(siteBag = as.factor(siteBag)) #%>%
+  # dplyr::left_join(referenceTable,by="id")
 
 viabilityExperiment<-viabilityExperiment %>%
   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
   tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
-  dplyr::mutate(siteBag = as.factor(siteBag)) %>%
-  dplyr::left_join(referenceTable,by="id")
+  dplyr::mutate(siteBag = as.factor(siteBag)) #%>%
+  # dplyr::left_join(referenceTable,by="id")
 
 # once each identifier has been created and linked to the reference table
 # and the dataset filtered, the dataset needs to be re-indexed
@@ -149,14 +158,14 @@ viabilityExperiment<-viabilityExperiment %>%
 # this line creates a unique id for the subsetted data that is then 
 # used to index each of the 2 datasets
 # and provides the reference set of bags that were included in the experiment
-ref2<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
-  dplyr::mutate(idNo2 = 1:length(id)) 
+referenceTable<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
+  dplyr::mutate(idNo = 1:length(id)) 
 
 seedBagExperiment<-seedBagExperiment %>%
   dplyr::left_join(ref2,by="id")
 
 viabilityExperiment<-viabilityExperiment %>%
-  dplyr::left_join(ref2,by="id")
+  dplyr::left_join(referenceTable,by="id")
 
 # relevel variable
 # not necessary CAN DELETE
@@ -167,7 +176,7 @@ viabilityExperiment<-viabilityExperiment %>%
 data = list(
   # nbags comes from a reference table
   # that indexes all the bags across both experiments
-  nbags = max(ref2$idNo2), 
+  nbags = max(referenceTable$idNo), 
   
   # Germination and Viability Trials
   yg = as.double(viabilityExperiment$germCount),
@@ -176,7 +185,7 @@ data = list(
   nv = as.double(viabilityExperiment$viabStart),
   
   N = nrow(viabilityExperiment),
-  bag = as.double(viabilityExperiment$idNo2),
+  bag = as.double(viabilityExperiment$idNo),
   
   # Seed burial experiment, year one
   y_seedlings = as.double(seedBagExperiment$seedlingJan),
@@ -185,7 +194,7 @@ data = list(
   n_buried = as.double(seedBagExperiment$seedStart),
   
   N_burial = nrow(seedBagExperiment),
-  bag_burial = as.double(seedBagExperiment$idNo2)
+  bag_burial = as.double(seedBagExperiment$idNo)
 )
 
 save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
