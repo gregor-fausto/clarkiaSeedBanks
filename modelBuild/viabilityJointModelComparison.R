@@ -161,8 +161,8 @@ inits = list(list(pv = rep(.1,data$nbags), pg = rep(.1,data$nbags)),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"viabilityJointPartialPoolingJAGS.R"), data = data, inits = inits,
-                n.chains = length(inits), n.adapt = n.adapt)
+jm = jags.model(paste0(dir,"viabilityJointPartialPoolingJAGS.R"), data = data, inits = inits, 
+                n.chains = length(inits), n.adapt = n.adapt) 
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
