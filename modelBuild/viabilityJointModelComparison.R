@@ -52,7 +52,7 @@ df<-df %>%
 # AGE 1 SEEDS
 dat<-df %>% 
   dplyr::filter(age==1) %>%
-  dplyr::filter(site=="BG")
+  dplyr::filter(site=="BG"|site=="BR")
 
 # assign variable that combines site and bag; unique id for each bag
 dat<-dat %>% 
@@ -254,7 +254,6 @@ x<-x[sapply(x,stringr::str_detect,pattern="Fit")]
 x<-x[sapply(x,stringr::str_detect,pattern="Pool")]
 x<-x[sapply(x,stringr::str_detect,pattern="Joint")]
 
-
 x<-paste0("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/",x)
 
 lapply(x,load,.GlobalEnv)
@@ -379,8 +378,12 @@ dfPlotHi <- df_plothi %>%
   select(-row)
 
 library(GGally)
-ggpairs(dfPlot[,2:6], aes(alpha = 0.4))
+pairsPlot <- ggpairs(dfPlot[,3:6], aes(alpha = 0.4))
+pairsPlot
 
+ggsave(plot=pairsPlot,
+       filename="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPairsPlot.png",
+       width=9,height=9)
 
 # ggplot() + 
 #   geom_point(data = dfPlot,aes(x = `no pooling`,y = `partial pooling`)) + 
@@ -398,54 +401,3 @@ ggpairs(dfPlot[,2:6], aes(alpha = 0.4))
 #   geom_errorbarh(aes(y= dfPlot$`partial pooling, hyperpriors`, xmin = dfPlotLo$`partial pooling`,xmax = dfPlotHi$`partial pooling`))
 
 
-# expand color palette to see pooling
-library(pals)
-pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome, 
-          stepped, tol, watlington,
-          show.names=FALSE)
-
-pairs(dfPlot[,2:6])
-
-ggpairs
-
-plot_bda3_fig_5_4 <-
-  ggplot(dfPlot, aes(x=`complete pooling`, y= `no pooling`)) +
-  geom_abline(intercept=0, slope=1, colour="skyblue") +
-  facet_grid(. ~ model) +
-  geom_errorbar(aes(ymin=c(rep(p_pool$theta_10,N),
-                           p_nopool$theta_10,
-                           p_partialpool$theta_10,
-                           p_partialpoollogs$theta_10,
-                           p_partialpoolhyper$theta_10),
-                    ymax=c(rep(p_pool$theta_90,N),
-                           p_nopool$theta_90,
-                           p_partialpool$theta_90,
-                           p_partialpoollogs$theta_90,
-                           p_partialpoolhyper$theta_90)),
-                width=0.005, colour="gray60") +
-  geom_point(aes(color=as.factor(group)), size=0.75) +
-  scale_x_continuous(breaks = seq(0,1,by=.1)) +
-  xlab("observed proportion, y[n] / K[n]") +
-  ylab("chance of success, theta[n]") +
-  theme_bw() +
-  scale_color_manual(values=as.vector(alphabet(26))) +
-  ggtitle("Posterior Medians and 80% intervals\n(red line: population mean;  blue line: MLE)")
-plot_bda3_fig_5_4
-
-model_comparison <-
-  ggplot(df_plot2, aes(x=x, y=y)) +
-  geom_hline(aes(yintercept=pop_mean), colour="lightpink") +
-  geom_abline(intercept=0, slope=1, colour="skyblue") +
-  geom_point(aes(color=as.factor(model)), size=0.75) +
-  scale_x_continuous(breaks = seq(0,1,by=.1)) +
-  xlab("observed proportion, y[n] / K[n]") +
-  ylab("chance of success, theta[n]") +
-  theme_bw() +
-  geom_smooth(method="lm",aes(color=model),se=FALSE) +
-  scale_color_manual(values=as.vector(cols25(5))) +
-  ggtitle("Viability: Posterior Medians and 80% intervals\n(red line: population mean;  blue line: MLE)")
-model_comparison
-
-ggsave(plot=plot_bda3_fig_5_4,
-       filename="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityBagsViability.png",
-       width=15,height=6)
