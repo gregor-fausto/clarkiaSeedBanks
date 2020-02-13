@@ -223,9 +223,12 @@ MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(pv = .1,pg = .1, pi = .1, ps = .1), 
-             list(pv = .5,pg = .5, pi = .5, ps = .5), 
-             list(pv = .9,pg = .9, pi = .9, ps = .9))
+inits = list(list(pv = rep(.1,data$nbags_burial),pg = rep(.1,data$nbags_burial),
+                  pi = rep(.1,data$N_burial), ps = rep(.1,data$N_burial)), 
+             list(pv = rep(.5,data$nbags_burial),pg = rep(.5,data$nbags_burial),
+                  pi = rep(.5,data$N_burial), ps = rep(.5,data$N_burial)), 
+             list(pv = rep(.9,data$nbags_burial),pg = rep(.9,data$nbags_burial),
+                  pi = rep(.9,data$N_burial), ps = rep(.9,data$N_burial)))
 
 # Call to JAGS
 
