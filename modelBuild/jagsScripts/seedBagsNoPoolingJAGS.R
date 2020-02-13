@@ -26,14 +26,17 @@
     yg[i] ~ dbinom( pg[bag[i]] , ng[i] )
 
     # v viability
-    yv[i] ~ dbinom( pv[i] , nv[i] )
+    yv[i] ~ dbinom( pv[bag[i]] , nv[i] )
 
-    ygSim[i] ~ dbinom( pg[i] , ng[i] )
-    yvSim[i] ~ dbinom( pv[i] , nv[i] )
-
-    viability[i] = pg[i] + pv[i]*(1-pg[i])
+    ygSim[i] ~ dbinom( pg[bag[i]] , ng[i] )
+    yvSim[i] ~ dbinom( pv[bag[i]] , nv[i] )
 
         }
+
+        for(j in 1:nbags_burial){
+            viability[j] = pg[bag[j]] + pv[bag[j]]*(1-pg[bag[j]])
+            }
+
 
         for(i in 1:N_burial){
 

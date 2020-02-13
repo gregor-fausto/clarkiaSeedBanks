@@ -233,7 +233,7 @@ inits = list(list(pv = rep(.1,data$nbags_burial),pg = rep(.1,data$nbags_burial),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsCompletePoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsNoPoolingJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -242,9 +242,11 @@ update(jm, n.iter = n.update)
 parsToMonitor = c("pv","pg","pi","ps","viability")
 sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
-zc_pool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+zc_nopool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_pool, params = c("pv","pg","pi","ps","viability"))
-save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsCompletePoolingFit.rds")
-MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
+MCMCsummary(zc_nopool, params = c("pv","pg","pi","ps","viability"))
+save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsNoPoolingFit.rds")
+MCMCsummary(zc_nopool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
+
+MCMCsummary(zc_nopool, params = c("viability"))
 
