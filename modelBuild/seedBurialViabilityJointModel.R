@@ -118,8 +118,7 @@ referenceTable<-data.frame(id=union(l2$id,l1$id)) %>%
 
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==3) %>%
-    dplyr::filter(site=="LCW")
+    dplyr::filter(age==1)
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -137,7 +136,6 @@ viabilityExperiment<-viabilityExperiment %>%
   tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
   dplyr::mutate(siteBag = as.factor(siteBag)) %>%
   dplyr::left_join(referenceTable,by="id")
-
 
 ref2<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
   dplyr::mutate(idNo2 = 1:length(id)) 
