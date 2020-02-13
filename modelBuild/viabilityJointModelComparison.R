@@ -51,8 +51,8 @@ df<-df %>%
 
 # AGE 1 SEEDS
 dat<-df %>% 
-  dplyr::filter(age==1) %>%
-  dplyr::filter(site=="BG"|site=="BR")
+  dplyr::filter(age==1) #%>%
+  #dplyr::filter(site=="BG"|site=="BR")
 
 # assign variable that combines site and bag; unique id for each bag
 dat<-dat %>% 
@@ -338,7 +338,8 @@ dfPlot <- df_plot2 %>%
   group_by(model) %>%
   mutate(row = row_number()) %>%
   tidyr::pivot_wider(names_from = model, values_from = y) %>% 
-  select(-row)
+  select(-row) %>%
+  bind_cols(site=dat$site)
 
 df_plotlo<-data.frame(group = rep(data$bag, 5),
                      model = c(rep("complete pooling", N),
@@ -375,15 +376,18 @@ dfPlotHi <- df_plothi %>%
   group_by(model) %>%
   mutate(row = row_number()) %>%
   tidyr::pivot_wider(names_from = model, values_from = y) %>% 
-  select(-row)
+  select(-row) 
 
 library(GGally)
-pairsPlot <- ggpairs(dfPlot[,3:6], aes(alpha = 0.4))
+pairsPlot <- ggpairs(dfPlot, columns = 3:6, 
+                     ggplot2::aes(alpha = 0.4,color=as.factor(site)),
+                     upper = list(continuous = wrap("cor", size = 2)))
 pairsPlot
+
 
 ggsave(plot=pairsPlot,
        filename="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPairsPlot.png",
-       width=9,height=9)
+       width=12,height=12)
 
 # ggplot() + 
 #   geom_point(data = dfPlot,aes(x = `no pooling`,y = `partial pooling`)) + 
