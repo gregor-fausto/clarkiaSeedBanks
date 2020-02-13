@@ -198,6 +198,7 @@ data = list(
 )
 
 save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
+save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagExperimentData.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
