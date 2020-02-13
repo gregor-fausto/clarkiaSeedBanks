@@ -146,13 +146,24 @@ viabilityExperiment<-viabilityExperiment %>%
 
 # pass data to list for JAGS
 data = list(
+  # Germination and Viability Trials
   yg = as.double(viabilityExperiment$germCount),
   ng = as.double(viabilityExperiment$germStart),
   yv = as.double(viabilityExperiment$viabStain),
   nv = as.double(viabilityExperiment$viabStart),
   N = nrow(viabilityExperiment),
   bag = as.double(viabilityExperiment$siteBag),
-  nbags = length(unique(viabilityExperiment$siteBag))
+  nbags = length(unique(viabilityExperiment$siteBag)), 
+  
+  # Seed burial experiment, year one
+  y_seedlings = as.double(seedBagExperiment$seedlingJan),
+  y_total = as.double(seedBagExperiment$totalJan),
+  y_october = as.double(seedBagExperiment$intactOct),
+  n_buried = as.double(seedBagExperiment$seedStart),
+  N_burial = nrow(seedBagExperiment),
+  
+  bag_burial = as.double(seedBagExperiment$siteBag),
+  nbags_burial = length(unique(seedBagExperiment$siteBag))
 )
 
 # -------------------------------------------------------------------
