@@ -337,3 +337,29 @@ plot(data$y_total/data$n_buried,apply(MCMCchains(zc_partialpoolhyperpriors,param
 p = apply(MCMCchains(zc_partialpoolhyperpriors,params="ps"),2,median)*apply(MCMCchains(zc_partialpoolhyperpriors,params="pi"),2,median)*((apply(MCMCchains(zc_partialpoolhyperpriors,params="viability"),2,median))^(1/3))
 plot(data$y_seedlings/data$n_buried,p)
 
+theta.i<-apply(MCMCchains(zc_partialpoolhyperpriors,params="theta.i"),2,median)
+kappa.i<-apply(MCMCchains(zc_partialpoolhyperpriors,params="kappa.i"),2,median)
+
+# pretty close to frequentist estimates 
+alpha <- function(kappa,theta){
+  alpha = kappa*theta
+  return(alpha)
+}
+
+beta <- function(kappa,theta){
+  kappa*(1-theta)
+}
+
+p=c()
+for(i in 1:2){
+a=alpha(kappa.i[i],theta.i[i])
+b=beta(kappa.i[i],theta.i[i])
+p[i]=a/(a+b)
+}
+p
+
+seedBagExperiment %>%
+
+  dplyr::mutate(p=totalJan/seedStart) %>%
+  dplyr::group_by(site) %>%
+  dplyr::summarise(mean(p))

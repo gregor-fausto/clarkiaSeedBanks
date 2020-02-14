@@ -322,36 +322,36 @@ MCMCsummary(zc_partialpoolhyperpriors, params = c("theta.i","theta.s","kappa.i",
 MCMCsummary(zc_partialpoolhyperpriors, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 MCMCchains(zc_partialpoolhyperpriors, params = c("pi", "ps"))
 
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Partial pooling for the viability dataset (direct parameterization)
-# Partial pooling for the seed burial dataset (logit parameterization)
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-
-# set inits for JAGS
-inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
-                  sigma.i = 50, sigma.s = 50,
-                  mu.i = 0, mu.s = 0), 
-             list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
-                  sigma.i = 20, sigma.s = 20,
-                  mu.i = 0, mu.s = 0), 
-             list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
-                  sigma.i = 10, sigma.s = 10,
-                  mu.i = 0, mu.s = 0))
-
-# Call to JAGS
-
-# tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingLogitIndexSiteJAGS.R"), data = data, inits = inits,
-                n.chains = length(inits), n.adapt = n.adapt)
-
-# burn-in (n.update)
-update(jm, n.iter = n.update)
-
-parsToMonitor = c("pv","pg","pi","ps","mu.i","mu.s","sigma.i","sigma.s","viability")
-sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
-# chain (n.iter)
-zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
-
-save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteFit.rds")
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# # Partial pooling for the viability dataset (direct parameterization)
+# # Partial pooling for the seed burial dataset (logit parameterization)
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# 
+# # set inits for JAGS
+# inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
+#                   sigma.i = 50, sigma.s = 50,
+#                   mu.i = 0, mu.s = 0), 
+#              list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
+#                   sigma.i = 20, sigma.s = 20,
+#                   mu.i = 0, mu.s = 0), 
+#              list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
+#                   sigma.i = 10, sigma.s = 10,
+#                   mu.i = 0, mu.s = 0))
+# 
+# # Call to JAGS
+# 
+# # tuning (n.adapt)
+# jm = jags.model(paste0(dir,"seedBagsPartialPoolingLogitIndexSiteJAGS.R"), data = data, inits = inits,
+#                 n.chains = length(inits), n.adapt = n.adapt)
+# 
+# # burn-in (n.update)
+# update(jm, n.iter = n.update)
+# 
+# parsToMonitor = c("pv","pg","pi","ps","mu.i","mu.s","sigma.i","sigma.s","viability")
+# sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
+# # chain (n.iter)
+# zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+# 
+# save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteFit.rds")
