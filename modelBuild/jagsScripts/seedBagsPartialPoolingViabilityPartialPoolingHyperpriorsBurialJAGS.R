@@ -3,12 +3,14 @@ model {
  ##############
     ## hyperpriors
     ##############
-    
-    theta.i ~ dunif(0,1)
-    kappa.i ~ dpar(1.5,1)
 
-    theta.s ~ dunif(0,1)
-    kappa.s ~ dpar(1.5,1)
+    for(i in 1:nsites){
+    theta.i[i] ~ dunif(0,1)
+    kappa.i[i] ~ dpar(1.5,1)
+
+    theta.s[i] ~ dunif(0,1)
+    kappa.s[i] ~ dpar(1.5,1)
+}
     
     ##############
     ## priors
@@ -21,9 +23,9 @@ model {
     }
     
     for(j in 1:nbags){
-                                        # site intercepts
-        pi[j] ~ dbeta(kappa.i*theta.i, kappa.i*(1-theta.i))
-        ps[j] ~ dbeta(kappa.s*theta.s, kappa.s*(1-theta.s))
+        # site intercepts
+        pi[j] ~ dbeta(kappa.i[site[j]]*theta.i[site[j]], kappa.i[site[j]]*(1-theta.i[site[j]]))
+        ps[j] ~ dbeta(kappa.s[site[j]]*theta.s[site[j]], kappa.s[site[j]]*(1-theta.s[site[j]]))
 
     }
     

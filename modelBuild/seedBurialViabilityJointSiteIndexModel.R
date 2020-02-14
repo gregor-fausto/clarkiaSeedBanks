@@ -281,38 +281,46 @@ MCMCsummary(zc_partialpool, params = c("viability"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# Partial pooling for the viability dataset (direct parameterization)
-# Partial pooling for the seed burial dataset (direct parameterization)
+# Partial pooling of germination and viability trials (bag level)
+# Partial pooling of seed burial experiment, hyperpriors parameterization (site level)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
 # set inits for JAGS
 inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
-                  pi = rep(.1,data$nbags), ps = rep(.1,data$nbags)), 
+                  pi = rep(.1,data$nbags), ps = rep(.1,data$nbags),
+                  theta.i = rep(.1,data$nsites), theta.s = rep(.1,data$nsites),
+                  kappa.i = rep(1.1,data$nsites), kappa.s = rep(1.1,data$nsites)), 
              list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
-                  pi = rep(.5,data$nbags), ps = rep(.5,data$nbags)), 
+                  pi = rep(.5,data$nbags), ps = rep(.5,data$nbags),
+                  theta.i = rep(.5,data$nsites), theta.s = rep(.5,data$nsites),
+                  kappa.i = rep(1.5,data$nsites), kappa.s = rep(1.5,data$nsites)), 
              list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
-                  pi = rep(.9,data$nbags), ps = rep(.9,data$nbags)))
+                  pi = rep(.9,data$nbags), ps = rep(.9,data$nbags),
+                  theta.i = rep(.9,data$nsites), theta.s = rep(.9,data$nsites),
+                  kappa.i = rep(2,data$nsites), kappa.s = rep(2,data$nsites))
+)
 
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingIndexSiteJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingViabilityPartialPoolingHyperpriorsBurialJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("pv","pg","pi","ps","viability")
+parsToMonitor = c("pv","pg","pi","ps","theta.i","theta.s","kappa.i","kappa.s","viability")
 sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
-zc_partialpool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+zc_partialpoolhyperpriors = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingIndexSiteFit.rds")
+save(zc_partialpoolhyperpriors,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingViabilityPartialPoolingHyperpriorsBurialFit.rds")
 
-MCMCsummary(zc_partialpool, params = c("pv","pg","pi","ps","viability"))
-MCMCsummary(zc_partialpool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
-MCMCchains(zc_partialpool, params = c("pi", "ps"))
+MCMCsummary(zc_partialpoolhyperpriors, params = c("pv","pg","pi","ps","viability"))
+MCMCsummary(zc_partialpoolhyperpriors, params = c("theta.i","theta.s","kappa.i","kappa.s"))
+MCMCsummary(zc_partialpoolhyperpriors, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
+MCMCchains(zc_partialpoolhyperpriors, params = c("pi", "ps"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -347,37 +355,3 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
 save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteFit.rds")
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Partial pooling for the viability dataset (direct parameterization)
-# Partial pooling for the seed burial dataset (hyperpriors parameterization)
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-
-# set inits for JAGS
-inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
-                  theta.i = .1, theta.s = .1,
-                  kappa.i = 1.1, kappa.s = 1.1), 
-             list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
-                  theta.i = .5, theta.s = .5,
-                  kappa.i = 1.5, kappa.s = 1.5), 
-             list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
-                  theta.i = .9, theta.s = .9,
-                  kappa.i = 2, kappa.s = 2))
-
-# Call to JAGS
-
-# tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingHyperpriorsIndexSiteJAGS.R"), data = data, inits = inits,
-                n.chains = length(inits), n.adapt = n.adapt)
-
-# burn-in (n.update)
-update(jm, n.iter = n.update)
-
-parsToMonitor = c("pv","pg","pi","ps","theta.i","theta.s","kappa.i","kappa.s","viability")
-sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
-# chain (n.iter)
-zc_partialpoolhyperpriors = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
-
-save(zc_partialpoolhyperpriors,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingHyperpriorsIndexSiteFit.rds")
