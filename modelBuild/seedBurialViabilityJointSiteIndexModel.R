@@ -1,3 +1,7 @@
+# list of JAGS scripts used in this file
+# seedBagsCompletePoolingViabilityPartialPoolingBurialJAGS.R
+# seedBagsPartialPoolingViabilityPartialPoolingBurialJAGS.R
+
 # -------------------------------------------------------------------
 # Models for joint estimates of year 1 belowground rates
 # Seed survival, germination, and viability
@@ -99,33 +103,6 @@ viabilityExperiment<-viabilityExperiment %>%
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-# ## filter the dataset for testing purposes
-# filterData<-function(x) {
-#   x %>%
-#     dplyr::filter(age==3)
-# }
-# 
-# seedBagExperiment<-filterData(seedBagExperiment)
-# viabilityExperiment<-filterData(viabilityExperiment)
-
-# create data frames that index each dataset based on an id
-# that uniquely identifies each site, bag, round, and age of the bag
-
-# l1<-seedBagExperiment %>%
-#   dplyr::select(site,bagNo,round,age) %>%
-#   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-#   unique()
-# 
-# l2<-viabilityExperiment %>%
-#   dplyr::select(site,bagNo,round,age) %>%
-#   tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-#   unique()
-# 
-# # create a long list of all the id's found across both datasets
-# 
-# referenceTable<-data.frame(id=union(l2$id,l1$id)) %>%
-#   dplyr::mutate(idNo = 1:length(id)) 
-
 ## filter the dataset for testing purposes
 filterData<-function(x) {
   x %>%
@@ -140,20 +117,12 @@ viabilityExperiment<-filterData(viabilityExperiment)
 # for each dataset, create that unique identifier again and then
 # use that to link it to the reference identifier created above
 seedBagExperiment<-seedBagExperiment %>%
-  tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-  tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
-   dplyr::mutate(siteBag = as.factor(siteBag)) #%>%
-  # dplyr::left_join(referenceTable,by="id")
+  tidyr::unite(col='idBag', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
+  tidyr::unite(col='idSiteRound', c(site,round), sep="", remove=FALSE)
 
 viabilityExperiment<-viabilityExperiment %>%
-  tidyr::unite(col='id', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
-  tidyr::unite(col='siteBag', c(site,bagNo), sep="", remove=FALSE) %>%
-  dplyr::mutate(siteBag = as.factor(siteBag)) #%>%
-  # dplyr::left_join(referenceTable,by="id")
-
-# once each identifier has been created and linked to the reference table
-# and the dataset filtered, the dataset needs to be re-indexed
-# this may be redundant?
+  tidyr::unite(col='idBag', c(site,bagNo,round,age), sep="", remove=FALSE) %>%
+  tidyr::unite(col='idSiteRound', c(site,round), sep="", remove=FALSE) 
 
 # this line creates a unique id for the subsetted data that is then 
 # used to index each of the 2 datasets
@@ -161,20 +130,35 @@ viabilityExperiment<-viabilityExperiment %>%
 
 #https://community.rstudio.com/t/how-to-add-a-counter-to-each-group-in-dplyr/12986/2
 
-referenceTable<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
-  dplyr::mutate(idNo = 1:length(id)) 
+referenceTableBag<-data.frame(idBag=union(seedBagExperiment$idBag, viabilityExperiment$idBag)) %>%
+  dplyr::mutate(indexBag = 1:length(idBag)) 
+
+referenceTableSite<-data.frame(site=union(seedBagExperiment$site, viabilityExperiment$site)) %>%
+  dplyr::mutate(indexSite = 1:length(site)) 
+
+# referenceTableSiteRound<-data.frame(idSiteRound=union(seedBagExperiment$idSiteRound, viabilityExperiment$idSiteRound)) %>%
+#   dplyr::mutate(indexSiteRound = 1:length(idSiteRound)) 
 
 seedBagExperiment<-seedBagExperiment %>%
-  dplyr::left_join(referenceTable,by="id")
+  dplyr::left_join(referenceTableBag,by="idBag") %>%
+  dplyr::left_join(referenceTableSite,by="site")
 
 viabilityExperiment<-viabilityExperiment %>%
-  dplyr::left_join(referenceTable,by="id")
+  dplyr::left_join(referenceTableBag,by="idBag") %>%
+  dplyr::left_join(referenceTableSite,by="site")
 
-# seedBagExperiment %>% 
-#   dplyr::group_by(site,yearStart) %>% 
-#   dplyr::mutate(row_number = dplyr::row_number()) %>% 
+# seedBagExperiment <- seedBagExperiment %>%
+#   dplyr::group_by(site,round) %>%
+#   dplyr::mutate(indexSiteRound = dplyr::row_number()) %>%
 #   dplyr::group_by(site) %>%
-#   dplyr::mutate(row_number2 = dplyr::row_number()) %>% View
+#   dplyr::mutate(indexSite = dplyr::row_number()) %>%
+#   dplyr::select(idBag,site,idSiteRound,indexBag,indexSite,indexSiteRound) %>% View
+# 
+# viabilityExperiment <- viabilityExperiment %>%
+#   dplyr::group_by(site,yearStart) %>%
+#   dplyr::mutate(indexSiteYear = dplyr::row_number()) %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::mutate(indexSite = dplyr::row_number())
 
 # relevel variable
 # not necessary CAN DELETE
@@ -185,8 +169,9 @@ viabilityExperiment<-viabilityExperiment %>%
 data = list(
   # nbags comes from a reference table
   # that indexes all the bags across both experiments
-  nbags = max(referenceTable$idNo), 
-  
+  nbags = max(referenceTableBag$indexBag), 
+  nsites = max(referenceTableSite$indexSite),
+    
   # Germination and Viability Trials
   yg = as.double(viabilityExperiment$germCount),
   ng = as.double(viabilityExperiment$germStart),
@@ -194,7 +179,7 @@ data = list(
   nv = as.double(viabilityExperiment$viabStart),
   
   N = nrow(viabilityExperiment),
-  bag = as.double(viabilityExperiment$idNo),
+  bag = as.double(viabilityExperiment$indexBag),
   
   # Seed burial experiment, year one
   y_seedlings = as.double(seedBagExperiment$seedlingJan),
@@ -203,11 +188,14 @@ data = list(
   n_buried = as.double(seedBagExperiment$seedStart),
   
   N_burial = nrow(seedBagExperiment),
-  bag_burial = as.double(seedBagExperiment$idNo)
+  bag_burial = as.double(seedBagExperiment$indexBag),
+  
+  site = as.double(seedBagExperiment$indexSite)
+  
 )
 
-save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsModelData.rds")
-save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagExperimentData.rds")
+save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagIndexSiteModelData.rds")
+save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagExperimentIndexSiteData.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -228,19 +216,20 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# Complete pooling
+# Complete pooling of germination and viability trials
+# Partial pooling of seed burial experiment (site level)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(pv = .1,pg = .1, pi = .1, ps = .1), 
-             list(pv = .5,pg = .5, pi = .5, ps = .5), 
-             list(pv = .9,pg = .9, pi = .9, ps = .9))
+inits = list(list(pv = .1,pg = .1, pi = rep(.1,data$nsites), ps = rep(.1,data$nsites)), 
+             list(pv = .5,pg = .5, pi = rep(.5,data$nsites), ps = rep(.5,data$nsites)), 
+             list(pv = .9,pg = .9, pi = rep(.9,data$nsites), ps = rep(.9,data$nsites)))
 
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsCompletePoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsCompletePoolingViabilityPartialPoolingBurialJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -252,29 +241,28 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 zc_pool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
 MCMCsummary(zc_pool, params = c("pv","pg","pi","ps","viability"))
-save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsCompletePoolingFit.rds")
+save(zc_pool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsCompletePoolingViabilityPartialPoolingBurialFit.rds")
 MCMCsummary(zc_pool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# No pooling for both datasets - not possible for joining the datasets;
-# Viability has to at least be pooled to the bag level;
-# No pooling for the seed burials
+# Partial pooling of germination and viability trials (bag level)
+# Partial pooling of seed burial experiment, direct parameterization (site level)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
 # set inits for JAGS
 inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
-                  pi = rep(.1,data$N_burial), ps = rep(.1,data$N_burial)), 
+                  pi = rep(.1,data$nsites), ps = rep(.1,data$nsites)), 
              list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
-                  pi = rep(.5,data$N_burial), ps = rep(.5,data$N_burial)), 
+                  pi = rep(.5,data$nsites), ps = rep(.5,data$nsites)), 
              list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
-                  pi = rep(.9,data$N_burial), ps = rep(.9,data$N_burial)))
+                  pi = rep(.9,data$nsites), ps = rep(.9,data$nsites)))
 
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsNoPoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingViabilityPartialPoolingBurialJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -283,13 +271,13 @@ update(jm, n.iter = n.update)
 parsToMonitor = c("pv","pg","pi","ps","viability")
 sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
-zc_nopool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+zc_partialpool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-MCMCsummary(zc_nopool, params = c("pv","pg","pi","ps","viability"))
-save(zc_nopool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsNoPoolingFit.rds")
-MCMCsummary(zc_nopool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
+MCMCsummary(zc_partialpool, params = c("pv","pg","pi","ps","viability"))
+save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingViabilityPartialPoolingBurialFit.rds")
+MCMCsummary(zc_partialpool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
 
-MCMCsummary(zc_nopool, params = c("viability"))
+MCMCsummary(zc_partialpool, params = c("viability"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -309,7 +297,7 @@ inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingIndexSiteJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -320,7 +308,7 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
 zc_partialpool = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingFit.rds")
+save(zc_partialpool,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingIndexSiteFit.rds")
 
 MCMCsummary(zc_partialpool, params = c("pv","pg","pi","ps","viability"))
 MCMCsummary(zc_partialpool, params = c("ygSim","yvSim","ySeedlingsSim","yTotalSim"))
@@ -347,7 +335,7 @@ inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingLogitJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingLogitIndexSiteJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -358,7 +346,7 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
 zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitFit.rds")
+save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteFit.rds")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -381,7 +369,7 @@ inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
 # Call to JAGS
 
 # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedBagsPartialPoolingHyperpriorsJAGS.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingHyperpriorsIndexSiteJAGS.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
@@ -392,4 +380,4 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
 zc_partialpoolhyperpriors = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpoolhyperpriors,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingHyperpriorsFit.rds")
+save(zc_partialpoolhyperpriors,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingHyperpriorsIndexSiteFit.rds")
