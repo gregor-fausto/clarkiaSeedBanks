@@ -24,8 +24,8 @@ model {
     
     for(j in 1:nbags){
         # site intercepts
-        pi[j] ~ dbeta(kappa.i[site[j]]*theta.i[site[j]], kappa.i[site[j]]*(1-theta.i[site[j]]))
-        ps[j] ~ dbeta(kappa.s[site[j]]*theta.s[site[j]], kappa.s[site[j]]*(1-theta.s[site[j]]))
+        pi[j] ~ dbeta(kappa.i[site[j]]*theta.i[site[j]] , kappa.i[site[j]]*(1-theta.i[site[j]] )) T(0.001,0.999)
+        ps[j] ~ dbeta(kappa.s[site[j]]*theta.s[site[j]] , kappa.s[site[j]]*(1-theta.s[site[j]] )) T(0.001,0.999)
     }
     
     ##############
