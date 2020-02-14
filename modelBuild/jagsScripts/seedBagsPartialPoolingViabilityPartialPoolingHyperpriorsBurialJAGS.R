@@ -1,16 +1,16 @@
 
 model { 
- ##############
+    ##############
     ## hyperpriors
     ##############
-
+    
     for(i in 1:nsites){
-    theta.i[i] ~ dunif(0,1)
-    kappa.i[i] ~ dpar(1.5,1)
-
-    theta.s[i] ~ dunif(0,1)
-    kappa.s[i] ~ dpar(1.5,1)
-}
+        theta.i[i] ~ dunif(0,1)
+        kappa.i[i] ~ dpar(1.5,1)
+        
+        theta.s[i] ~ dunif(0,1)
+        kappa.s[i] ~ dpar(1.5,1)
+    }
     
     ##############
     ## priors
@@ -26,7 +26,6 @@ model {
         # site intercepts
         pi[j] ~ dbeta(kappa.i[site[j]]*theta.i[site[j]], kappa.i[site[j]]*(1-theta.i[site[j]]))
         ps[j] ~ dbeta(kappa.s[site[j]]*theta.s[site[j]], kappa.s[site[j]]*(1-theta.s[site[j]]))
-
     }
     
     ##############
@@ -45,19 +44,19 @@ model {
         yvSim[i] ~ dbinom( pv[bag[i]] , nv[i] )
         
     }
-
+    
     # calculate viability    
     for(j in 1:nbags){
         viability[j] = pg[j] + pv[j]*(1-pg[j])
     }
-
+    
     # seed burial experiments
     for(i in 1:N_burial){
         
-                                        # s1 seed survival
+        # s1 seed survival
         y_total[i] ~ dbin(pi[bag_burial[i]], n_buried[i])
         
-                                        # g1 seed germination
+        # g1 seed germination
         y_seedlings[i] ~ dbin(ps[bag_burial[i]]*pi[bag_burial[i]]*(viability[bag_burial[i]]^(1/3)), n_buried[i])
         
         ySeedlingsSim[i] ~ dbinom(ps[bag_burial[i]]*pi[bag_burial[i]]*(viability[bag_burial[i]]^(1/3)), n_buried[i])
