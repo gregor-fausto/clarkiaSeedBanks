@@ -130,7 +130,7 @@ viabilityExperiment<-viabilityExperiment %>%
 filterData<-function(x) {
   x %>%
     dplyr::filter(age==1) %>%
-    dplyr::filter(site=="BG")
+    dplyr::filter(site=="BG"|site=="BR")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -158,6 +158,9 @@ viabilityExperiment<-viabilityExperiment %>%
 # this line creates a unique id for the subsetted data that is then 
 # used to index each of the 2 datasets
 # and provides the reference set of bags that were included in the experiment
+
+#https://community.rstudio.com/t/how-to-add-a-counter-to-each-group-in-dplyr/12986/2
+
 referenceTable<-data.frame(id=union(seedBagExperiment$id, viabilityExperiment$id)) %>%
   dplyr::mutate(idNo = 1:length(id)) 
 
@@ -166,6 +169,12 @@ seedBagExperiment<-seedBagExperiment %>%
 
 viabilityExperiment<-viabilityExperiment %>%
   dplyr::left_join(referenceTable,by="id")
+
+seedBagExperiment %>% 
+  dplyr::group_by(site,yearStart) %>% 
+  dplyr::mutate(row_number = dplyr::row_number()) %>% 
+  dplyr::group_by(site) %>%
+  dplyr::mutate(row_number2 = dplyr::row_number()) %>% View
 
 # relevel variable
 # not necessary CAN DELETE
