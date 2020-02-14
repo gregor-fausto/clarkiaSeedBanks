@@ -39,9 +39,9 @@
             y_total[i] ~ dbin(pi, n_buried[i])
 
             # g1 seed germination
-            y_seedlings[i] ~ dbin(ps*(viability^(1/3)), y_total[i])
+            y_seedlings[i] ~ dbin(ps*pi*(viability^(1/3)), n_buried[i])
             
-            ySeedlingsSim[i] ~ dbinom(ps*(viability^(1/3)), y_total[i]) 
+            ySeedlingsSim[i] ~ dbinom(ps*pi*(viability^(1/3)), n_buried[i]) 
             yTotalSim[i] ~ dbin(pi, n_buried[i])
     } 
 

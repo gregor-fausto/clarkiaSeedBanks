@@ -61,9 +61,9 @@ model {
                                         # g1 seed germination
                 ps[i] <- ilogit(alpha.s[bag_burial[i]])
 
-        y_seedlings[i] ~ dbin(ps[i]*(viability[bag_burial[i]]^(1/3)), y_total[i])
+        y_seedlings[i] ~ dbin(ps[i]*pi[i]*(viability[bag_burial[i]]^(1/3)), n_buried[i])
         
-        ySeedlingsSim[i] ~ dbinom(ps[i]*(viability[bag_burial[i]]^(1/3)), y_total[i])
+        ySeedlingsSim[i] ~ dbinom(ps[i]*pi[i]*(viability[bag_burial[i]]^(1/3)), n_buried[i])
         yTotalSim[i] ~ dbin(pi[i], n_buried[i])
     }
     
