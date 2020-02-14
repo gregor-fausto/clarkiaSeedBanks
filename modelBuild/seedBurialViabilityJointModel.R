@@ -170,11 +170,11 @@ seedBagExperiment<-seedBagExperiment %>%
 viabilityExperiment<-viabilityExperiment %>%
   dplyr::left_join(referenceTable,by="id")
 
-seedBagExperiment %>% 
-  dplyr::group_by(site,yearStart) %>% 
-  dplyr::mutate(row_number = dplyr::row_number()) %>% 
-  dplyr::group_by(site) %>%
-  dplyr::mutate(row_number2 = dplyr::row_number()) %>% View
+# seedBagExperiment %>% 
+#   dplyr::group_by(site,yearStart) %>% 
+#   dplyr::mutate(row_number = dplyr::row_number()) %>% 
+#   dplyr::group_by(site) %>%
+#   dplyr::mutate(row_number2 = dplyr::row_number()) %>% View
 
 # relevel variable
 # not necessary CAN DELETE
