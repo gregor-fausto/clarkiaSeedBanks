@@ -22,7 +22,7 @@ load("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagExperimentData.r
 N = dim(seedBagExperiment)[1]
 data <- seedBagExperiment
 
-focalParameter="pi"
+focalParameter="ps"
 
 ss_pool = MCMCchains(zc_pool,params=focalParameter)
 ss_nopool = MCMCchains(zc_nopool,params=focalParameter)
@@ -79,9 +79,6 @@ p_partialpoolhyperpriors <- t(apply(ss_partialpoolhyperpriors,2,function(x) quan
 
 lapply(list(p_pool,p_nopool,p_partialpool,p_partialpoollogit,p_partialpoolhyperpriors),dim)
 
-plot(p_partialpool$theta_50,p_partialpoollogit$theta_50);abline(a=0,b=1)
-plot(p_partialpool$theta_50,p_partialpoolhyperpriors$theta_50);abline(a=0,b=1)
-
 df_plot2<-data.frame(group = rep(data$bagNo, 5),
                      model = c(rep("complete pooling", N),
                                rep("no pooling", N),
@@ -99,7 +96,7 @@ dfPlot <- df_plot2 %>%
   mutate(row = row_number()) %>%
   tidyr::pivot_wider(names_from = model, values_from = y) %>% 
   select(-row) %>%
-  bind_cols(site=dat$site)
+  bind_cols(site=data$site)
 
 library(GGally)
 pairsPlot <- ggpairs(dfPlot, columns = 3:6, 
@@ -107,24 +104,7 @@ pairsPlot <- ggpairs(dfPlot, columns = 3:6,
                      upper = list(continuous = wrap("cor", size = 2)))
 pairsPlot
 
-dfPlot %>% View
 
-ggsave(plot=pairsPlot,
-       filename="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPairsPlot.png",
-       width=12,height=12)
-
-# ggplot() + 
-#   geom_point(data = dfPlot,aes(x = `no pooling`,y = `partial pooling`)) + 
-#   geom_errorbar(aes(x= dfPlot$`no pooling`, ymin = dfPlotLo$`partial pooling`,ymax = dfPlotHi$`partial pooling`)) +
-#   geom_errorbarh(aes(y= dfPlot$`partial pooling`, xmin = dfPlotLo$`no pooling`,xmax = dfPlotHi$`no pooling`))
-# 
-# ggplot() + 
-#   geom_point(data = dfPlot,aes(x = `partial pooling`,y = `partial pooling, logit`)) + 
-#   geom_errorbar(aes(x= dfPlot$`partial pooling`, ymin = dfPlotLo$`partial pooling, logit`,ymax = dfPlotHi$`partial pooling, logit`)) +
-#   geom_errorbarh(aes(y= dfPlot$`partial pooling, logit`, xmin = dfPlotLo$`partial pooling`,xmax = dfPlotHi$`partial pooling`))
-# 
-# ggplot() + 
-#   geom_point(data = dfPlot,aes(x = `partial pooling`,y = `partial pooling, hyperpriors`)) + 
-#   geom_errorbar(aes(x= dfPlot$`partial pooling`, ymin = dfPlotLo$`partial pooling, hyperpriors`,ymax = dfPlotHi$`partial pooling, hyperpriors`)) +
-#   geom_errorbarh(aes(y= dfPlot$`partial pooling, hyperpriors`, xmin = dfPlotLo$`partial pooling`,xmax = dfPlotHi$`partial pooling`))
-
+# ggsave(plot=pairsPlot,
+#        filename="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/viabilityPairsPlot.png",
+#        width=12,height=12)
