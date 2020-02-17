@@ -376,6 +376,7 @@ load("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagIndexSiteModelDa
 
 iter<-dim(MCMCchains(zc_partialpoollogit,params="yvSim"))[1]
 
+data$year=seedBagExperiment$yearStart
 
 pdf(
   "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/products/seedBagsPartialPoolingViabilityBurialPPC.pdf",
@@ -403,7 +404,7 @@ ppc_dens_overlay(data$y_seedlings, MCMCchains(zc_partialpoollogit,params="ySeedl
   theme_bw() + labs(title="Posterior predictive checks for germinated seeds counted in seed bags in January", 
                     caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
 
-ppc_stat_grouped(data$y_seedlings, MCMCchains(zc_partialpoollogit,params="ySeedlingsSim")[sample(iter,1000), ],group=interaction(data$site,data$siteyear)) +
+ppc_stat_grouped(data$y_seedlings, MCMCchains(zc_partialpoollogit,params="ySeedlingsSim")[sample(iter,1000), ],group=interaction(data$site,data$year)) +
   theme_bw() + labs(title="Posterior predictive checks for the mean of germinated seeds counted in seed bags in January",
                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
 
