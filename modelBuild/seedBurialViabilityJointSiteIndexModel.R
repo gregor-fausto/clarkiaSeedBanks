@@ -131,7 +131,7 @@ viabilityExperiment<-viabilityExperiment %>%
 #https://community.rstudio.com/t/how-to-add-a-counter-to-each-group-in-dplyr/12986/2
 
 referenceTableBag<-data.frame(idBag=union(seedBagExperiment$idBag, viabilityExperiment$idBag)) %>%
-  dplyr::mutate(indexBag = 1:length(idBag)) 
+  dplyr::mutate(indexBag = 1:length(idBag))
 
 referenceTableSite<-data.frame(site=union(seedBagExperiment$site, viabilityExperiment$site)) %>%
   dplyr::mutate(indexSite = 1:length(site)) 
@@ -190,7 +190,10 @@ data = list(
   N_burial = nrow(seedBagExperiment),
   bag_burial = as.double(seedBagExperiment$indexBag),
   
-  site = as.double(seedBagExperiment$indexSite)
+  site = as.double(seedBagExperiment$indexSite),
+
+  siteyear = as.double(as.numeric(as.factor(seedBagExperiment$idSiteRound))),
+  nsiteyears = length(unique(seedBagExperiment$idSiteRound))
   
 )
 
@@ -354,4 +357,45 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
 zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteFit.rds")
+save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteYearBurialFit.rds")
+
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# Partial pooling of germination and viability trials (bag level)
+# Partial pooling of seed burial experiment, logit parameterization (site, year level)
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+
+# set inits for JAGS
+inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
+                  sigma.i = rep(50,data$nsites), sigma.s = rep(50,data$nsites),
+                  mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
+                  sigma.b.i = rep(50,data$nsiteyears), sigma.b.s = rep(50,data$nsiteyears),
+                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears)),
+             list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
+                  sigma.i = rep(20,data$nsites), sigma.s = rep(20,data$nsites),
+                  mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
+                  sigma.b.i = rep(20,data$nsiteyears), sigma.b.s = rep(20,data$nsiteyears),
+                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears)),
+             list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
+                  sigma.i = rep(10,data$nsites), sigma.s = rep(10,data$nsites),
+                  mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
+                  sigma.b.i = rep(10,data$nsiteyears), sigma.b.s = rep(10,data$nsiteyears),
+                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears))
+)
+
+# Call to JAGS
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"seedBagsPartialPoolingViabilityPartialPoolingLogitSiteYearJAGS.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+parsToMonitor = c("pv","pg","pi","ps","mu.i","mu.s","sigma.i","sigma.s","mu.b.i","mu.b.s","sigma.b.i","sigma.b.s","viability")
+sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
+# chain (n.iter)
+zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+
+save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteYearFit.rds")
