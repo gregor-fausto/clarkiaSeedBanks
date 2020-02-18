@@ -38,8 +38,8 @@ model {
         # site intercepts
         alpha.i[j] ~ dnorm(mu.i[site[j]], tau.i[site[j]])
         alpha.s[j] ~ dnorm(mu.s[site[j]], tau.s[site[j]])
-	    #beta.i[j] ~ dnorm(mu.b.i[siteyear[j]], tau.b.i[siteyear[j]])
-	    #beta.s[j] ~ dnorm(mu.b.s[siteyear[j]], tau.b.s[siteyear[j]])
+	    beta.i[j] ~ dnorm(mu.b.i[siteyear[j]], tau.b.i[siteyear[j]])
+	    beta.s[j] ~ dnorm(mu.b.s[siteyear[j]], tau.b.s[siteyear[j]])
     }
     
     ##############
