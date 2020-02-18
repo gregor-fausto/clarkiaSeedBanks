@@ -106,8 +106,8 @@ viabilityExperiment<-viabilityExperiment %>%
 ## filter the dataset for testing purposes
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1) %>%
-    dplyr::filter(site=="BG"|site=="BR")
+    dplyr::filter(age==1)# %>%
+    #dplyr::filter(site=="BG"|site=="BR")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -143,9 +143,16 @@ seedBagExperiment<-seedBagExperiment %>%
   dplyr::left_join(referenceTableBag,by="idBag") %>%
   dplyr::left_join(referenceTableSite,by="site")
 
+# exclude these bags; not in the seed bag dataset
+# should check these
+d<-referenceTableBag$idBag[!(referenceTableBag$idBag %in% seedBagExperiment$idBag)]
+referenceTableBag<-referenceTableBag %>% dplyr::filter(!(idBag%in%d))
+
 viabilityExperiment<-viabilityExperiment %>%
   dplyr::left_join(referenceTableBag,by="idBag") %>%
   dplyr::left_join(referenceTableSite,by="site")
+
+
 
 # seedBagExperiment <- seedBagExperiment %>%
 #   dplyr::group_by(site,round) %>%
@@ -398,4 +405,4 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
 zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
-save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitIndexSiteYearFit.rds")
+save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitSiteYearFit.rds")
