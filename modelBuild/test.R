@@ -7,12 +7,10 @@ library(MCMCvis)
 # data for testing
 
 set.seed(10)
-n = rep(100,1000)
+n = rep(100,100)
 reps=length(n)/2
 
-mu = rep(.5,length(n))
-
-y = rbinom(n, n, p = c(mu + rep(-.25,reps),mu + rep(.25,reps)))
+y = rbinom(100, 100, p = c(rep(.25,50),rep(.75,50)))
 N.plots = 2
 plot = c(rep(1,reps),rep(2,reps))
 # pass data to list for JAGS
@@ -44,9 +42,9 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 
 
 # set inits for JAGS
-inits = list(list(mu.alpha = 0,sigma.plot=50),
-             list(mu.alpha = 0,sigma.plot=20),
-             list(mu.alpha = 0,sigma.plot=10)
+inits = list(list(mu.alpha = 0,sigma.plot=10,eps.plot = rep(0,data$N.plots)),
+             list(mu.alpha = 0,sigma.plot=20,eps.plot = rep(1,data$N.plots)),
+             list(mu.alpha = 0,sigma.plot=12,eps.plot = rep(-1,data$N.plots))
 )
 
 # Call to JAGS
@@ -68,4 +66,9 @@ MCMCsummary(zc,params=c("mu.alpha","eps.plot","sigma.plot"))
 MCMCtrace(zc,params=c("mu.alpha"))
 
 hist(boot::inv.logit(MCMCchains(zc,params=c("mu.alpha"))+MCMCchains(zc,params=c("eps.plot"))[,2]) ,breaks=100); abline(v=.75,col='red')
+
+apply(boot::inv.logit(MCMCchains(zc,params=c("eps.plot"))),2,mean)
+apply(boot::inv.logit(MCMCchains(zc,params=c("mu.alpha"))),2,mean)
+      
+apply(boot::inv.logit(MCMCchains(zc,params=c("eps.plot"))),2,mean)
 
