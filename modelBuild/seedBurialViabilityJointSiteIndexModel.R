@@ -217,10 +217,10 @@ save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 1000
-n.update = 10000
+n.adapt = 3000
+n.update = 5000
 n.iter = 10000
-n.thin = 10
+n.thin = 1
 
 set.seed(10)
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
@@ -371,6 +371,7 @@ save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBank
 # # -------------------------------------------------------------------
 # Partial pooling of germination and viability trials (bag level)
 # Partial pooling of seed burial experiment, logit parameterization (site, year level)
+# # the chains in this model aren't mixing
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
 
@@ -379,17 +380,17 @@ inits = list(list(pv = rep(.1,data$nbags),pg = rep(.1,data$nbags),
                   sigma.i = rep(50,data$nsites), sigma.s = rep(50,data$nsites),
                   mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
                   sigma.b.i = rep(50,data$nsiteyears), sigma.b.s = rep(50,data$nsiteyears),
-                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears)),
+                  mu.b.i = rep(-2,data$nsiteyears), mu.b.s = rep(-2,data$nsiteyears)),
              list(pv = rep(.5,data$nbags),pg = rep(.5,data$nbags),
                   sigma.i = rep(20,data$nsites), sigma.s = rep(20,data$nsites),
-                  mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
+                  mu.i = rep(-2,data$nsites), mu.s = rep(-2,data$nsites),
                   sigma.b.i = rep(20,data$nsiteyears), sigma.b.s = rep(20,data$nsiteyears),
-                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears)),
+                  mu.b.i = rep(-2,data$nsiteyears), mu.b.s = rep(-2,data$nsiteyears)),
              list(pv = rep(.9,data$nbags),pg = rep(.9,data$nbags),
                   sigma.i = rep(10,data$nsites), sigma.s = rep(10,data$nsites),
-                  mu.i = rep(0,data$nsites), mu.s = rep(0,data$nsites),
+                  mu.i = rep(2,data$nsites), mu.s = rep(2,data$nsites),
                   sigma.b.i = rep(10,data$nsiteyears), sigma.b.s = rep(10,data$nsiteyears),
-                  mu.b.i = rep(0,data$nsiteyears), mu.b.s = rep(0,data$nsiteyears))
+                  mu.b.i = rep(2,data$nsiteyears), mu.b.s = rep(2,data$nsiteyears))
 )
 
 # Call to JAGS
@@ -407,3 +408,37 @@ sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
 
 save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitSiteYearFit.rds")
+
+MCMCsummary(zc_partialpoollogit,params="mu.s")
+MCMCtrace(zc_partialpoollogit,params="mu.i")
+
+
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# New attempt
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+
+# set inits for JAGS
+inits = list(list(mu.alpha = c(0), sigma.year = 5),
+             list(mu.alpha = c(-1), sigma.year = 10),
+             list(mu.alpha = c(2), sigma.year = 20)
+)
+
+# Call to JAGS
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"testJags.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+parsToMonitor = c("mu.alpha","sigma.year")
+# chain (n.iter)
+zc = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
+
+#save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitSiteYearFit.rds")
+
+MCMCsummary(zc,params=c("mu.alpha","sigma.year"))
+MCMCtrace(zc,params="sigma.year")

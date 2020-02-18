@@ -5,21 +5,22 @@ model {
     ##############
     
     for(i in 1:nsites){
-    mu.i[i] ~ dnorm( 0, 0.0001 )
-    sigma.i[i] ~ dunif(0,100)
-    tau.i[i] <- 1/(sigma.i[i] * sigma.i[i])
+    #mu.i[i] ~ dnorm( 0, 0.0001 )
+    #sigma.i[i] ~ dunif(0,100)
+    #tau.i[i] <- 1/(sigma.i[i] * sigma.i[i])
 
-    mu.s[i] ~ dnorm( 0, 0.0001 )
-    sigma.s[i] ~ dunif(0,100)
-    tau.s[i] <- 1/(sigma.s[i] * sigma.s[i])
-    }
+   # mu.s[i] ~ dnorm( 0, 0.0001 )
+    #sigma.s[i] ~ dunif(0,100)
+    #tau.s[i] <- 1/(sigma.s[i] * sigma.s[i])
+        
+        mu.i[i] ~ dnorm( 0, 0.0001 )
+        mu.s[i] ~ dnorm( 0, 0.0001 )
 
-    for(i in 1:nsiteyears){
-    mu.b.i[i] ~ dnorm( 0, 0.0001 )
+    #mu.b.i[i] ~ dnorm( 0, 0.0001 )
     sigma.b.i[i] ~ dunif(0,100)
     tau.b.i[i] <- 1/(sigma.b.i[i] * sigma.b.i[i])
 
-    mu.b.s[i] ~ dnorm( 0, 0.0001 )
+   # mu.b.s[i] ~ dnorm( 0, 0.0001 )
     sigma.b.s[i] ~ dunif(0,100)
     tau.b.s[i] <- 1/(sigma.b.s[i] * sigma.b.s[i])
     }
@@ -34,12 +35,16 @@ model {
         pv[j] ~ dbeta( 1 , 1 )
     }
     
-    for(j in 1:nbags){
+    #for(j in 1:nbags){
         # site intercepts
-        alpha.i[j] ~ dnorm(mu.i[site[j]], tau.i[site[j]])
-        alpha.s[j] ~ dnorm(mu.s[site[j]], tau.s[site[j]])
-	    beta.i[j] ~ dnorm(mu.b.i[siteyear[j]], tau.b.i[siteyear[j]])
-	    beta.s[j] ~ dnorm(mu.b.s[siteyear[j]], tau.b.s[siteyear[j]])
+        #alpha.i[j] ~ dnorm(mu.i[site[j]], tau.i[site[j]])
+        #alpha.s[j] ~ dnorm(mu.s[site[j]], tau.s[site[j]])
+	    #beta.i[j] ~ dnorm(mu.b.i[siteyear[j]], tau.b.i[siteyear[j]])
+	    #beta.s[j] ~ dnorm(mu.b.s[siteyear[j]], tau.b.s[siteyear[j]])
+    #}
+    
+    for(i in 1:nsiteyears){      
+        beta.b.i[i]~dnorm(0,tau.b.i[site[i]])
     }
     
     ##############
