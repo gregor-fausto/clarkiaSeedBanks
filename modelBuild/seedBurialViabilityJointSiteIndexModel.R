@@ -143,15 +143,16 @@ seedBagExperiment<-seedBagExperiment %>%
   dplyr::left_join(referenceTableBag,by="idBag") %>%
   dplyr::left_join(referenceTableSite,by="site")
 
+viabilityExperiment<-viabilityExperiment %>%
+  dplyr::left_join(referenceTableBag,by="idBag") %>%
+  dplyr::left_join(referenceTableSite,by="site")
+
 # exclude these bags; not in the seed bag dataset
 # should check these
 d<-referenceTableBag$idBag[!(referenceTableBag$idBag %in% seedBagExperiment$idBag)]
 referenceTableBag<-referenceTableBag %>% dplyr::filter(!(idBag%in%d))
 
-viabilityExperiment<-viabilityExperiment %>%
-  dplyr::left_join(referenceTableBag,by="idBag") %>%
-  dplyr::left_join(referenceTableSite,by="site")
-
+viabilityExperiment<-viabilityExperiment %>% dplyr::filter(!(idBag%in%d))
 
 
 # seedBagExperiment <- seedBagExperiment %>%

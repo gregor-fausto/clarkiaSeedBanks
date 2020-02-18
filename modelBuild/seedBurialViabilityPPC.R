@@ -389,7 +389,7 @@ ppc_dens_overlay(data$y_total, MCMCchains(zc_partialpoollogit,params="yTotalSim"
   theme_bw() + xlim(c(0,100)) + labs(title="Posterior predictive checks for seeds counted in seed bags in January", 
                                      caption="Dark line is the density of observed data (y) and the lighterlines show the densities of Y_rep from 1000 draws of the posterior")
 
-ppc_stat_grouped(data$y_total, MCMCchains(zc_partialpoollogit,params="yTotalSim")[sample(iter,1000), ],group=data$site) +
+ppc_stat_grouped(data$y_total, MCMCchains(zc_partialpoollogit,params="yTotalSim")[sample(iter,1000), ],group=interaction(data$site,data$siteyear) +
   theme_bw() + labs(title="Posterior predictive checks for the mean of seeds counted in seed bags in January",
                     caption="the bar is the observed value of test statistic T(y) and the histograms show T(Y_rep) from 1000 draws of the posterior")
 
