@@ -106,8 +106,8 @@ viabilityExperiment<-viabilityExperiment %>%
 ## filter the dataset for testing purposes
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1)# %>%
-    #dplyr::filter(site=="BG"|site=="BR")
+    dplyr::filter(age==1) %>%
+    dplyr::filter(site=="BG"|site=="BR")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -173,12 +173,16 @@ viabilityExperiment<-viabilityExperiment %>% dplyr::filter(!(idBag%in%d))
 # seedBagExperiment$siteBag<-forcats::fct_relevel(seedBagExperiment$siteBag, as.vector(unique(ve$siteBag)))
 # viabilityExperiment$siteBag<-forcats::fct_relevel(viabilityExperiment$siteBag, as.vector(unique(ve$siteBag)))
 
+d<-unique(data.frame(site=as.double(as.numeric(as.factor(seedBagExperiment$site))),
+           siteyear=as.double(as.numeric(as.factor(seedBagExperiment$idSiteRound)))))
+
 # pass data to list for JAGS
 data = list(
   # nbags comes from a reference table
   # that indexes all the bags across both experiments
   nbags = max(referenceTableBag$indexBag), 
   nsites = max(referenceTableSite$indexSite),
+  site_year = as.double(d$site),
     
   # Germination and Viability Trials
   yg = as.double(viabilityExperiment$germCount),
@@ -205,6 +209,8 @@ data = list(
   
 )
 
+
+
 save(data,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagIndexSiteModelData.rds")
 save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagExperimentIndexSiteData.rds")
 
@@ -219,7 +225,7 @@ save(seedBagExperiment,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/
 # number of samples in the final chain
 n.adapt = 3000
 n.update = 5000
-n.iter = 10000
+n.iter = 100000
 n.thin = 1
 
 set.seed(10)
@@ -402,15 +408,17 @@ jm = jags.model(paste0(dir,"seedBagsPartialPoolingViabilityPartialPoolingLogitSi
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("pv","pg","pi","ps","mu.i","mu.s","sigma.i","sigma.s","mu.b.i","mu.b.s","sigma.b.i","sigma.b.s","viability")
-sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
+parsToMonitor = c("pv","pg","pi","mu.i","sigma.i","viability")
+# "ps","mu.s","sigma.s","mu.b.s","sigma.b.s"
+#sims = c("ygSim","yvSim","ySeedlingsSim","yTotalSim")
 # chain (n.iter)
-zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor,sims), n.iter = n.iter, thin = n.thin)
+zc_partialpoollogit = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
 
 save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitSiteYearFit.rds")
 
-MCMCsummary(zc_partialpoollogit,params="mu.s")
+MCMCsummary(zc_partialpoollogit,params="sigma.i")
 MCMCtrace(zc_partialpoollogit,params="mu.i")
+MCMCtrace(zc_partialpoollogit,params="sigma.i")
 
 
 # # -------------------------------------------------------------------
@@ -420,9 +428,9 @@ MCMCtrace(zc_partialpoollogit,params="mu.i")
 # # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(mu.alpha = c(0), sigma.year = 5),
-             list(mu.alpha = c(-1), sigma.year = 10),
-             list(mu.alpha = c(2), sigma.year = 20)
+inits = list(list(mu.alpha = rep(rnorm(1,0),data$nsites), sigma.year = rep(rlnorm(1),data$nsites)),
+             list(mu.alpha = rep(rnorm(1,0),data$nsites), sigma.year = rep(rlnorm(1),data$nsites)),
+             list(mu.alpha = rep(rnorm(1,0),data$nsites), sigma.year = rep(rlnorm(1),data$nsites))
 )
 
 # Call to JAGS
@@ -434,11 +442,11 @@ jm = jags.model(paste0(dir,"testJags.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("mu.alpha","sigma.year")
+parsToMonitor = c("mu.alpha","sigma.year","eps.year")
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
 
 #save(zc_partialpoollogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsPartialPoolingLogitSiteYearFit.rds")
 
-MCMCsummary(zc,params=c("mu.alpha","sigma.year"))
-MCMCtrace(zc,params="sigma.year")
+MCMCsummary(zc,params=c("mu.alpha","sigma.year","eps.year"))
+MCMCtrace(zc,params="mu.alpha")
