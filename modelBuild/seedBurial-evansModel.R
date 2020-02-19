@@ -106,8 +106,7 @@ viabilityExperiment<-viabilityExperiment %>%
 ## filter the dataset for testing purposes
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1) %>%
-    dplyr::filter(site=="BG"|site=="BR")
+    dplyr::filter(age==1)
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -300,4 +299,17 @@ mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(zc,params=c("mu.alpha")))[1],ncol=
 apply(apply(mat,2,boot::inv.logit),2,mean)
 seedBagExperiment %>% dplyr::group_by(site,round) %>% dplyr::summarise(mean(totalJan/seedStart))
 
+
+library(tidybayes)
+
+zc %>%
+  spread_draws(alpha.i[site,year]) %>%
+  ggplot(aes(x = alpha.i, y = year,group=site))  +
+  stat_halfeyeh(aes(fill=site))
+
+zc %>%
+  spread_draws(mu.alpha[site]) %>% 
+  dplyr::mutate(mu.alpha=boot::inv.logit(mu.alpha)) %>%
+  ggplot(aes(x = mu.alpha, y = site))  +
+  stat_halfeyeh()
 
