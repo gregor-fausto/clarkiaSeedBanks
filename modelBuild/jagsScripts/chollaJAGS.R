@@ -31,7 +31,7 @@ model{
   ## Survival (same model as flowering)
   for(i in 1:surv.N.obs){
     logit(surv.p[i]) <- surv.mu + surv.eps.plot[surv.plot[i]] + surv.eps.year[surv.year[i]]# + surv.bsize*surv.size[i]
-    
+   
     surv.y[i]~dbern(surv.p[i])
     
     surv.Presi[i] <- abs(surv.y[i]-surv.p[i])
@@ -43,6 +43,5 @@ model{
   ## sum up posterior predictive checks
   surv.fit <- sum(surv.Presi[]) 
   surv.fit.new <- sum(surv.Presi.new[]) 
-
   
 }
