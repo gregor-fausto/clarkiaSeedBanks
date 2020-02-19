@@ -106,7 +106,8 @@ viabilityExperiment<-viabilityExperiment %>%
 ## filter the dataset for testing purposes
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1)
+    dplyr::filter(age==1) %>%
+    dplyr::filter(site=="BG")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -281,13 +282,13 @@ jm = jags.model(paste0(dir,"testMultiYearJAGS.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("mu.alpha","beta.i","alpha.i")
+parsToMonitor = c("mu.alpha","beta.i","alpha.i","pred")
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
 
 #save(zc,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsEvansModelFit.rds")
 
-MCMCsummary(zc,params=c("mu.alpha","beta.i","alpha.i"))
+MCMCsummary(zc,params=c("mu.alpha","beta.i","alpha.i","pred"))
 MCMCtrace(zc,params=c("mu.alpha"),pdf=FALSE)
 MCMCtrace(zc,params=c("alpha.i"),pdf=FALSE)
 
@@ -299,13 +300,20 @@ mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(zc,params=c("mu.alpha")))[1],ncol=
 apply(apply(mat,2,boot::inv.logit),2,mean)
 seedBagExperiment %>% dplyr::group_by(site,round) %>% dplyr::summarise(mean(totalJan/seedStart))
 
+zc %>%
+  spread_draws(pred[site,year]) %>%
+  ggplot(aes(x = boot::inv.logit(pred), y = year))  +
+  stat_halfeyeh() + 
+  geom_point(data=seedBagExperiment,aes(x=totalJan/seedStart, y = round),color="red") +
+  xlim(c(0,1))
+
 
 library(tidybayes)
 
 zc %>%
   spread_draws(alpha.i[site,year]) %>%
-  ggplot(aes(x = alpha.i, y = year,group=site))  +
-  stat_halfeyeh(aes(fill=site))
+  ggplot(aes(x = alpha.i, y = site))  +
+  stat_pointinterval(aes(color=year))
 
 zc %>%
   spread_draws(mu.alpha[site]) %>% 

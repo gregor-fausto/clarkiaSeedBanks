@@ -21,5 +21,11 @@ model {
     y_total[i] ~ dbin(pi[i], n_buried[i])
     
   }
+  
+  for(i in 1:nsites){
+    for(j in 1:nyears){
+      pred[i,j] <- mu.alpha[i] + alpha.i[i,j]
+    }
+  }
 }
 
