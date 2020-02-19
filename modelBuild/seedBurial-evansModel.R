@@ -107,7 +107,7 @@ viabilityExperiment<-viabilityExperiment %>%
 filterData<-function(x) {
   x %>%
     dplyr::filter(age==1) %>%
-    dplyr::filter(site=="BG")
+    dplyr::filter(site=="BG"|site=="BR")
 }
 
 seedBagExperiment<-filterData(seedBagExperiment)
@@ -182,6 +182,7 @@ data = list(
   # that indexes all the bags across both experiments
   nbags = max(referenceTableBag$indexBag), 
   nsites = max(referenceTableSite$indexSite),
+  nyears = length(unique(seedBagExperiment$yearStart)),
   site_year = as.double(d$site),
   
   # Seed burial experiment, year one
@@ -194,7 +195,8 @@ data = list(
   site = as.double(seedBagExperiment$indexSite),
   
   siteyear = as.double(as.numeric(as.factor(seedBagExperiment$idSiteRound))),
-  nsiteyears = length(unique(seedBagExperiment$idSiteRound))
+  nsiteyears = length(unique(seedBagExperiment$idSiteRound)),
+  year= as.double(seedBagExperiment$round)
   
 )
 
@@ -225,10 +227,10 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 # # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1)),
-             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1)),
-             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1))
-)
+inits = list(list(mu.alpha = rep(rnorm(0),data$nsites), beta.i = rep(rnorm(0),data$nsiteyears)),
+             list(mu.alpha = rep(rnorm(0),data$nsites),  beta.i = rep(rnorm(0),data$nsiteyears)),
+             list(mu.alpha = rep(rnorm(0),data$nsites),  beta.i = rep(rnorm(0),data$nsiteyears))
+) 
 
 # Call to JAGS
 
@@ -239,22 +241,63 @@ jm = jags.model(paste0(dir,"testJags.R"), data = data, inits = inits,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("sigma.year","mu.alpha","beta.i")
+parsToMonitor = c("mu.alpha","beta.i","alpha.i")
 # chain (n.iter)
 zc = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
 
 #save(zc,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsEvansModelFit.rds")
 
-MCMCsummary(zc,params=c("sigma.year","mu.alpha","beta.i"))
-MCMCtrace(zc,params=c("mu.alpha","sigma.year"))
+MCMCsummary(zc,params=c("mu.alpha","beta.i","alpha.i"))
+MCMCtrace(zc,params=c("mu.alpha"),pdf=FALSE)
+MCMCtrace(zc,params=c("alpha.i"),pdf=FALSE)
 
-d<-matrix(rep(NA,3*length(MCMCchains(zc,params="mu.alpha"))),ncol=3)
-for(i in 1:3){
-  d[,i]<-MCMCchains(zc,params="mu.alpha")+MCMCchains(zc,params="beta.i")[,i]
+# model 3
+mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(zc,params=c("mu.alpha")))[1],ncol=data$nsiteyears)
+for(i in 1:data$nsiteyears){
+  mat[,i]<-MCMCvis::MCMCchains(zc,params=c("mu.alpha"))+MCMCvis::MCMCchains(zc,params=c("alpha.i"))[,i]
 }
 
-out<-data.frame(cbind(
-(seedBagExperiment %>% dplyr::group_by(site,round) %>% dplyr::summarise(mean(totalJan/seedStart))),
-bayes=apply(boot::inv.logit(MCMCchains(zc,params="mu.alpha")),2,mean)))
-out
+apply(apply(mat,2,boot::inv.logit),2,mean)
+seedBagExperiment %>% dplyr::group_by(yearStart) %>% dplyr::summarise(mean(totalJan/seedStart))
+
+
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# multi-year model
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+
+# set inits for JAGS
+inits = list(list(mu.alpha = rep(rnorm(1),data$nsites), beta.i = matrix(rep(rnorm(1),data$nsiteyears),nrow=data$nsites,ncol=data$nyears)),
+             list(mu.alpha = rep(rnorm(1),data$nsites),  beta.i = matrix(rep(rnorm(1),data$nsiteyears),nrow=data$nsites,ncol=data$nyears)),
+             list(mu.alpha = rep(rnorm(1),data$nsites),  beta.i = matrix(rep(rnorm(1),data$nsiteyears),nrow=data$nsites,ncol=data$nyears))
+) 
+
+# Call to JAGS
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dir,"testMultiYearJAGS.R"), data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+parsToMonitor = c("mu.alpha","beta.i","alpha.i")
+# chain (n.iter)
+zc = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iter, thin = n.thin)
+
+#save(zc,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBagsEvansModelFit.rds")
+
+MCMCsummary(zc,params=c("mu.alpha","beta.i","alpha.i"))
+MCMCtrace(zc,params=c("mu.alpha"),pdf=FALSE)
+MCMCtrace(zc,params=c("alpha.i"),pdf=FALSE)
+
+# model 3
+mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(zc,params=c("mu.alpha")))[1],ncol=data$nsiteyears)
+  mat[,1:3]<-MCMCvis::MCMCchains(zc,params=c("mu.alpha"))[,1]+MCMCvis::MCMCchains(zc,params=c("alpha.i"))[,c(1,3,5)]
+  mat[,4:6]<-MCMCvis::MCMCchains(zc,params=c("mu.alpha"))[,2]+MCMCvis::MCMCchains(zc,params=c("alpha.i"))[,c(2,4,6)]
+
+apply(apply(mat,2,boot::inv.logit),2,mean)
+seedBagExperiment %>% dplyr::group_by(site,round) %>% dplyr::summarise(mean(totalJan/seedStart))
+
 

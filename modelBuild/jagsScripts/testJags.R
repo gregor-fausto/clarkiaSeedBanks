@@ -9,8 +9,8 @@ model {
   }
   
   # sum to zero constraint
-  alpha.i[1] <- 0 - sum( beta.i[2:N.plots])
-  alpha.i[2:N.plots] <- beta.i[2:N.plots]
+  alpha.i[1] <- 0 - sum( beta.i[2:nsiteyears])
+  alpha.i[2:nsiteyears] <- beta.i[2:nsiteyears]
 
 ## Likelihood
 for(i in 1:N_burial){
