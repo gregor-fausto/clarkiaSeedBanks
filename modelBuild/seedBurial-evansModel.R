@@ -212,7 +212,7 @@ data = list(
 # number of samples in the final chain
 n.adapt = 30000
 n.update = 5000
-n.iter = 10000
+n.iter = 100000
 n.thin = 1
 
 set.seed(10)
@@ -225,9 +225,9 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScripts/")
 # # -------------------------------------------------------------------
 
 # set inits for JAGS
-inits = list(list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.site = rep(rlnorm(1),data$nsites)),
-             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.site = rep(rlnorm(1),data$nsites)),
-             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.site = rep(rlnorm(1),data$nsites))
+inits = list(list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1)),
+             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1)),
+             list(mu.alpha = rep(rnorm(0),data$nsiteyears), sigma.year = rep(rlnorm(1),1))
 )
 
 # Call to JAGS
