@@ -102,12 +102,12 @@ modelString3 <- "model {
   
   # hyperpriors
   mu.alpha ~ dnorm(0, 0.0001)
-  sigma.alpha ~ dunif(0,100)
-  tau.alpha <- 1/sigma.alpha^2
+  #sigma.alpha ~ dunif(0,100)
+  #tau.alpha <- 1/sigma.alpha^2
   
   # priors 
   for(i in 2:N.plots){     
-    b0[i]~dnorm(mu.alpha,tau.alpha)
+    b0[i]~dnorm(0,0.0001)
   }
   
   # sum to zero constraint
@@ -182,9 +182,9 @@ samples.rjags2 = coda.samples(jm2, variable.names = c(parsToMonitor), n.iter = n
 # Call to JAGS via rjags (model 3)
 # -------------------------------------------------------------------
 # set inits for rjags
-inits = list(list(mu.alpha = 0,sigma.alpha = 2),
-             list(mu.alpha = 0,sigma.alpha = 2),
-             list(mu.alpha = 0,sigma.alpha = 2)) 
+inits = list(list(mu.alpha = 0,b0 = rep(0,data$N.plots)),
+             list(mu.alpha = 0,b0 = rep(0,data$N.plots)),
+             list(mu.alpha = 0,b0 = rep(0,data$N.plots)) )
 
 parsToMonitor = c("mu.alpha","sigma.alpha","b0")
 
