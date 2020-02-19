@@ -96,6 +96,7 @@ modelString2 <- "model {
   }
 }"
 
+# doesn't work agian!
 # https://github.com/stan-dev/example-models/blob/master/ARM/Ch.12/radon_intercept.stan
 modelString3 <- "model { 
   ## Priors
@@ -106,21 +107,28 @@ modelString3 <- "model {
   #tau.alpha <- 1/sigma.alpha^2
   
   # priors 
-  for(i in 2:N.plots){     
-    b0[i]~dnorm(0,0.0001)
+  for(i in 1:N.plots){     
+    b[i]~dnorm(0,0.0001)
   }
-  
+
+  # https://stackoverflow.com/questions/12895431/model-in-rjags-for-sum-to-zero-constraints/12895432#12895432  
+  # https://github.com/boboppie/kruschke-doing_bayesian_data_analysis/blob/master/2e/Jags-Ymet-XnomSplitPlot-MnormalHom.R
   # sum to zero constraint
-  b0[1] <- -sum( b0[2:N.plots])  
+  a0[1] <- 0 - sum( b[2:N.plots])
+  a0[2:N.plots] <- b[2:N.plots]
+  
+    # # Convert mu.alpha,a[] to sum-to-zero b0,b[] :
+    # for ( j in 1:N.plots ) { m[j] <- mu.alpha + a[j] } # cell means 
+    # b0 <- mean( m[1:N.plots] )
+    # for ( j in 1:N.plots ) { b[j] <- m[j] - b0 }
   
   # Likelihood
   for(i in 1:N){
-    logit(p[i]) <- mu.alpha + b0[plot[i]]
+    logit(p[i]) <- mu.alpha + a0[plot[i]]
     y[i] ~ dbin(p[i], n[i])
     
   }
 }"
-
 
 
 # -------------------------------------------------------------------
@@ -182,11 +190,11 @@ samples.rjags2 = coda.samples(jm2, variable.names = c(parsToMonitor), n.iter = n
 # Call to JAGS via rjags (model 3)
 # -------------------------------------------------------------------
 # set inits for rjags
-inits = list(list(mu.alpha = 0,b0 = rep(0,data$N.plots)),
-             list(mu.alpha = 0,b0 = rep(0,data$N.plots)),
-             list(mu.alpha = 0,b0 = rep(0,data$N.plots)) )
+inits = list(list(mu.alpha = 0,b = c(rep(0,data$N.plots))),
+             list(mu.alpha = 0,b = c(rep(0,data$N.plots))),
+             list(mu.alpha = 0,b = c(rep(0,data$N.plots))) )
 
-parsToMonitor = c("mu.alpha","sigma.alpha","b0")
+parsToMonitor = c("mu.alpha","a0","b")
 
 set.seed(2)
 # tuning (n.adapt)
@@ -208,7 +216,7 @@ sum.rjags1
 sum.rjags2 <- MCMCvis::MCMCsummary(samples.rjags2,params=c("mu.alpha","eps.plot","sigma.plot"))
 sum.rjags2
 
-sum.rjags3 <- MCMCvis::MCMCsummary(samples.rjags3,params=c("mu.alpha","sigma.alpha","b0"))
+sum.rjags3 <- MCMCvis::MCMCsummary(samples.rjags3,params=c("mu.alpha","a0","b"))
 sum.rjags3
 
 # -------------------------------------------------------------------
@@ -216,7 +224,7 @@ sum.rjags3
 # -------------------------------------------------------------------
 MCMCvis::MCMCtrace(samples.rjags1,params=c("mu.alpha"),pdf=FALSE)
 MCMCvis::MCMCtrace(samples.rjags2,params=c("mu.alpha"),pdf=FALSE)
-MCMCvis::MCMCtrace(samples.rjags3,params=c("mu.alpha"),pdf=FALSE)
+MCMCvis::MCMCtrace(samples.rjags3,params=c("b0"),pdf=FALSE)
 
 par(mfrow=c(1,1))
 # model 1
@@ -237,9 +245,9 @@ plot(apply(apply(mat,2,boot::inv.logit),2,mean),rep(c(.2,.4,.6,.8),N.plots/lengt
 abline(a=0,b=1)
 
 # model 3
-mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(samples.rjags3,params=c("b0")))[1],ncol=N.plots,)
+mat <- matrix(NA,nrow=dim(MCMCvis::MCMCchains(samples.rjags3,params=c("mu.alpha")))[1],ncol=N.plots,)
 for(i in 1:N.plots){
-  mat[,i]<-MCMCvis::MCMCchains(samples.rjags3,params=c("mu.alpha"))+MCMCvis::MCMCchains(samples.rjags3,params=c("b0"))[,i]
+  mat[,i]<-MCMCvis::MCMCchains(samples.rjags3,params=c("mu.alpha"))+MCMCvis::MCMCchains(samples.rjags3,params=c("a0"))[,i]
 }
 
 plot(apply(apply(mat,2,boot::inv.logit),2,mean),rep(c(.2,.4,.6,.8),N.plots/length(p)))
