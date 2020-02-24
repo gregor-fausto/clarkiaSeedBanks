@@ -253,7 +253,7 @@ This corresponds to a model in which there is \textit{complete pooling}, with a 
 \end{align}
 Here, we give each site $j$ and year $k$ its own probability of success $p_{jk}$. Effectively, this is a model in which we are completely pooling observations from each site and year. This is pretty similar to what we are doing with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we do account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success. For the most part, though, these estimates are pretty similar (see that most points fall on a 1:1 line).
 
-\subsection*{binomial model with partial pooling and a beta prior}
+\subsection*{Binomial model with partial pooling and a beta prior}
 
 Next, we'll consider adding pooling to our model. We do this by putting hyperpriors on the parameters for the beta distribution. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
 %
@@ -267,7 +267,7 @@ Next, we'll consider adding pooling to our model. We do this by putting hyperpri
 
 \subsection*{Multi-level binomial model with partial pooling and a beta prior}
 
-Next, we'll consider pooling across all sites and years in our dataset. We do this by putting hyperpriors on the parameters for the beta distribution. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
+Next, we'll consider pooling across all sites and years in our dataset. We do this by putting hyperpriors on the parameters for the beta distribution. This means that I am estimating parameters for all sites and years simultaneously. There is a parameter $\omega_j$ that determines the mode of each site, $\omega$ that determines the mode across all sites, $\kappa_j$ that determines the concentration of the data between years, and $\kappa$ that determines the concentration of data at each site. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
 %
 \begin{align}
   \begin{split}
