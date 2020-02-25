@@ -1,0 +1,24 @@
+\begin{thebibliography}{3}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Cohen(1966)}]{cohen1966}
+Cohen, D. 1966.
+\newblock Optimizing reproduction in a randomly varying environment.
+\newblock Journal of Theoretical Biology, {\bf 12}:119--129.
+
+\bibitem[{Ellner(1985{\natexlab{{\em a\/}}})}]{ellner1985a}
+Ellner, S. 1985{\natexlab{{\em a\/}}}.
+\newblock {ESS} germination strategies in randomly varying environments. {I}.
+  {Logistic}-type models.
+\newblock Theoretical Population Biology, {\bf 28}:50--79.
+
+\bibitem[{Ellner(1985{\natexlab{{\em b\/}}})}]{ellner1985}
+Ellner, S. 1985{\natexlab{{\em b\/}}}.
+\newblock {ESS} germination strategies in randomly varying environments. {II}.
+  {Reciprocal} {Yield}-{Law} models.
+\newblock Theoretical Population Biology, {\bf 28}:80--116.
+
+\end{thebibliography}

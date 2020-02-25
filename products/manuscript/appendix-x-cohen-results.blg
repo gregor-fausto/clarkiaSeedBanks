@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: appendix-x-cohen-results.aux
+The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
+Database file #1: /Users/gregor/Dropbox/bibliography/seeds.bib
+You've used 3 entries,
+            2706 wiz_defined-function locations,
+            601 strings with 5312 characters,
+and the built_in function-call counts, 1300 in all, are:
+= -- 132
+> -- 33
+< -- 3
++ -- 13
+- -- 9
+* -- 91
+:= -- 245
+add.period$ -- 12
+call.type$ -- 3
+change.case$ -- 18
+chr.to.int$ -- 2
+cite$ -- 3
+duplicate$ -- 63
+empty$ -- 106
+format.name$ -- 12
+if$ -- 253
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 3
+newline$ -- 22
+num.names$ -- 12
+pop$ -- 16
+preamble$ -- 1
+purify$ -- 15
+quote$ -- 0
+skip$ -- 37
+stack$ -- 0
+substring$ -- 99
+swap$ -- 7
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 27
+warning$ -- 0
+while$ -- 15
+width$ -- 0
+write$ -- 45

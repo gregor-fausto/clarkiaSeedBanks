@@ -125,10 +125,9 @@ dev.off()
 # when Yt = c(0, Y)
 # note use of log10
 e<-function(G=g,D=d,Y=y,P=py){
-  E=(1-P)*log10((1-G)*(1-D))+(P)*log10((1-G)*(1-D)+G*Y[2])
+  E=(1-P)*log10((1-G)*(1-D)+G*Y[1])+(P)*log10((1-G)*(1-D)+G*Y[2])
   return(E)
 }
-
 
 # script to compute long-term population growth rate
 # for combinations of P_y, Y, D, and G
@@ -142,8 +141,8 @@ v<-function(G=g,D=d,Y=y,P=py){
 }
 
 # data frame to create Figure 3
-df<-data.frame(g=c(.5,.1,.5,.1,.5,.95,.95,.1,.95),
-               d=c(.1,.1,.3,.3,.8,.1,.3,.8,.8))
+df<-data.frame(g=c(.1,.1),
+               d=c(.1,.3))
 
 # create combination of parameters 
 y = c(2:10 %o% 10^(0:3))
@@ -152,13 +151,17 @@ py = .5
 # setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
 # pdf(file="cohenFigure3.pdf", width=8, height=8)
 par(mar=c(5, 6, 4, 2) + 0.1)
-plot(log(y),unlist(v(G=df$g[1],D=df$d[1],Y=y,P=py)),type='n',ylim=c(-0.8,1.7),
+plot(log(y),unlist(v(G=df$g[1],D=df$d[1],Y=y,P=py)),type='n',
+     ylim=c(-0.8,1.7),
+     xaxt = 'n',
      xlab="ln(Y)",
      ylab="Long-term expectation of growth rate \n f[ln(Y)] for P = 0.5")
 abline(h=0,col='gray')
 for(i in 1:(dim(df)[1])){
   lines(log(y),unlist(v(G=df$g[i],D=df$d[i],Y=y,P=py)),type='l',pch=16)
 }
+axis(side=1, at=sapply(y[c(1,4,9,10,13,18,19,22,27,36)], FUN=function(x) log(x)),
+     labels=signif(log(y[c(1,4,9,10,13,18,19,22,27,36)]),digits=3))
 # dev.off()
 
 ################################################################################

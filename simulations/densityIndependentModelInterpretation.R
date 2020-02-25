@@ -45,7 +45,9 @@ max_g <- function(y,py,d=d[2]){
 
 ## Figure 7 from Cohen
 ## updated with more even distribution of fitness
-par(mfrow=c(3,1))
+setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
+pdf(file="appendix-x-optimal.pdf", width=6, height=6)
+layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
 g=seq(0,1,by=.01)
 d=c(0,.5,.8)
 
@@ -62,15 +64,20 @@ for(i in 1:length(d)){
   out<-unlist(v(G=g,D=d[i],Y=y,P=py))
   points(g[which(out %in% max(out))],max(out),col='red',pch=16)
 }
-text(.5,7,"s=1")
-text(.75,1.5,"s=.5")
-text(.95,-1.5,"s=.2")
+text(0,4,"s=1")
+text(0,-10,"s=.5")
+text(0,-20,"s=.2")
 
 plot(ly,py,type='h',lwd=2,xlab=expression('Logarithm of fitness [log'[10]*'(Y)]'),ylab="Probability of fitness Y [P(Y)]")
 plot(y,py,type='h',lwd=2,xlab="Fitness [Y]",ylab="Probability of fitness Y [P(Y)]")
+dev.off()
+
+
 
 ## Effect of seed survivorship on optimal germination fraction
-par(mfrow=c(2,1))
+setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
+pdf(file="appendix-x-survivorship.pdf", width=6, height=4)
+par(mfrow=c(1,2))
 dvals = seq(0,1,by=.1)
 g=seq(0,1,by=.01)
 seqLen=100
@@ -96,26 +103,38 @@ lines(1-dvals,sapply(dvals,max_g,y=y,py=py),lty='dotted')
 py = dnorm(ly,mean=0,sd=1)
 plot(ly,py,type='n', xlab=expression('Logarithm of fitness [log'[10]*'(Y)]'),ylab= "Probability of fitness, Y [P(Y)]")
 abline(v=0,col='gray')
-lines(ly,py,type='l',lwd=2)
+lines(ly,py,type='l',lwd=1)
 
 py = dnorm(ly,mean=-.5,sd=1)
-lines(ly,py,type='l',lwd=2,lty='dashed')
+lines(ly,py,type='l',lwd=1,lty='dashed')
 
 py = dnorm(ly,mean=.5,sd=1)
-lines(ly,py,type='l',lwd=2,lty='dotted')
+lines(ly,py,type='l',lwd=1,lty='dotted')
+dev.off()
 
 ## Effect of variance in fitness on optimal germination fraction
+setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
+pdf(file="appendix-x-fitnessvariance.pdf", width=4, height=4)
 seqLen=100
 fromVal=0.01; toVal=100
 y=10^seq(log(fromVal,base=10), log(toVal,base=10), length.out = seqLen)
 ly = log(y,base=10)
 py=list()
-vals=seq(.1,5,by=.25)
+vals=seq(.1,5,by=.01)
 for(i in 1:length(vals)){
   py[[i]] = dnorm(ly,mean=0,sd=vals[i])
 }
 
+par(mfrow=c(1,1))
+plot(vals^2,lapply(py,max_g,y=y,d=.5),pch=16,ylim=c(0,1),col='gray',type='l',
+     xlab="Fitness variance [var(Y)]",ylab="Optimal germination fraction [G*]")
 
+lines(vals^2,lapply(py,max_g,y=y,d=.2),pch=16,col='red')
+lines(vals^2,lapply(py,max_g,y=y,d=.8),pch=16)
+text(18,.85,"Seed survivorship=0.2")
+text(18,.66,"Seed survivorship=0.5")
+text(18,.57,"Seed survivorship=0.8")
+dev.off()
 # plot variance in fitness fraction
 # par(mfrow=c(1,2))
 # plot(y,py[[i]],type='n',lwd=2,ylim=c(0,1))
@@ -136,14 +155,4 @@ for(i in 1:length(vals)){
 #   points(g[which(out %in% max(out))],max(out),col='red',pch=16)
 # }
 
-
-par(mfrow=c(1,1))
-plot(vals^2,lapply(py,max_g,y=y,d=.5),pch=16,ylim=c(0,1),col='gray',
-     xlab="Fitness variance [var(Y)]",ylab="Optimal germination fraction [G*]")
-
-points(vals^2,lapply(py,max_g,y=y,d=.2),pch=16,col='red')
-points(vals^2,lapply(py,max_g,y=y,d=.8),pch=16)
-text(18,.85,"Seed survivorship=0.2")
-text(18,.66,"Seed survivorship=0.5")
-text(18,.57,"Seed survivorship=0.8")
 

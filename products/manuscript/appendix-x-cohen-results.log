@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  24 FEB 2020 18:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 FEB 2020 11:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**seedBankMS.tex
-(./seedBankMS.tex
+**appendix-x-cohen-results.tex
+(./appendix-x-cohen-results.tex
 LaTeX2e <2016/03/31>
 Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/article.cls
@@ -755,8 +755,8 @@ Package csquotes Info: ... none found.
 Package csquotes Warning: No multilingual support.
 (csquotes)                Cannot enable multilingual quotes on input line 116.
 
-(./seedBankMS.aux)
-\openout1 = `seedBankMS.aux'.
+(./appendix-x-cohen-results.aux)
+\openout1 = `appendix-x-cohen-results.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
 LaTeX Font Info:    ... okay on input line 116.
@@ -773,11 +773,13 @@ LaTeX Font Info:    ... okay on input line 116.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 116.
 
- (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 116.
- (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count150
 \scratchdimen=\dimen187
@@ -876,214 +878,81 @@ Package caption Info: End \AtBeginDocument code.
 Package csquotes Info: Making character " active on input line 116.
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count156
- [1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1] [2]
- [3]
-LaTeX Font Info:    Try loading font information for U+msa on input line 164.
+LaTeX Font Info:    Try loading font information for U+msa on input line 124.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 164.
+LaTeX Font Info:    Try loading font information for U+msb on input line 124.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \hbox (badness 10000) in paragraph at lines 168--168
-[]|\OT1/cmr/m/n/12 Density-independent
- []
+) [1
 
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./appendix-x-cohen-results.bbl [2])
+<../figures/appendix-x-optimal.pdf, id=21, page=1, 433.62pt x 433.62pt>
+File: ../figures/appendix-x-optimal.pdf Graphic file (type pdf)
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--176
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 de-
- []
-
-
-Underfull \hbox (badness 1122) in paragraph at lines 176--176
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 or $\OML
-/cmm/m/it/12 ^^Z[]$
- []
-
-[4
-
-] [5
-
-] [6] [7]
-Overfull \hbox (4.0513pt too wide) in paragraph at lines 240--241
-[]\OT1/cmr/m/n/12 I rep-re-sent two tran-si-tions be-tween pre-germination seed
-s in Jan-uary and post-germination
- []
-
-[8] [9] [10] [11] [12] [13] [14] [15]
-Missing character: There is no √ in font cmr12!
-Missing character: There is no © in font cmr12!
-Missing character: There is no √ in font cmr12!
-Missing character: There is no § in font cmr12!
- [16] [17]
-Missing character: There is no √ in font cmr12!
-Missing character: There is no © in font cmr12!
-Missing character: There is no √ in font cmr12!
-Missing character: There is no § in font cmr12!
- [18] [19] [20] [21]
-<../figures/germ_rs_correlation.pdf, id=91, page=1, 794.97pt x 614.295pt>
-File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_rs_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 567.
-(pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
-
-<../figures/germ_rs_correlation.pdf, id=92, page=2, 794.97pt x 614.295pt>
-File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_rs_correlation.pdf, page 2>
-Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 571.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
-
-
-LaTeX Warning: Float too large for page by 31.85117pt on input line 575.
-
-<../figures/germ_surv_correlation.pdf, id=93, page=1, 794.97pt x 614.295pt>
-File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_surv_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 582.
-(pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
-
-<../figures/germ_surv_correlation.pdf, id=94, page=2, 794.97pt x 614.295pt>
-File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_surv_correlation.pdf, page 2>
-Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 586.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
-
-
-LaTeX Warning: Float too large for page by 17.35117pt on input line 590.
-
-<../figures/obs_pred_germ.pdf, id=95, page=1, 794.97pt x 614.295pt>
-File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
-
-<use ../figures/obs_pred_germ.pdf, page 1>
-Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 595.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+<use ../figures/appendix-x-optimal.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-optimal.pdf, page1 used on input
+ line 153.
+(pdftex.def)             Requested size: 433.61894pt x 433.61894pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22] [23 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
-df>] [24 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
-on.pdf>] [25 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
-Underfull \hbox (badness 4872) in paragraph at lines 65--74
-[]\OT1/cmr/m/n/12 S. Ell-ner.  ESS ger-mi-na-tion strate-gies in ran-domly vary
--ing en-vi-ron-ments. II.
- []
+
+<../figures/appendix-x-fitnessvariance.pdf, id=22, page=1, 289.08pt x 289.08pt>
+File: ../figures/appendix-x-fitnessvariance.pdf Graphic file (type pdf)
+<use ../figures/appendix-x-fitnessvariance.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-fitnessvariance.pdf, page1 used 
+on input line 161.
+(pdftex.def)             Requested size: 289.07928pt x 289.07928pt.
 
 
-Underfull \hbox (badness 7468) in paragraph at lines 65--74
-\OT1/cmr/m/n/12 Re-cip-ro-cal Yield-Law mod-els.  \OT1/cmr/m/it/12 The-o-ret-i-
-cal Pop-u-la-tion Bi-ol-ogy\OT1/cmr/m/n/12 , 28(1):80--116,
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../figures/appendix-x-survivorship.pdf, id=23, page=1, 433.62pt x 289.08pt>
+File: ../figures/appendix-x-survivorship.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-survivorship.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-survivorship.pdf, page1 used on 
+input line 169.
+(pdftex.def)             Requested size: 433.61894pt x 289.07928pt.
 
 
-Underfull \hbox (badness 5008) in paragraph at lines 65--74
-\OT1/cmr/m/n/12 Aug. 1985a.  ISSN 00405809.  doi: 10.1016/0040-5809(85)90023-1.
-  URL
- []
-
-[26
-
-]
-Underfull \hbox (badness 5771) in paragraph at lines 76--85
-[]\OT1/cmr/m/n/12 S. Ell-ner.  ESS ger-mi-na-tion strate-gies in ran-domly vary
--ing en-vi-ron-ments. I.
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--85
-\OT1/cmr/m/n/12 Logistic-type mod-els.  \OT1/cmr/m/it/12 The-o-ret-i-cal Pop-u-
-la-tion Bi-ol-ogy\OT1/cmr/m/n/12 , 28(1):50--79, Aug.
- []
+Package caption Warning: Unused \captionsetup[sub] on input line 17.
+See the caption package documentation for explanation.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--85
-\OT1/cmr/m/n/12 1985b.  ISSN 00405809.  doi: 10.1016/0040-5809(85)90022-X.  URL
-
- []
-
-Missing character: There is no ‚ in font cmr12!
-Missing character: There is no Ä in font cmr12!
-Missing character: There is no ê in font cmr12!
-
-Underfull \hbox (badness 1527) in paragraph at lines 96--104
-[]\OT1/cmr/m/n/12 J. R. Gre-mer and D. L. Ven-able.  Bet hedg-ing in desert win
--ter an-nual plants:
- []
-
-
-Underfull \hbox (badness 2189) in paragraph at lines 96--104
-\OT1/cmr/m/n/12 op-ti-mal ger-mi-na-tion strate-gies in a vari-able en-vi-ron-m
-ent.  \OT1/cmr/m/it/12 Ecol-ogy Let-ters\OT1/cmr/m/n/12 , 17
- []
-
-
-Underfull \hbox (badness 3919) in paragraph at lines 96--104
-\OT1/cmr/m/n/12 (3):380--387, Mar. 2014.  ISSN 1461023X.  doi: 10.1111/ele.1224
-1.  URL
- []
-
-Missing character: There is no √ in font cmr12!
-Missing character: There is no º in font cmr12!
-Missing character: There is no ≈ in font cmr12!
-Missing character: There is no Ω in font cmr12!
-Missing character: There is no ƒ in font cmr12!
-Missing character: There is no á in font cmr12!
-Missing character: There is no √ in font cmr12!
-Missing character: There is no © in font cmr12!
-Missing character: There is no √ in font cmr12!
-Missing character: There is no § in font cmr12!
-[27]
-Missing character: There is no √ in font cmr12!
-Missing character: There is no ≥ in font cmr12!
-) [28] (./seedBankMS.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[3] [4 <../figures/appendix-x-optimal.pdf>] [5 <../figures/appendix-x-fitnessva
+riance.pdf>] [6 <../figures/appendix-x-survivorship.pdf>]
+(./appendix-x-cohen-results.aux) ) 
 Here is how much of TeX's memory you used:
- 18826 strings out of 493014
- 363530 string characters out of 6133351
- 460422 words of memory out of 5000000
- 21993 multiletter control sequences out of 15000+600000
- 13777 words of font info for 50 fonts, out of 8000000 for 9000
+ 18569 strings out of 493014
+ 358831 string characters out of 6133351
+ 449413 words of memory out of 5000000
+ 21739 multiletter control sequences out of 15000+600000
+ 12307 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,19n,76p,1061b,919s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on seedBankMS.pdf (29 pages, 248415 bytes).
+ 48i,15n,66p,1190b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmss8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmti12.pfb>
+Output written on appendix-x-cohen-results.pdf (6 pages, 111154 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
+ 81 PDF objects out of 1000 (max. 8388607)
+ 57 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
