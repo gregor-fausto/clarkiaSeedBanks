@@ -35,7 +35,7 @@
 \usepackage{lscape}
 
 \usepackage{natbib}
-\bibliographystyle{abbrvnat}
+%\bibliographystyle{abbrvnat}
 \setcitestyle{authoryear,open={(},close={)}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -132,10 +132,6 @@
 \end{titlepage}
 %
 
-
-\bibliographystyle{plainnat} 
-
-
 \section*{Introduction}
 
 Seed banks have important consequences for population persistence by acting as a buffer against environmental change and population stochasticity (\cite{eager2014,paniw2017}), increasing effective population size (\cite{nunney2002,waples2006}), and genetic diversity (\cite{mccue1998b}). The presence of a seed bank can also affect the outcome of evolution (\cite{heinrich2018,ritland1983}). Theory thus suggests that seed banks have ecological and evolutionary consequences (\cite{evans2005}). 
@@ -155,7 +151,7 @@ Table 1 outlines key references that develop theory and expectations for what dr
 The theory developed by Cohen (1966) frames the problem in the following terms. What is the optimal germination fraction for a given level of interannual variation in fitness and seed survivorship? The models developed by Cohen make it clear that the germination fraction that maximizes long-term population growth rate is a function of the distribution of fitness (characterized by the variation in fitness), the fitness values, and the rate of seed survivorship. For a given mean fitness, increasing the variance in fitness decreases the optimal germination fraction (Appendix Figure X). Increasing seed survivorship decreases the optimal germination fraction, and the degree to which it does so depends on the probability of a 'good year'. Specifically, as the probability of a high-fitness year decreases, the optimal germination fraction decreases. 
 
 
-To empirically test this theory, one approach is to determine whether the observed germination fraction is correlated with the 
+To empirically test this theory, "a density-independent model can be used to check quantitatively the optimality (or evolutionary stability) of a life history trait in a real population, because the density effects are manifested in the measured vital rates" and "to check if a species germination fraction is optimal, one would estimate seed survivorship and the probability distribution of per capita seed yield. From these, the DI model predicts an "optimal" germination fraction, which can be compared with the actual germination fraction." \cite{ellner1985a}. 
 
 \begin{landscape}
 
@@ -495,7 +491,7 @@ To assess what probability distribution to use when fitting this model, I fit a 
  & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K}  \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \mathrm{f}_1(\alpha^P_{0,j} , \beta^P_{jk} ), \kappa^P ) )
      \\ & \times \mathrm{normal} ( \alpha^P_{0,j} | 0, 10)  \times 
      \\ & \times \mathrm{normal} ( \beta^P_{jk} | 0, \sigma^P_j) 
-    \\ & \mathrm{normal} ( \sigma^P_j | 0, 100)  
+    \\ & \times \mathrm{normal} ( \sigma^P_j | 0, 100)  
    \end{split}
 \end{align}
 %
@@ -598,6 +594,7 @@ A model in which per-capita reproductive success is density-independent predicts
 \end{figure}
 
 \clearpage
+\bibliographystyle{/Users/gregor/Dropbox/bibliography/styleFiles/ecology} 
 \bibliography{/Users/gregor/Dropbox/bibliography/seeds}
 
 \end{document}

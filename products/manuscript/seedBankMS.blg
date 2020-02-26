@@ -1,51 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: seedBankMS.aux
-The style file: abbrvnat.bst
-Illegal, another \bibstyle command---line 3 of file seedBankMS.aux
- : \bibstyle
- :          {plainnat}
-I'm skipping whatever remains of this command
+The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
 Database file #1: /Users/gregor/Dropbox/bibliography/seeds.bib
 You've used 19 entries,
-            2773 wiz_defined-function locations,
-            757 strings with 9148 characters,
-and the built_in function-call counts, 9081 in all, are:
-= -- 919
-> -- 390
+            2706 wiz_defined-function locations,
+            717 strings with 8821 characters,
+and the built_in function-call counts, 9278 in all, are:
+= -- 914
+> -- 409
 < -- 14
-+ -- 137
++ -- 145
 - -- 117
-* -- 789
-:= -- 1432
-add.period$ -- 103
+* -- 730
+:= -- 1691
+add.period$ -- 76
 call.type$ -- 19
-change.case$ -- 96
+change.case$ -- 134
 chr.to.int$ -- 18
-cite$ -- 38
-duplicate$ -- 385
-empty$ -- 749
-format.name$ -- 146
-if$ -- 1885
+cite$ -- 19
+duplicate$ -- 419
+empty$ -- 671
+format.name$ -- 166
+if$ -- 1821
 int.to.chr$ -- 2
 int.to.str$ -- 1
 missing$ -- 19
-newline$ -- 149
+newline$ -- 102
 num.names$ -- 76
-pop$ -- 117
+pop$ -- 152
 preamble$ -- 1
-purify$ -- 77
+purify$ -- 115
 quote$ -- 0
-skip$ -- 266
+skip$ -- 245
 stack$ -- 0
-substring$ -- 459
-swap$ -- 30
+substring$ -- 638
+swap$ -- 48
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 209
+type$ -- 171
 warning$ -- 0
 while$ -- 92
 width$ -- 0
-write$ -- 346
-(There was 1 error message)
+write$ -- 253
