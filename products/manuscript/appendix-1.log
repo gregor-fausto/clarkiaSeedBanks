@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 FEB 2020 16:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  26 FEB 2020 18:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -755,7 +755,11 @@ Package csquotes Info: ... none found.
 Package csquotes Warning: No multilingual support.
 (csquotes)                Cannot enable multilingual quotes on input line 116.
 
-(./appendix-1.aux)
+(./appendix-1.aux
+
+LaTeX Warning: Label `fig:hierarchical' multiply defined.
+
+)
 \openout1 = `appendix-1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
@@ -777,7 +781,8 @@ LaTeX Font Info:    Try loading font information for TS1+cmr on input line 116.
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 116.
- (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count150
 \scratchdimen=\dimen187
@@ -876,66 +881,138 @@ Package caption Info: End \AtBeginDocument code.
 Package csquotes Info: Making character " active on input line 116.
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count156
-LaTeX Font Info:    Try loading font information for U+msa on input line 128.
+LaTeX Font Info:    Try loading font information for U+msa on input line 219.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 128.
+LaTeX Font Info:    Try loading font information for U+msb on input line 219.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 134.
- [1
+) [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
- [4] [5]
-[6] <../figures/obs_pred_germ.pdf, id=38, page=1, 794.97pt x 614.295pt>
-File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
-<use ../figures/obs_pred_germ.pdf, page 1>
-Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 289.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+<../figures/appendix-x-hierarchical.pdf, id=27, page=1, 578.16pt x 433.62pt>
+File: ../figures/appendix-x-hierarchical.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-hierarchical.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-hierarchical.pdf, page1 used on 
+input line 287.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+ [4 <../figures/appendix-x-hierarchical.pdf>]
+<../figures/appendix-x-hierarchical2.pdf, id=37, page=1, 578.16pt x 433.62pt>
+File: ../figures/appendix-x-hierarchical2.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-hierarchical2.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-hierarchical2.pdf, page1 used on
+ input line 297.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+ [5 <../figures/appendix-x-hierarchical2.pdf>] [6]
+<../figures/appendix-x-mle_bayes.pdf, id=50, page=1, 578.16pt x 289.08pt>
+File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-mle_bayes.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-mle_bayes.pdf, page1 used on inp
+ut line 351.
+(pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
+
+<../figures/appendix-x-bayescomp_bayeshier.pdf, id=51, page=1, 289.08pt x 289.0
+8pt>
+File: ../figures/appendix-x-bayescomp_bayeshier.pdf Graphic file (type pdf)
+ <use ../figures/appendix-x-bayescomp_bayeshier.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-bayescomp_bayeshier.pdf, page1 u
+sed on input line 359.
+(pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[7] [8 <../figures/obs_pred_germ.pdf>]
+<../figures/appendix-x-match.pdf, id=52, page=1, 578.16pt x 433.62pt>
+File: ../figures/appendix-x-match.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-match.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-match.pdf, page1 used on input l
+ine 367.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../figures/appendix-x-mismatch.pdf, id=53, page=1, 578.16pt x 433.62pt>
+File: ../figures/appendix-x-mismatch.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-mismatch.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-mismatch.pdf, page1 used on inpu
+t line 375.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../figures/appendix-x-mle_bayeslogit.pdf, id=54, page=1, 578.16pt x 289.08pt>
+File: ../figures/appendix-x-mle_bayeslogit.pdf Graphic file (type pdf)
+
+<use ../figures/appendix-x-mle_bayeslogit.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-mle_bayeslogit.pdf, page1 used o
+n input line 383.
+(pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../figures/appendix-x-bayescomp_bayeslogit.pdf, id=55, page=1, 289.08pt x 289.
+08pt>
+File: ../figures/appendix-x-bayescomp_bayeslogit.pdf Graphic file (type pdf)
+ <use ../figures/appendix-x-bayescomp_bayeslogit.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-bayescomp_bayeslogit.pdf, page1 
+used on input line 391.
+(pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7 <../figures/appendix-x-mle_bayes.pdf>] [8 <../figures/appendix-x-bayescomp_b
+ayeshier.pdf>] [9 <../figures/appendix-x-match.pdf>] [10 <../figures/appendix-x
+-mismatch.pdf>] [11 <../figures/appendix-x-mle_bayeslogit.pdf>] [12 <../figures
+/appendix-x-bayescomp_bayeslogit.pdf>]
 No file appendix-1.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 17.
 See the caption package documentation for explanation.
 
-(./appendix-1.aux) ) 
+(./appendix-1.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 19330 strings out of 493014
- 366247 string characters out of 6133351
- 473422 words of memory out of 5000000
- 22502 multiletter control sequences out of 15000+600000
- 13549 words of font info for 50 fonts, out of 8000000 for 9000
+ 18596 strings out of 493014
+ 359945 string characters out of 6133351
+ 451422 words of memory out of 5000000
+ 21754 multiletter control sequences out of 15000+600000
+ 12912 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,15n,66p,828b,2199s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmib10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss
-8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
-fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pf
-b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
-></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on appendix-1.pdf (8 pages, 153420 bytes).
+ 48i,15n,66p,1249b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on appendix-1.pdf (12 pages, 340929 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 149 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

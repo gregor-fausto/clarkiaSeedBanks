@@ -119,14 +119,13 @@
 
 \section*{Appendix X}
 
-I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling.
-
-\subsection*{...}
+I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
 
 \subsection*{Maximum likelihood estimate}
 
-Below, I'm including a snippet of MATLAB code that I think has been used to calculate seedling survival to fruiting ($\sigma$) in the past. The code generates estimates for $\sigma$ for each population in each year; I do not believe that the code snippet that is used to calculate \verb|sig2| is used elsewhere in the MATLAB program. 
+% First, I'm including the snippet of MATLAB code that I think has been used to calculate seedling survival to fruiting ($\sigma$) in the past. The code generates estimates for $\sigma$ for each population in each year; I do not believe that the code snippet that is used to calculate \verb|sig2| is used elsewhere in the MATLAB program. 
 
+\iffalse
 \begin{lstlisting}
 % ESTIMATE ABOVE-GROUND VITAL RATE:
 %   sigma, SURVIVAL GERM>FRUITING
@@ -201,7 +200,7 @@ for p=1:numpops
         NumFrt(p,y)=x2;
         sigma(p,y)=min(x2/x1,1); % surv. germ>fruiting not allowed to exceed 1
         
-        % compute sigma using plot means - doesn't require a plot to have both sdl and fruiting plant counts
+        % compute sigma using plot means - doesnt require a plot to have both sdl and fruiting plant counts
         i1=find(strcmp(Site,PopNow) & ~isnan(Sdl(:,y)));
         i2=find(strcmp(Site,PopNow) & ~isnan(Frt(:,y)));
         MeanSdl(p,y)=mean(Sdl(i1,y));
@@ -215,69 +214,119 @@ for p=1:numpops
 end
 
 \end{lstlisting}
+\fi
 
-For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
+The following logic underlies how we calculate the maximum likelihood estimate. For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
 %
 \begin{align}
   \begin{split}
 \mathcal{L} = [\bm{y}|p,\bm{n}]  = \prod_{i=1}^N \binom{n_i}{y_i}p^y_i(1-p)^{n_i-y_i}.
   \end{split}
 \end{align}
-
-We can use the likelihood to obtain a maximum likelihood estimate (by minimizing the negative log-likelihood). The maximum likelihood estimate $\hat{p}$ is the overall proportion of seedlings that survive to become fruiting plants, summing all the observations. 
+%
+which is often written as
+%
+\begin{align}
+  \begin{split}
+\mathcal{L} = [\bm{y}|p,\bm{n}]  = \prod_{i=1}^N \mathrm{binomial}(n_i,p).
+  \end{split}
+\end{align}
+We can use the likelihood to obtain a maximum likelihood estimate (by minimizing the negative log-likelihood). The maximum likelihood estimate $\hat{p}$ is the overall proportion of seedlings that survive to become fruiting plants, summing all the observations. The point is that the proportion calculated in the MATLAB code corresponds to the estimate from a maximum likelihood estimate. Specifically, it calculates a maximum likelihood estimate for each population in each year of the dataset. We thus give each site $j$ and year $k$ its own probability of success $p_{jk}$ and obtain the MLEs $\hat{p}_{jk}$.
+%
+\begin{align}
+  \begin{split}
+[\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) 
+  \end{split}
+\end{align}
 
 \subsection*{Binomial model with complete pooling and a beta prior}
 
-Next, we'll consider adding a prior to our model and writing this as a Bayesian model. We use a beta distribution for the prior, because the beta is a conjugate prior for a binomial distribution; in other words this choice of prior matches the likelihood in a way that the posterior has the same distribution as the prior (cf. Bolker p 177). A beta distribution with shape parameters $\alpha=\beta=1$ corresponds to noninformative prior. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, we can write the joint posterior as
+We can turn this into a Bayesian model by adding a prior to our model. Because the beta is a conjugate prior for a binomial distribution, we use use a beta distribution for the prior. In other words, this choice of prior matches the likelihood in a way that the posterior has the same distribution as the prior (cf. Bolker p 177). A beta distribution with shape parameters $\alpha=\beta=1$ corresponds to noninformative prior. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, we can write the joint posterior as
 %
 \begin{align}
   \begin{split}
 [\bm{y}|p,\bm{n}]  = \prod_{i=1}^N \mathrm{binomial}(n_i,p) \mathrm{beta} (  p | 1 , 1 ).
   \end{split}
 \end{align}
-
-This corresponds to a model in which there is \textit{complete pooling}, with a single probability $p$ representing the probability of seedling survival to fruiting for the all trials. The opposite extreme would be a model with \textit{no pooling}, in which each trial $i$ has its own probability of seedling survival to fruiting $p_i$. 
+%
+A single probability $p$ represents the probability of seedling survival to fruiting for the all trials (a model with \textit{complete pooling}). The opposite extreme is a model in which each trial $i$ has its own probability of seedling survival to fruiting $p_i$ (a model with \textit{no pooling}). 
 %
 \begin{align}
   \begin{split}
 [\bm{y}|\bm{p},\bm{n}]  = \prod_{i=1}^N \mathrm{binomial}(n_i,p_i) \mathrm{beta} (  p_i | 1 , 1 ).
   \end{split}
 \end{align}
-
-This corresponds to a model in which there is \textit{complete pooling}, with a single probability $p$ representing the probability of seedling survival to fruiting for the all trials. To compare our site- and year-specific MLE fits, it might be best to run the following model:
+%
+To compare our site- and year-specific MLEs to estimates from Bayesian models, we give each site $j$ and year $k$ its own probability of success $p_{jk}$, and place a prior on each $p_{jk}$.
 %
 \begin{align}
   \begin{split}
 [\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) \mathrm{beta} (  p_{jk} | 1 , 1 ).
   \end{split}
 \end{align}
-Here, we give each site $j$ and year $k$ its own probability of success $p_{jk}$. Effectively, this is a model in which we are completely pooling observations from each site and year. This is pretty similar to what we are doing with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we do account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success. For the most part, though, these estimates are pretty similar (see that most points fall on a 1:1 line).
+%
+Effectively, this is a model in which we are completely pooling observations from each site and year. This is extends what happens with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success (see \textbf{Comparison}).
 
 \subsection*{Binomial model with partial pooling and a beta prior}
 
-Next, we'll consider adding pooling to our model. We do this by putting hyperpriors on the parameters for the beta distribution. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
+Next, we'll consider adding pooling to our model. We do this by putting hyperpriors on the parameters for the beta distribution. Focusing first on one population, we give the population a per-year probability of success $p_k$. We place a prior on each $p_{k}$ but rather than directly parameterize the probability of success we use hyperpriors. We'll use the parameterization in Kruschke:
 %
 \begin{align}
   \begin{split}
-[\bm{p},\omega,\kappa|\bm{y},\bm{n}]  = & \prod_{j=1}^J\prod_{i=1}^N \mathrm{binomial}(n_{ij},p_{j}) 
-    \\ & \times \mathrm{beta} (  p_{j} | \omega(\kappa-2) +1 , (1-\omega) (\kappa -2) + 1) 
-    \\ & \times \mathrm{beta} ( \omega | 1, 1) \mathrm{gamma} ( \kappa | .01, .01)  .
+[\bm{p},\omega,\kappa|\bm{y},\bm{n}]  = & \prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ik},p_{k}) 
+    \\ & \times \mathrm{beta} (  p_{k} | \omega(\kappa-2) +1 , (1-\omega) (\kappa -2) + 1) 
+    \\ & \times \mathrm{beta} ( \omega | 1, 1) \mathrm{gamma} ( \kappa | 0.01, 0.01)  .
   \end{split}
 \end{align}
+%
+This parameterization is hierarchical and we can use it to illustrate one of the effects of using this structure in our models. Let's pick a population with years in which there were few data points. For the purposes of illustration, we choose to work with the Lucas Creek East (LCE) population here. We fit the model above to the data from LCE and plot the posteriors for the parameter $\omega$ in Figure~\ref{fig:hierarchical}, which corresponds to the mode of the beta distribution. The figure illustrates the concept of \textit{shrinkage}; the posterior distributions of year-level $\theta_k$ are pulled towards the population-level mode $\omega$. This effect is particularly evident in years in which there are few data points (number of samples in each year, from 2006-2015: 20, 7, 17, 14, 19, 1, 1, 3, 1, 8). In Figure~\ref{fig:hierarchical}, this is shown by the overlap between the posterior distribution for $\omega$ and $\theta_k$ for years $k$ in which there are few data points. This is particularly true in 2011--2014. One important effect of this is that the [variance between estimated values $\theta_k$ is less than the variance between the individual proportions correct] (paraphrasing Kruschke)
 
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchical}  
+    \caption{ The posterior distribution for $\theta_k$ for a model fitted to data from Lucas Creek East. The histogram represents draws from the posterior distribution. The vertical, dotted red line indicates the total proportion of successes (fruiting plants/seedlings) in each year. The solid red line is the density of draws from the posterior of $\omega$. }
+ \label{fig:hierarchical}
+\end{figure}
+
+For comparison, we also fit the same model to data from the Black Gulch (BG) population. For BG, most years have a higher number of data points (number of samples in each year, from 2006-2015: 18, 20, 21, 26, 23, 26, 20, 23, 3, 26). Here, it's clear that most posterior distributions for year-level $\theta_k$ are not greatly influenced by the population-level mode $\omega$. 
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchical2}  
+    \caption{ The posterior distribution for $\theta_k$ for a model fitted to data from Black Gulch. The histogram represents draws from the posterior distribution. The vertical, dotted red line indicates the total proportion of successes (fruiting plants/seedlings) in each year. The solid red line is the density of draws from the posterior of $\omega$. }
+ \label{fig:hierarchical}
+\end{figure}
+
+To compare our population- and year-specific estimates, we give each population $j$ and year $k$ its own probability of success $p_{jk}$, place priors $\omega_j$ and $\kappa_j$ on each $p_{jk}$, and give each prior a set of hyperpriors.
+%
+\begin{align}
+  \begin{split}
+[\bm{p},\omega,\kappa|\bm{y},\bm{n}]  = & \prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ik},p_{jk}) 
+    \\ & \times \mathrm{beta} (  p_{jk} | \omega_j(\kappa_j-2) +1 , (1-\omega_j) (\kappa_j -2) + 1) 
+    \\ & \times \mathrm{beta} ( \omega_j | 1, 1) \mathrm{gamma} ( \kappa_j | 0.01, 0.01)  .
+  \end{split}
+\end{align}
+%
+Effectively, this is a model in which we are partially pooling observations from each population. The posterior estimates for $p_jk$ from this model are similar to one in which observations from each population are completely pooled. When there are few data points, the population-level paramater $\omega_j$ has an effect on the population- and year-level $\theta_jk$ (see \textbf{Comparison}).
+
+\iffalse
 \subsection*{Multi-level binomial model with partial pooling and a beta prior}
 
-Next, we'll consider pooling across all sites and years in our dataset. We do this by putting hyperpriors on the parameters for the beta distribution. This means that I am estimating parameters for all sites and years simultaneously. There is a parameter $\omega_j$ that determines the mode of each site, $\omega$ that determines the mode across all sites, $\kappa_j$ that determines the concentration of the data between years, and $\kappa$ that determines the concentration of data at each site. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
+Next, we could consider pooling across all sites and years in our dataset. We would this by putting hyperpriors on the parameters for the beta distribution. This means that we estimate parameters for all populations and years simultaneously. There is a parameter $\omega_j$ that determines the mode of each population, $\omega$ that determines the mode across all populations, $\kappa_j$ that determines the concentration of the data between years, and $\kappa$ that determines the concentration of data at each population. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
 %
 \begin{align}
   \begin{split}
 [\bm{p},\omega,\kappa|\bm{y},\bm{n}]  = & \prod_{j=1}^J \prod_{k=1}^K \prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) 
-    \\ & \times \mathrm{beta} (  p_{jk} | \omega(\kappa-2) +1 , (1-\omega) (\kappa -2) + 1) 
-    \\ & \times \mathrm{beta} ( \omega | 1, 1) \mathrm{gamma} ( \kappa | .01, .01)  .
+    \\ & \times \mathrm{beta} (  p_{jk} | \omega_j(\kappa_j-2) +1 , (1-\omega_j) (\kappa_j -2) + 1) 
+    \\ & \times \mathrm{beta} ( \omega_j |  \omega(\kappa-2) +1 , (1-\omega) (\kappa -2) + 1) \mathrm{gamma} ( \kappa_j | .01, .01) 
+    \\ & \times \mathrm{beta} ( \omega | 1 , 1 )  \mathrm{gamma} ( \kappa | .01, .01)  .
   \end{split}
 \end{align}
 
-
+I'm going to leave this out for the time being. This would 100\% be a future direction!
+\fi
 
 \subsection*{Binomial model with partial pooling and a log-odds parameterization}
 
@@ -285,11 +334,66 @@ logit parameterization
 
 \subsection*{Comparison}
 
-Goal is to compare the output from each of these models. They should be pretty similar for most of the data because it's well-replicated and the sample sizes are reasonable. The differences that I am interested in pointing out are
+The first panel in Figure~\ref{fig:mle_bayes} shows that the maximum likelihood estimates are pretty similar to those from the Bayesian model with complete pooling per population and a beta-binomial parameterization. The major differences are where the maximum likelihood estimates approach 0 or 1. The second panel in Figure~\ref{fig:mle_bayes} shows that this is because those estimates come from year-population combinations with a small sample size. For example, the MLE for a year-population combination with one plot and 1 seedling that dies before fruiting would be 0. In a Bayesian model, the prior has a comparatively larger influence on the posterior in situations where there is little data. In this case, the posterior would be a compromise between our one data point and our prior. The estimates converge once we have ~5 data points.
 
-- what happens when there are few observations (the prior has influence)
-- how well can we estimate the site mean or the year mean from each dataset?
-- prediction: which of our datasets does a better job at predicting?
+Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the population-level only, a model with complete and partial pooling give fairly similar estimates. The difference between the posterior for a model with complete versus partial pooling has a greater range for smaller sample sizes (CIs are larger for smaller sample sizes) and a model with complete pooling returns slightly higher estimates. Figures~\ref{fig:match} and~\ref{fig:mismatch} compare the posterior distribution for population- and year-combinations with many data points (30 data points in Figure~\ref{fig:match}) and few data points (1 data point in Figure~\ref{fig:mismatch}). When there are few data points, the posterior for $p_{jk}$ in the partial pooling model is influenced by the population-level parameter $\omega$ (Figure~\ref{fig:mismatch}).
+
+
+%Goal is to compare the output from each of these models. They should be pretty similar for most of the data because it's well-replicated and the sample sizes are reasonable. The differences that I am interested in pointing out are
+
+%- what happens when there are few observations (the prior has influence)
+%- how well can we estimate the site mean or the year mean from each dataset?
+%- prediction: which of our datasets does a better job at predicting?
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mle_bayes}  
+    \caption{ (A) This panel plots the median of the posterior from the beta-binomial with complete pooling per population against the maximum likelihood estimate. (B) This panel compares the full posterior distribution from the beta-binomial parameterization with the maximum likelihood estimate. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.  }
+ \label{fig:mle_bayes}
+\end{figure}
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-bayescomp_bayeshier}  
+    \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the beta-binomial parameterization with partial pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.  }
+ \label{fig:complete_vs_partial}
+\end{figure}
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-match}  
+    \caption{ (A) This plot shows the posterior distribution of the beta-binomial parameterization with complete pooling (solid line) against the posterior distribution of the beta-binomial parameterization with partial pooling (dotted line). The medians are given by vertical lines. These are 8 population- and year- combinations that have 30 data points each. These correspond to points on the right side of Figure~\ref{fig:complete_vs_partial}. }
+ \label{fig:match}
+\end{figure}
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mismatch}  
+    \caption{ (A) This plot shows the posterior distribution of the beta-binomial parameterization with complete pooling (solid line) against the posterior distribution of the beta-binomial parameterization with partial pooling (dotted line). The medians are given by vertical lines. The red lines are the population-level modes $\omega$. These are 8 population- and year- combinations that have only 1 data point each. These correspond to points on the left side of Figure~\ref{fig:complete_vs_partial}. }
+ \label{fig:mismatch}
+\end{figure}
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mle_bayeslogit}  
+    \caption{ (A) This panel plots the median of the posterior from the logit parameterization with complete pooling per population against the maximum likelihood estimate. (B) This panel compares the full posterior distribution from the logit parameterization with the maximum likelihood estimate. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate. }
+ \label{fig:logit}
+\end{figure}
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-bayescomp_bayeslogit}  
+    \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the logit parameterization with compmlete pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.   }
+ \label{fig:complete_vs_logit}
+\end{figure}
+
+
 
 \clearpage
 \bibliography{/Users/gregor/Dropbox/bibliography/seeds}
