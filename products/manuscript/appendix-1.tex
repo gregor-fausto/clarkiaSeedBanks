@@ -117,9 +117,9 @@
 
 \bibliographystyle{plainnat} 
 
-\section*{Appendix X}
+% \section*{Appendix X}
 
-I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
+% I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
 
 \subsection*{Maximum likelihood estimate}
 
@@ -216,7 +216,7 @@ end
 \end{lstlisting}
 \fi
 
-The following logic underlies how we calculate the maximum likelihood estimate. For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
+The following logic underlies how we calculate the maximum likelihood estimate for seedling survival to fruiting. For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
 %
 \begin{align}
   \begin{split}
@@ -328,9 +328,9 @@ Next, we could consider pooling across all sites and years in our dataset. We wo
 I'm going to leave this out for the time being. This would 100\% be a future direction!
 \fi
 
-\subsection*{Binomial model with partial pooling and a log-odds parameterization}
+% \subsection*{Binomial model with partial pooling and a log-odds parameterization}
 
-logit parameterization 
+% logit parameterization 
 
 \subsection*{Comparison}
 
@@ -377,6 +377,7 @@ Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the po
  \label{fig:mismatch}
 \end{figure}
 
+\iffalse
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
@@ -392,7 +393,7 @@ Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the po
     \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the logit parameterization with compmlete pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.   }
  \label{fig:complete_vs_logit}
 \end{figure}
-
+\fi
 
 
 \clearpage

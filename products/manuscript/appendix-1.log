@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  26 FEB 2020 18:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  26 FEB 2020 21:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -901,16 +901,21 @@ File: ../figures/appendix-x-hierarchical.pdf Graphic file (type pdf)
 Package pdftex.def Info: ../figures/appendix-x-hierarchical.pdf, page1 used on 
 input line 287.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
- [4 <../figures/appendix-x-hierarchical.pdf>]
-<../figures/appendix-x-hierarchical2.pdf, id=37, page=1, 578.16pt x 433.62pt>
+
+<../figures/appendix-x-hierarchical2.pdf, id=28, page=1, 578.16pt x 433.62pt>
 File: ../figures/appendix-x-hierarchical2.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-hierarchical2.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-hierarchical2.pdf, page1 used on
  input line 297.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
- [5 <../figures/appendix-x-hierarchical2.pdf>] [6]
-<../figures/appendix-x-mle_bayes.pdf, id=50, page=1, 578.16pt x 289.08pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <../figures/appendix-x-hierarchical.pdf>] [5 <../figures/appendix-x-hierarch
+ical2.pdf>]
+<../figures/appendix-x-mle_bayes.pdf, id=47, page=1, 578.16pt x 289.08pt>
 File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-mle_bayes.pdf, page 1>
@@ -918,7 +923,11 @@ Package pdftex.def Info: ../figures/appendix-x-mle_bayes.pdf, page1 used on inp
 ut line 351.
 (pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
 
-<../figures/appendix-x-bayescomp_bayeshier.pdf, id=51, page=1, 289.08pt x 289.0
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../figures/appendix-x-bayescomp_bayeshier.pdf, id=48, page=1, 289.08pt x 289.0
 8pt>
 File: ../figures/appendix-x-bayescomp_bayeshier.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-bayescomp_bayeshier.pdf, page 1>
@@ -929,7 +938,7 @@ sed on input line 359.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/appendix-x-match.pdf, id=52, page=1, 578.16pt x 433.62pt>
+<../figures/appendix-x-match.pdf, id=49, page=1, 578.16pt x 433.62pt>
 File: ../figures/appendix-x-match.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-match.pdf, page 1>
@@ -940,7 +949,7 @@ ine 367.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/appendix-x-mismatch.pdf, id=53, page=1, 578.16pt x 433.62pt>
+<../figures/appendix-x-mismatch.pdf, id=50, page=1, 578.16pt x 433.62pt>
 File: ../figures/appendix-x-mismatch.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-mismatch.pdf, page 1>
@@ -951,34 +960,9 @@ t line 375.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-<../figures/appendix-x-mle_bayeslogit.pdf, id=54, page=1, 578.16pt x 289.08pt>
-File: ../figures/appendix-x-mle_bayeslogit.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-mle_bayeslogit.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-mle_bayeslogit.pdf, page1 used o
-n input line 383.
-(pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-<../figures/appendix-x-bayescomp_bayeslogit.pdf, id=55, page=1, 289.08pt x 289.
-08pt>
-File: ../figures/appendix-x-bayescomp_bayeslogit.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-bayescomp_bayeslogit.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-bayescomp_bayeslogit.pdf, page1 
-used on input line 391.
-(pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7 <../figures/appendix-x-mle_bayes.pdf>] [8 <../figures/appendix-x-bayescomp_b
-ayeshier.pdf>] [9 <../figures/appendix-x-match.pdf>] [10 <../figures/appendix-x
--mismatch.pdf>] [11 <../figures/appendix-x-mle_bayeslogit.pdf>] [12 <../figures
-/appendix-x-bayescomp_bayeslogit.pdf>]
+[6] [7 <../figures/appendix-x-mle_bayes.pdf>] [8 <../figures/appendix-x-bayesco
+mp_bayeshier.pdf>] [9 <../figures/appendix-x-match.pdf>] [10 <../figures/append
+ix-x-mismatch.pdf>]
 No file appendix-1.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 17.
@@ -990,11 +974,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 18596 strings out of 493014
- 359945 string characters out of 6133351
+ 18579 strings out of 493014
+ 359323 string characters out of 6133351
  451422 words of memory out of 5000000
- 21754 multiletter control sequences out of 15000+600000
- 12912 words of font info for 47 fonts, out of 8000000 for 9000
+ 21742 multiletter control sequences out of 15000+600000
+ 12306 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,15n,66p,1249b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
@@ -1009,10 +993,10 @@ l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
 live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on appendix-1.pdf (12 pages, 340929 bytes).
+Output written on appendix-1.pdf (10 pages, 323272 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
+ 128 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
