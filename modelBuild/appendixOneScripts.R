@@ -4,7 +4,8 @@
 # Code for comparing the following modeling approaches for the seedling survivorship data
 # 1. binomial likelihood
 # 2. binomial likelihood with beta prior, complete pooling
-# 3. binomial likelihood with beta prior, partial pooling
+# 3. binomial likelihood with beta prior, partial pooling, parameterize mode
+# 4. binomial likelihood with beta prior, partial pooling, parameterize mean
 # 4. binomial likelihood with logit parameterization
 #
 # Scripts by Gregor Siegmund
@@ -29,7 +30,6 @@ library(MCMCvis)
 # get paths for JAGS script and figure directories
 #################################################################################
 dirJagsScripts = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/appendixOneScripts/")
-dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures")
 
 ################################################################################
 # Load survivorship data
@@ -97,14 +97,15 @@ survDataAnalysis<-survDataAnalysis %>%
   dplyr::mutate(seedlingNumber = ifelse(seedlingNumber<fruitingPlantNumber,fruitingPlantNumber,seedlingNumber))
 
 ################################################################################
+################################################################################
 # Maximum likelihood estimate of survivorship, binomial likelihood
 # by minimizing the negative log likelihood
+################################################################################
 ################################################################################
 
 # split the data frame into a list of lists by site and year
 survDataAnalysisList <- split(survDataAnalysis,
                               list(survDataAnalysis$site,survDataAnalysis$year))
-
 
 # create list (length 10, for 10 years) of lists (each length 20, for 20 sites)
 survDataAnalysisListList <- list(survDataAnalysisList[1:20],
@@ -146,37 +147,28 @@ mleDataLong <- mleDataWide %>%
   tidyr::pivot_longer(cols=`2006`:`2015`,names_to="year",values_to="pHat")
 mleDataLong$year<-as.numeric(mleDataLong$year)
 
-# Figure
-# Comparing the geographic pattern of MLE (red) to geographic pattern of all data
-ggplot() +
-  geom_point(data=survDataAnalysis%>% dplyr::left_join(siteEastingData,by="site"),aes(x=easting,y=fruitingPlantNumber/seedlingNumber),cex=0.25) +
-  geom_point(data=data.frame(mleDataLong)%>% dplyr::left_join(siteEastingData,by="site"),aes(x=easting,y=pHat),color="red") +
-  geom_smooth(data=survDataAnalysis%>% dplyr::left_join(siteEastingData,by="site"),aes(x=easting,y=fruitingPlantNumber/seedlingNumber),method="lm") +
-  geom_smooth(data=data.frame(mleDataLong)%>% dplyr::left_join(siteEastingData,by="site"),aes(x=easting,y=pHat),color="red",method="lm") +
-    facet_wrap(~year) +
-  theme_minimal()
+saveRDS(mleDataLong,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipMaxLikEst.rds")
 
+################################################################################
 ################################################################################
 # Prepare data for fit with JAGS using tidybayes
 ################################################################################
+################################################################################
+
 survDataAnalysisBayes <- survDataAnalysis %>% 
   dplyr::select(-c(transect,plot)) %>%
   dplyr::mutate(year = as.factor(year))
 
 survDataAnalysisBayesJags <- tidybayes::compose_data(survDataAnalysisBayes)
 
+saveRDS(survDataAnalysisBayes, file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipDataBayes.rds")
+
+
+################################################################################
 ################################################################################
 # JAGS fit for model with binomial likelihood, beta prior, complete pooling
 ################################################################################
-
 ################################################################################
-# Prepare data for fit with JAGS using tidybayes
-################################################################################
-survDataAnalysisBayes <- survDataAnalysis %>% 
-  dplyr::select(-c(transect,plot)) %>%
-  dplyr::mutate(year = as.factor(year))
-
-survDataAnalysisBayesJags <- tidybayes::compose_data(survDataAnalysisBayes)
 
 ################################################################################
 # Initial values
@@ -205,7 +197,7 @@ parsToMonitor = c("p")
 # number of samples in the final chain
 n.adapt = 500
 n.update = 5000
-n.iterations = 10000
+n.iterations = 1000
 n.thin = 1
 
 ################################################################################
@@ -226,83 +218,15 @@ update(jm1, n.iterations = n.update)
 # chain (n.iter)
 samplesBinLinkBetaPriorComplete = coda.samples(jm1, variable.names = c(parsToMonitor), n.iter = n.iterations, thin = n.thin)
 
-# MCMCvis::MCMCsummary(samples.rjags1)
-
 samplesBinLinkBetaPriorComplete %<>% recover_types(survDataAnalysisBayes)
 
-summaryBinLinkBetaPriorComplete<-samplesBinLinkBetaPriorComplete %>% 
-  tidybayes::spread_draws(p[site,year]) %>%
-  dplyr::summarise(bayesBBcomp.q50=median(p)) 
+saveRDS(samplesBinLinkBetaPriorComplete,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorComplete.rds")
 
-summaryBinLinkBetaPriorComplete$year <- as.character(summaryBinLinkBetaPriorComplete$year)
-summaryBinLinkBetaPriorComplete$site <- as.factor(summaryBinLinkBetaPriorComplete$site)
-
-### Figures for comparison
-  
-samplesizeData <- survDataAnalysisBayes %>%
-    dplyr::group_by(site,year) %>%
-    dplyr::summarise(n())
-
-samplesizeData$site <- as.factor(samplesizeData$site)
-samplesizeData$year <- as.numeric(as.character(samplesizeData$year))
-summaryBinLinkBetaPriorComplete$year <- as.numeric(as.character(summaryBinLinkBetaPriorComplete$year))
-
-estimatesComparisonData <- mleDataLong %>%
-    dplyr::left_join(summaryBinLinkBetaPriorComplete,by=c("site","year")) %>%
-    dplyr::left_join(samplesizeData,by=c("site","year"))
-
-estimateComparisonDataArranged <- estimatesComparisonData %>%
-  dplyr::arrange(year)
-
-# calculate difference of posterior - max. likelihood estimate
-post.chain.pars <-MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")
-estimateComparisonDataArranged<-estimatesComparisonData %>%
-  dplyr::arrange(year)
-tmp<-matrix(NA,ncol=200,nrow=length(inits)*n.iterations)
-for(i in 1:200){
-  tmp[,i]<-post.chain.pars[,i]-estimateComparisonDataArranged$pHat[i]
-}
-delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
-
-# plot comparing MLE fit and bayes fit 
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-mle_bayes.pdf", width=8, height=4)
-
-par(mfrow=c(1,2))
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(x = estimatesComparisonData$pHat,
-     y = estimatesComparisonData$bayesBBcomp.q50,
-     xlab="Maximum likelihood estimate",
-     ylab="Median of posterior for \n beta-binomial parameterization",
-     xlim=c(0,1),ylim=c(0,1),
-     pch=16,cex=.5)  
-abline(a=0,b=1,lwd=0.5)
-
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimateComparisonDataArranged$`n()`,t(delta.conf)[,2],
-     pch=16,cex=0.5,
-     ylim=c(-1,1),
-     xlab="Sample size (n)",
-     ylab="Comparison of the maximum likelihood estimate\n and the beta-binomial parameterization\n (median and 95% CI)")
-segments(x0=estimateComparisonDataArranged$`n()`,y0=t(delta.conf)[,1],
-         x1=estimateComparisonDataArranged$`n()`,y1=t(delta.conf)[,3])
-abline(h=0,lwd=1)
-
-dev.off()
-
+################################################################################
 ################################################################################
 # JAGS fit for model with binomial likelihood, beta prior, partial pooling
 ################################################################################
-
 ################################################################################
-# Prepare data for fit with JAGS using tidybayes
-################################################################################
-survDataAnalysisBayes <- survDataAnalysis %>% 
-  dplyr::select(-c(transect,plot)) %>%
-  dplyr::mutate(year = as.factor(year))
-
-survDataAnalysisBayesJags <- tidybayes::compose_data(survDataAnalysisBayes)
 
 ################################################################################
 # Initial values
@@ -340,7 +264,7 @@ parsToMonitor = c("theta","omega","kappa")
 # number of samples in the final chain
 n.adapt = 500
 n.update = 5000
-n.iterations = 10000
+n.iterations = 1000
 n.thin = 1
 
 ################################################################################
@@ -362,163 +286,86 @@ update(jm2, n.iterations = n.update)
 samplesBinLinkBetaPriorPartial = coda.samples(jm2, variable.names = c(parsToMonitor), 
                               n.iter = n.iterations, thin = n.thin)
 
-#MCMCvis::MCMCsummary(samples.rjags3)
+samplesBinLinkBetaPriorPartial %<>% recover_types(survDataAnalysisBayes)
+
+saveRDS(samplesBinLinkBetaPriorPartial,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMode.rds")
+
+################################################################################
+################################################################################
+# JAGS fit for model with binomial likelihood, beta prior, partial pooling
+# parameterized via mean
+################################################################################
+################################################################################
+
+################################################################################
+# Initial values
+################################################################################
+
+nSites = survDataAnalysisBayesJags$n_site
+nYears = survDataAnalysisBayesJags$n_year
+
+kappaInit = 100;
+
+inits = list( list( theta = matrix(rep(.1,nSites*nYears),nrow=nSites,ncol=nYears),
+                    omega=rep(.5,nSites) ,
+                    kappaMinusTwo=rep(98,nSites) ),
+              list( theta = matrix(rep(.5,nSites*nYears),nrow=nSites,ncol=nYears),
+                    omega=rep(.5,nSites) ,
+                    kappaMinusTwo=rep(98,nSites) ),
+              list( theta = matrix(rep(.9,nSites*nYears),nrow=nSites,ncol=nYears),
+                    omega=rep(.5,nSites) ,
+                    kappaMinusTwo=rep(98,nSites) )
+)
+
+################################################################################
+# Set parameters to monitor
+################################################################################
+
+parsToMonitor = c("theta","omega","kappa")
+
+################################################################################
+# Set JAGS parameters
+################################################################################
+
+# scalars that specify the 
+# number of iterations in the chain for adaptation
+# number of iterations for burn-in
+# number of samples in the final chain
+n.adapt = 500
+n.update = 5000
+n.iterations = 1000
+n.thin = 1
+
+################################################################################
+# Fit model 
+################################################################################
+
+# set random seed
+set.seed(2)
+
+# tuning (n.adapt)
+jm2 = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPrior-partialPooling.R"), 
+                 data = survDataAnalysisBayesJags, inits = inits,
+                 n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm2, n.iterations = n.update)
+
+# chain (n.iter)
+samplesBinLinkBetaPriorPartial = coda.samples(jm2, variable.names = c(parsToMonitor), 
+                                              n.iter = n.iterations, thin = n.thin)
 
 samplesBinLinkBetaPriorPartial %<>% recover_types(survDataAnalysisBayes)
 
-summaryBinLinkBetaPriorPartial<-samplesBinLinkBetaPriorPartial %>% 
-  tidybayes::spread_draws(theta[site,year]) %>%
-  dplyr::summarise(bayesBBpartial.q50=median(theta)) 
-
-summaryBinLinkBetaPriorPartial$year <- as.character(summaryBinLinkBetaPriorPartial$year)
-summaryBinLinkBetaPriorPartial$site <- as.factor(summaryBinLinkBetaPriorPartial$site)
-summaryBinLinkBetaPriorPartial$year <- as.numeric(as.character(summaryBinLinkBetaPriorPartial$year))
-
-estimatesComparisonData<-  estimatesComparisonData %>%
-  dplyr::left_join(summaryBinLinkBetaPriorPartial,by=c("site","year"))
-
-# calculate difference of posterior - max. likelihood estimate
-post.chain.pars <-MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")
-estimateComparisonDataArranged<-estimatesComparisonData %>%
-  dplyr::arrange(year)
-tmp<-matrix(NA,ncol=200,nrow=length(inits)*n.iterations)
-for(i in 1:200){
-  tmp[,i]<-post.chain.pars[,i]-estimateComparisonDataArranged$pHat[i]
-}
-delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
-
-# plot comparing MLE fit and bayes fit 
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-mle_bayeshier.pdf", width=8, height=4)
-par(mfrow=c(1,2))
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimatesComparisonData$pHat,estimatesComparisonData$bayesBBpartial.q50,
-     xlab="Maximum likelihood estimate",
-     ylab="Median of posterior for \n beta-binomial parameterization",
-     xlim=c(0,1),ylim=c(0,1),
-     pch=16,cex=.5)  
-abline(a=0,b=1,lwd=0.5)
-
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimateComparisonDataArranged$`n()`,t(delta.conf)[,2],
-     pch=16,cex=0.5,
-     ylim=c(-1,1),
-     xlab="Sample size (n)",
-     ylab="Comparison of the maximum likelihood estimate\n and the beta-binomial parameterization\n (median and 95% CI)")
-segments(x0=estimateComparisonDataArranged$`n()`,y0=t(delta.conf)[,1],
-         x1=estimateComparisonDataArranged$`n()`,y1=t(delta.conf)[,3])
-abline(h=0,lwd=1)
-
-dev.off()
-
-sum <- summaryBinLinkBetaPriorComplete %>%
-  #dplyr::left_join(summaryBayes2,by=c("site","year")) %>%
-  dplyr::left_join(summaryBinLinkBetaPriorPartial,by=c("site","year"))
-
-plot(sum$bayesBBcomp.q50,sum$bayesBBpartial.q50)
-abline(a=0,b=1)
-
-tmp<-matrix(NA,ncol=200,nrow=30000)
-for(i in 1:200){
-tmp[,i]<-MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,i] - MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,i]
-}
-delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-bayescomp_bayeshier.pdf", width=4, height=4)
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimateComparisonDataArranged$`n()`,t(delta.conf)[,2],
-     pch=16,cex=0.5,
-     ylim=c(-1,1),
-     xlab="Sample size (n)",
-     ylab="Comparison of the posteriors for \n complete and partial pooling parameterizations \n complete-partial (median and 95% CI)")
-segments(x0=estimateComparisonDataArranged$`n()`,y0=t(delta.conf)[,1],
-         x1=estimateComparisonDataArranged$`n()`,y1=t(delta.conf)[,3])
-abline(h=0,lwd=1)
-dev.off()
+saveRDS(samplesBinLinkBetaPriorPartial,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMode.rds")
 
 
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-mismatch.pdf", width=8, height=6)
-v<-(1:200)[estimateComparisonDataArranged$`n()`==1][!is.na((1:200)[estimateComparisonDataArranged$`n()`==1])]
-
-omegaSite<-c(11,11,13,6,7,11,12,20)
-
-par(mfrow=c(2,4))
-for(i in 1:length(v)){
-plot(density(  MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ),
-     xlim=c(0,1),ylim=c(0,4),
-     main="") 
-  abline(v=median( MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ))
-tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,v[i]],3000)
-lines( density(tmp),lty='dotted')
-abline(v=median( tmp),lty='dotted')
-
-lines( density(sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="omega")[,omegaSite[i]],3000)),col='red')
-
-}
-dev.off()
-
-pdf(file="appendix-x-match.pdf", width=8, height=6)
-v<-(1:200)[estimateComparisonDataArranged$`n()`==30][!is.na((1:200)[estimateComparisonDataArranged$`n()`==30])]
-
-par(mfrow=c(2,4))
-for(i in 1:8){
-  plot(density(  MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ),
-       
-       main="") 
-  abline(v=median( MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ))
-  tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,v[i]],3000)
-  lines( density(tmp),lty='dotted')
-  abline(v=median( tmp),lty='dotted')
-
-}
-dev.off()
-
-# summarize sites
-summarySite = "LO"
-
-summary.val <- samplesBinLinkBetaPriorPartial %>% 
-  tidybayes::spread_draws(theta[site,year]) %>%
-  dplyr::filter(site==summarySite) %>%
-  tidyr::spread(year,theta) %>%
-  dplyr::select(-c(site,.chain,.iteration,.draw))
-
-omega.val <- samplesBinLinkBetaPriorPartial %>% 
-  tidybayes::spread_draws(omega[site]) %>%
-  dplyr::filter(site==summarySite) 
-omega.val = omega.val$omega
-
-summary.val = as.matrix(summary.val[,2:11])
-
-d <- survDataAnalysisBayes %>%
-  dplyr::filter(site==summarySite) %>%
-  dplyr::group_by(year) %>%
-  dplyr::summarise(y =sum(fruitingPlantNumber), n = sum(seedlingNumber)) %>%
-  dplyr::mutate(prop = y/n)
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file=paste0("appendix-x-hierarchical",summarySite,".pdf"), width=8, height=6)
-
-par(mfrow=c(2,5))
-for(i in 1:nYears){
-hist(summary.val[,i],breaks=40,
-     main=c(2006:2015)[i],
-     xlab=expression("theta"),
-     freq=FALSE)
-  abline(v=d$prop[i],col='red',lty='dashed')
-  lines(density(omega.val),col="red")
-}
-
- dev.off()
-
-
-
+################################################################################
 ################################################################################
 # JAGS fit for model with binomial likelihood, logit parameterization, partial pooling
 ################################################################################
- 
+################################################################################
+
 ################################################################################
 # Initial values
 ################################################################################
@@ -551,7 +398,7 @@ parsToMonitor = c("mu.alpha","sigma.site","theta","alpha.i")
 # number of samples in the final chain
 n.adapt = 500
 n.update = 5000
-n.iterations = 10000
+n.iterations = 1000
 n.thin = 1
 
 ################################################################################
@@ -573,100 +420,6 @@ update(jm3, n.iterations = n.update)
 samplesBinLinkLogitLinkPartial = coda.samples(jm3, variable.names = c(parsToMonitor), 
                               n.iter = n.iterations, thin = n.thin)
 
-#MCMCvis::MCMCsummary(samples.rjags4)
-
 samplesBinLinkLogitLinkPartial %<>% recover_types(survDataAnalysisBayes)
 
-summaryBinLinkLogitLinkPartial<-samplesBinLinkLogitLinkPartial %>% 
-  tidybayes::spread_draws(alpha.i[site,year]) %>%
-  dplyr::mutate(theta=boot::inv.logit(alpha.i)) %>%
-  dplyr::summarise(bayesBBLpartial.q50=median(theta)) 
-
-summaryBinLinkLogitLinkPartial$year <- as.character(summaryBinLinkLogitLinkPartial$year)
-summaryBinLinkLogitLinkPartial$site <- as.factor(summaryBinLinkLogitLinkPartial$site)
-summaryBinLinkLogitLinkPartial$year <- as.numeric(as.character(summaryBinLinkLogitLinkPartial$year))
-
-estimatesComparisonData <-  estimatesComparisonData %>%
-  dplyr::left_join(summaryBinLinkLogitLinkPartial,by=c("site","year"))
-
-# plot comparing MLE fit and bayes fit 
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-mle_bayeslogit.pdf", width=8, height=4)
-par(mfrow=c(1,2))
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimatesComparisonData$pHat,estimatesComparisonData$bayesBBLpartial.q50,
-     xlab="Maximum likelihood estimate",
-     ylab="Median of posterior for \n logit-link parameterization",
-     xlim=c(0,1),ylim=c(0,1),
-     pch=16,cex=.5)  
-abline(a=0,b=1,lwd=0.5)
-
-# calculate difference of posterior - max. likelihood estimate
-post.chain.pars <-apply(MCMCvis::MCMCchains(samplesBinLinkLogitLinkPartial,params="alpha.i"),2,boot::inv.logit)
-estimateComparisonDataArranged<-estimatesComparisonData %>%
-  dplyr::arrange(year)
-tmp<-matrix(NA,ncol=200,nrow=length(inits)*n.iterations)
-for(i in 1:200){
-  tmp[,i]<-post.chain.pars[,i]-estimateComparisonDataArranged$pHat[i]
-}
-delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
-
-
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimateComparisonDataArranged$`n()`,t(delta.conf)[,2],
-     pch=16,cex=0.5,
-     ylim=c(-1,1),
-     xlab="Sample size (n)",
-     ylab="Comparison of the maximum likelihood estimate\n and the beta-binomial parameterization\n (median and 95% CI)")
-segments(x0=estimateComparisonDataArranged$`n()`,y0=t(delta.conf)[,1],
-         x1=estimateComparisonDataArranged$`n()`,y1=t(delta.conf)[,3])
-abline(h=0,lwd=1)
-
-dev.off()
-
-
-sum <- summaryBinLinkBetaPriorComplete %>%
-  dplyr::left_join(summaryBinLinkLogitLinkPartial,by=c("site","year"))
-
-plot(sum$bayesBBcomp.q50,sum$bayesBBLpartial.q50)
-abline(a=0,b=1)
-
-tmp<-matrix(NA,ncol=200,nrow=3000)
-for(i in 1:200){
-  
-  tmp[,i]<-MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,i] - boot::inv.logit(MCMCvis::MCMCchains(samplesBinLinkLogitLinkPartial,params="alpha.i")[,i])
-  
-}
-
-setwd("~/Dropbox/clarkiaSeedBanks/products/figures")
-pdf(file="appendix-x-bayescomp_bayeslogit.pdf", width=4, height=4)
-delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
-par(mar=c(5, 6, 4, 2) + 0.1)
-plot(estimateComparisonDataArranged$`n()`,t(delta.conf)[,2],
-     pch=16,cex=0.5,
-     ylim=c(-1,1),
-     xlab="Sample size (n)",
-     ylab="Comparison of the posteriors for \n complete and partial pooling parameterizations \n complete-partial (median and 95% CI)")
-segments(x0=estimateComparisonDataArranged$`n()`,y0=t(delta.conf)[,1],
-         x1=estimateComparisonDataArranged$`n()`,y1=t(delta.conf)[,3])
-abline(h=0,lwd=1)
-dev.off()
-
-
-v<-(1:200)[estimateComparisonDataArranged$`n()`==1][!is.na((1:200)[estimateComparisonDataArranged$`n()`==1])]
-
-omegaSite<-c(11,11,13,6,7,11,12,20)
-
-
-par(mfrow=c(2,4))
-for(i in 1:length(v)){
-  plot(density(  MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ),
-       xlim=c(0,1),ylim=c(0,4),
-       main="") 
-  abline(v=median( MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ))
-  tmp <- boot::inv.logit(MCMCvis::MCMCchains(samplesBinLinkLogitLinkPartial,params="alpha.i"))[,v[i]]
-  lines( density(tmp),lty='dotted')
-  abline(v=median( tmp),lty='dotted')
- 
-} 
+saveRDS(samplesBinLinkLogitLinkPartial,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkLogitLink.rds")
