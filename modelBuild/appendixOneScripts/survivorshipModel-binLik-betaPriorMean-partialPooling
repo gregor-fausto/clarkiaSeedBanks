@@ -1,0 +1,17 @@
+model {
+  
+  for(j in 1:n_site){
+      theta[j] ~ dunif(0,1)
+      kappa[j] ~ dpar(1.5,1) 
+  }
+  
+  for(j in 1:n_site){   
+    for ( i in 1:n_year ) {
+        theta[j,i] ~ dbeta(kappa[j]*theta[j], kappa[j]*(1-theta[j]))
+    }
+  }
+  
+  for ( i in 1:n ) {
+    fruitingPlantNumber[i] ~ dbin( theta[site[i],year[i]], seedlingNumber[i] )
+  }
+}
