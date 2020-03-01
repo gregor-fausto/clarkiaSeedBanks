@@ -239,7 +239,7 @@ We can use the likelihood to obtain a maximum likelihood estimate (by minimizing
   \end{split}
 \end{align}
 
-\subsection*{Binomial model with complete pooling and a beta prior}
+\subsection*{Binomial likelihood with a beta prior, complete pooling}
 
 We can turn this into a Bayesian model by adding a prior to our model. Because the beta is a conjugate prior for a binomial distribution, we use use a beta distribution for the prior. In other words, this choice of prior matches the likelihood in a way that the posterior has the same distribution as the prior (cf. Bolker p 177). A beta distribution with shape parameters $\alpha=\beta=1$ corresponds to noninformative prior. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, we can write the joint posterior as
 %
@@ -267,7 +267,7 @@ To compare our site- and year-specific MLEs to estimates from Bayesian models, w
 %
 Effectively, this is a model in which we are completely pooling observations from each site and year. This is extends what happens with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success (see \textbf{Comparison}).
 
-\subsection*{Binomial model with partial pooling and a beta prior}
+\subsection*{Binomial model with a beta prior, partial pooling}
 
 Next, we'll consider adding pooling to our model. We do this by putting hyperpriors on the parameters for the beta distribution. Focusing first on one population, we give the population a per-year probability of success $p_k$. We place a prior on each $p_{k}$ but rather than directly parameterize the probability of success we use hyperpriors. We'll use the parameterization in Kruschke:
 %
