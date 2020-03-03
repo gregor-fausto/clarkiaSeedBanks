@@ -19,15 +19,15 @@ options(stringsAsFactors = FALSE)
 
 
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/"
-survivorshipFitFiles <- paste0(directory,list.files(directory))
+survivorshipFitFiles <- paste0(directory,list.files(directory))[-c(1:4)]
 dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
-
-samplesBinLinkBetaPriorComplete<- readRDS(survivorshipFitFiles[[1]])
-samplesBinLinkBetaPriorPartial<- readRDS(survivorshipFitFiles[[2]])
-samplesBinLinkLogitLinkPartial<- readRDS(survivorshipFitFiles[[3]])
-survDataAnalysisBayes <- readRDS(survivorshipFitFiles[[4]])
-mleDataLong <- readRDS(survivorshipFitFiles[[5]])
+samplesBinLinkBetaPriorComplete <- readRDS(survivorshipFitFiles[[1]])
+samplesBinLinkBetaPriorPartialMean <- readRDS(survivorshipFitFiles[[2]])
+samplesBinLinkBetaPriorPartialMode <- readRDS(survivorshipFitFiles[[3]])
+samplesBinLinkLogitLinkPartial<- readRDS(survivorshipFitFiles[[4]])
+survDataAnalysisBayes <- readRDS(survivorshipFitFiles[[5]])
+mleDataLong <- readRDS(survivorshipFitFiles[[6]])
 
 nYears = 10
 nSites = 20
@@ -126,22 +126,22 @@ dev.off()
 # JAGS fit for model with binomial likelihood, beta prior, partial pooling
 ################################################################################
 
-summaryBinLinkBetaPriorPartial<-samplesBinLinkBetaPriorPartial %>% 
+summaryBinLinkBetaPriorPartialMode<-samplesBinLinkBetaPriorPartialMode %>% 
   tidybayes::spread_draws(theta[site,year]) %>%
   dplyr::summarise(bayesBBpartial.q50=median(theta)) 
 
-summaryBinLinkBetaPriorPartial$year <- as.character(summaryBinLinkBetaPriorPartial$year)
-summaryBinLinkBetaPriorPartial$site <- as.factor(summaryBinLinkBetaPriorPartial$site)
-summaryBinLinkBetaPriorPartial$year <- as.numeric(as.character(summaryBinLinkBetaPriorPartial$year))
+summaryBinLinkBetaPriorPartialMode$year <- as.character(summaryBinLinkBetaPriorPartialMode$year)
+summaryBinLinkBetaPriorPartialMode$site <- as.factor(summaryBinLinkBetaPriorPartialMode$site)
+summaryBinLinkBetaPriorPartialMode$year <- as.numeric(as.character(summaryBinLinkBetaPriorPartialMode$year))
 
 estimatesComparisonData<-  estimatesComparisonData %>%
-  dplyr::left_join(summaryBinLinkBetaPriorPartial,by=c("site","year"))
+  dplyr::left_join(summaryBinLinkBetaPriorPartialMode,by=c("site","year"))
 
 # calculate difference of posterior - max. likelihood estimate
-post.chain.pars <-MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")
+post.chain.pars <-MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartialMode,params="theta")
 estimateComparisonDataArranged<-estimatesComparisonData %>%
   dplyr::arrange(year)
-tmp<-matrix(NA,ncol=200,nrow=length(samplesBinLinkBetaPriorPartial)*dim(samplesBinLinkBetaPriorPartial[[1]]))
+tmp<-matrix(NA,ncol=200,nrow=length(samplesBinLinkBetaPriorPartialMode)*dim(samplesBinLinkBetaPriorPartialMode[[1]]))
 for(i in 1:200){
   tmp[,i]<-post.chain.pars[,i]-estimateComparisonDataArranged$pHat[i]
 }
@@ -172,14 +172,14 @@ abline(h=0,lwd=1)
 dev.off()
 
 sum <- summaryBinLinkBetaPriorComplete %>%
-  dplyr::left_join(summaryBinLinkBetaPriorPartial,by=c("site","year"))
+  dplyr::left_join(summaryBinLinkBetaPriorPartialMode,by=c("site","year"))
 
 plot(sum$bayesBBcomp.q50,sum$bayesBBpartial.q50)
 abline(a=0,b=1)
 
-tmp<-matrix(NA,ncol=200,nrow=length(samplesBinLinkBetaPriorPartial)*dim(samplesBinLinkBetaPriorPartial[[1]]))
+tmp<-matrix(NA,ncol=200,nrow=length(samplesBinLinkBetaPriorPartialMode)*dim(samplesBinLinkBetaPriorPartialMode[[1]]))
 for(i in 1:200){
-  tmp[,i]<-MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,i] - MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,i]
+  tmp[,i]<-MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,i] - MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartialMode)[,i]
 }
 delta.conf <- apply(tmp,2,quantile,probs=c(.025,.5,.975))
 
@@ -207,11 +207,11 @@ for(i in 1:length(v)){
        xlim=c(0,1),ylim=c(0,4),
        main="") 
   abline(v=median( MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ))
-  tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,v[i]],3000)
+  tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartialMode,params="theta")[,v[i]],3000)
   lines( density(tmp),lty='dotted')
   abline(v=median( tmp),lty='dotted')
   
-  lines( density(sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="omega")[,omegaSite[i]],3000)),col='red')
+  lines( density(sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartialMode,params="omega")[,omegaSite[i]],3000)),col='red')
   
 }
 dev.off()
@@ -225,7 +225,7 @@ for(i in 1:8){
        
        main="") 
   abline(v=median( MCMCvis::MCMCchains(samplesBinLinkBetaPriorComplete,params="p")[,v[i]] ))
-  tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartial,params="theta")[,v[i]],3000)
+  tmp <- sample(MCMCvis::MCMCchains(samplesBinLinkBetaPriorPartialMode,params="theta")[,v[i]],3000)
   lines( density(tmp),lty='dotted')
   abline(v=median( tmp),lty='dotted')
   
@@ -235,13 +235,13 @@ dev.off()
 # summarize sites
 summarySite = "LO"
 
-summary.val <- samplesBinLinkBetaPriorPartial %>% 
+summary.val <- samplesBinLinkBetaPriorPartialMode %>% 
   tidybayes::spread_draws(theta[site,year]) %>%
   dplyr::filter(site==summarySite) %>%
   tidyr::spread(year,theta) %>%
   dplyr::select(-c(site,.chain,.iteration,.draw))
 
-omega.val <- samplesBinLinkBetaPriorPartial %>% 
+omega.val <- samplesBinLinkBetaPriorPartialMode %>% 
   tidybayes::spread_draws(omega[site]) %>%
   dplyr::filter(site==summarySite) 
 omega.val = omega.val$omega

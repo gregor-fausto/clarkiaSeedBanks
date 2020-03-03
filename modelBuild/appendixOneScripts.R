@@ -162,6 +162,7 @@ survDataAnalysisBayes <- survDataAnalysis %>%
 survDataAnalysisBayesJags <- tidybayes::compose_data(survDataAnalysisBayes)
 
 saveRDS(survDataAnalysisBayes, file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipDataBayes.rds")
+saveRDS(survDataAnalysis,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipDataAnalysis.rds")
 
 
 ################################################################################
@@ -208,15 +209,15 @@ n.thin = 1
 set.seed(2)
 
 # tuning (n.adapt)
-jm1 = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPrior-completePooling.R"), 
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPrior-completePooling.R"), 
                  data = survDataAnalysisBayesJags, inits = inits,
                  n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
-update(jm1, n.iterations = n.update)
+update(jm, n.iterations = n.update)
 
 # chain (n.iter)
-samplesBinLinkBetaPriorComplete = coda.samples(jm1, variable.names = c(parsToMonitor), n.iter = n.iterations, thin = n.thin)
+samplesBinLinkBetaPriorComplete = coda.samples(jm, variable.names = c(parsToMonitor), n.iter = n.iterations, thin = n.thin)
 
 samplesBinLinkBetaPriorComplete %<>% recover_types(survDataAnalysisBayes)
 
@@ -225,6 +226,7 @@ saveRDS(samplesBinLinkBetaPriorComplete,file="/Users/Gregor/Dropbox/dataLibrary/
 ################################################################################
 ################################################################################
 # JAGS fit for model with binomial likelihood, beta prior, partial pooling
+# parameterized via mode
 ################################################################################
 ################################################################################
 
@@ -237,13 +239,13 @@ nYears = survDataAnalysisBayesJags$n_year
 
 kappaInit = 100;
 
-inits = list( list( theta = matrix(rep(.1,nSites*nYears),nrow=nSites,ncol=nYears),
+inits = list( list( #theta = matrix(rep(.1,nSites*nYears),nrow=nSites,ncol=nYears),
                           omega=rep(.5,nSites) ,
                           kappaMinusTwo=rep(98,nSites) ),
-              list( theta = matrix(rep(.5,nSites*nYears),nrow=nSites,ncol=nYears),
+              list( #theta = matrix(rep(.5,nSites*nYears),nrow=nSites,ncol=nYears),
                     omega=rep(.5,nSites) ,
                     kappaMinusTwo=rep(98,nSites) ),
-              list( theta = matrix(rep(.9,nSites*nYears),nrow=nSites,ncol=nYears),
+              list( #theta = matrix(rep(.9,nSites*nYears),nrow=nSites,ncol=nYears),
                     omega=rep(.5,nSites) ,
                     kappaMinusTwo=rep(98,nSites) )
               )
@@ -264,7 +266,7 @@ parsToMonitor = c("theta","omega","kappa")
 # number of samples in the final chain
 n.adapt = 500
 n.update = 5000
-n.iterations = 1000
+n.iterations = 10000
 n.thin = 1
 
 ################################################################################
@@ -275,20 +277,20 @@ n.thin = 1
 set.seed(2)
 
 # tuning (n.adapt)
-jm2 = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPrior-partialPooling.R"), 
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMode-partialPooling.R"), 
                  data = survDataAnalysisBayesJags, inits = inits,
                  n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
-update(jm2, n.iterations = n.update)
+update(jm, n.iterations = n.update)
 
 # chain (n.iter)
-samplesBinLinkBetaPriorPartial = coda.samples(jm2, variable.names = c(parsToMonitor), 
+samplesBinLinkBetaPriorPartialMode = coda.samples(jm, variable.names = c(parsToMonitor), 
                               n.iter = n.iterations, thin = n.thin)
 
-samplesBinLinkBetaPriorPartial %<>% recover_types(survDataAnalysisBayes)
+samplesBinLinkBetaPriorPartialMode %<>% recover_types(survDataAnalysisBayes)
 
-saveRDS(samplesBinLinkBetaPriorPartial,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMode.rds")
+saveRDS(samplesBinLinkBetaPriorPartialMode,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMode.rds")
 
 ################################################################################
 ################################################################################
@@ -304,24 +306,19 @@ saveRDS(samplesBinLinkBetaPriorPartial,file="/Users/Gregor/Dropbox/dataLibrary/c
 nSites = survDataAnalysisBayesJags$n_site
 nYears = survDataAnalysisBayesJags$n_year
 
-kappaInit = 100;
-
-inits = list( list( theta = matrix(rep(.1,nSites*nYears),nrow=nSites,ncol=nYears),
-                    omega=rep(.5,nSites) ,
-                    kappaMinusTwo=rep(98,nSites) ),
-              list( theta = matrix(rep(.5,nSites*nYears),nrow=nSites,ncol=nYears),
-                    omega=rep(.5,nSites) ,
-                    kappaMinusTwo=rep(98,nSites) ),
-              list( theta = matrix(rep(.9,nSites*nYears),nrow=nSites,ncol=nYears),
-                    omega=rep(.5,nSites) ,
-                    kappaMinusTwo=rep(98,nSites) )
+inits = list( list( phi=rep(.1,nSites) ,
+                    kappa=rep(1.1,nSites) ),
+              list( phi=rep(.5,nSites) ,
+                    kappa=rep(1.5,nSites) ),
+              list( phi=rep(.9,nSites) ,
+                    kappa=rep(2,nSites) )
 )
 
 ################################################################################
 # Set parameters to monitor
 ################################################################################
 
-parsToMonitor = c("theta","omega","kappa")
+parsToMonitor = c("theta","phi","kappa")
 
 ################################################################################
 # Set JAGS parameters
@@ -333,7 +330,7 @@ parsToMonitor = c("theta","omega","kappa")
 # number of samples in the final chain
 n.adapt = 500
 n.update = 5000
-n.iterations = 1000
+n.iterations = 10000
 n.thin = 1
 
 ################################################################################
@@ -344,21 +341,20 @@ n.thin = 1
 set.seed(2)
 
 # tuning (n.adapt)
-jm2 = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPrior-partialPooling.R"), 
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMean-partialPooling.R"), 
                  data = survDataAnalysisBayesJags, inits = inits,
                  n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
-update(jm2, n.iterations = n.update)
+update(jm, n.iterations = n.update)
 
 # chain (n.iter)
-samplesBinLinkBetaPriorPartial = coda.samples(jm2, variable.names = c(parsToMonitor), 
+samplesBinLinkBetaPriorPartialMean = coda.samples(jm, variable.names = c(parsToMonitor), 
                                               n.iter = n.iterations, thin = n.thin)
 
-samplesBinLinkBetaPriorPartial %<>% recover_types(survDataAnalysisBayes)
+samplesBinLinkBetaPriorPartialMean %<>% recover_types(survDataAnalysisBayes)
 
-saveRDS(samplesBinLinkBetaPriorPartial,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMode.rds")
-
+saveRDS(samplesBinLinkBetaPriorPartialMean,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/survivorshipBinLinkBetaPriorPartialMean.rds")
 
 ################################################################################
 ################################################################################
@@ -409,15 +405,15 @@ n.thin = 1
 set.seed(2)
 
 # tuning (n.adapt)
-jm3 = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-logitLink-partialPooling.R"), 
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-logitLink-partialPooling.R"), 
                  data = survDataAnalysisBayesJags, inits = inits,
                  n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
-update(jm3, n.iterations = n.update)
+update(jm, n.iterations = n.update)
 
 # chain (n.iter)
-samplesBinLinkLogitLinkPartial = coda.samples(jm3, variable.names = c(parsToMonitor), 
+samplesBinLinkLogitLinkPartial = coda.samples(jm, variable.names = c(parsToMonitor), 
                               n.iter = n.iterations, thin = n.thin)
 
 samplesBinLinkLogitLinkPartial %<>% recover_types(survDataAnalysisBayes)

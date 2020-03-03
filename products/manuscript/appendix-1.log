@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 MAR 2020 10:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  2 MAR 2020 18:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -629,37 +629,24 @@ File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
 s/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
-(/usr/local/texlive/2016/texmf-dist/tex/latex/eqnarray/eqnarray.sty
-equationarray 1.3 <December 1, 2010>
-Package: eqnarray 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/array.sty
-Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen180
-\extrarowheight=\dimen181
-\NC@list=\toks37
-\extratabsurround=\skip55
-\backup@length=\skip56
-)
-\@eqargcnt=\count140
-)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count141
+\lst@mode=\count140
 \lst@gtempboxa=\box42
-\lst@token=\toks38
-\lst@length=\count142
-\lst@currlwidth=\dimen182
-\lst@column=\count143
-\lst@pos=\count144
-\lst@lostspace=\dimen183
-\lst@width=\dimen184
-\lst@newlines=\count145
-\lst@lineno=\count146
-\lst@maxwidth=\dimen185
+\lst@token=\toks37
+\lst@length=\count141
+\lst@currlwidth=\dimen180
+\lst@column=\count142
+\lst@pos=\count143
+\lst@lostspace=\dimen181
+\lst@width=\dimen182
+\lst@newlines=\count144
+\lst@lineno=\count145
+\lst@maxwidth=\dimen183
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count147
-\lst@skipnumbers=\count148
+\c@lstnumber=\count146
+\lst@skipnumbers=\count147
 \lst@framebox=\box43
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
@@ -680,11 +667,11 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 Package natbib Warning: The `cite' package should not be used
 (natbib)                with natbib. Use option `sort' instead.
 
-\bibhang=\skip57
-\bibsep=\skip58
+\bibhang=\skip55
+\bibsep=\skip56
 LaTeX Info: Redefining \cite on input line 694.
 LaTeX Info: Redefining \citenum on input line 708.
-\c@NAT@ctr=\count149
+\c@NAT@ctr=\count148
 )
 Package csquotes Info: Allocating character ".
 
@@ -703,7 +690,7 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 code.tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen186
+\arrowsize=\dimen184
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryautomata.code.tex
@@ -755,11 +742,7 @@ Package csquotes Info: ... none found.
 Package csquotes Warning: No multilingual support.
 (csquotes)                Cannot enable multilingual quotes on input line 116.
 
-(./appendix-1.aux
-
-LaTeX Warning: Label `fig:hierarchical' multiply defined.
-
-)
+(./appendix-1.aux)
 \openout1 = `appendix-1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
@@ -781,20 +764,19 @@ LaTeX Font Info:    Try loading font information for TS1+cmr on input line 116.
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 116.
-
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count150
-\scratchdimen=\dimen187
+\scratchcounter=\count149
+\scratchdimen=\dimen185
 \scratchbox=\box64
-\nofMPsegments=\count151
-\nofMParguments=\count152
-\everyMPshowfont=\toks39
-\MPscratchCnt=\count153
-\MPscratchDim=\dimen188
-\MPnumerator=\count154
-\makeMPintoPDFobject=\count155
-\everyMPtoPDFconversion=\toks40
+\nofMPsegments=\count150
+\nofMParguments=\count151
+\everyMPshowfont=\toks38
+\MPscratchCnt=\count152
+\MPscratchDim=\dimen186
+\MPnumerator=\count153
+\makeMPintoPDFobject=\count154
+\everyMPtoPDFconversion=\toks39
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -880,7 +862,7 @@ Package caption Info: End \AtBeginDocument code.
 
 Package csquotes Info: Making character " active on input line 116.
 ABD: EveryShipout initializing macros
-\c@lstlisting=\count156
+\c@lstlisting=\count155
 LaTeX Font Info:    Try loading font information for U+msa on input line 221.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -893,75 +875,81 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+ [4] [5]
+[6]
 
-<../figures/appendix-x-hierarchical.pdf, id=27, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-hierarchical.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-hierarchical.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-hierarchical.pdf, page1 used on 
-input line 289.
-(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+LaTeX Warning: Reference `fig:complete_vs_partial' on page 7 undefined on input
+ line 404.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<../figures/appendix-x-hierarchical2.pdf, id=28, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-hierarchical2.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-hierarchical2.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-hierarchical2.pdf, page1 used on
- input line 299.
-(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+LaTeX Warning: Reference `fig:match' on page 7 undefined on input line 404.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `fig:mismatch' on page 7 undefined on input line 404.
 
-[4] [5 <../figures/appendix-x-hierarchical.pdf>] [6 <../figures/appendix-x-hier
-archical2.pdf>]
-<../figures/appendix-x-mle_bayes.pdf, id=50, page=1, 578.16pt x 289.08pt>
+
+LaTeX Warning: Reference `fig:match' on page 7 undefined on input line 404.
+
+
+LaTeX Warning: Reference `fig:mismatch' on page 7 undefined on input line 404.
+
+
+LaTeX Warning: Reference `fig:mismatch' on page 7 undefined on input line 404.
+
+[7] [8]
+<../figures/appendix-x-mle_bayes.pdf, id=43, page=1, 578.16pt x 289.08pt>
 File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-mle_bayes.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-mle_bayes.pdf, page1 used on inp
-ut line 353.
+ut line 419.
 (pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
 
-<../figures/appendix-x-bayescomp_bayeshier.pdf, id=51, page=1, 289.08pt x 289.0
-8pt>
-File: ../figures/appendix-x-bayescomp_bayeshier.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-bayescomp_bayeshier.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-bayescomp_bayeshier.pdf, page1 u
-sed on input line 361.
+<../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, id=44, page=1, 578.16p
+t x 433.62pt>
+File: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf Graphic file (type
+ pdf)
+
+<use ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf
+, page1 used on input line 428.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, id=45, page=1, 578.
+16pt x 433.62pt>
+File: ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf Graphic file (t
+ype pdf)
+
+<use ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.
+pdf, page1 used on input line 436.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../figures/appendix-x-hierarchyPosteriorsSummary.pdf, id=46, page=1, 289.08pt 
+x 289.08pt>
+File: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf Graphic file (type p
+df)
+ <use ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, 
+page1 used on input line 445.
 (pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/appendix-x-match.pdf, id=52, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-match.pdf Graphic file (type pdf)
+[9
 
-<use ../figures/appendix-x-match.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-match.pdf, page1 used on input l
-ine 369.
-(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<../figures/appendix-x-mismatch.pdf, id=53, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-mismatch.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-mismatch.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-mismatch.pdf, page1 used on inpu
-t line 377.
-(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7 <../figures/appendix-x-mle_bayes.pdf>] [8 <../figures/appendix-x-bayescomp_b
-ayeshier.pdf>] [9 <../figures/appendix-x-match.pdf>] [10 <../figures/appendix-x
--mismatch.pdf>]
+ <../figures/appendix-x-mle_bayes.pdf>] [10 <../figures/appendix-x-hierarchyPos
+teriors_nh_hyear.pdf>] [11 <../figures/appendix-x-hierarchyPosteriors_nh_hyearp
+op.pdf>] [12 <../figures/appendix-x-hierarchyPosteriorsSummary.pdf>]
 No file appendix-1.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 17.
@@ -969,17 +957,20 @@ See the caption package documentation for explanation.
 
 (./appendix-1.aux)
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 18582 strings out of 493014
- 359363 string characters out of 6133351
- 451422 words of memory out of 5000000
- 21744 multiletter control sequences out of 15000+600000
+ 18505 strings out of 493014
+ 358337 string characters out of 6133351
+ 451220 words of memory out of 5000000
+ 21676 multiletter control sequences out of 15000+600000
  12912 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,15n,66p,1249b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,15n,66p,1279b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -992,10 +983,10 @@ l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
 live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on appendix-1.pdf (10 pages, 323804 bytes).
+Output written on appendix-1.pdf (12 pages, 281452 bytes).
 PDF statistics:
  128 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 93 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

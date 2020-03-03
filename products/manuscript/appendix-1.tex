@@ -27,7 +27,7 @@
 
 \usepackage{pgf}
 \usepackage{tikz}
-\usepackage{eqnarray}
+%\usepackage{eqnarray}
 
 \usepackage{listings} % code blocks
 \usepackage{setspace}
@@ -237,7 +237,7 @@ We can use the likelihood to obtain a maximum likelihood estimate (by minimizing
 %
 \begin{align}
   \begin{split}
-[\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) 
+[\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) \label{eq:frequentistMLE}
   \end{split}
 \end{align}
 
@@ -263,12 +263,60 @@ To compare our site- and year-specific MLEs to estimates from Bayesian models, w
 %
 \begin{align}
   \begin{split}
-[\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) \mathrm{beta} (  p_{jk} | 1 , 1 ).
+[\bm{y}|\bm{p},\bm{n}]  = \prod_{j=1}^J\prod_{k=1}^K\prod_{i=1}^N \mathrm{binomial}(n_{ijk},p_{jk}) \mathrm{beta} (  p_{jk} | 1 , 1 ). \label{eq:bayesianNH}
   \end{split}
 \end{align}
 %
-Effectively, this is a model in which we are completely pooling observations from each site and year. This is extends what happens with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success (see \textbf{Comparison}).
 
+This is a model in which we are completely pooling observations from each site and year.  Another thing we could say about this model is that it is Bayesian but non-hierarchical. This is extends what happens with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success (see \textbf{Comparison}). The Bayesian and frequentist estimates converge as the sample size approaches infinity. 
+
+\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, one year}
+
+Next, we'll consider adding pooling to our model. To explain this, we'll focus first on the data from one population in one year. We want a hierarchical model that estimates the probability of survivorship in each plot ($\theta_{i}$) and simultaneously estimates the mean probability of survivorship in the year ($\phi$). The probability of survivorship for each plot $i$ is $\theta_{i}$. We then assume that the probability of survivorship for the $i$ plots is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year $\phi$ and sample size $\kappa$. This effectively means that the prior on $\theta_{i}$ is itself a parameter; (i.e. we use hyperpriors rather than directly place priors on the probability of survivorship $\theta_{i}$). We reparameterize the beta distribution with its mean $\phi$ and the parameter $\kappa$. The mean of a random variable distributed $\mathrm{beta}(\alpha,\beta)$ is $\phi = \frac{\alpha}{\alpha+\beta}$. With a $\mathrm{beta}(1,1)$ prior, the parameter $\kappa = \alpha + \beta$ is roughly the sample size plus two.
+%
+\begin{align}
+  \begin{split}
+[\bm{p},\bm{\theta},\phi,\kappa|\bm{y},\bm{n}]  = & \prod_{i=1}^N \mathrm{binomial}(n_{i},\theta_{i}) 
+    \\ & \times \mathrm{beta} (  \theta_{i} | \phi \kappa , (1-\phi) \kappa )
+    \\ & \times \mathrm{uniform} ( \phi | 0, 1) \mathrm{Pareto} ( \kappa | 1.5, 1 ). \label{eq:bayesianHyear}
+  \end{split}
+\end{align}
+%
+We place a uniform prior on the mean probability of survivorship, $\phi$, because it must lie between 0 and 1. We place a bounded, positive prior on $\kappa$ with the $\mathrm{Pareto}(\alpha,c)$ distribution, which is parameterized by a shape ($\alpha$) and scale ($c$) parameter. 
+
+This parameterization is hierarchical because the estimates for $\phi$ and $\kappa$ contribute to estimates for $\theta_i$. [other effects?]
+
+\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, multiple years}
+
+Next, we expand the scope of our analysis to include data from plots ($i$) in multiple years ($j$) of data for a single population $k=1$. Here, we want a hierarchical model that estimates the probability of survivorship in each plot in each year ($\theta_{ij}$). We want to simultaneously estimate the mean probability of survivorship in each year ($\phi_j$) and the mean probability of survivorship in the population. The probability of survivorship for each plot $i$ in a year $j$ is $\theta_{ij}$. We then assume that the probability of survivorship for the $i$ plots in year $j$ is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year $\phi_j$ and sample size $\kappa_j$. Furthermore, we assume that the mean probability of survivorship in a given year $\phi_j$ is itself drawn from a distribution of probabilities defined by the mean probability of survivorship at the population $\phi_0$ and the parameter $\kappa_0$. 
+%
+\begin{align}
+  \begin{split}
+[\bm{p},\bm{\theta},\bm{\phi},\bm{\kappa},\phi_0,\kappa_0|\bm{y},\bm{n}]  = & \prod_{j=1}^J\prod_{i=1}^N \mathrm{binomial}(n_{ij},\theta_{ij}) 
+    \\ & \times \mathrm{beta} (  \theta_{ij} | \phi_j \kappa_j , (1-\phi_j) \kappa_j ) 
+    \\ & \times \mathrm{beta} (  \phi_{j} | \phi_0 \kappa_0 , (1- \phi_0) \kappa_0 )  \mathrm{Pareto} ( \kappa_j | 1.5, 1 ) 
+    \\ & \times \mathrm{uniform} ( \phi_0 | 0 , 1) \mathrm{Pareto} ( \kappa_0 | 1.5, 1 ). \label{eq:bayesianHyearpop} 
+      \end{split}
+\end{align}
+%
+This parameterization is hierarchical because the estimates for $\phi_j$ and $\kappa_j$ contribute to estimates for $\theta_{ij}$, and the estimates for $\phi_0$ and $\kappa_0$ contribute to estimates for $\phi_j$. [other effects?]
+
+\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: multiple populations, multiple years}
+
+Finally, we expand the scope of our analysis to include data from plots ($i$) in multiple years ($j$) of data for multiple populations $k$. Here, we want a hierarchical model that estimates the probability of survivorship in each plot in each year at each population ($\theta_{ijk}$). We want to simultaneously estimate the mean probability of survivorship in each population $\phi_k$, the mean probability of survivorship in each year ($\phi_jk$). The probability of survivorship for each plot $i$ in a year $j$ at population $k$ is $\theta_{ijk}$. We then assume that the probability of survivorship for the $i$ plots in year $j$ in population $k$ is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year at a given population $\phi_{jk}$ and paramter $\kappa_{jk}$. Furthermore, we assume that the mean probability of survivorship in a given year in a given population $\phi_{jk}$ is itself drawn from a distribution of probabilities defined by the mean probability of survivorship for the population $\phi_{0,k}$ and the parameter $\kappa_{0,k}$. The model is similar to the one for one population except the indexing has changed so that we estimate a mean probability of survivorship for each population.
+%
+\begin{align}
+  \begin{split}
+[\bm{p},\bm{\theta},\bm{\phi},\bm{\kappa},\phi_0,\kappa_0|\bm{y},\bm{n}]  = & \prod_{k=1}^K\prod_{j=1}^J\prod_{i=1}^N \mathrm{binomial}(n_{ijk},\theta_{ijk}) 
+    \\ & \times \mathrm{beta} (  \theta_{ijk} | \phi_{jk} \kappa_{jk} , (1-\phi_{jk}) \kappa_{jk} ) 
+    \\ & \times \mathrm{beta} (  \phi_{jk} | \phi_{0,k} \kappa_{0,k} , (1- \phi_{0,k}) \kappa_{0,k} )  \mathrm{Pareto} ( \kappa_j | 1.5, 1 ) 
+    \\ & \times \mathrm{uniform} ( \phi_{0,k} | 0 , 1) \mathrm{Pareto} ( \kappa_{0,k} | 1.5, 1 ). 
+  \end{split}
+\end{align}
+%
+This parameterization is hierarchical because the estimates for $\phi_{jk}$ and $\kappa_{jk}$ contribute to estimates for $\theta_{ijk}$, and the estimates for $\phi_{0,k} $ and $\kappa_{0,k} $ contribute to estimates for $\phi_{jk}$. [other effects?]
+
+\iffalse
 \subsection*{Binomial model with a beta prior, partial pooling}
 
 Next, we'll consider adding pooling to our model. We do this by putting hyperpriors on the parameters for the beta distribution. Focusing first on one population, we give the population a per-year probability of success $p_k$. We place a prior on each $p_{k}$ but rather than directly parameterize the probability of success we use hyperpriors. We'll use the parameterization in Kruschke:
@@ -281,14 +329,14 @@ Next, we'll consider adding pooling to our model. We do this by putting hyperpri
   \end{split}
 \end{align}
 %
-This parameterization is hierarchical and we can use it to illustrate one of the effects of using this structure in our models. Let's pick a population with years in which there were few data points. For the purposes of illustration, we choose to work with the Lucas Creek East (LCE) population here. We fit the model above to the data from LCE and plot the posteriors for the parameter $\omega$ in Figure~\ref{fig:hierarchical}, which corresponds to the mode of the beta distribution. The figure illustrates the concept of \textit{shrinkage}; the posterior distributions of year-level $\theta_k$ are pulled towards the population-level mode $\omega$. This effect is particularly evident in years in which there are few data points (number of samples in each year, from 2006-2015: 20, 7, 17, 14, 19, 1, 1, 3, 1, 8). In Figure~\ref{fig:hierarchical}, this is shown by the overlap between the posterior distribution for $\omega$ and $\theta_k$ for years $k$ in which there are few data points. This is particularly true in 2011--2014. One important effect of this is that the [variance between estimated values $\theta_k$ is less than the variance between the individual proportions correct] (paraphrasing Kruschke)
+This parameterization is hierarchical and we can use it to illustrate one of the effects of using this structure in our models. Let's pick a population with years in which there were few data points. For the purposes of illustration, we choose to work with the Lucas Creek East (LCE) population here. We fit the model above to the data from LCE and plot the posteriors for the parameter $\omega$ in Figure~\ref{fig:hierarchical-1}, which corresponds to the mode of the beta distribution. The figure illustrates the concept of \textit{shrinkage}; the posterior distributions of year-level $\theta_k$ are pulled towards the population-level mode $\omega$. This effect is particularly evident in years in which there are few data points (number of samples in each year, from 2006-2015: 20, 7, 17, 14, 19, 1, 1, 3, 1, 8). In Figure~\ref{fig:hierarchical-1}, this is shown by the overlap between the posterior distribution for $\omega$ and $\theta_k$ for years $k$ in which there are few data points. This is particularly true in 2011--2014. One important effect of this is that the [variance between estimated values $\theta_k$ is less than the variance between the individual proportions correct] (paraphrasing Kruschke)
 
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
        \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchical}  
     \caption{ The posterior distribution for $\theta_k$ for a model fitted to data from Lucas Creek East. The histogram represents draws from the posterior distribution. The vertical, dotted red line indicates the total proportion of successes (fruiting plants/seedlings) in each year. The solid red line is the density of draws from the posterior of $\omega$. }
- \label{fig:hierarchical}
+ \label{fig:hierarchical-1}
 \end{figure}
 
 For comparison, we also fit the same model to data from the Black Gulch (BG) population. For BG, most years have a higher number of data points (number of samples in each year, from 2006-2015: 18, 20, 21, 26, 23, 26, 20, 23, 3, 26). Here, it's clear that most posterior distributions for year-level $\theta_k$ are not greatly influenced by the population-level mode $\omega$. 
@@ -296,9 +344,9 @@ For comparison, we also fit the same model to data from the Black Gulch (BG) pop
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchical2}  
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchicalBG}  
     \caption{ The posterior distribution for $\theta_k$ for a model fitted to data from Black Gulch. The histogram represents draws from the posterior distribution. The vertical, dotted red line indicates the total proportion of successes (fruiting plants/seedlings) in each year. The solid red line is the density of draws from the posterior of $\omega$. }
- \label{fig:hierarchical}
+ \label{fig:hierarchical-2}
 \end{figure}
 
 To compare our population- and year-specific estimates, we give each population $j$ and year $k$ its own probability of success $p_{jk}$, place priors $\omega_j$ and $\kappa_j$ on each $p_{jk}$, and give each prior a set of hyperpriors.
@@ -313,7 +361,6 @@ To compare our population- and year-specific estimates, we give each population 
 %
 Effectively, this is a model in which we are partially pooling observations from each population. The posterior estimates for $p_jk$ from this model are similar to one in which observations from each population are completely pooled. When there are few data points, the population-level paramater $\omega_j$ has an effect on the population- and year-level $\theta_jk$ (see \textbf{Comparison}).
 
-\iffalse
 \subsection*{Multi-level binomial model with partial pooling and a beta prior}
 
 Next, we could consider pooling across all sites and years in our dataset. We would this by putting hyperpriors on the parameters for the beta distribution. This means that we estimate parameters for all populations and years simultaneously. There is a parameter $\omega_j$ that determines the mode of each population, $\omega$ that determines the mode across all populations, $\kappa_j$ that determines the concentration of the data between years, and $\kappa$ that determines the concentration of data at each population. We are interested in the mean at each site. We'll use the parameterization in Kruschke:
@@ -336,16 +383,35 @@ I'm going to leave this out for the time being. This would 100\% be a future dir
 
 \subsection*{Comparison}
 
-The first panel in Figure~\ref{fig:mle_bayes} shows that the maximum likelihood estimates are pretty similar to those from the Bayesian model with complete pooling per population and a beta-binomial parameterization. The major differences are where the maximum likelihood estimates approach 0 or 1. The second panel in Figure~\ref{fig:mle_bayes} shows that this is because those estimates come from year-population combinations with a small sample size. For example, the MLE for a year-population combination with one plot and 1 seedling that dies before fruiting would be 0. In a Bayesian model, the prior has a comparatively larger influence on the posterior in situations where there is little data. In this case, the posterior would be a compromise between our one data point and our prior. The estimates converge once we have ~5 data points.
+There are a few relevant comparisons. First, we want to explore estimates from a Bayesian model compare to the maximum likelihood estimates. Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks).
+
+[need to give details of models here - trace plots, etc.]
+
+First, we want to explore estimates from a Bayesian model compare to the maximum likelihood estimates. The comparison I am interested in is the effect of adding a prior, rather than the effect of adding hierarchy to the model. I will compare the maximum likelihood estimates (equation~\eqref{eq:frequentistMLE}) and the non-hierarchical Bayeisan model (equation~\eqref{eq:bayesianNH}). The first panel in Figure~\ref{fig:mle_bayes} shows that the maximum likelihood estimates are pretty similar to those from the Bayesian model with complete pooling per population and a beta-binomial parameterization. The major differences are where the maximum likelihood estimates approach 0 or 1. The second panel in Figure~\ref{fig:mle_bayes} shows that this is because those estimates come from year-population combinations with a small sample size. For example, the MLE for a year-population combination with one plot and 1 seedling that dies before fruiting would be 0. In the Bayesian model, the prior has a comparatively larger influence on the posterior in situations where there is little data. In this case, the posterior would be a compromise between our one data point and our prior. The estimates converge once we have ~5 data points.
+
+Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. These comparisons will all be among models fit to data for one population ($k=1$). I am interested in comparing a non-hierarchical model (equation~\eqref{eq:bayesianNH}), a hierarchica l model with year-level parameters (equation~\eqref{eq:bayesianHyear}), and a hierarchical model with year-level and population-level parameters (equation~\eqref{eq:bayesianHyearpop}). All these comparisons will be made at a randomly selected site. 
+
+The relevant figures are:
+
+1 \& 2 ; one comparing 1-level H to NH, one comparing 2-level H to NH; posterior distributions are more broad for the H models Figure~\ref{fig:hierarchyPosteriors_nh_hyear}) Figure~\ref{fig:hierarchyPosteriors_nh_hyearpop})
+
+
+3 These posteriors can be summarized by their median and 95\% credible intervals. Broader CIs at population level Figure~\ref{fig:hierarchyPosteriorsSummary})
+
+
+ 
 
 Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the population-level only, a model with complete and partial pooling give fairly similar estimates. The difference between the posterior for a model with complete versus partial pooling has a greater range for smaller sample sizes (CIs are larger for smaller sample sizes) and a model with complete pooling returns slightly higher estimates. Figures~\ref{fig:match} and~\ref{fig:mismatch} compare the posterior distribution for population- and year-combinations with many data points (30 data points in Figure~\ref{fig:match}) and few data points (1 data point in Figure~\ref{fig:mismatch}). When there are few data points, the posterior for $p_{jk}$ in the partial pooling model is influenced by the population-level parameter $\omega$ (Figure~\ref{fig:mismatch}).
 
+Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks).
 
 %Goal is to compare the output from each of these models. They should be pretty similar for most of the data because it's well-replicated and the sample sizes are reasonable. The differences that I am interested in pointing out are
 
 %- what happens when there are few observations (the prior has influence)
 %- how well can we estimate the site mean or the year mean from each dataset?
 %- prediction: which of our datasets does a better job at predicting?
+
+\clearpage
 
  \begin{figure}[h]
    \centering
@@ -355,6 +421,34 @@ Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the po
  \label{fig:mle_bayes}
 \end{figure}
 
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyear}  
+    \caption{ (A) Comparison of and nonhierarchical and year-level parameter hierarchical model. }
+ \label{fig:hierarchyPosteriors_nh_hyear}
+\end{figure}
+
+\begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyearpop}  
+    \caption{ (A) Comparison of and nonhierarchical and year- and population-level parameter hierarchical model.  }
+ \label{fig:hierarchyPosteriors_nh_hyearpop}
+\end{figure}
+
+
+ \begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriorsSummary}  
+    \caption{ (A) Comparison of median and 95\% confidence intervals for models with three levels of structure, fit to the same dataset.   }
+ \label{fig:hierarchyPosteriorsSummary}
+\end{figure}
+
+
+\iffalse
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
@@ -362,6 +456,7 @@ Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the po
     \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the beta-binomial parameterization with partial pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.  }
  \label{fig:complete_vs_partial}
 \end{figure}
+
 
  \begin{figure}[h]
    \centering
@@ -379,7 +474,6 @@ Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the po
  \label{fig:mismatch}
 \end{figure}
 
-\iffalse
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
