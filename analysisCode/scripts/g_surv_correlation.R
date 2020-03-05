@@ -1,23 +1,21 @@
 # -------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Analysis of correlation between g and s2s3
+# -------------------------------------------------------------------
 # -------------------------------------------------------------------
 rm(list=ls(all=TRUE)) # clear R environment
 options(stringsAsFactors = FALSE,max.print=100000)
 # -------------------------------------------------------------------
 # Loading required packages
 # -------------------------------------------------------------------
-library(rjags) # jags interface
 library(MCMCvis)
-library(dplyr)
-library(ggplot2)
-library(reshape2)
-library(tidyr)
+library(tidyverse)
 library(HDInterval)
 library(bayesplot)
 
 set.seed(10)
 # -------------------------------------------------------------------
-# Functions for use when analyzing data
+# functions to analyze data
 # -------------------------------------------------------------------
 
 cols_fun <- function(x,fun=var){
@@ -27,42 +25,58 @@ cols_fun <- function(x,fun=var){
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
+# read in samples from posterior distributions
 load("~/Dropbox/modelsF2019/output/seedbagfit")
+# readrDS(...)
 
-g1<-boot::inv.logit(MCMCchains(zc,params = "alphaG1"))
-s2<-boot::inv.logit(MCMCchains(zc,params = "alphaS2"))
-s3<-boot::inv.logit(MCMCchains(zc,params = "alphaS3"))
+# extract parameters for analysis
+posterior.g1<-MCMCchains(zc,params = "alphaG1")
+posterior.s2<-MCMCchains(zc,params = "alphaS2")
+posterior.s3<-MCMCchains(zc,params = "alphaS3")
 
-nsite <- 20
-nyear <- 3
+# place on (0,1) scale
+probability.g1 <- boot::inv.logit(posterior.g1)
+probability.s2 <- boot::inv.logit(posterior.s2)
+probability.s3 <- boot::inv.logit(posterior.s3)
 
-survEstimates<-list()
-surv<-matrix(NA,nrow=30000,ncol=nsite)
-  
-  for(k in 1:nsite){
-    
-    surv[,k]<-s2[,k]*s3[,k]
+# read nSites and nYears from data file
+nSites <- 20
+nYears <- 3
+n.iter = dim(posterior.g1)[1]
+
+# empty matrix 
+probability.survival <- matrix(NA,nrow=n.iter,ncol=nSites)
+
+# calculate product of s2 and s3 for each site  
+  for(i in 1:nSites){
+    probability.survival[,i]<-probability.s2[,i]*probability.s3[,i]
   }
 
-cor.post<-c()
-for(i in 1:30000){
-  cor.post[i]<-cor(g1[i,],surv[i,])
+# empty vector for the correlation
+posterior.correlation<-c()
+
+# calculate correlation for each draw from the posterior
+for(i in 1:n.iter){
+  posterior.correlation[i]<-cor(probability.g1[i,],probability.survival[i,])
 }  
 
-g1.BCI <- apply(g1,2,FUN = function(x) quantile(x, c(.05, .5, .95)))
-g1.HPDI <- apply(g1,2,FUN = function(x) hdi(x, .95))
+# calculate the 95% credible interval and HPDI for g1
+CI.g1 <- apply(probability.g1,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
+HPDI.g1 <- apply(probability.g1,2,FUN = function(x) hdi(x, .95))
 
-surv.BCI <- apply(surv,2,FUN = function(x) quantile(x, c(.05, .5, .95)))
-surv.HPDI <- apply(surv,2,FUN = function(x) hdi(x, .95))
+# calculate the 95% credible interval and HPDI for probability of survival (s2*s3)
+CI.survival <- apply(probability.survival,2,FUN = function(x) quantile(x, c(.05, .5, .95)))
+HPDI.survival <- apply(probability.survival,2,FUN = function(x) hdi(x, .95))
 
-g1.df<-data.frame(t(g1.BCI))
-names(g1.df) <- c("lo.g1","med.g1","hi.g1")
-surv.df<-data.frame(t(surv.BCI))
-names(surv.df) <- c("lo.surv","med.surv","hi.surv") 
+# put medians and credible intervals into data frame
+g1PosteriorSummary <- data.frame(t(CI.g1))
+names(g1PosteriorSummary) <- c("lo.g1","med.g1","hi.g1")
+survivalPosteriorSummary<-data.frame(t(CI.survival))
+names(survivalPosteriorSummary) <- c("lo.surv","med.surv","hi.surv") 
 
-
-cor.BCI <- quantile(cor.post, c(.025, .5, .975))
-cor.HPDI <- hdi(cor.post, .95)
+# calculate the 95% credible interval and HPDI for the correlation
+CI.correlation <- quantile(posterior.correlation, c(.025, .5, .975))
+HPDI.correlation <- hdi(posterior.correlation, .95)
 
 
 pdf(
@@ -75,26 +89,32 @@ pdf(
 mar.default <- c(5,4,4,2) + 0.1
 par(mar = mar.default + c(0, 4, 0, 0)) 
 
-plot(surv.df$med.surv,g1.df$med.g1,xlim=c(.5,1),ylim=c(0,.4),
-     pch=16, 
-     ylab = "Mean germination probability [P(G)]", 
+# plot median of g1 vs. median of survival with CIs
+plot(x = survivalPosteriorSummary$med.surv,
+     y = g1PosteriorSummary$med.g1,
+     xlim=c(0,1),ylim=c(0,1),
+     pch=16, cex = 0.5,
      xlab = "Probability of seed survival [P(S)]",
-     cex.lab = 1.5, cex.axis = 1.5)
-# Now, define a custom axis
-#segments(x0=rs.df$lo.rs, x1=rs.df$hi.rs, y0=g1.df$med.g1)
-segments(x0=surv.df$med.surv, y0=g1.df$lo.g1, y1=g1.df$hi.g1)
-segments(y0=g1.df$med.g1, x0=surv.df$lo.surv, x1=surv.df$hi.surv)
-text(x=.8,y=.375,paste0("Pearson's r=",round(cor.BCI[2],2)),cex=1.5)
+     ylab = "Mean germination probability [P(G)]", 
+     cex.lab = 1, cex.axis = 1)
 
+segments(x0=survivalPosteriorSummary$lo.surv,x1=survivalPosteriorSummary$hi.surv,
+         y0=g1PosteriorSummary$med.g1, y1=g1PosteriorSummary$med.g1)
+segments(x0=survivalPosteriorSummary$med.surv,x1=survivalPosteriorSummary$med.surv,
+         y0=g1PosteriorSummary$lo.g1, y1=g1PosteriorSummary$hi.g1)
+text(x=.175,y=.95,
+     paste0("Pearson's r=",round(CI.correlation[2],2)),
+     cex=1)
+abline(a=0,b=1)
 
-hist(cor.post,breaks = 50, main = "", xlab = "", xlim = c(-1, 1), 
+# plot posterior of correlation coefficient
+hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1), 
      freq = FALSE, col = "azure1", cex.lab = 1.5,cex.axis=1.5)
 
 title(xlab="Correlation of germination and seed survival \n (Pearson's r)", line=4, cex.lab=1.5)
 
-
-abline(v=cor.HPDI,lty='dashed',lwd='2')
-abline(v=cor.BCI[2],lty='solid',lwd='2',col='red')
+abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
+abline(v=CI.correlation[2],lty='solid',lwd='2',col='red')
 
 dev.off()
 
