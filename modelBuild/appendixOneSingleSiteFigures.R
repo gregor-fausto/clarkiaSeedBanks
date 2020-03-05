@@ -19,14 +19,23 @@ options(stringsAsFactors = FALSE)
 
 library(MCMCvis)
 library(tidybayes)
+library(tidyverse)
+library(magrittr)
 
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/"
 simFiles <- paste0(directory,list.files(directory))
 dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
 samplesBinLinkBetaPriorComplete <- readRDS(simFiles[[5]])
+
 samplesBinLinkBetaPriorPartialMean <- readRDS(simFiles[[7]])
+samplesBinLinkBetaPriorPartialMeanLogit <- readRDS(simFiles[[10]])
+samplesBinLinkBetaPriorPartialMeanLogitNC <- readRDS(simFiles[[11]])
+
 samplesBinLinkBetaPriorPartialMeanHier <- readRDS(simFiles[[6]])
+samplesBinLinkBetaPriorPartialMeanHierLogit <- readRDS(simFiles[[8]])
+samplesBinLinkBetaPriorPartialMeanHierLogitNC <- readRDS(simFiles[[9]])
+
 simData <- readRDS(simFiles[[4]])
 yearNames = levels(simData$year)
 
@@ -34,41 +43,10 @@ nSites = length(unique(simData$site))
 nYears = length(unique(simData$year))
 nPlots = length(unique(simData$plot))
 
-# MCMCsummary(samplesBinLinkBetaPriorComplete)
-# MCMCsummary(samplesBinLinkBetaPriorPartialMean,params="phi")
-# MCMCsummary(samplesBinLinkBetaPriorPartialMode,params="omega")
-
-nh.p <- MCMCchains(samplesBinLinkBetaPriorComplete,params="p") 
-hyear.phi<-MCMCchains(samplesBinLinkBetaPriorPartialMean,params="phi")
-
-hyear.p<-MCMCchains(samplesBinLinkBetaPriorPartialMean,params="p")
-hyear.theta <- MCMCchains(samplesBinLinkBetaPriorPartialMean,params="theta")
-
-hyearpop.phi0<-MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="phi0")
-hyearpop.phi<-MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="phi")
-hyearpop.theta <- MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="theta")
-
-hyearpop.p <- MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="p")
-hyearpop.p_site <- MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="p_site")
-
-par(mfrow=c(1,1))
-plot(density(hyearpop.phi0),
-     xlim=c(0,1),ylim=c(0,20),
-     xlab="Probability of survivorship",
-     main="Posterior distribution for hierarchical model parameters")
-for(i in 1:nYears){
-  lines(density(hyearpop.phi[,i]),lty=1,lwd=1,col='gray')
-}
-points(simData$fruitingPlantNumber/simData$seedlingNumber,
-       rep(0,dim(simData)[1]),
-       pch=16,
-       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
-
 
 simData$year <- as.numeric(simData$year)
 
 pdf(paste0(dirFigures,"appendix-x-hierarchyPosteriors_nh_hyear.pdf"), width=8, height=6)
-par(mfrow=c(2,5))
 # compare the hierarchical model to non-hierarchical
 # note the posterior is narrower for the non-hierarchical
 par(mfrow=c(2,5))
@@ -80,10 +58,11 @@ for(i in 1:nYears){
        main=yearNames[i])
   
   # plot hierarchical year-level estimates
-  lines(density(hyear.phi[,i]),lty=1,lwd=1,col='red')
+  lines(density(hyear.phi[,i]),lty=1,lwd=.5,col='red')
+  #lines(density(hyear.p[,i]),lty=2,lwd=.5,col='red')
   
   # plot the non-hierarchical year-level estimates
-  lines(density(nh.p[,i]),lty=1,lwd=1,col='blue')
+  lines(density(nh.p[,i]),lty=1,lwd=.5,col='blue')
   
   tmp = simData %>% dplyr::filter(year==i)
   points(tmp$fruitingPlantNumber/tmp$seedlingNumber,
@@ -93,6 +72,7 @@ for(i in 1:nYears){
   
 }
 dev.off()
+
 pdf(paste0(dirFigures,"appendix-x-hierarchyPosteriors_nh_hyearpop.pdf"), width=8, height=6)
 par(mfrow=c(2,5))
 # compare hierarchical to non-hierarchical
@@ -118,26 +98,29 @@ for(i in 1:nYears){
 dev.off()
 
 
+
+# show summary of posteriors of means with 95% credible intervals
+pdf(paste0(dirFigures,"appendix-x-hierarchyPosteriorsSummary.pdf"), width=4, height=4)
+
 nh.p.sum<-apply(nh.p,2,quantile,probs=c(.025,.5,.975))
 hyear.phi.sum<-apply(hyear.phi,2,quantile,probs=c(.025,.5,.975))
 hyearpop.phi.sum<-apply(hyearpop.phi,2,quantile,probs=c(.025,.5,.975))
 
-# show summary of posteriors of means with 95% credible intervals
-pdf(paste0(dirFigures,"appendix-x-hierarchyPosteriorsSummary.pdf"), width=4, height=4)
 par(mfrow=c(1,1))
-plot(1:10-0.25,t(nh.p.sum)[,2],pch=16,
-     ylim=c(0,1),xlim=c(0,11),
+
+plot(1:nYears-0.25,t(nh.p.sum)[,2],pch=16,
+     ylim=c(0,1),xlim=c(0,nYears+1),
      main="",
      xlab="Year",
      ylab="Probability of survivorship")
-segments(x0=1:10-0.25,y0=t(nh.p.sum)[,1],
-         x1=1:10-0.25,y1=t(nh.p.sum)[,3])
-points(1:10,t(hyear.phi.sum)[,2],pch=17)
-segments(x0=1:10,y0=t(hyear.phi.sum)[,1],
-         x1=1:10,y1=t(hyear.phi.sum)[,3])
-points(1:10+0.25,t(hyearpop.phi.sum)[,2],pch=18)
-segments(x0=1:10+0.25,y0=t(hyearpop.phi.sum)[,1],
-         x1=1:10+0.25,y1=t(hyearpop.phi.sum)[,3])
+segments(x0=1:nYears-0.25,y0=t(nh.p.sum)[,1],
+         x1=1:nYears-0.25,y1=t(nh.p.sum)[,3])
+points(1:nYears,t(hyear.phi.sum)[,2],pch=17)
+segments(x0=1:nYears,y0=t(hyear.phi.sum)[,1],
+         x1=1:nYears,y1=t(hyear.phi.sum)[,3])
+points(1:nYears+0.25,t(hyearpop.phi.sum)[,2],pch=18)
+segments(x0=1:nYears+0.25,y0=t(hyearpop.phi.sum)[,1],
+         x1=1:nYears+0.25,y1=t(hyearpop.phi.sum)[,3])
 legend(x=0,y=1,c("Non-hierarchical model",
                   "Hierarchical model with year-level parameters",
                   "Hierarchical model with year- and population-level parameters"),
@@ -145,6 +128,684 @@ legend(x=0,y=1,c("Non-hierarchical model",
        cex=0.5)
 dev.off()
 
+# comparison
+library(tidybayes)
+library(magrittr)
+samplesBinLinkBetaPriorComplete %<>% tidybayes::recover_types(simData) 
+samplesBinLinkBetaPriorPartialMean %<>% tidybayes::recover_types(simData) 
+samplesBinLinkBetaPriorPartialMeanHier %<>% tidybayes::recover_types(simData)
+
+
+# compare in a row
+pdf(file=paste0(dirFigures,"appendix-x-figure54-2.pdf"), width=8, height=6)
+
+ref<-simData %>% 
+  dplyr::select(year,plot) %>%
+  tidyr::unite(yearPlot,c(year,plot))
+
+sampleYear <-sample(1:nYears,1)
+par(mfrow=c(1,3))
+for(i in sampleYear){
+# filter data to year
+tmp = simData %>% 
+  dplyr::filter(year==i) %>%
+  dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+  dplyr::arrange(observed.p)
+
+mcmcSummary<-samplesBinLinkBetaPriorComplete %>%
+  tidybayes::spread_draws(p[year]) %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(med = median(p), 
+                   ci.lo = quantile(p,probs=0.025), 
+                   ci.hi = quantile(p,probs=0.975))
+
+tmp<-tmp %>%
+  dplyr::left_join(mcmcSummary,by="year")
+
+mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
+
+# plot hierarchical population-level estimate
+
+# toggle on jitter to avoid overplotting
+jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+
+plot(tmp$observed.p + jitter,tmp$med,
+     pch=16, cex = 1,
+     col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+     xlim=c(0,1),ylim=c(0,1),
+     xlab="Observed proportion, y[i]/n[i]",
+     ylab="theta[i] and 95% credible interval",
+     main=yearNames[i],type='n')
+
+segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+         y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+         col=rgb(red = 0, green = 0, blue = 1, alpha = 0.5))
+points(tmp$observed.p + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = 0, green = 0, blue = 1, alpha = 0.5))
+
+# one-to-one line
+abline(a=0,b=1)
+
+# add mle estimate for the year
+abline(h = mle, lty='dashed')
+}
+
+# compare hierarchical to non-hierarchical
+# for posterior of p
+for(i in sampleYear){
+  
+  # filter data to year
+  tmp = simData %>% 
+    dplyr::filter(year==i) %>%
+    dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+    dplyr::arrange(observed.p) %>%
+    tidyr::unite(yearPlot,c(year,plot))
+  
+  mcmcSummary<-samplesBinLinkBetaPriorPartialMean %>%
+    tidybayes::spread_draws(theta[year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::filter(yearPlot %in% tmp$yearPlot) %>%
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med = median(theta), 
+                     ci.lo = quantile(theta,probs=0.025), 
+                     ci.hi = quantile(theta,probs=0.975))
+  
+  tmp<-tmp %>%
+    dplyr::left_join(mcmcSummary,by="yearPlot")
+  
+  mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
+  
+  # plot hierarchical population-level estimate
+  
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+  
+  plot(tmp$observed.p + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Observed proportion, y[i]/n[i]",
+       ylab="theta[i] and 95% credible interval",
+       main=yearNames[i],type='n')
+  
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+           col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med,
+         pch=16, cex = 1,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the year
+  abline(h = mle, lty='dashed')
+  
+}
+
+# compare hierarchical to non-hierarchical
+# for posterior of p
+for(i in sampleYear){
+  
+  # filter data to year
+  tmp = simData %>% 
+    dplyr::filter(year==i) %>%
+    dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+    dplyr::arrange(observed.p) %>%
+    tidyr::unite(yearPlot,c(year,plot))
+  
+  mcmcSummary<-samplesBinLinkBetaPriorPartialMeanHier %>%
+    tidybayes::spread_draws(theta[site,year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::filter(yearPlot %in% tmp$yearPlot) %>%
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med = median(theta), 
+                     ci.lo = quantile(theta,probs=0.025), 
+                     ci.hi = quantile(theta,probs=0.975))
+  
+  tmp<-tmp %>%
+    dplyr::left_join(mcmcSummary,by="yearPlot")
+  
+  mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
+  
+  # plot hierarchical population-level estimate
+  
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+  
+  plot(tmp$observed.p + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Observed proportion, y[i]/n[i]",
+       ylab="theta[i] and 95% credible interval",
+       main=yearNames[i],type='n')
+  
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+           col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med,
+         pch=16, cex = 1,
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the year
+  abline(h = mle, lty='dashed')
+  
+}
+
+dev.off()
+
+
+pdf(file=paste0(dirFigures,"appendix-x-figure54.pdf"), width=8, height=6)
+# compare both hierarchical models
+# purple is year-level parameters
+# gray is year- and population-level parameters
+par(mfrow=c(2,5))
+# compare hierarchical to non-hierarchical
+# for posterior of p
+for(i in 1:nYears){
+  
+  # filter data to year
+  tmp = simData %>% 
+    dplyr::filter(year==i) %>%
+    dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+    dplyr::arrange(observed.p) %>%
+    tidyr::unite(yearPlot,c(year,plot))
+  
+  mcmcSummary<-samplesBinLinkBetaPriorPartialMeanHier %>%
+    tidybayes::spread_draws(theta[site,year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::filter(yearPlot %in% tmp$yearPlot) %>%
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med.h = median(theta), 
+                     ci.lo.h = quantile(theta,probs=0.025), 
+                     ci.hi.h = quantile(theta,probs=0.975))
+  
+  mcmcSummary2<-samplesBinLinkBetaPriorPartialMean %>%
+    tidybayes::spread_draws(theta[year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::filter(yearPlot %in% tmp$yearPlot) %>%
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med = median(theta), 
+                     ci.lo = quantile(theta,probs=0.025), 
+                     ci.hi = quantile(theta,probs=0.975))
+  
+  tmp<-tmp %>%
+    dplyr::left_join(mcmcSummary,by="yearPlot") %>%
+    dplyr::left_join(mcmcSummary2,by="yearPlot")
+  
+  mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
+  
+  # plot hierarchical population-level estimate
+  
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+  
+  plot(tmp$observed.p + jitter,tmp$med.h,
+       pch=16, cex = 1,
+       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Observed proportion, y[i]/n[i]",
+       ylab="theta[i] and 95% credible interval",
+       main=yearNames[i],type='n')
+  
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo.h,y1=tmp$ci.hi.h,lwd=0.75,
+           col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med.h,
+         pch=16, cex = 1,
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+ 
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+  
+  # lower hierarchy
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+           col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med,
+         pch=16, cex = 1,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the year
+  abline(h = mle, lty='dashed')
+  
+}
+dev.off()
+
+# compare pooling for upper level parameters
+#pdf(file=paste0(dirFigures,"appendix-x-figure54-2.pdf"), width=8, height=6)
+
+par(mfrow=c(1,1))
+  
+  tmp = simData %>% 
+    dplyr::group_by(year) %>%
+    dplyr::summarise(y = sum(fruitingPlantNumber), n = sum(seedlingNumber)) %>%
+    dplyr::mutate(mle.year = y/n) %>%
+    dplyr::arrange(mle.year)
+  
+  mcmcSummary<-samplesBinLinkBetaPriorPartialMeanHier %>%
+    tidybayes::spread_draws(phi[site,year]) %>%
+    dplyr::group_by(year) %>%
+    dplyr::summarise(med.h = median(phi), 
+                     ci.lo.h = quantile(phi,probs=0.025), 
+                     ci.hi.h = quantile(phi,probs=0.975))
+  
+  mcmcSummary2<-samplesBinLinkBetaPriorPartialMean %>%
+    tidybayes::spread_draws(phi[year]) %>%
+    dplyr::group_by(year) %>%
+    dplyr::summarise(med = median(phi), 
+                     ci.lo = quantile(phi,probs=0.025), 
+                     ci.hi = quantile(phi,probs=0.975))
+  
+  tmp<-tmp %>%
+    dplyr::left_join(mcmcSummary,by="year") %>%
+    dplyr::left_join(mcmcSummary2,by="year")
+  
+  # filter data to year
+  mle.pop = sum(simData$fruitingPlantNumber)/sum(simData$seedlingNumber)
+  
+  # plot hierarchical population-level estimate
+  
+
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$mle.year),mean=0,sd=0.01)
+  
+  plot(tmp$mle.year + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Year-level MLE, sum(y[i])/sum(n[i])",
+       ylab="phi[i] and 95% credible interval",type='n')
+
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$mle.year),mean=0,sd=0.01)
+  
+  # 2-level hierarchical model
+  segments(x0=tmp$mle.year + jitter,x1=tmp$mle.year + jitter,
+           y0=tmp$ci.lo.h,y1=tmp$ci.hi.h,lwd=0.75,
+           col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+  points(tmp$mle.year + jitter,tmp$med.h,
+         pch=16, cex = 1,
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+  
+  # 1-level hierarchical model
+  segments(x0=tmp$mle.year - jitter,x1=tmp$mle.year - jitter,
+           y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+           col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  points(tmp$mle.year - jitter,tmp$med,
+         pch=16, cex = 1,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the population
+  abline(h = mle.pop, lty='dashed')
+  
+  
+  mcmcSummaryPop<-samplesBinLinkBetaPriorPartialMeanHier %>%
+    tidybayes::spread_draws(phi0) %>%
+    dplyr::summarise(med = median(phi0), 
+                     ci.lo = quantile(phi0,probs=0.025), 
+                     ci.hi = quantile(phi0,probs=0.975))
+  
+  # add mle estimate for the population
+  abline(h = mcmcSummaryPop$med, lty=,
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+ 
+  out=seq(-.2,1.2,.1)
+  yhi = rep(mcmcSummaryPop$ci.hi,length(out))
+  ylo = rep(mcmcSummaryPop$ci.lo,length(out))
+
+  abline(h = mcmcSummaryPop$med, 
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+
+  polygon(x=c(out,rev(out)),y=c(ylo,rev(yhi)),
+          col=rgb(red = 0, green = 0, blue = 0, alpha = 0.1),
+          border=NA)
+
+
+  # -------------------------------------------------------------------
+  # -------------------------------------------------------------------
+# Compare parameterizations
+  # -------------------------------------------------------------------
+  # -------------------------------------------------------------------
+  samplesBinLinkBetaPriorPartialMean %<>% tidybayes::recover_types(simData)
+  samplesBinLinkBetaPriorPartialMeanLogit %<>% tidybayes::recover_types(simData)
+  samplesBinLinkBetaPriorPartialMeanLogitNC %<>% tidybayes::recover_types(simData)
+  
+  ref<-simData %>% 
+    dplyr::select(year,plot) %>%
+    tidyr::unite(yearPlot,c(year,plot))
+  
+  
+  tmp = simData %>% 
+   # dplyr::filter(year==i) %>%
+     dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+    dplyr::arrange(observed.p) %>%
+    tidyr::unite(yearPlot,c(year,plot))
+  
+  mcmcSummary<-samplesBinLinkBetaPriorPartialMean %>%
+    tidybayes::spread_draws(theta[year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+   # dplyr::filter(yearPlot %in% tmp$yearPlot) %>%
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med = median(theta), 
+                     ci.lo = quantile(theta,probs=0.025), 
+                     ci.hi = quantile(theta,probs=0.975))
+  
+  mcmcSummary2<-samplesBinLinkBetaPriorPartialMeanLogit %>%
+    tidybayes::spread_draws(alpha[year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::mutate(theta=boot::inv.logit(alpha)) %>%
+    #dplyr::filter(yearPlot %in% tmp$yearPlot) %>% 
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med.logit = median(theta), 
+                     ci.lo.logit = quantile(theta,probs=0.025), 
+                     ci.hi.logit = quantile(theta,probs=0.975))
+  
+  mcmcSummary3<-samplesBinLinkBetaPriorPartialMeanLogitNC %>%
+    tidybayes::spread_draws(alpha[year,plot]) %>%
+    tidyr::unite(yearPlot,c(year,plot)) %>%
+    dplyr::mutate(theta=boot::inv.logit(alpha)) %>%
+    #dplyr::filter(yearPlot %in% tmp$yearPlot) %>% 
+    dplyr::group_by(yearPlot) %>%
+    dplyr::summarise(med.logit.nc = median(theta), 
+                     ci.lo.logit.nc = quantile(theta,probs=0.025), 
+                     ci.hi.logit.nc = quantile(theta,probs=0.975))
+  
+  tmp<-tmp %>%
+    dplyr::left_join(mcmcSummary,by="yearPlot") %>%
+    dplyr::left_join(mcmcSummary2,by="yearPlot") %>%
+    dplyr::left_join(mcmcSummary3,by="yearPlot")
+  
+  mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
+  
+  # plot hierarchical population-level estimate
+  
+  # toggle on jitter to avoid overplotting
+  jitter <- rnorm(length(tmp$observed.p),mean=0,sd=0.01)
+  
+  par(mfrow=c(1,2))
+  plot(tmp$observed.p + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Observed proportion, y[i]/n[i]",
+       ylab="theta[i] and 95% credible interval",
+       main="",type='n')
+  
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+           col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med,
+         pch=16, cex = 1,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 1))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the year
+  abline(h = mle, lty='dashed')
+  
+  plot(tmp$observed.p + jitter,tmp$med.logit,
+       pch=16, cex = 1,
+       col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5),
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="Observed proportion, y[i]/n[i]",
+       ylab="theta[i] and 95% credible interval",
+       main="",type='n')
+  
+  segments(x0=tmp$observed.p + jitter,x1=tmp$observed.p + jitter,
+           y0=tmp$ci.lo.logit,y1=tmp$ci.hi.logit,lwd=0.75,
+           col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+  points(tmp$observed.p + jitter,tmp$med.logit,
+         pch=16, cex = 1,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 1))
+  
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  # add mle estimate for the year
+  abline(h = mle, lty='dashed')
+
+  par(mfrow=c(1,3))
+  # compare  
+  plot(tmp$med ,tmp$med.logit,
+       pch=16,cex=.75,
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="theta[i] and 95% credible interval\n direct parameterization",
+       ylab="theta[i] and 95% credible interval, logit-parameterization")
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  #compare
+  plot(tmp$med ,tmp$med.logit.nc,
+       pch=16,cex=.75,
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="theta[i] and 95% credible interval\n direct parameterization",
+       ylab="theta[i] and 95% credible interval, non-centered logit-parameterization")
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  #compare
+  plot(tmp$med.logit ,tmp$med.logit.nc,
+       pch=16,cex=.75,
+       xlim=c(0,1),ylim=c(0,1),
+       xlab="theta[i] and 95% credible interval\n logit-parameterization",
+       ylab="theta[i] and 95% credible interval, non-centered logit-parameterization")
+  # one-to-one line
+  abline(a=0,b=1)
+  
+  
+  
+dim(MCMCchains(samplesBinLinkBetaPriorPartialMean,params="theta"))
+dim(MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params='alpha'))
+theta <- MCMCchains(samplesBinLinkBetaPriorPartialMean,params="theta") %>%
+  recover_types(simData) %>%
+  spread_draws(theta[year,plot]) %>%
+  tidyr::unite(yearPlot, c(year,plot),remove=FALSE) %>%
+  dplyr::filter(yearPlot %in% ref$yearPlot) %>% 
+  unspread_draws(theta[year,plot]) %>% 
+  dplyr::select(-c('.chain','.iteration','.draw'))
+  
+theta.logit<- MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="alpha") %>%
+  recover_types(simData) %>%
+  spread_draws(alpha[year,plot]) %>%
+  dplyr::mutate(theta = boot::inv.logit(alpha)) %>%
+  dplyr::select(-alpha) %>%
+  tidyr::unite(yearPlot, c(year,plot),remove=FALSE) %>%
+  dplyr::filter(yearPlot %in% ref$yearPlot) %>% 
+  unspread_draws(theta[year,plot]) %>% 
+  dplyr::select(-c('.chain','.iteration','.draw'))
+  
+delta=theta.logit-theta
+delta.summary<-apply(delta,2,quantile,probs=c(.025,.5,.975))  
+
+test<-delta.summary %>%
+  tidybayes::spread_draws(theta[year,plot]) %>%
+  dplyr::filter(.draw==2) %>%
+  dplyr::left_join(simData,by=c("year","plot"))
+
+par(mfrow=c(1,1))
+plot(test$seedlingNumber,test$theta)
+
+
+par(mfrow=c(1,1))
+
+tmp = simData %>% 
+  dplyr::group_by(year) %>%
+  dplyr::summarise(y = sum(fruitingPlantNumber), n = sum(seedlingNumber)) %>%
+  dplyr::mutate(mle.year = y/n) %>%
+  dplyr::arrange(mle.year)
+
+mcmcSummary<-samplesBinLinkBetaPriorPartialMean %>%
+  tidybayes::spread_draws(phi[year]) %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(med = median(phi), 
+                   ci.lo = quantile(phi,probs=0.025), 
+                   ci.hi = quantile(phi,probs=0.975))
+
+mcmcSummary2<-samplesBinLinkBetaPriorPartialMeanLogit %>%
+  tidybayes::spread_draws(mu[year]) %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(med.logit = median(boot::inv.logit(mu)), 
+                   ci.lo.logit = quantile(boot::inv.logit(mu),probs=0.025), 
+                   ci.hi.logit = quantile(boot::inv.logit(mu),probs=0.975))
+
+tmp<-tmp %>%
+  dplyr::left_join(mcmcSummary,by="year") %>%
+  dplyr::left_join(mcmcSummary2,by="year")
+
+# plot hierarchical population-level estimate
+
+
+# toggle on jitter to avoid overplotting
+jitter <- rnorm(length(tmp$mle.year),mean=0,sd=0.01)
+
+plot(tmp$mle.year + jitter,tmp$med,
+     pch=16, cex = 1,
+     col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5),
+     xlim=c(0,1),ylim=c(0,1),
+     xlab="Year-level MLE, sum(y[i])/sum(n[i])",
+     ylab="phi[i] and 95% credible interval",type='n')
+
+# toggle on jitter to avoid overplotting
+jitter <- rnorm(length(tmp$mle.year),mean=0,sd=0.01)
+
+# 1-level hierarchical model, direct param
+segments(x0=tmp$mle.year + jitter,x1=tmp$mle.year + jitter,
+         y0=tmp$ci.lo,y1=tmp$ci.hi,lwd=0.75,
+         col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+points(tmp$mle.year + jitter,tmp$med,
+       pch=16, cex = 1,
+       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+
+# 1-level hierarchical model, logit param
+segments(x0=tmp$mle.year - jitter,x1=tmp$mle.year - jitter,
+         y0=tmp$ci.lo.logit,y1=tmp$ci.hi.logit,lwd=0.75,
+         col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+points(tmp$mle.year - jitter,tmp$med.logit,
+       pch=16, cex = 1,
+       col=rgb(red = .5, green = 0, blue = .5, alpha = 0.5))
+
+# one-to-one line
+abline(a=0,b=1)
+
+# add mle estimate for the population
+abline(h = mle.pop, lty='dashed')
+
+
+mcmcSummaryPop<-samplesBinLinkBetaPriorPartialMeanHier %>%
+  tidybayes::spread_draws(phi0) %>%
+  dplyr::summarise(med = median(phi0), 
+                   ci.lo = quantile(phi0,probs=0.025), 
+                   ci.hi = quantile(phi0,probs=0.975))
+
+# add mle estimate for the population
+abline(h = mcmcSummaryPop$med, lty=,
+       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+
+out=seq(-.2,1.2,.1)
+yhi = rep(mcmcSummaryPop$ci.hi,length(out))
+ylo = rep(mcmcSummaryPop$ci.lo,length(out))
+
+abline(h = mcmcSummaryPop$med, 
+       col=rgb(red = 0, green = 0, blue = 0, alpha = 0.5))
+
+polygon(x=c(out,rev(out)),y=c(ylo,rev(yhi)),
+        col=rgb(red = 0, green = 0, blue = 0, alpha = 0.1),
+        border=NA)
+
+
+
+tmp = simData %>% 
+  # dplyr::filter(year==i) %>%
+  dplyr::mutate(observed.p = fruitingPlantNumber/seedlingNumber) %>%
+  dplyr::arrange(observed.p) %>%
+  tidyr::unite(yearPlot,c(year,plot))
+
+  samplesBinLinkBetaPriorComplete <- readRDS(simFiles[[5]])
+  
+  samplesBinLinkBetaPriorPartialMean <- readRDS(simFiles[[7]])
+  samplesBinLinkBetaPriorPartialMeanLogit <- readRDS(simFiles[[10]])
+  samplesBinLinkBetaPriorPartialMeanLogitNC <- readRDS(simFiles[[11]])
+  
+  samplesBinLinkBetaPriorPartialMeanHier <- readRDS(simFiles[[6]])
+  samplesBinLinkBetaPriorPartialMeanHierLogit <- readRDS(simFiles[[8]])
+  samplesBinLinkBetaPriorPartialMeanHierLogitNC <- readRDS(simFiles[[9]])
+  
+
+  
+  # Comparison shows that the distribution of rhat for
+  # the logit parameterization is <1.05
+  # plot comparing Rhat values 
+  par(mfrow=c(1,3))  
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMean,params=c("theta"))$Rhat,breaks=40)
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("theta"))$Rhat,breaks=40)
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("theta"))$Rhat,breaks=40)
+
+  par(mfrow=c(1,3))  
+  MCMCsummary(samplesBinLinkBetaPriorPartialMean,params=c("phi"))
+  MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu"))
+  MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("mu"))
+  
+  par(mfrow=c(1,3))  
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMeanHier,params=c("theta"))$Rhat,breaks=40)
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMeanHierLogit,params=c("theta"))$Rhat,breaks=40)
+  hist(MCMCsummary(samplesBinLinkBetaPriorPartialMeanHierLogitNC,params=c("theta"))$Rhat,breaks=40)
+  
+  par(mfrow=c(1,3))  
+  MCMCsummary(samplesBinLinkBetaPriorPartialMeanHier,params=c("phi"))
+  MCMCsummary(samplesBinLinkBetaPriorPartialMeanHierLogit,params=c("mu"))
+  MCMCsummary(samplesBinLinkBetaPriorPartialMeanHierLogitNC,params=c("mu"))
+    
+  # look at posteriors
+phi<-MCMCchains(samplesBinLinkBetaPriorPartialMean,params=c("phi"))
+kappa<-MCMCchains(samplesBinLinkBetaPriorPartialMean,params=c("kappa"))
+theta<-MCMCchains(samplesBinLinkBetaPriorPartialMean,params=c("theta"))
+
+# see neal's funnel
+par(mfrow=c(2,5))
+for(i in 1:nYears){
+plot(boot::logit(phi[,i]),log(kappa[,i]))
+}
+
+par(mfrow=c(1,1))
+# also the relationship of theta and kappa
+plot(boot::logit(theta[,1]),log(kappa[,1]))
+
+
+# look at posteriors
+mu<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu"))
+sigma<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params=c("sigma"))
+alpha<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params=c("alpha"))
+theta<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params=c("theta"))
+
+par(mfrow=c(1,1))
+# also the relationship of log-odds of success (alpha) and log population scale
+plot(alpha[,1],log(sigma[,1]))
+
+
+# look at posteriors non-centered parm
+mu<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("mu"))
+sigma<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("sigma"))
+alpha.std<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("alpha.std"))
+theta<-MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("theta"))
+
+par(mfrow=c(1,1))
+plot(mu[,1],log(sigma[,1]))
+
+# also the relationship of log-odds of success (alpha) and log population scale
+plot(alpha.std[,1],log(sigma[,1]))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -158,10 +819,11 @@ library(gridExtra)
 library(bayesplot)
 library(dplyr)
 
-color_scheme_set("brightblue")
 
 iter<-dim(MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="fruitingPlantNumberSim"))[1]
 
+#stat:skew
+skew <- psych::skew
 
 # pdf(
 #   "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/products/seedBagsCompletePoolingPPC.pdf",
@@ -175,49 +837,56 @@ iter<-dim(MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="fruitingPlan
 #   caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
 y <- simData$fruitingPlantNumber
-yrep.nh <- MCMCchains(samplesBinLinkBetaPriorComplete,params="fruitingPlantNumberSim")
+yrep.nh <- MCMCchains(samplesBinLinkBetaPriorComplete,params="fruitingPlantNumberSim")[sample(iter,1000), ]
 group <- as.factor(simData$year)
+
+color_scheme_set("brightblue")
 
 nh.mean<-ppc_stat_grouped(y, yrep.nh,
                    group=group,facet_args=list(nrow=2)) +
   theme_bw() +
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
 nh.var<-ppc_stat_grouped(y, yrep.nh, group=group,stat="var",facet_args=list(nrow=2)) +
   theme_bw() +
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
 
-yrep.hyear = MCMCchains(samplesBinLinkBetaPriorPartialMean,params="fruitingPlantNumberSim")
+yrep.hyear = MCMCchains(samplesBinLinkBetaPriorPartialMean,params="fruitingPlantNumberSim")[sample(iter,1000), ]
 
-hieryear.mean<-ppc_stat_grouped(y, yrep.hyear,group=group) +
+color_scheme_set("purple")
+
+hieryear.mean<-ppc_stat_grouped(y, yrep.hyear,group=group,facet_args=list(nrow=2)) +
   theme_bw() +
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; hierarchical model with year-level parameters", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
-hieryear.var<-ppc_stat_grouped(y, yrep.hyear,group=group,stat='var') +
+hieryear.var<-ppc_stat_grouped(y, yrep.hyear,group=group,stat='var',facet_args=list(nrow=2)) +
   theme_bw()
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; hierarchical model with year-level parameters", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
 
- yrep.hyearpop= MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="fruitingPlantNumberSim")
-hieryearpop.mean<-ppc_stat_grouped(y, yrep.hyearpop,group=group) +
+ yrep.hyearpop= MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="fruitingPlantNumberSim")[sample(iter,1000), ]
+
+ color_scheme_set("darkgray")
+
+ 
+ hieryearpop.mean<-ppc_stat_grouped(y, yrep.hyearpop,group=group,facet_args=list(nrow=2)) +
   theme_bw() +
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; hierarchical model with year- and population-level parameters", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
-hieryearpop.var<-ppc_stat_grouped(y, yrep.hyearpop,group=group,stat='var') +
+hieryearpop.var<-ppc_stat_grouped(y, yrep.hyearpop,group=group,stat='var',facet_args=list(nrow=2)) +
   theme_bw() +
-  labs(title="Posterior predictive checks for number of fruiting plants", 
+  labs(title="Posterior predictive checks for number of fruiting plants; hierarchical model with year- and population-level parameters", 
        caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
 
-l = list(nh.mean,nh.var,hieryear.mean,hieryear.var,hieryearpop.mean,hieryearpop.var)
+l = list(nh.mean,hieryear.mean,hieryearpop.mean,nh.var,hieryear.var,hieryearpop.var)
 
 ggsave(paste0(dirFigures,"appendix-x-ppc.pdf"), marrangeGrob(grobs = l,nrow=1,ncol=1))
-
 
 
 
