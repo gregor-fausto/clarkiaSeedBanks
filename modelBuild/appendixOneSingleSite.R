@@ -28,7 +28,7 @@ dirJagsScripts = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/appendixOn
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/"
 simFiles <- paste0(directory,list.files(directory))
 
-simData <- readRDS(simFiles[[13]])
+simData <- readRDS(simFiles[[16]])
 # 
 # ggplot(simData %>% dplyr::filter(site=="EC")) +
 #   geom_histogram(aes(fruitingPlantNumber/seedlingNumber)) +
@@ -77,10 +77,10 @@ parsToMonitor = c("p","fruitingPlantNumberSim")
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 500
+n.adapt = 5000
 n.update = 5000
-n.iterations = 10000
-n.thin = 1
+n.iterations = 100000
+n.thin = 10
 
 ################################################################################
 # Fit model 
@@ -146,7 +146,7 @@ saveRDS(samplesBinLinkBetaPriorComplete,file="/Users/Gregor/Dropbox/dataLibrary/
 # # number of samples in the final chain
 # n.adapt = 500
 # n.update = 5000
-# n.iterations = 10000
+# n.iterations = 100000
 # n.thin = 1
 # 
 # ################################################################################
@@ -207,10 +207,10 @@ parsToMonitor = c("theta","phi","kappa","p","fruitingPlantNumberSim")
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 500
+n.adapt = 5000
 n.update = 5000
-n.iterations = 10000
-n.thin = 1
+n.iterations = 100000
+n.thin = 10
 
 ################################################################################
 # Fit model 
@@ -282,10 +282,10 @@ parsToMonitor = c("phi0","kappa0","phi","kappa","theta","p_site","p","fruitingPl
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 500
+n.adapt = 5000
 n.update = 5000
-n.iterations = 10000
-n.thin = 1
+n.iterations = 100000
+n.thin = 10
 
 ################################################################################
 # Fit model 
@@ -303,7 +303,7 @@ jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMean-pa
 update(jm, n.iterations = n.update)
 
 # chain (n.iter)
-samplesBinLinkBetaPriorPartialMean = coda.samples(jm, variable.names = c(parsToMonitor), 
+samplesBinLinkBetaPriorPartialMeanHier = coda.samples(jm, variable.names = c(parsToMonitor), 
                                                   n.iter = n.iterations, thin = n.thin)
 
 # MCMCsummary(samplesBinLinkBetaPriorPartialMean,params=c("phi0","kappa0","kappa"))
@@ -312,6 +312,351 @@ samplesBinLinkBetaPriorPartialMean = coda.samples(jm, variable.names = c(parsToM
 # MCMCsummary(samplesBinLinkBetaPriorPartialMean,params="p_site")
 # MCMCsummary(samplesBinLinkBetaPriorPartialMean,params="p")
 
-saveRDS(samplesBinLinkBetaPriorPartialMean,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialHierMean.rds")
+saveRDS(samplesBinLinkBetaPriorPartialMeanHier,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialHierMean.rds")
 
 
+################################################################################
+################################################################################
+# JAGS fit for model with binomial likelihood, beta prior, partial pooling
+# parameterized via mean
+# with logit link
+################################################################################
+################################################################################
+
+################################################################################
+# Initial values
+################################################################################
+
+nSites = simDataBayesJags$n_site
+nYears = simDataBayesJags$n_year
+nPlot = simDataBayesJags$n_plot
+
+inits = list( list( mu=rep(0,nYears) ,
+                    sigma=rep(.5,nYears) ),
+              list( mu=rep(-1,nYears) ,
+                    sigma=rep(1,nYears) ),
+              list( mu=rep(.9,nYears) ,
+                    sigma=rep(1.5,nYears) )
+)
+
+################################################################################
+# Set parameters to monitor
+################################################################################
+
+parsToMonitor = c("theta","mu","sigma","alpha","fruitingPlantNumberSim")
+
+################################################################################
+# Set JAGS parameters
+################################################################################
+
+# scalars that specify the 
+# number of iterations in the chain for adaptation
+# number of iterations for burn-in
+# number of samples in the final chain
+n.adapt = 5000
+n.update = 5000
+n.iterations = 100000
+n.thin = 10
+
+################################################################################
+# Fit model 
+################################################################################
+
+# set random seed
+set.seed(2)
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMeanLogit-partialPooling-singleSite.R"), 
+                data = simDataBayesJags, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iterations = n.update)
+
+# chain (n.iter)
+samplesBinLinkBetaPriorPartialMeanLogit = coda.samples(jm, variable.names = c(parsToMonitor), 
+                                                  n.iter = n.iterations, thin = n.thin)
+# 
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu","sigma"))
+# 
+# MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu"))
+# MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogit,params=c("sigma"))
+
+ saveRDS(samplesBinLinkBetaPriorPartialMeanLogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialMeanLogit.rds")
+
+ 
+ ################################################################################
+ ################################################################################
+ # JAGS fit for model with binomial likelihood, beta prior, partial pooling
+ # parameterized via mean
+ # with logit link
+ # hierarchical
+ ################################################################################
+ ################################################################################
+ 
+ ################################################################################
+ # Initial values
+ ################################################################################
+ 
+ 
+ nSites = simDataBayesJags$n_site
+ nYears = simDataBayesJags$n_year
+ nPlot = simDataBayesJags$n_plot
+ 
+ inits = list( list( mu0=0 ,
+                     sigma0=.5,
+                     sigma=matrix(rep(.5,nYears*nSites),nrow=nSites,ncol=nYears)),
+               list( mu0=-1 ,
+                     sigma0=1,
+                     sigma=matrix(rep(1,nYears*nSites),nrow=nSites,ncol=nYears)),
+               list(  mu0=1 ,
+                      sigma0=1.1,
+                      sigma=matrix(rep(1.1,nYears*nSites),nrow=nSites,ncol=nYears)) 
+ )
+ 
+ 
+ 
+ ################################################################################
+ # Set parameters to monitor
+ ################################################################################
+ 
+ parsToMonitor = c("theta","mu","sigma","mu0","sigma0","alpha","alpha.std","fruitingPlantNumberSim")
+ 
+ ################################################################################
+ # Set JAGS parameters
+ ################################################################################
+ 
+ # scalars that specify the 
+ # number of iterations in the chain for adaptation
+ # number of iterations for burn-in
+ # number of samples in the final chain
+ n.adapt = 5000
+ n.update = 5000
+ n.iterations = 100000
+ n.thin = 10
+ 
+ ################################################################################
+ # Fit model 
+ ################################################################################
+ 
+ # set random seed
+ set.seed(2)
+ 
+ # tuning (n.adapt)
+ jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMeanHierLogit-partialPooling-singleSite.R"), 
+                 data = simDataBayesJags, inits = inits,
+                 n.chains = length(inits), n.adapt = n.adapt)
+ 
+ # burn-in (n.update)
+ update(jm, n.iterations = n.update)
+ 
+ # chain (n.iter)
+ samplesBinLinkBetaPriorPartialMeanHierLogit = coda.samples(jm, variable.names = c(parsToMonitor), 
+                                                        n.iter = n.iterations, thin = n.thin)
+ # 
+ # MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu","sigma"))
+ # 
+ # MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu"))
+ # MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogit,params=c("sigma"))
+ 
+ saveRDS(samplesBinLinkBetaPriorPartialMeanHierLogit,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialMeanHierLogit.rds")
+ 
+
+################################################################################
+################################################################################
+# JAGS fit for model with binomial likelihood, beta prior, partial pooling
+# parameterized via mean
+# with logit link, non-centered parameterization
+################################################################################
+################################################################################
+
+################################################################################
+# Initial values
+################################################################################
+
+nSites = simDataBayesJags$n_site
+nYears = simDataBayesJags$n_year
+nPlot = simDataBayesJags$n_plot
+
+inits = list( list( mu=rep(0,nYears) ,
+                    sigma=rep(.5,nYears) ),
+              list( mu=rep(-1,nYears) ,
+                    sigma=rep(1,nYears) ),
+              list( mu=rep(.9,nYears) ,
+                    sigma=rep(1.5,nYears) )
+)
+
+################################################################################
+# Set parameters to monitor
+################################################################################
+
+parsToMonitor = c("theta","mu","sigma","alpha","alpha.std","fruitingPlantNumberSim")
+
+################################################################################
+# Set JAGS parameters
+################################################################################
+
+# scalars that specify the 
+# number of iterations in the chain for adaptation
+# number of iterations for burn-in
+# number of samples in the final chain
+n.adapt = 5000
+n.update = 5000
+n.iterations = 100000
+n.thin = 10
+
+################################################################################
+# Fit model 
+################################################################################
+
+# set random seed
+set.seed(2)
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMeanLogitNC-partialPooling-singleSite.R"), 
+                data = simDataBayesJags, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iterations = n.update)
+
+# chain (n.iter)
+samplesBinLinkBetaPriorPartialMeanLogitNC = coda.samples(jm, variable.names = c(parsToMonitor), 
+                                                       n.iter = n.iterations, thin = n.thin)
+
+saveRDS(samplesBinLinkBetaPriorPartialMeanLogitNC,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialMeanLogitNC.rds")
+
+
+################################################################################
+################################################################################
+# JAGS fit for model with binomial likelihood, beta prior, partial pooling
+# parameterized via mean
+# with logit link, non-centered parameterization
+# hierarchical
+################################################################################
+################################################################################
+
+################################################################################
+# Initial values
+################################################################################
+
+nSites = simDataBayesJags$n_site
+nYears = simDataBayesJags$n_year
+nPlot = simDataBayesJags$n_plot
+
+inits = list( list( mu0=0 ,
+                    sigma0=.5,
+                    sigma=matrix(rep(.5,nYears*nSites),nrow=nSites,ncol=nYears)),
+              list( mu0=-1 ,
+                    sigma0=1,
+                    sigma=matrix(rep(1,nYears*nSites),nrow=nSites,ncol=nYears)),
+              list(  mu0=1 ,
+                      sigma0=1.1,
+                      sigma=matrix(rep(1.1,nYears*nSites),nrow=nSites,ncol=nYears)) 
+              )
+
+
+
+################################################################################
+# Set parameters to monitor
+################################################################################
+
+parsToMonitor = c("theta","mu","sigma","mu0","sigma0","alpha","alpha.std","fruitingPlantNumberSim")
+
+################################################################################
+# Set JAGS parameters
+################################################################################
+
+# scalars that specify the 
+# number of iterations in the chain for adaptation
+# number of iterations for burn-in
+# number of samples in the final chain
+n.adapt = 5000
+n.update = 5000
+n.iterations = 100000
+n.thin = 10
+
+################################################################################
+# Fit model 
+################################################################################
+
+# set random seed
+set.seed(2)
+
+# tuning (n.adapt)
+jm = jags.model(paste0(dirJagsScripts,"survivorshipModel-binLik-betaPriorMeanHierLogitNC-partialPooling-singleSite.R"), 
+                data = simDataBayesJags, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+
+# burn-in (n.update)
+update(jm, n.iterations = n.update)
+
+# chain (n.iter)
+samplesBinLinkBetaPriorPartialMeanHierLogitNC = coda.samples(jm, variable.names = c(parsToMonitor), 
+                                                         n.iter = n.iterations, thin = n.thin)
+
+saveRDS(samplesBinLinkBetaPriorPartialMeanHierLogitNC,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialMeanHierLogitNC.rds")
+
+# 
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanHierLogitNC,params=c("mu","sigma"))
+# 
+# 
+# # compare centered vs. noncentered
+# 
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu","sigma"))
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("mu","sigma","mu0","sigma0"))
+# 
+# MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("mu"))
+# MCMCtrace(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("sigma"))
+# 
+# 
+# ## Comparison 1
+# par(mfrow=c(1,2))
+# 
+# # centered
+# alpha=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="alpha")
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="sigma")
+# 
+# plot(alpha[,1],log(sigma[,1]))
+# 
+# # noncentered
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params="sigma")
+# alpha.std=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params="alpha.std")
+# 
+# plot(alpha.std[,1],log(sigma[,1]))
+# 
+# ## Comparison 2
+# par(mfrow=c(1,2))
+# 
+# # centered
+# mu=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="mu")
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="sigma")
+# 
+# plot(mu[,1],log(sigma[,1]))
+# 
+# # noncentered
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params="sigma")
+# mu=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params="mu")
+# 
+# plot(mu[,1],log(sigma[,1]))
+# 
+# #saveRDS(samplesBinLinkBetaPriorPartialMean,file="/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/singleSiteBinLinkBetaPriorPartialMean.rds")
+# 
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogitNC,params="sigma")
+# 
+# par(mfrow=c(1,1))
+# plot(alpha[,1],log(sigma[,1]))
+# plot(alpha[,3],log(sigma[,1]))
+# 
+# alpha=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="alpha")
+# sigma=MCMCchains(samplesBinLinkBetaPriorPartialMeanLogit,params="sigma")
+# 
+# par(mfrow=c(1,1))
+# plot(alpha[,1],log(sigma[,1]))
+# plot(alpha[,3],log(sigma[,1]))
+# 
+# 
+# MCMCsummary(samplesBinLinkBetaPriorPartialMean,params=c("phi","kappa"))
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanHier,params=c("phi","kappa"))
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogit,params=c("mu","sigma"))
+# MCMCsummary(samplesBinLinkBetaPriorPartialMeanLogitNC,params=c("mu","sigma"))
