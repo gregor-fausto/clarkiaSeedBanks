@@ -16,6 +16,7 @@
 \usepackage{subcaption}                
 \usepackage{bm}                
 \usepackage{lineno}
+\usepackage{pdfpages}
 
 \usepackage[superscript,noadjust]{cite} % puts dash in citations to abbreviate
 \usepackage [autostyle, english = american]{csquotes} % sets US-style quotes
@@ -121,7 +122,7 @@
 
 % I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
 
-In this appendix, I compare the following estimates: (1) maximum likelihood estimate (binomial likelihood), (2) posterior distribution (binomial likelihood with a beta prior, complete pooling), (3) posterior distribution (binomial likelihood with a beta prior, hierarchical model for probability of survivorship), (4) posterior distribution (binomial likelihood, hierarchical model for log-odds of probability of survivorship).
+In this appendix, I compare the following models for estimating the probability that seedlings survive to become fruiting plants: (1) maximum likelihood estimates (binomial likelihood), (2) non-hierarchical model with a binomial likelihood with a beta prior, (3) a hierarchical model with a binomial likelihood and year-level parameters on a beta distribution, (4) a hierarchical model with a binomial likelihood and year- and population-level parameters on a beta distribution.
 
 \subsection*{Maximum likelihood estimate}
 
@@ -383,27 +384,25 @@ I'm going to leave this out for the time being. This would 100\% be a future dir
 
 \subsection*{Comparison}
 
-There are a few relevant comparisons. First, we want to explore estimates from a Bayesian model compare to the maximum likelihood estimates. Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks).
+First, we want to explore estimates from a Bayesian model compare to the maximum likelihood estimates. Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks).
 
 [need to give details of models here - trace plots, etc.]
 
 First, we want to explore estimates from a Bayesian model compare to the maximum likelihood estimates. The comparison I am interested in is the effect of adding a prior, rather than the effect of adding hierarchy to the model. I will compare the maximum likelihood estimates (equation~\eqref{eq:frequentistMLE}) and the non-hierarchical Bayeisan model (equation~\eqref{eq:bayesianNH}). The first panel in Figure~\ref{fig:mle_bayes} shows that the maximum likelihood estimates are pretty similar to those from the Bayesian model with complete pooling per population and a beta-binomial parameterization. The major differences are where the maximum likelihood estimates approach 0 or 1. The second panel in Figure~\ref{fig:mle_bayes} shows that this is because those estimates come from year-population combinations with a small sample size. For example, the MLE for a year-population combination with one plot and 1 seedling that dies before fruiting would be 0. In the Bayesian model, the prior has a comparatively larger influence on the posterior in situations where there is little data. In this case, the posterior would be a compromise between our one data point and our prior. The estimates converge once we have ~5 data points.
 
-Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. These comparisons will all be among models fit to data for one population ($k=1$). I am interested in comparing a non-hierarchical model (equation~\eqref{eq:bayesianNH}), a hierarchica l model with year-level parameters (equation~\eqref{eq:bayesianHyear}), and a hierarchical model with year-level and population-level parameters (equation~\eqref{eq:bayesianHyearpop}). All these comparisons will be made at a randomly selected site. 
+Second, we want to explore the effect of adding hierarchical structure to the parameter estimates in our models. These comparisons will all be among models fit to data for one population ($k=1$). I am interested in comparing a non-hierarchical model (equation~\eqref{eq:bayesianNH}), a hierarchical model with year-level parameters (equation~\eqref{eq:bayesianHyear}), and a hierarchical model with year-level and population-level parameters (equation~\eqref{eq:bayesianHyearpop}). All these comparisons are made at a randomly selected site. 
 
-The relevant figures are:
+The first panel in figure~\ref{fig:hierarchical_shrinking1} shows that the complete pooling model produces estimates for each plot that are identical; there is one estimate per year. The second and third panels show taht the posterior medians for $\theta_i$ and $\theta_{ij}$ from the hierarchical models are 'shrunk' from the point estimates $y_{ij}/n_{ij}$ towards the year-level mean (dotted line). Figure~\ref{fig:hierarchical_shrinking2} that the models shrink $\theta_i$ and $\theta_{ij}$ towards the year-level estimate, and that this effect varies across years. 
 
-1 \& 2 ; one comparing 1-level H to NH, one comparing 2-level H to NH; posterior distributions are more broad for the H models Figure~\ref{fig:hierarchyPosteriors_nh_hyear}) Figure~\ref{fig:hierarchyPosteriors_nh_hyearpop})
+In the non-hierarchical model, the posterior distribution for the probability of survivorship in each year is $p_{jk}$ (where $k$=1) in equation~\eqref{eq:bayesianNH}). In the hierarchical model with year-level parameters, the posterior distribution for the mean probability of survivorship in each year is $\phi$ in equation~\eqref{eq:bayesianHyear}. In the hierarchical model with year- and population-level parameters, the posterior distribution for the mean probability of survivorship in each year is $\phi_j$, and the posterior distribution for the mean probability of survivorship in the population is $\phi_0$ in equation~\eqref{eq:bayesianHyearpop}. Figures~\ref{fig:hierarchyPosteriors_nh_hyear}) and~\ref{fig:hierarchyPosteriors_nh_hyearpop}) both show that the posterior distribution for the mean-probability of survivorship from the hierarchical models (red lines) is broader than for the probability of survivorship from the non-hierarchical model (blue lines). Figure~\ref{fig:hierarchyPosteriors_nh_hyearpop}) also shows the posterior for the population-level probability of survivorship (black line).
 
-
-3 These posteriors can be summarized by their median and 95\% credible intervals. Broader CIs at population level Figure~\ref{fig:hierarchyPosteriorsSummary})
-
-
+Figure~\ref{fig:hierarchyPosteriorsSummary}) summarizes the posterior distributions for the year-level probability of survivorship by their median and 95\% credible intervals. The hierarchical structure has the effect of broadening the credible intervals associated with the estimated mean probability of survivorship in each year. 
  
+Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks). The figures appended to this PDF (still need to figure out how to best integrate them) show graphical posterior predictive checks (cf. Gabry et al. 2019) for the non-hierarchical (blue), the hierarchical with year-level parameters (purple), and the hierarchical with year- and population-level parameters (gray). Gabry et al. (2019) describe how to perform PPCs: the posterior distribution is used to  simulate data, and this data is summarized and compared to observed test statistics. For all three models, the mean of simulations from the posterior does a good job matching the observed mean from the data. This is perhaps not surprising because the models are parameterized via the mean probability of success. Posterior predictive checks for the variance may be more informative (variance is not a parameter in our models). The variance of simulations from the posterior of the non-hierarchical model under- or over-estimates the variance. The variance of simulations from both the hierarchical models do a reasonable job at matching the observed variance. 
 
-Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the population-level only, a model with complete and partial pooling give fairly similar estimates. The difference between the posterior for a model with complete versus partial pooling has a greater range for smaller sample sizes (CIs are larger for smaller sample sizes) and a model with complete pooling returns slightly higher estimates. Figures~\ref{fig:match} and~\ref{fig:mismatch} compare the posterior distribution for population- and year-combinations with many data points (30 data points in Figure~\ref{fig:match}) and few data points (1 data point in Figure~\ref{fig:mismatch}). When there are few data points, the posterior for $p_{jk}$ in the partial pooling model is influenced by the population-level parameter $\omega$ (Figure~\ref{fig:mismatch}).
 
-Finally, we want to explore the effect of adding hierarchical structure on how appropriate our models are (compare posterior predictive checks).
+% Figure~\ref{fig:complete_vs_partial} shows that, when the data are fit at the population-level only, a model with complete and partial pooling give fairly similar estimates. The difference between the posterior for a model with complete versus partial pooling has a greater range for smaller sample sizes (CIs are larger for smaller sample sizes) and a model with complete pooling returns slightly higher estimates. Figures~\ref{fig:match} and~\ref{fig:mismatch} compare the posterior distribution for population- and year-combinations with many data points (30 data points in Figure~\ref{fig:match}) and few data points (1 data point in Figure~\ref{fig:mismatch}). When there are few data points, the posterior for $p_{jk}$ in the partial pooling model is influenced by the population-level parameter $\omega$ (Figure~\ref{fig:mismatch}).
+
 
 %Goal is to compare the output from each of these models. They should be pretty similar for most of the data because it's well-replicated and the sample sizes are reasonable. The differences that I am interested in pointing out are
 
@@ -421,12 +420,28 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \label{fig:mle_bayes}
 \end{figure}
 
+\begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-figure54-2}  
+    \caption{ Posterior median and 95\% credible intervals for a randomly selected year, based on simulations from the joint posterior distribution plotted against the unpooled estimates. The 1:1 line corresponds to unpooled estimates $\theta_i = y_i/n_i$. The horizontal, dashed line corresponds to the year-level maximum likelihood estimate. (A) Estimates from the complete pooling model. (B) Estimates from the hierarchical model with year-level parameters. (C) Estimates from the hierarchical model with year- and population-level parameters. } 
+ \label{fig:hierarchical_shrinking1}
+\end{figure}
+
+\begin{figure}[h]
+   \centering
+  %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
+       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-figure54}  
+    \caption{ (A) Posterior median and 95\% credible intervals for a randomly selected year, based on simulations from the joint posterior distribution plotted against the unpooled estimates. The 1:1 line corresponds to unpooled estimates $\theta_i = y_i/n_i$. The horizontal, dashed lines corresponds to the year-level maximum likelihood estimates. } 
+ \label{fig:hierarchical_shrinking2}
+\end{figure}
+
 
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
        \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyear}  
-    \caption{ (A) Comparison of and nonhierarchical and year-level parameter hierarchical model. }
+    \caption{ (A) Comparison of and nonhierarchical (blue) and year-level parameter hierarchical (red) model. The curves are posterior density distributions for the probability of survivorship $p_{jk}$ (blue) and $\phi$ (red). } 
  \label{fig:hierarchyPosteriors_nh_hyear}
 \end{figure}
 
@@ -434,7 +449,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
        \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyearpop}  
-    \caption{ (A) Comparison of and nonhierarchical and year- and population-level parameter hierarchical model.  }
+    \caption{ (A) Comparison of and nonhierarchical and year- and population-level parameter hierarchical model.  The curves are posterior density distributions for the probability of survivorship $p_{jk}$ (blue), $\phi_j$ (red), and $\phi_0$ (black).  }
  \label{fig:hierarchyPosteriors_nh_hyearpop}
 \end{figure}
 
@@ -446,6 +461,12 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
     \caption{ (A) Comparison of median and 95\% confidence intervals for models with three levels of structure, fit to the same dataset.   }
  \label{fig:hierarchyPosteriorsSummary}
 \end{figure}
+
+\clearpage
+
+\includepdf[pages={2,3,4},fitpaper=true]{../figures/appendix-x-ppc.pdf}
+\includepdf[pages={5,6,7},fitpaper=true]{../figures/appendix-x-ppc.pdf}
+
 
 
 \iffalse
@@ -490,6 +511,8 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \label{fig:complete_vs_logit}
 \end{figure}
 \fi
+
+
 
 
 \clearpage
