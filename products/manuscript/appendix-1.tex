@@ -126,99 +126,6 @@ In this appendix, I compare the following models for estimating the probability 
 
 \subsection*{Maximum likelihood estimate}
 
-% First, I'm including the snippet of MATLAB code that I think has been used to calculate seedling survival to fruiting ($\sigma$) in the past. The code generates estimates for $\sigma$ for each population in each year; I do not believe that the code snippet that is used to calculate \verb|sig2| is used elsewhere in the MATLAB program. 
-
-\iffalse
-\begin{lstlisting}
-% ESTIMATE ABOVE-GROUND VITAL RATE:
-%   sigma, SURVIVAL GERM>FRUITING
-
-% get data on survival germ>fruiting
-dfname=[folder 'Survivorship & Fecundity_06-11vers2.xlsx'];
-[numdata,txtdata]=xlsread(dfname);
-
-% VARIABLE
-% 1     easting
-% 2     northing
-% 3     site
-% 4     transect
-% 5     position
-% 6     seedling#_1/06
-% 7     flow#_6/06
-% 8     fruit#_6/06
-% 9     seedling#_1/07
-% 10    flow#_6/07
-% 11    fruit#_6/07
-% 12    fruit/pl_6/07
-% 13    fl>sdl_07
-% 14    seedling#_1/08
-% 15    flow#_6/08
-% 16    fruit#_6.08
-% 17    fruit/pl_6.08
-% 18    fl>sdl_08
-% 19    seedling#_1/09
-% 20    flow#-5/09
-% 21    fruit#-6/09
-% 22    fruit/pl-6.09
-% 23    fl>sdl_09
-% 24    seedling#_1/10
-% 25    fruitpl#-6/10
-% 26    fruit/pl-6.10
-% 27    fruitpl#>sdl_10
-% 28    seedling#_2/11
-% 29    fruitpl#-6/11
-% 30    (fruit+fl)/pl-6.11
-% 31    fruitpl#>sdl_11
-% 32    Notes
-
-Site=txtdata(:,3);
-Site(1)=[];
-Sdl=[numdata(:,6) numdata(:,9) numdata(:,14) numdata(:,19) numdata(:,24) numdata(:,28)]; % no. of seedlings
-Frt=[numdata(:,8) numdata(:,11) numdata(:,16) numdata(:,21) numdata(:,25) numdata(:,29)]; % no. of fruiting plants
-
-NumSdl=zeros(numpops,numyrs);
-NumFrt=NumSdl;
-nsig=NumSdl;
-sigma=NumSdl;
-sig2=NumSdl;
-MeanSdl=NumSdl;
-MeanFrt=NumSdl;
-MeanSdlSE=NumSdl;
-MeanFrtSE=NumSdl;
-s0s1g1=NumSdl; % stores raw estimates of products of 3 vrs from plot data
-s0s1g1_bag=NumSdl; 
-sigest=NumSdl; 
-
-for p=1:numpops
-
-    PopNow=pops(p);
-    
-    for y=1:numyrs      
-        % only use plots ("positions") with both sdl>0 and frting plt counts
-        I=find(strcmp(Site,PopNow) & Sdl(:,y)>0 & ~isnan(Frt(:,y))); 
-        nsig(p,y)=length(I);
-        x1=sum(Sdl(I,y));
-        NumSdl(p,y)=x1;
-        x2=sum(Frt(I,y));
-        NumFrt(p,y)=x2;
-        sigma(p,y)=min(x2/x1,1); % surv. germ>fruiting not allowed to exceed 1
-        
-        % compute sigma using plot means - doesnt require a plot to have both sdl and fruiting plant counts
-        i1=find(strcmp(Site,PopNow) & ~isnan(Sdl(:,y)));
-        i2=find(strcmp(Site,PopNow) & ~isnan(Frt(:,y)));
-        MeanSdl(p,y)=mean(Sdl(i1,y));
-        MeanSdlSE(p,y)=std(Sdl(i1,y))/sqrt(length(i1));
-        MeanFrt(p,y)=mean(Frt(i2,y));
-        MeanFrtSE(p,y)=std(Frt(i2,y))/sqrt(length(i2));
-        sig2(p,y)=MeanFrt(p,y)/MeanSdl(p,y);
-        
-    end
-    
-end
-
-\end{lstlisting}
-\fi
-
 The following logic underlies how we calculate the maximum likelihood estimate for seedling survival to fruiting. For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
 %
 \begin{align}
@@ -512,7 +419,178 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
 \end{figure}
 \fi
 
+  % BEGIN FIGURE 1
+ \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
 
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+        \node[state] (Y) [] {$y_i$};
+        \node[state] (N) [right of=Y] {$n_i$};
+       
+        \path[dashed,->] (N) edge node {} (Y);
+
+	% probability
+        \node[state] (T) [below of = Y] {$\theta_i$};
+                
+         \path[->] (T) edge node {} (Y);
+         
+         % hyperparameters
+         \node[state] (MN) [below of = T] {$\mu,\nu$};
+                
+         \path[->] (MN) edge node {} (T);
+         
+  \end{tikzpicture} 
+  \hspace{1cm}% NO SPACE!
+  % BEGIN FIGURE 2
+   \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+        \node[state] (Y) [] {$y_i$};
+        \node[state] (N) [right of=Y] {$n_i$};
+       
+        \path[dashed,->] (N) edge node {} (Y);
+
+	% probability
+        \node[state] (T) [below of = Y] {$\theta_i$};
+                
+         \path[->] (T) edge node {} (Y);
+         
+         % hyperparameters
+         \node[state] (AB) [below of = T] {$\phi, \kappa$};
+                
+         \path[->] (AB) edge node {} (T);
+         
+  \end{tikzpicture}
+  
+  % BEGIN FIGURE 3
+   \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+        \node[state] (Y) [] {$y_i$};
+        \node[state] (N) [right of=Y] {$n_i$};
+       
+        \path[dashed,->] (N) edge node {} (Y);
+
+	% probability
+        \node[state] (T) [below of = Y] {$\theta_i$};
+                
+         \path[->] (T) edge node {} (Y);
+         
+         % hyperparameters
+         \node[state] (AB) [below of = T] {$\alpha_i$};
+                
+         \path[->] (AB) edge node {} (T);
+         
+         % hyperparameters
+         \node[state] (MS) [below of = AB] {$\mu, \sigma$};
+                
+         \path[->] (MS) edge node {} (AB);
+         
+  \end{tikzpicture}
+  \hspace{1cm}% NO SPACE!
+  % BEGIN FIGURE 3
+   \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+        \node[state] (Y) [] {$y_i$};
+        \node[state] (N) [right of=Y] {$n_i$};
+       
+        \path[dashed,->] (N) edge node {} (Y);
+
+	% probability
+        \node[state] (T) [below of = Y] {$\theta_i$};
+                
+         \path[->] (T) edge node {} (Y);
+                  
+                  % hyperparameters
+         \node[state] (AB) [below of = T] {$\alpha_i$};
+                
+         \path[->] (AB) edge node {} (T);
+         
+          % hyperparameters
+        
+         \node[state] (MS) [below of = AB] {$\mu, \sigma$};
+         \node[state] (A) [below right of = AB] {$\alpha_{std}$};
+         
+         \path[->] (A) edge node {} (AB);       
+         \path[->] (MS) edge node {} (AB);       
+                 
+  \end{tikzpicture}
+
+\begin{align}
+  \begin{split}
+[\bm{\theta},\mu,\nu|\bm{y},\bm{n}]  = & \prod_{i=1}^N \mathrm{binomial}(y_{i}|n_{i},\theta_{i}) 
+    \\ & \times \mathrm{beta} (  \theta_{i} | \phi \kappa , (1-\phi) \kappa )
+    \\ & \times \mathrm{uniform} ( \phi | 0, 1) \mathrm{Pareto} ( \kappa | 1.5, 1 ). \label{eq:bayesianHyear}
+  \end{split}
+\end{align}
+
+\begin{align}
+  \begin{split}
+[\bm{\theta},\phi,\kappa|\bm{y},\bm{n}]  = & \prod_{i=1}^N \mathrm{binomial}(y_{i}|n_{i},\theta_{i}) 
+    \\ & \times \mathrm{beta} (  \theta_{i} | \phi \kappa , (1-\phi) \kappa )
+    \\ & \times \mathrm{uniform} ( \phi | 0, 1) \mathrm{Pareto} ( \kappa | 1.5, 1 ). \label{eq:bayesianHyear}
+  \end{split}
+\end{align}
+
+
+
+  
 
 
 \clearpage
