@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  6 MAR 2020 10:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 MAR 2020 15:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -873,35 +873,43 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 83.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+<../figures/appendix/comparison.pdf, id=4, page=1, 650.43pt x 216.81pt>
+File: ../figures/appendix/comparison.pdf Graphic file (type pdf)
+
+<use ../figures/appendix/comparison.pdf, page 1>
+Package pdftex.def Info: ../figures/appendix/comparison.pdf, page1 used on inpu
+t line 90.
+(pdftex.def)             Requested size: 469.75499pt x 156.58939pt.
+ [1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../figu
+res/appendix/comparison.pdf>] [2] [3] [4]
 Missing character: There is no F in font nullfont!
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--156
+Underfull \hbox (badness 10000) in paragraph at lines 290--291
 
  []
 
 Missing character: There is no F in font nullfont!
 
-Underfull \hbox (badness 10000) in paragraph at lines 217--218
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
 
  []
 
-[1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3]
+[5] [6] [7]
 
 Package caption Warning: Unused \captionsetup[sub] on input line 20.
 See the caption package documentation for explanation.
 
-[4] (./appendix-x-conditional-probability.aux) ) 
+[8] (./appendix-x-conditional-probability.aux) ) 
 Here is how much of TeX's memory you used:
- 18655 strings out of 493014
- 361336 string characters out of 6133351
- 451413 words of memory out of 5000000
- 21829 multiletter control sequences out of 15000+600000
+ 18669 strings out of 493014
+ 361630 string characters out of 6133351
+ 449413 words of memory out of 5000000
+ 21840 multiletter control sequences out of 15000+600000
  12602 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,16n,66p,799b,797s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,16n,66p,1338b,797s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-
 dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-di
@@ -912,11 +920,11 @@ nts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/public/cm-super/sfrm1200.pfb>
-Output written on appendix-x-conditional-probability.pdf (4 pages, 87518 bytes)
-.
+Output written on appendix-x-conditional-probability.pdf (8 pages, 128636 bytes
+).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 74 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
