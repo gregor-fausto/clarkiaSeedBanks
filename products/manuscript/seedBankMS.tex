@@ -331,37 +331,62 @@ A figure that would help is one that plots the predicted vs. observed proportion
 
 \subsubsection*{Model for seed burial experiment data}
 
-To estimate the survival and germination of seeds in each population, I fit the following model for bag $i$ at population $j$ in year $k$. 
+I fit the following model for bag $i$ in year $j$ in population $k$. 
 %
 \begin{align}
   \begin{split}
- [ \bm{\phi}, \bm{\gamma}, \bm{\rho}, \bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{total}}},  \bm{y_{\mathrm{germ}}},  \bm{y_{\mathrm{surv}}}, \bm{y_{\mathrm{viab}}} ] \propto \\
-   & \prod_{j=1}^{J} \prod_{i=1}^{I} % \prod_{k=1}^{K}  
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ij} | n_{ij}, \mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{j} ) ) 
- \\ & \times \mathrm{binomial} ( y^{\mathrm{germ}}_{ij}  | y^{\mathrm{tot}}_{ij}  , \mathrm{f}_2( \gamma_{j} , \alpha_{ijk}) )
- \\ & \times \mathrm{binomial} ( y^{\mathrm{surv}}_{ij} | y^{\mathrm{tot}}_{ij}  -  y^{\mathrm{germ}}_{ij}   , \mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{j} ) ) 
- \\ & \times  \mathrm{binomial} ( y^{\mathrm{viab}}_{ij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
-    \\ & \times \mathrm{normal} ( \alpha^{s1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{g1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{s2}_{0,j} | 0, 10)  
-    \\ & \times \mathrm{normal} ( \beta^{s1}_{j} | 0, \sigma_j^{s1}) \mathrm{normal} ( \beta^{g1}_{j} | 0, \sigma_j^{g1}) \mathrm{normal} ( \beta^{s2}_{j} | 0, \sigma_j^{s2}) 
-    \\ & \times \mathrm{uniform} ( \sigma_j^{s1} | 0, 100) \mathrm{uniform} ( \sigma_j^{g1} | 0, 100)  \mathrm{uniform} ( \sigma_j^{s2} | 0, 100)   
-  \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma_{jk} )
-  \\ & \times \mathrm{normal} ( \mu_{jk} | 0 , 100 ) \mathrm{uniform} ( \sigma_{jk} | 0,100).
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{total}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
   \end{split}
 \end{align}
 %
-where
+From the model above, we obtain $\theta_1$ for each population by marginalizing across years and taking the inverse logit.
+
+I fit the following model for bag $i$ in year $j$ in population $k$. 
 %
 \begin{align}
   \begin{split}
-\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
-\mathrm{f}_2(\alpha^{g1}_{0,j} , \beta^{g1}_{jk},  \alpha_{ijk} ) ) & = \gamma_{jk} \times v_{ijk}^\frac{1}{3} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \times ( \mathrm{logit}^{-1}(\alpha_{ijk}))^\frac{1}{3} \\
-\mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{germ}}_{ijk} | y^{\mathrm{total}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \end{split}
+\end{align}
+%
+From the model above, we obtain $\theta_2$ for each population by marginalizing across years and taking the inverse logit.
+
+I fit the following model for bag $i$ in year $j$ in population $k$. 
+%
+\begin{align}
+  \begin{split}
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{oct}}_{ijk} | y^{\mathrm{total}}_{ijk}-y^{\mathrm{germ}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \end{split}
+\end{align}
+%
+From the model above, we obtain $\theta_3$ for each population by marginalizing across years and taking the inverse logit.
+
+I used the estimates from the model to derive transition probabilities as described in \textbf{Appendix on Conditional Probability}:
+%
+    \begin{align}
+\begin{split}
+s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu^{1/3} ) \\
+g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu^{1/3} ) \times ( 1 - \theta_2 )} \\
+s_2 & = \theta_3 \times \nu^{2/3}
   \end{split}
 \end{align}
 
-
-
-I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
+% I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
 
 \subsubsection*{Full model}
 
@@ -386,11 +411,9 @@ To estimate the survival and germination of seeds in each population, I fit the 
 where
 %
 \begin{align}
-  \begin{split}
-\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \\
-\mathrm{f}_2(\alpha^{g1}_{0,j} , \beta^{g1}_{jk},  \alpha_{ijk} ) ) & = \gamma_{jk} \times v_{ijk}^\frac{1}{3} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \times ( \mathrm{logit}^{-1}(\alpha_{ijk}))^\frac{1}{3} \\
-\mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})
-  \end{split}
+\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \label{eq:s1} \\
+\mathrm{f}_2(\alpha^{g1}_{0,j} , \beta^{g1}_{jk},  \alpha_{ijk} ) ) & = \gamma_{jk} \times v_{ijk}^\frac{1}{3} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \times ( \mathrm{logit}^{-1}(\alpha_{ijk}))^\frac{1}{3}  \label{eq:g1} \\
+\mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})  \label{eq:s2}
 \end{align}
 
 These models relate the average seed survival in each population to the seed survival observed in a given year through a linear model. The function has a parameter for the average seed survival in each population, and a parameter for the seed survival of each population in each year. I treated seed survival as a binomially-distributed random variable because the data come from an experiment in which we buried a known number of seeds and counted seeds. Thus for the $i$th observation, I parameterized a binomial distribution in terms of a probability and a known number of trials. I sampled a 95\% credible interval from the posterior predictive distribution for seed survival for each population and compared it to the seed burial experiments to assess whether the model from the seed burial experiments could predict the seed survival in seed burial experiments. 
@@ -526,7 +549,7 @@ Increased variance in per-capita reproductive success is predicted to decrease t
 
 \begin{align}
   \begin{split}
-F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk}
+F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk} \label{eq:percapitars}
   \end{split}
 \end{align}
 %
@@ -552,11 +575,11 @@ We used estimates of seed survival and reproductive success to investigate the a
 
 \begin{align}
   \begin{split}
-\lambda_{j} = g_1 Y(t) s_0 s_1 + (1-g_1) s_2 s_3 
+\lambda_{j} = s_1 g_1 Y(t) s_0 + s_1 (1-g_1) s_2
   \end{split}
 \end{align}
 %
-The parameters in this equation were fit in models corresponding to equations (1, 3, 5, 8). Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit. Variation is incorporated into the model by having $Y(t)$ vary between years.
+The parameters in this equation were fit in models corresponding to equations ~\eqref{eq:s1},~\eqref{eq:g1}, and ~\eqref{eq:s2}. Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit (equation~\eqref{eq:percapitars}). Variation is incorporated into the model by varying per-capita reproductive success, $Y(t)$, between years.
 
 I numerically calculated the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly selected values 1000 from the posterior distribution for reproductive success. I used this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability is estimated as the value of G that maximized geometric mean of the population growth rate. I repeated the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions. 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  26 FEB 2020 10:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 MAR 2020 16:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -880,27 +880,27 @@ ABD: EveryShipout initializing macros
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1] [2]
  [3]
-LaTeX Font Info:    Try loading font information for U+msa on input line 167.
+LaTeX Font Info:    Try loading font information for U+msa on input line 168.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 167.
+LaTeX Font Info:    Try loading font information for U+msb on input line 168.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 171--171
+Underfull \hbox (badness 10000) in paragraph at lines 172--172
 []|\OT1/cmr/m/n/12 Density-independent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--179
+Underfull \hbox (badness 10000) in paragraph at lines 180--180
 []|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 de-
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 179--179
+Underfull \hbox (badness 1122) in paragraph at lines 180--180
 []|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 or $\OML
 /cmm/m/it/12 ^^Z[]$
  []
@@ -910,78 +910,78 @@ Underfull \hbox (badness 1122) in paragraph at lines 179--179
 ] [5
 
 ] [6] [7]
-Overfull \hbox (4.0513pt too wide) in paragraph at lines 243--244
+Overfull \hbox (4.0513pt too wide) in paragraph at lines 244--245
 []\OT1/cmr/m/n/12 I rep-re-sent two tran-si-tions be-tween pre-germination seed
 s in Jan-uary and post-germination
  []
 
-[8] [9] [10] [11] [12] [13] [14] [15]
+[8] [9] [10] [11] [12] [13] [14] [15] [16]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
- [16] [17]
+ [17] [18]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
- [18] [19] [20] [21]
-<../figures/germ_rs_correlation.pdf, id=92, page=1, 794.97pt x 614.295pt>
+ [19] [20] [21] [22]
+<../figures/germ_rs_correlation.pdf, id=95, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 570.
+t line 594.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_rs_correlation.pdf, id=93, page=2, 794.97pt x 614.295pt>
+<../figures/germ_rs_correlation.pdf, id=96, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 574.
+t line 598.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 31.85117pt on input line 578.
+LaTeX Warning: Float too large for page by 31.85117pt on input line 602.
 
-<../figures/germ_surv_correlation.pdf, id=94, page=1, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=97, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 585.
+put line 609.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_surv_correlation.pdf, id=95, page=2, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=98, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 589.
+put line 613.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 17.35117pt on input line 593.
+LaTeX Warning: Float too large for page by 17.35117pt on input line 617.
 
-<../figures/obs_pred_germ.pdf, id=96, page=1, 794.97pt x 614.295pt>
+<../figures/obs_pred_germ.pdf, id=99, page=1, 794.97pt x 614.295pt>
 File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
 <use ../figures/obs_pred_germ.pdf, page 1>
 Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 598.
+ 622.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22] [23 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
-df>] [24 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
-on.pdf>] [25 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
+[23] [24 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
+df>] [25 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
+on.pdf>] [26 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no  in font cmr12!
- [26
+ [27
 
 ]
 Missing character: There is no Ã in font cmr12!
@@ -996,13 +996,13 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ³ in font cmr12!
- [27])
-[28] (./seedBankMS.aux) ) 
+ [28])
+[29] (./seedBankMS.aux) ) 
 Here is how much of TeX's memory you used:
- 18825 strings out of 493014
- 363528 string characters out of 6133351
- 460403 words of memory out of 5000000
- 21992 multiletter control sequences out of 15000+600000
+ 18829 strings out of 493014
+ 363565 string characters out of 6133351
+ 457403 words of memory out of 5000000
+ 21996 multiletter control sequences out of 15000+600000
  13777 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,19n,76p,1061b,919s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1025,10 +1025,10 @@ msy8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 i12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
 12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200
 .pfb>
-Output written on seedBankMS.pdf (29 pages, 239571 bytes).
+Output written on seedBankMS.pdf (30 pages, 242181 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
+ 196 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
