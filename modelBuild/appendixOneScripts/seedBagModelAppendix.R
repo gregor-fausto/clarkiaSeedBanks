@@ -7,31 +7,50 @@ library(tidyverse)
 # pass data to list for JAGS
 
 set.seed(sample(1:100,1))
-directory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/"
-load(paste0(directory,"seedBagsData.rda"))
+#directory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/"
+#load(paste0(directory,"seedBagsData.rda"))
 modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsBinomialModel/"
+dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/appendix/appendix-1/")
+dir.create(file.path(dirFigures), showWarnings = FALSE)
 
-simData <- seedBags 
 
-selectedSite<-sample(unique(simData$site),1)
-simData=simData[simData$site==selectedSite,]
-simData=simData[simData$age==2,]
+### Appendix 1 dataset
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/survivorship/"
+simFiles <- paste0(directory,list.files(directory))
 
-head(simData)
+simData <- readRDS(simFiles[[4]])
 
-# # total intact in January
-# y = simData$totalJan
-# n = rep(100,length(y))
+y = simData$fruitingPlantNumber
+n = simData$seedlingNumber
+
+# simData <- seedBags 
+# 
+# selectedSite<-sample(unique(simData$site),1)
+# simData=simData[simData$site==selectedSite,]
+# simData=simData[simData$age==2,]
 
 # ## germinated given total intact in January
-y = simData$seedlingJan
-n = simData$totalJan
+# y = simData$seedlingJan
+# n = simData$totalJan
 
 # ## intact in October given intact but not germinated in January
- # y = simData$intactOct
- # n = simData$intactJan
+# y = simData$intactOct
+# n = simData$intactJan
 
-J <- length(y)
+### SIMULATION STUDY
+# start with 30 plots or 30 bags
+# nSamples = 30
+# # each bag or plot has 100 seeds at the start
+# n = rnbinom(nSamples,size=20,mu=50)
+# 
+# # chance of success
+# p = 0.25
+# 
+# # response 
+# y = rbinom(n = nSamples, size = n, prob = p)
+# 
+# # length
+# J <- length(y)
 
 data = list(
   y = y,
@@ -40,8 +59,8 @@ data = list(
 )
 
 # priors
-mu.prior = 0.5# sum(y)/sum(n) + .1
-mu.prior.logit = 0# boot::logit(mu.prior)
+mu.prior = 0.5
+mu.prior.logit = 0
 inits = list(list(vfreq = mu.prior,vcount = 20),list(vfreq = mu.prior,vcount = 20),list(vfreq = mu.prior,vcount = 20))
 inits2 = list(list(mu = mu.prior,sigma = .05),list(mu = mu.prior,sigma = .05),list(mu = mu.prior,sigma = .05))
 inits3 = list(list(mu = mu.prior.logit, sigma = 5),list(mu = mu.prior.logit, sigma = 10),list(mu = 0, sigma = 20))
@@ -84,17 +103,17 @@ samples.rjags2 = coda.samples(jm2, variable.names = c(parsToMonitor2), n.iter = 
 samples.rjags3 = coda.samples(jm3, variable.names = c(parsToMonitor3), n.iter = n.iterations, thin = n.thin)
 samples.rjags4 = coda.samples(jm4, variable.names = c(parsToMonitor4), n.iter = n.iterations, thin = n.thin)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBags/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/appendix-1/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 
 saveRDS(samples.rjags1,file=paste0(fileDirectory,"samples.rjags1.rds"))
 saveRDS(samples.rjags2,file=paste0(fileDirectory,"samples.rjags2.rds"))
 saveRDS(samples.rjags3,file=paste0(fileDirectory,"samples.rjags3.rds"))
 saveRDS(samples.rjags4,file=paste0(fileDirectory,"samples.rjags4.rds"))
-saveRDS(simData,file=paste0(fileDirectory,"data.rds"))
+saveRDS(data,file=paste0(fileDirectory,"data.rds"))
 
 # figures
-data = simData
+data = data.frame(cbind(y,n))
 
 parameterization.MeanConcentration <- samples.rjags1
 parameterization.MomentMatched <- samples.rjags2
@@ -166,8 +185,9 @@ params.LogitNoncentered <- list(mu = mu,sigma = sigma,
                                 alpha.std_i = alpha.std_i)
 
 
-
 # Make a figure for the hyperparameter space.
+
+pdf(paste0(dirFigures,"hyperparameterCorrelations.pdf"), width=8, height=6)
 
 par(mfrow=c(2,2))
 
@@ -176,8 +196,7 @@ b = params.MeanConcentration$beta[samples]
 
 plot(log(a/b),log(a+b),
      pch=16,cex=.5,
-     col = colorVector[1],
-     main=selectedSite)
+     col = colorVector[1])
 
 a = params.MomentMatched$alpha[samples]
 b = params.MomentMatched$beta[samples]
@@ -195,8 +214,11 @@ plot(params.LogitNoncentered$mu[samples],params.LogitNoncentered$sigma[samples],
      pch=16,cex=.5,
      col = colorVector[4],
      xlab="mu",ylab="log(sigma)")
+dev.off()
 
 # Plot the hyperparameters against thetas.
+
+pdf(paste0(dirFigures,"funnelCheck.pdf"), width=8, height=6)
 
 par(mfrow=c(2,2))
 a = params.MeanConcentration$alpha[samples]
@@ -205,7 +227,8 @@ theta_i = params.MeanConcentration$theta_i[samples]
 
 plot(boot::logit(theta_i),log(a+b),
      pch=16,cex=.5,
-     col = colorVector[1])
+     col = colorVector[1],
+     xlab="log-odds probability of success")
 
 a = params.MomentMatched$alpha[samples]
 b = params.MomentMatched$beta[samples]
@@ -218,16 +241,20 @@ plot(boot::logit(theta_i),log(a+b),
 plot(params.LogitCentered$alpha_i[samples],
      log(params.LogitCentered$sigma[samples]),
      pch=16,cex=.5,
-     col = colorVector[3])
+     col = colorVector[3],
+     ylab="log(sigma)")
 
 plot(params.LogitNoncentered$alpha.std_i[samples],
      log(params.LogitNoncentered$sigma[samples]),
      pch=16,cex=.5,
-     col = colorVector[4])
+     col = colorVector[4],
+     ylab="log(sigma)")
 
+dev.off()
 
 # Visualize effective sample size.
 
+pdf(paste0(dirFigures,"nEff.pdf"), width=6, height=6)
 par(mfrow=c(1,1)) 
 f<-function(x) x[order(x,decreasing=TRUE)] 
 
@@ -250,12 +277,12 @@ lines(nEff.LogitNoncentered,
       col=colorVector[4])
 
 legend(x = 0,
-       y = min(nEff)+1/3*(max(nEff)-min(nEff)),
+       y = min(nEff)+1/4*(max(nEff)-min(nEff)),
        legend=c("Mean & sample size","Mean & variance", "Centered logit", "Noncentered logit"),
        lty = c(1,1,1,1),
        col = colorVector,
        cex=.75)
-
+dev.off()
 
 # Plot shrinkage.
 
@@ -278,6 +305,8 @@ for(i in 1:4){
 }
 min.val=min(unlist(min.test))-.1
 max.val=max(unlist(max.test))+.1
+
+pdf(paste0(dirFigures,"shrinkage.pdf"), width=8, height=6)
 
 par(mfrow=c(2,2))
 for(i in 1:4){
@@ -303,6 +332,7 @@ for(i in 1:4){
          col=colorVector[i])
 }
 
+dev.off()
 
 # Plot shrinkage vs. sample size. 
 
@@ -312,12 +342,14 @@ for(i in 1:4){
   min.test[[i]]<-data$freq-t(summaryList[[i]])[,2]
 }
 
-par(mfrow=c(1,1))
+
+pdf(paste0(dirFigures,"shrinkageSamplesize.pdf"), width=8, height=6)
+par(mfrow=c(1,2))
 
 plot(data$n,
      data$freq-t(summaryList[[i]])[,2],
      ylim=c(min(unlist(min.test)),max(unlist(min.test))),
-     xlab="Number of rats in study",
+     xlab="Number of trials",
      ylab="Amount of shrinkage",type='n')
 abline(h=0)
 for(i in 1:4){
@@ -325,26 +357,6 @@ for(i in 1:4){
          data$freq-t(summaryList[[i]])[,2],
          col=colorVector[i],pch=1)
 }
-
-# expand shrinkage plot
-
-par(mfrow=c(2,2))
-
-for(i in 1:4){
-  plot(rep(c(1,2),each=length(data$freq)),
-       c(data$freq,t(summaryList[[i]])[,2]),
-       xlab="Number of rats in study",
-       ylab="Amount of shrinkage",
-       ylim=c(0,1),
-       pch=16,cex=0.5,
-       col=colorVector[i])
-  segments(x0=1,y0=data$freq,
-           x1=2,y1=t(summaryList[[i]])[,2],
-           lwd=0.5,
-           col=colorVector[i])
-}
-
-par(mfrow=c(1,1))
 
 plot(rep(c(1,2),each=length(data$freq)),
      c(data$freq,t(summaryList[[i]])[,2]),
@@ -359,6 +371,28 @@ for(i in 1:4){
            lwd=0.5,
            col=colorVector[i])
 }
+abline(h=sum(y)/sum(n),lty='dashed')
+
+dev.off()
+
+# expand shrinkage plot
+# 
+# par(mfrow=c(2,2))
+# 
+# for(i in 1:4){
+#   plot(rep(c(1,2),each=length(data$freq)),
+#        c(data$freq,t(summaryList[[i]])[,2]),
+#        xlab="Number of trials",
+#        ylab="Amount of shrinkage",
+#        ylim=c(0,1),
+#        pch=16,cex=0.5,
+#        col=colorVector[i])
+#   segments(x0=1,y0=data$freq,
+#            x1=2,y1=t(summaryList[[i]])[,2],
+#            lwd=0.5,
+#            col=colorVector[i])
+# }
+
 
 
 # Plot posterior density for mean probability.
@@ -394,7 +428,7 @@ segments(x0=means[,1],y0=median.vec,x1=means[,3],
          col=c('black','red','blue','purple'))
 abline(v=sum(y)/sum(n),lty='dashed')
 
-legend(x = 0,
+legend(x = .6,
        y = max(median.vec) ,
        legend=c("Mean & sample size","Mean & variance", "Centered logit", "Noncentered logit"),
        lty = c(1,1,1,1),
@@ -402,33 +436,34 @@ legend(x = 0,
        cex=.75)
 
 
-mean.deltas<-cbind(mean.2-mean.1,mean.3-mean.1,mean.4-mean.1,mean.3-mean.2,mean.4-mean.2,mean.4-mean.3)
-max.function<-function(x) max(density(x)$y)
-density.max<-max(apply(mean.deltas,2,max.function))
-mean.deltas.summary<-t(apply(mean.deltas,2,quantile,probs=c(0.025,.5,.975)))
-
-plot(density(mean.deltas[,1]),type='n',
-     xlim=c(-.1,.1),
-     ylim=c(0,density.max + 30),
-     main="Posterior distributions for \n difference in mean probability",
-     xlab="Mean probability")
-lines(density(mean.deltas[,1]))
-lines(density(mean.deltas[,2]),col="red")
-lines(density(mean.deltas[,3]),col="blue")
-lines(density(mean.deltas[,4]),col="purple")
-lines(density(mean.deltas[,5]),col="purple")
-lines(density(mean.deltas[,6]),col="purple")
-
-median.vec = c(density.max+seq(4,24,length.out=6))
-
-points(mean.deltas.summary[,2],y=median.vec,ylim=c(0,1),
-       pch=16,col=c('black','red','blue','purple'))
-segments(x0=mean.deltas.summary[,1],y0=median.vec,x1=mean.deltas.summary[,3],
-         col=c('black','red','blue','purple'))
-abline(v=0)
+# mean.deltas<-cbind(mean.2-mean.1,mean.3-mean.1,mean.4-mean.1,mean.3-mean.2,mean.4-mean.2,mean.4-mean.3)
+# max.function<-function(x) max(density(x)$y)
+# density.max<-max(apply(mean.deltas,2,max.function))
+# mean.deltas.summary<-t(apply(mean.deltas,2,quantile,probs=c(0.025,.5,.975)))
+# 
+# plot(density(mean.deltas[,1]),type='n',
+#      xlim=c(-.1,.1),
+#      ylim=c(0,density.max + 30),
+#      main="Posterior distributions for \n difference in mean probability",
+#      xlab="Mean probability")
+# lines(density(mean.deltas[,1]))
+# lines(density(mean.deltas[,2]),col="red")
+# lines(density(mean.deltas[,3]),col="blue")
+# lines(density(mean.deltas[,4]),col="purple")
+# lines(density(mean.deltas[,5]),col="purple")
+# lines(density(mean.deltas[,6]),col="purple")
+# 
+# median.vec = c(density.max+seq(4,24,length.out=6))
+# 
+# points(mean.deltas.summary[,2],y=median.vec,ylim=c(0,1),
+#        pch=16,col=c('black','red','blue','purple'))
+# segments(x0=mean.deltas.summary[,1],y0=median.vec,x1=mean.deltas.summary[,3],
+#          col=c('black','red','blue','purple'))
+# abline(v=0)
 
 # Plot marginal probability for population. 
 
+pdf(paste0(dirFigures,"posteriorProbability.pdf"), width=6, height=6)
 
 # compare marginalized probabilities
 p.1<-MCMCchains(parameterization.MeanConcentration,params="p")
@@ -459,9 +494,10 @@ segments(x0=ps[,1],y0=median.vec,x1=ps[,3],
          col=c('black','red','blue','purple'))
 abline(v=sum(y)/sum(n),lty='dashed')
 
-legend(x = 0,
+legend(x = .5,
        y = max(median.vec)+4 ,
        legend=c("Mean & sample size","Mean & variance", "Centered logit", "Noncentered logit"),
        lty = c(1,1,1,1),
        col = c("black","red","blue","purple"),
        cex=.75)
+dev.off()
