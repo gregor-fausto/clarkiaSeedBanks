@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 MAR 2020 09:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAR 2020 15:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -890,10 +890,10 @@ See the caption package documentation for explanation.
 
 [4] (./appendix-x-conditional-probability.aux) ) 
 Here is how much of TeX's memory you used:
- 18437 strings out of 493014
- 357643 string characters out of 6133351
+ 18436 strings out of 493014
+ 357623 string characters out of 6133351
  442413 words of memory out of 5000000
- 21608 multiletter control sequences out of 15000+600000
+ 21607 multiletter control sequences out of 15000+600000
  12602 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,15n,66p,1338b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
