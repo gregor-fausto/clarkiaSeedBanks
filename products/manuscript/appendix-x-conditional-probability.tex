@@ -211,8 +211,9 @@ s_3 = \frac{p^{intact} \times (p^{germ2} + ( 1- p^{germ2} ) \times \nu_v^{1/3} )
 
 \subsection*{Adjusting viability in year 2}
 
-I don't fully understand this part yet which is why I'm including it here. For the 2011 paper, the following was applied. If viability estimated in the second year was less than viability estimated in the first year, the probability of viability in January of year 2 was interpolated as $\nu^{2/3} \times \nu_2^{1/3} $. If viability estimated in the second year was equal to or greater than viability estimated in the first year, the probability of viability in January of year 2 was estimated as $\nu_2^{1/3} $
+For the 2011 paper, the following was applied. If viability estimated in the second year was less than viability estimated in the first year, the probability of viability in January of year 2 was interpolated as $\nu^{2/3} \times \nu_2^{1/3} $. If viability estimated in the second year was equal to or greater than viability estimated in the first year, the probability of viability in January of year 2 was estimated as $\nu_2^{1/3} $. I'm planning on the same adjustments. 
 
+\iffalse
 
 \subsection*{Conditional probabilities}
 This appendix shows that the probability of germination, conditional on seeds being viable and intact, can be calculated from the probability of viability conditional on being intact and not germinating $v^{1/3}$ and the probability of being a seedling conditional on being intact, $\theta^g$. In the model fitting process, we estimate the probabilities on the right hand side of the equation below, and use that to derive the probability of germination, conditional on seeds being viable and intact.
@@ -425,5 +426,6 @@ We use this relationship to calculate the probability of germination conditional
 \end{align}
 
 Where $\theta^g$ is the probability of a bag having germinants and $\theta^v$ is the probability of viability in January.  
+\fi
 
 \end{document}
