@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 MAR 2020 21:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  19 MAR 2020 10:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -909,12 +909,12 @@ Package csquotes Info: Making character " active on input line 117.
 
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count159
-LaTeX Font Info:    Try loading font information for U+msa on input line 129.
+LaTeX Font Info:    Try loading font information for U+msa on input line 130.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 129.
+LaTeX Font Info:    Try loading font information for U+msb on input line 130.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -928,7 +928,7 @@ File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-mle_bayes.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-mle_bayes.pdf, page1 used on inp
-ut line 383.
+ut line 385.
 (pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
 
 <../figures/appendix-x-figure54-2.pdf, id=53, page=1, 578.16pt x 433.62pt>
@@ -936,7 +936,7 @@ File: ../figures/appendix-x-figure54-2.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-figure54-2.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-figure54-2.pdf, page1 used on in
-put line 391.
+put line 393.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
@@ -947,7 +947,7 @@ File: ../figures/appendix-x-figure54.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-figure54.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-figure54.pdf, page1 used on inpu
-t line 399.
+t line 401.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
@@ -961,7 +961,7 @@ File: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf Graphic file (type
 
 <use ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf
-, page1 used on input line 408.
+, page1 used on input line 410.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
@@ -975,7 +975,7 @@ ype pdf)
 
 <use ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.
-pdf, page1 used on input line 416.
+pdf, page1 used on input line 418.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
@@ -988,7 +988,7 @@ File: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf Graphic file (type p
 df)
  <use ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, 
-page1 used on input line 425.
+page1 used on input line 427.
 (pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
 
 
@@ -1004,20 +1004,20 @@ _hyearpop.pdf>] [17 <../figures/appendix-x-hierarchyPosteriorsSummary.pdf>]
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 432.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 432.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 432.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 432.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 
 <../figures/appendix-x-ppc.pdf, id=132, page=2, 534.99875pt x 512.91624pt>
@@ -1025,31 +1025,31 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 2>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 2>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 2>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 2>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 2>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [18
 
@@ -1059,19 +1059,19 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 3>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 3>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 3>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [19 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=148, p
 age=4, 534.99875pt x 512.91624pt>
@@ -1079,37 +1079,37 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 4>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 4>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 4>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 432.
+e 434.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [20 <../figures/appendix-x-ppc.pdf>]
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 433.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 433.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 433.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
  <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 433.
+Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 
 <../figures/appendix-x-ppc.pdf, id=156, page=5, 534.99875pt x 512.91624pt>
@@ -1117,31 +1117,31 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 5>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 5>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 5>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 5>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 5>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [21 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=160, p
 age=6, 534.99875pt x 512.91624pt>
@@ -1149,19 +1149,19 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 6>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 6>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 6>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [22 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=164, p
 age=7, 534.99875pt x 512.91624pt>
@@ -1169,19 +1169,19 @@ File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 7>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 7>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
 File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
 <use ../figures/appendix-x-ppc.pdf, page 7>
 Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 433.
+e 435.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
  [23 <../figures/appendix-x-ppc.pdf>]
 Missing character: There is no F in font nullfont!
@@ -1196,7 +1196,7 @@ e (type pdf)
 
 <use ../figures/appendix/appendix-1/hyperparameterCorrelations.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/hyperparameterCorrelati
-ons.pdf, page1 used on input line 637.
+ons.pdf, page1 used on input line 638.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 <../figures/appendix/appendix-1/funnelCheck.pdf, id=169, page=1, 578.16pt x 433
@@ -1204,7 +1204,7 @@ ons.pdf, page1 used on input line 637.
 File: ../figures/appendix/appendix-1/funnelCheck.pdf Graphic file (type pdf)
  <use ../figures/appendix/appendix-1/funnelCheck.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/funnelCheck.pdf, page1 
-used on input line 638.
+used on input line 639.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 
@@ -1216,7 +1216,7 @@ File: ../figures/appendix/appendix-1/neff.pdf Graphic file (type pdf)
 
 <use ../figures/appendix/appendix-1/neff.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/neff.pdf, page1 used on
- input line 647.
+ input line 648.
 (pdftex.def)             Requested size: 422.77661pt x 422.80096pt.
 
 
@@ -1230,7 +1230,7 @@ File: ../figures/appendix/appendix-1/shrinkageSamplesize.pdf Graphic file (type
 
 <use ../figures/appendix/appendix-1/shrinkageSamplesize.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/shrinkageSamplesize.pdf
-, page1 used on input line 655.
+, page1 used on input line 656.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 
@@ -1242,7 +1242,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 File: ../figures/appendix/appendix-1/shrinkage.pdf Graphic file (type pdf)
  <use ../figures/appendix/appendix-1/shrinkage.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/shrinkage.pdf, page1 us
-ed on input line 663.
+ed on input line 664.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 <../figures/appendix/appendix-1/posteriorProbability.pdf, id=173, page=1, 433.6
@@ -1252,11 +1252,11 @@ e pdf)
 
 <use ../figures/appendix/appendix-1/posteriorProbability.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/appendix-1/posteriorProbability.pd
-f, page1 used on input line 664.
+f, page1 used on input line 665.
 (pdftex.def)             Requested size: 352.31624pt x 352.33524pt.
 
 
-LaTeX Warning: Float too large for page by 27.77676pt on input line 667.
+LaTeX Warning: Float too large for page by 27.77676pt on input line 668.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1296,7 +1296,7 @@ l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
 live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on appendix-1.pdf (28 pages, 442648 bytes).
+Output written on appendix-1.pdf (28 pages, 443102 bytes).
 PDF statistics:
  266 PDF objects out of 1000 (max. 8388607)
  182 compressed objects within 2 object streams

@@ -122,9 +122,10 @@
 
 % I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
 
-In this appendix, I compare the following models for estimating the probability that seedlings survive to become fruiting plants: (1) maximum likelihood estimates (binomial likelihood), (2) non-hierarchical model with a binomial likelihood with a beta prior, (3) a hierarchical model with a binomial likelihood and year-level parameters on a beta distribution, (4) a hierarchical model with a binomial likelihood and year- and population-level parameters on a beta distribution.
+In this appendix, I explain why we use models that are hierarchical and Bayesian. To illustrate the approach I use in the main text, I build a series of models to estimate the probability that seedlings survive to become fruiting plants and fit them to a small dataset. First, I compare estimates from maximum likelihood and Bayesian approaches by fitting (1) a non-hierarchical model with a binomial likelihood and no prior and (2) a non-hierarchical model with a binomial likelihood with a beta prior. Second, I compare estimates from non-hierarchical and hierarchical approaches by developing (3) a hierarchical model with a binomial likelihood and year-level parameters on a beta distribution and (4) a hierarchical model with a binomial likelihood and year- and population-level parameters on a beta distribution. Finally, I compare four parameterizations for hierarchical models with a binomial likelihood in order to improve computational efficiency. 
 
-\subsection*{Maximum likelihood estimate}
+\subsection*{Maximum likelihood and Bayesian estimates}
+\subsubsection*{Maximum likelihood estimate}
 
 The following logic underlies how we calculate the maximum likelihood estimate for seedling survival to fruiting. For a single observation, the likelihood that we observe $y$ fruiting plants in a plot if $n$ seedlings were present in the plot can be written as a function of the probability of seedling survival $p$ as $[y|p,n] = \binom{n}{y}p^y(1-p)^{n-y}$. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, then we can write the likelihood as
 %
@@ -149,7 +150,7 @@ We can use the likelihood to obtain a maximum likelihood estimate (by minimizing
   \end{split}
 \end{align}
 
-\subsection*{Binomial likelihood with a beta prior, complete pooling}
+\subsubsection*{Binomial likelihood with a beta prior, complete pooling}
 
 We can turn this into a Bayesian model by adding a prior to our model. Because the beta is a conjugate prior for a binomial distribution, we use use a beta distribution for the prior. In other words, this choice of prior matches the likelihood in a way that the posterior has the same distribution as the prior (cf. Bolker p 177). A beta distribution with shape parameters $\alpha=\beta=1$ corresponds to noninformative prior. For a set of $N$ observations, each with a number of seedlings $n_i$ and a number of fruiting plants $y_i$ in the $i$th observation, we can write the joint posterior as
 %
@@ -178,7 +179,8 @@ To compare our site- and year-specific MLEs to estimates from Bayesian models, w
 
 This is a model in which we are completely pooling observations from each site and year.  Another thing we could say about this model is that it is Bayesian but non-hierarchical. This is extends what happens with the maximum likelihood estimates when we sum across all the plots at a site in a given year and calculate the proportion of seedlings that survive to become fruiting plants. One difference between the two approaches is that with the Bayesian model we account for the number of trials and counts; the data from one plot with a single seedling compromises with the prior to give us posterior probability of success (see \textbf{Comparison}). The Bayesian and frequentist estimates converge as the sample size approaches infinity. 
 
-\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, one year}
+\subsection*{Hierarchical models}
+\subsubsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, one year}
 
 Next, we'll consider adding pooling to our model. To explain this, we'll focus first on the data from one population in one year. We want a hierarchical model that estimates the probability of survivorship in each plot ($\theta_{i}$) and simultaneously estimates the mean probability of survivorship in the year ($\phi$). The probability of survivorship for each plot $i$ is $\theta_{i}$. We then assume that the probability of survivorship for the $i$ plots is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year $\phi$ and sample size $\kappa$. This effectively means that the prior on $\theta_{i}$ is itself a parameter; (i.e. we use hyperpriors rather than directly place priors on the probability of survivorship $\theta_{i}$). We reparameterize the beta distribution with its mean $\phi$ and the parameter $\kappa$. The mean of a random variable distributed $\mathrm{beta}(\alpha,\beta)$ is $\phi = \frac{\alpha}{\alpha+\beta}$. With a $\mathrm{beta}(1,1)$ prior, the parameter $\kappa = \alpha + \beta$ is roughly the sample size plus two.
 %
@@ -194,7 +196,7 @@ We place a uniform prior on the mean probability of survivorship, $\phi$, becaus
 
 This parameterization is hierarchical because the estimates for $\phi$ and $\kappa$ contribute to estimates for $\theta_i$. [other effects?]
 
-\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, multiple years}
+\subsubsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: one population, multiple years}
 
 Next, we expand the scope of our analysis to include data from plots ($i$) in multiple years ($j$) of data for a single population $k=1$. Here, we want a hierarchical model that estimates the probability of survivorship in each plot in each year ($\theta_{ij}$). We want to simultaneously estimate the mean probability of survivorship in each year ($\phi_j$) and the mean probability of survivorship in the population. The probability of survivorship for each plot $i$ in a year $j$ is $\theta_{ij}$. We then assume that the probability of survivorship for the $i$ plots in year $j$ is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year $\phi_j$ and sample size $\kappa_j$. Furthermore, we assume that the mean probability of survivorship in a given year $\phi_j$ is itself drawn from a distribution of probabilities defined by the mean probability of survivorship at the population $\phi_0$ and the parameter $\kappa_0$. 
 %
@@ -209,7 +211,7 @@ Next, we expand the scope of our analysis to include data from plots ($i$) in mu
 %
 This parameterization is hierarchical because the estimates for $\phi_j$ and $\kappa_j$ contribute to estimates for $\theta_{ij}$, and the estimates for $\phi_0$ and $\kappa_0$ contribute to estimates for $\phi_j$. [other effects?]
 
-\subsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: multiple populations, multiple years}
+\subsubsection*{Binomial model with a beta prior, partial pooling, parameterization via mean: multiple populations, multiple years}
 
 Finally, we expand the scope of our analysis to include data from plots ($i$) in multiple years ($j$) of data for multiple populations $k$. Here, we want a hierarchical model that estimates the probability of survivorship in each plot in each year at each population ($\theta_{ijk}$). We want to simultaneously estimate the mean probability of survivorship in each population $\phi_k$, the mean probability of survivorship in each year ($\phi_jk$). The probability of survivorship for each plot $i$ in a year $j$ at population $k$ is $\theta_{ijk}$. We then assume that the probability of survivorship for the $i$ plots in year $j$ in population $k$ is drawn from a distribution of probabilities defined by the mean probability of survivorship in a given year at a given population $\phi_{jk}$ and paramter $\kappa_{jk}$. Furthermore, we assume that the mean probability of survivorship in a given year in a given population $\phi_{jk}$ is itself drawn from a distribution of probabilities defined by the mean probability of survivorship for the population $\phi_{0,k}$ and the parameter $\kappa_{0,k}$. The model is similar to the one for one population except the indexing has changed so that we estimate a mean probability of survivorship for each population.
 %
