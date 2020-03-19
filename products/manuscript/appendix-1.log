@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  19 MAR 2020 10:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  19 MAR 2020 10:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -771,17 +771,7 @@ Package csquotes Info: ... none found.
 Package csquotes Warning: No multilingual support.
 (csquotes)                Cannot enable multilingual quotes on input line 117.
 
-(./appendix-1.aux
-
-LaTeX Warning: Label `fig:...' multiply defined.
-
-
-LaTeX Warning: Label `fig:...' multiply defined.
-
-
-LaTeX Warning: Label `fig:...' multiply defined.
-
-)
+(./appendix-1.aux)
 \openout1 = `appendix-1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
@@ -803,8 +793,7 @@ LaTeX Font Info:    Try loading font information for TS1+cmr on input line 117.
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 117.
-
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count153
 \scratchdimen=\dimen189
@@ -922,7 +911,74 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
  [4] [5]
-[6] [7] [8] [9] [10] [11]
+[6] [7]
+
+LaTeX Warning: Reference `eq:frequentistMLE' on page 8 undefined on input line 
+349.
+
+
+LaTeX Warning: Reference `eq:bayesianNH' on page 8 undefined on input line 349.
+
+
+
+LaTeX Warning: Reference `fig:mle_bayes' on page 8 undefined on input line 349.
+
+
+
+LaTeX Warning: Reference `fig:mle_bayes' on page 8 undefined on input line 349.
+
+
+[8]
+
+LaTeX Warning: Reference `eq:bayesianNH' on page 9 undefined on input line 353.
+
+
+
+LaTeX Warning: Reference `eq:bayesianHyear' on page 9 undefined on input line 3
+53.
+
+
+LaTeX Warning: Reference `eq:bayesianHyearpop' on page 9 undefined on input lin
+e 353.
+
+
+LaTeX Warning: Reference `fig:hierarchical_shrinking1' on page 9 undefined on i
+nput line 355.
+
+
+LaTeX Warning: Reference `fig:hierarchical_shrinking2' on page 9 undefined on i
+nput line 355.
+
+
+LaTeX Warning: Reference `eq:bayesianNH' on page 9 undefined on input line 357.
+
+
+
+LaTeX Warning: Reference `eq:bayesianHyear' on page 9 undefined on input line 3
+57.
+
+
+LaTeX Warning: Reference `eq:bayesianHyearpop' on page 9 undefined on input lin
+e 357.
+
+
+LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyear' on page 9 undefined
+ on input line 357.
+
+
+LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyearpop' on page 9 undefi
+ned on input line 357.
+
+
+LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyearpop' on page 9 undefi
+ned on input line 357.
+
+[9]
+
+LaTeX Warning: Reference `fig:hierarchyPosteriorsSummary' on page 10 undefined 
+on input line 359.
+
+[10] [11]
 <../figures/appendix-x-mle_bayes.pdf, id=52, page=1, 578.16pt x 289.08pt>
 File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
 
@@ -1273,13 +1329,16 @@ See the caption package documentation for explanation.
 
 (./appendix-1.aux)
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
  19468 strings out of 493014
  376033 string characters out of 6133351
- 469874 words of memory out of 5000000
+ 468874 words of memory out of 5000000
  22600 multiletter control sequences out of 15000+600000
  12912 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1296,7 +1355,7 @@ l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
 live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on appendix-1.pdf (28 pages, 443102 bytes).
+Output written on appendix-1.pdf (28 pages, 443509 bytes).
 PDF statistics:
  266 PDF objects out of 1000 (max. 8388607)
  182 compressed objects within 2 object streams

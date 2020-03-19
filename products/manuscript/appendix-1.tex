@@ -142,7 +142,7 @@ which is often written as
 \mathcal{L} = [\bm{y}|p,\bm{n}]  = \prod_{i=1}^N \mathrm{binomial}(n_i,p).
   \end{split}
 \end{align}
-We can use the likelihood to obtain a maximum likelihood estimate (by minimizing the negative log-likelihood). The maximum likelihood estimate $\hat{p}$ is the overall proportion of seedlings that survive to become fruiting plants, summing all the observations. The point is that the proportion calculated in the MATLAB code corresponds to the estimate from a maximum likelihood estimate. Specifically, it calculates a maximum likelihood estimate for each population in each year of the dataset. We thus give each site $j$ and year $k$ its own probability of success $p_{jk}$ and obtain the MLEs $\hat{p}_{jk}$.
+We can use the likelihood to obtain a maximum likelihood estimate (by minimizing the negative log-likelihood). The maximum likelihood estimate $\hat{p}$ is the overall proportion of seedlings that survive to become fruiting plants, summing all the observations. \iffalse The point is that the proportion calculated in the MATLAB code corresponds to the estimate from a maximum likelihood estimate. \fi In Eckhart et al. 2011, the authors calculated a maximum likelihood estimate for each population in each year of the dataset. We thus give each site $j$ and year $k$ its own probability of success $p_{jk}$ and obtain the MLEs $\hat{p}_{jk}$.
 %
 \begin{align}
   \begin{split}
