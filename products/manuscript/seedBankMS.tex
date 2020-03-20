@@ -134,17 +134,13 @@
 
 \section*{Introduction}
 
-Seed banks have important consequences for population persistence by acting as a buffer against environmental change and population stochasticity (\cite{eager2014,paniw2017}), increasing effective population size (\cite{nunney2002,waples2006}), and genetic diversity (\cite{mccue1998b}). The presence of a seed bank can also affect the outcome of evolution (\cite{heinrich2018,ritland1983}). Theory thus suggests that seed banks have ecological and evolutionary consequences (\cite{evans2005}). 
+Seed banks can buffer plant populations against environmental change and stochasticity (\cite{eager2014,paniw2017}), increase effective population size (\cite{nunney2002,waples2006}), and maintain genetic diversity (\cite{mccue1998b}). Dormancy can affect the outcome of evolution (\cite{ritland1983,heinrich2018}). Theory thus suggests that seed banks have ecological and evolutionary consequences (\cite{evans2005}). 
 
-[Paragraph on theory about seed banks]
-
-[Paragraph on empirical tests of theory]
-
-Table 1 outlines key references that and outlines expectations for what drives the evolution of delayed germination. The table includes references that have tested the theory empirically. The main set of papers I've included are ones that look at variation in germination among Sonoran Desert annuals (\cite{venable2007,gremer2014,gremer2016}). The table lists predictions made by different models. I think examining the following relationships would be good starting points: The correlation between variance in fitness (seeds/seedling) and germination fraction should be negative -- this is true under the density-independent and -dependent model. The correlation between seed survivorship and germination fraction should be negative under both a density-independent and -dependent model but the limit as survivorship approaches 1 differs. Finally, the correlation between mean seed yield and germination fraction will be positive if fitness is density-independent but is not necessarily positive if fitness is density-dependent.
-
-The theory developed by \cite{cohen1966} frames the problem in the following terms. What is the optimal germination fraction for a given level of interannual variation in fitness and seed survivorship? These models make it clear that the germination fraction that maximizes long-term population growth rate is a function of the distribution of fitness (characterized by the variation in fitness), the fitness values, and the rate of seed survivorship. For a given mean fitness, increasing the variance in fitness decreases the optimal germination fraction (Appendix Figure X). Increasing seed survivorship decreases the optimal germination fraction, and the degree to which it does so depends on the probability of a 'good year'. Specifically, as the probability of a high-fitness year decreases, the optimal germination fraction decreases. 
+What drives the evolution of delayed germination? The theory developed by \cite{cohen1966} frames the problem in the following terms. What is the optimal germination fraction for a given level of interannual variation in fitness and seed survivorship? These models make it clear that the germination fraction that maximizes long-term population growth rate is a function of the distribution of fitness (characterized by the variation in fitness), the fitness values, and the rate of seed survivorship. For a given mean fitness, increasing the variance in fitness decreases the optimal germination fraction (Appendix Figure X). Increasing seed survivorship decreases the optimal germination fraction, and the degree to which it does so depends on the probability of a 'good year'. Specifically, as the probability of a high-fitness year decreases, the optimal germination fraction decreases. 
 
 To empirically test this theory, "a density-independent model can be used to check quantitatively the optimality (or evolutionary stability) of a life history trait in a real population, because the density effects are manifested in the measured vital rates" and "to check if a species germination fraction is optimal, one would estimate seed survivorship and the probability distribution of per capita seed yield. From these, the DI model predicts an "optimal" germination fraction, which can be compared with the actual germination fraction." \cite{ellner1985a}. 
+
+Several studies have examined intraspecific variation in seed dormancy \cite{hacker1984,hacker1989,philippi1993a,clauss2000}. The main set of papers I've included are ones that look at variation in germination among Sonoran Desert annuals (\cite{venable2007,gremer2014,gremer2016}). The table lists predictions made by different models. I think examining the following relationships would be good starting points: The correlation between variance in fitness (seeds/seedling) and germination fraction should be negative -- this is true under the density-independent and -dependent model. The correlation between seed survivorship and germination fraction should be negative under both a density-independent and -dependent model but the limit as survivorship approaches 1 differs. Finally, the correlation between mean seed yield and germination fraction will be positive if fitness is density-independent but is not necessarily positive if fitness is density-dependent.
 
 [intraspecific variation, range dynamics]
 
@@ -160,20 +156,16 @@ Why using the Clarkia system? We expect to see differences among populations in 
 
 % I expect bet hedging stages to be sensitive to variation in an environmental cue. For something to be an adaptive strategy, it should respond to variation in the environment to capitalize on good years such as ones with high precipitation. To investigate the sensitivity of vital rates to the environment, I estimate the slope of the relationship between environmental cues and vital rates at individual sites using a random coefficients model that estimates covariation between intercepts and slopes. I predict that I will estimate variation both in the intercept and slope for populations, and that variation in the modeled cue [to be determined] will be positively related to the estimated slope. [What is the relationship between dormancy and environmental cues? This is a question about whether we can make any inferences about the mechanism responsible for bet hedging in this system.]
 
-
-\begin{landscape}
-
+\begin{center}
 \captionof{table}{Table 1: Models for germination delays: references and predictions } \label{tab:title} 
-
+\resizebox{\textwidth}{!}{
 \begin{tabular}{ |p{2.5cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|  }
-% \hline
- %\multicolumn{5}{|c|}{Seed banks} \\
  \hline
-  & Density-independent fitness & Density-dependent fitness & Predictive \newline germination & Structured model \\
+  & Density-independent fitness & Density-dependent fitness & Predictive germination & Structured model \\
  \hline
- Key theory \newline references   & \cite{cohen1966,cohen1968}    & \cite{ellner1985,ellner1985a} &   \cite{cohen1967} & \cite{easterling2000} \\
+ Key theory references   & \cite{cohen1966,cohen1968}    & \cite{ellner1985,ellner1985a} &   \cite{cohen1967} & \cite{easterling2000} \\
  \hline
- Key empirical \newline tests & \cite{venable2007}  & \cite{gremer2014}   & \cite{gremer2016} & ... \\
+ Key empirical tests & \cite{venable2007}  & \cite{gremer2014}   & \cite{gremer2016} & ... \\
  \hline
  Mean of \newline seed yield    & increase in $\bar{Y}$ increases $G$* & increase in $\bar{K}$ can increase or decrease $\hat{G}$  &  \dots & \dots \\
  \hline
@@ -183,14 +175,8 @@ Why using the Clarkia system? We expect to see differences among populations in 
  \hline
  %Frequency of good years & higher frequency of good years increases $G$*  & high frequency of good or bad years decreases $\hat{G}$   & \dots & \dots \\
 %\dots & \dots & \dots  & years with high G correspond to years with high Y & \dots \\
-
- \hline
-\end{tabular}
-
-\end{landscape}
-
-\newpage
-
+\end{tabular}}
+\end{center}
 
 \section*{Methods}
 
@@ -198,17 +184,19 @@ Why using the Clarkia system? We expect to see differences among populations in 
 
 Monica Geber and collaborators have collected 12+ years of annual estimates for demographic data on a species of annual plant: survival of seedlings to fruiting adults, fruits per adult plant, and seeds per fruit. As part of the long-term work on \textit{Clarkia xantiana}, there 3 sources of data on the transition between seeds in fruits and seedlings: 1 observational data set and 2 experimental data sets. Here, I present analyses of 1 observational data set and 1 experimental data set. 
 
-Starting in 2007, there are (1) estimates of fruits/plant and seeds/fruit that provide an estimate of seed input into a plot and (2) estimates of germinants the following year. For most plots, the number of seeds entering a plot in year t-1 is much greater than the number of seedlings emerging in a plot in year t. However, this is not uniformly true, and there is also experimental data suggesting these seeds may survive in the seed bank for at least 10 years at some locations.
+Starting in 2007, there are (1) estimates of fruits/plant and seeds/fruit that provide an estimate of seed input into a plot and (2) estimates of germinants the following year. For most plots, the number of seeds entering a plot in year $t-1$ is much greater than the number of seedlings emerging in a plot in year $t$. However, this is not uniformly true, and there is also experimental data suggesting these seeds may survive in the seed bank for at least 10 years at some locations.
 
-There are two experiments conducted at non-overlapping points in time we use to estimate transitions in the seed bank. From 2006-2010, Geber and collaborators buried seeds in bags and periodically dug them up to count seedlings and intact, viable seeds. This data estimates transitions leading to germination or survival of seeds that are 1, 2, and 3 years old. Starting in 2013, Geber and collaborators placed seeds in pots and counted seedlings. This data estimates transitions of seeds in the soil seed bank but cannot separate germination and survival in the same way as the first experiment.
+We use two experiments, conducted at non-overlapping points in time, to estimate transitions in the seed bank. From 2006-2010, Geber and collaborators buried seeds in bags and periodically dug them up to count seedlings and intact, viable seeds. This data estimates transitions leading to germination or survival of seeds that are 1, 2, and 3 years old. Starting in 2013, Geber and collaborators placed seeds in pots and counted seedlings. This data estimates transitions of seeds in the soil seed bank but cannot separate germination and survival in the same way as the first experiment.
 
 Here, we analyze data from an experiment that involved burying seeds in seed bags (2005-2009). 
 
-\subsection*{Seed bag burial experiments}
+\subsection*{Data}
 
-To determine how seed survival and germination varied among populations of \textit{C. xantiana}, we conducted a series of seed burial experiments. We started these seed burial experiments in three subsequent years (2005, 2006, 2007) to obtain multiple estimates for seed survival and germination.
+\subsubsection*{Seed bag burial experiments}
 
-In June-July 2005, we collected seeds at each of the 20 populations included in this study. In October 2005, we buried 30 5 $\times$ 5-cm nylon mesh bags at each population. Each nylon mesh bag contained 100 seeds collected at that population. In January 2006, we removed 10 of these bags and counted the number of germinated seedlings and the number of ungerminated, intact seeds in each bag. We then returned the ungerminated, intact seeds to the resealed bag and returned the bag to the field. In October 2006, we removed these bags and counted the number of ungerminated, intact seeds. We collected the following data:
+To determine how seed survival and germination varied among populations of \textit{C. xantiana}, we use data collected from a series of seed burial experiments. We started these seed burial experiments in three subsequent years (2005, 2006, 2007) to obtain multiple estimates for seed survival and germination.
+
+In June-July 2005, we collected seeds at each of the 20 populations included in this study. In October 2005, we buried 30 5$\times$5-cm nylon mesh bags at each population. Each nylon mesh bag contained 100 seeds collected at that population. In January 2006, we removed 10 of these bags and counted the number of germinated seedlings and the number of ungerminated, intact seeds in each bag. We then returned the ungerminated, intact seeds to the resealed bag and returned the bag to the field. In October 2006, we removed these bags and counted the number of ungerminated, intact seeds. We collected the following data:
 
 \begin{itemize}
 	\item $n_{ijt}$ = observed count of seeds in the seed bags at the start of the experiment in October in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
@@ -218,11 +206,11 @@ In June-July 2005, we collected seeds at each of the 20 populations included in 
 	\item $y_{_{\mathrm{surv}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 	
 \end{itemize}
 
-\subsection*{Viability trials}
+\subsubsection*{Viability trials}
 
 In the lab, we conducted germination trials and viability assays on subsets of the seeds from each bag to estimate the viability of the ungerminated, intact seeds. First, we placed up to 15 seeds from each bag on to moist filter paper in a disposable cup and observed germination over 10 days; we counted and removed germinants every 2 days. 
 
-After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were sliced in half and individually placed into the wells of 96-well plates filled with a solution of tetrazolium chloride, which stains viable tissue red (ref). [this was from in Eckhart et al. 2011 - but not all ungerminated seeds were tested; most were] We covered the plates with foil. Each 96-well plate contained seed from at least one bag per population of a given seed-age class. Two or three tests of up to 15 seeds each were conducted for each bag. We checked and counted for viable seeds every 2 days for 10 days. 
+After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were sliced in half and individually placed into the wells of 96-well plates filled with a solution of tetrazolium chloride, which stains viable tissue red. [\cite{eckhart2011}: not all ungerminated seeds were tested; most were] We covered the plates with foil. Each 96-well plate contained seed from at least one bag per population of a given seed-age class. Two or three tests of up to 15 seeds each were conducted for each bag. We checked and counted for viable seeds every 2 days for 10 days. 
 
 We collected the following data: 
 
@@ -233,74 +221,131 @@ We collected the following data:
 	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
 \end{itemize}
 
-\subsection*{Parameter estimates for belowground transitions}
+\subsubsection*{Seedling survival to fruiting}
 
-Overall, the aim of our model was to combine the estimates of seed survival and germination that we obtained from the seed burial experiment in the field with the viability data from the lab trials. We seek to estimate (1) seed survival for different periods of the year or as a monthly rate, (2) germination of 0-, 1- and 2-year old seeds, and (3) viability of intact seeds unearthed in October. 
+The data consist of counts of seedlings and fruiting plants in 0.5 m$^2$ plots at 20 populations from 2006--present. Each population was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and plants in each plot are counted by a single person at each visit. 
 
-Figure~\ref{fig:seedBagDiagram} illustrates the transitions in the first year the seed bags are buried. There are two boxes: one for the seed bag experiment and one for the viability trials. In the seed bag experiment, I split January into two steps, one for just before germination and one for just after. Solid arrows represent transitions and are labeled with corresponding vital rates. In the models, I have adopted $s_1 = \phi$, $g_1=\gamma$, $s_2 = \rho$, and $v_1 = \upsilon$. 
+For now, we assume that the data on seedlings is measured perfectly (i.e. no under- or over-counts of seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies may vary from year to year but also by geography; higher elevation populations may have delayed phenology. We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset.
+
+We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over- count) because plants stand out from the background vegetation in June. Our model estimates the proportion of seedlings that survive to become fruiting plants. Define:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ population, from the $k^{th}$ year
+	%\item $z_{ijt}$ = true counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ population, from the $t^{th}$ year
+	\item $y_{ijt}$ = observed counts of fruiting plants in the $i^{th}$ plot, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+\end{itemize}
+
+\subsubsection*{Fruits per plant}
+
+From 2006--2012, "we recorded...the number of fruits per plant for up to 15-20 plants per 0.5 m$^2$" (\cite{eckhart2011}). For each plant, we counted the number of undamaged fruits. We then took the damaged fruits and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used these counts to estimate the number fruits produced per plant. 
+
+% From 2013--present, we counted the number of undamaged and damaged fruits per plant for up to ... plants per 0.5 m$^2$. We used these counts to estimate the number of fruits produced per plant, and to estimate the number of those fruits that are damaged by herbivores.
+
+We seek to estimate (1) the number of fruits produced per plant and (2) the proportion of fruits that are damaged per plant. Define: 
+
+\begin{itemize}
+
+	\item $y^{TFE}_{ijk}$ = observed counts of total fruit equivalents per plant on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+%	\item $\bm{y_{ijk}} = [ y^{und}_{ijt}, y^{dam}_{ijt} ] $ = two item vector of observed counts of undamaged and damaged fruits per plant on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+	\item $n_{ijk}$ = observed counts of total fruits per plant (sum of $\bm{y_{ijk}}$) on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+%	\item $\phi_{jt}$ = the true, unobserved proportion of fruits that are damaged per plant at the $j^{th}$ population, in the $k^{th}$ year
+\end{itemize}
+
+\subsubsection*{Seeds per fruit}
+
+From 2006--2012, "we collected one fruit from each of 20-30 haphazardly selected plants distributed across each population (but outside permanent plots, to avoid influencing seed input within them) to estimate the mean number of seeds produced per fruit" (\cite{eckhart2011}). In the field, we collected fruits that were undamaged. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. 
+
+From 2013--present, we collected one undamaged and one damaged fruit from each of 20-30 haphazardly selected plants distributed across each population. The plants were outside permanent plots to avoid affecting seed input. We used these fruits to estimate the mean number of seeds produced by undamaged and damaged fruits. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit and  20-30 counts of seeds produced per damaged fruit. 
+
+We seek to estimate the number of seeds per undamaged fruit. Define:
+
+%, (2) the number of seeds per damaged fruit, and (3) the proportion of seeds that are lost to herbivory in damaged fruits relative to undamaged fruits. 
+
+\begin{itemize}
+	\item $y^{und}_{ijk}$ = observed counts of seeds in the $i^{th}$ undamaged fruit, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+%	\item $y^{dam}_{ijt}$ = observed counts of seeds per damaged fruit in the $i^{th}$ fruit, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
+	\item $\lambda_{jk}$ = true, unobserved mean number of seeds per undamaged fruit from the $j^{th}$ population, from the $k^{th}$ year
+\end{itemize}
+
+\subsection*{Model framework}
+
+We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We obtain population-specific estimates for belowground vital rates, and to obtain year- and population-specific estimates for aboveground vital rates. We use these transition probabilities to analyze correlations between germination probability and variance in per-capita reproductive success, correlation between germination probability and seed survival, and to compare the optimal germination fraction from a density-independent model to the observed germination fraction. 
+
+\subsubsection*{Parameter estimates for belowground transitions}
+
+To estimate population-specific estimates for belowground vital rates, we use data from seed burial experiments in the field and seed viability trials in the lab. We combine these data to infer seed survival across different parts of the year and germination. I estimate probabilities of success using the data, and compose these estimates to obtain transition probabilities for the life history of \textit{Clarkia xantiana}. I provide details of this approach in the \textbf{Appendix on Conditional Probability}. Briefly, I estimate probabilities of success ($\theta_1, \theta_2, \theta_3, \theta_4, \theta_5, \nu_1, \nu_2$) using data from seed burial experiments and viability trials. I use these probabilities of success to compose transition probabilities ($s_1, s_2, s_3, g_1$).
+
+Figure~\ref{fig:seedBagDiagram} illustrates the relationship between the data and the estimated probability of success. There are two boxes: one for the seed bag experiment and one for the viability trials. In the seed bag experiment, I split January into two steps, one for just before germination and one for just after. Solid arrows represent estimated probabilities and are labeled with corresponding parameters.
  
-The probability that seeds from the start of the experiment remain intact in January is represented as $s_1$. In January, all seeds are intact (this includes viable and non-viable seeds). I assume that there is no decay during germination (i.e., seed loss does not instantaneously in January). The number of intact seeds before germination is equal to the number of seeds and seedlings after germination. At this point, the seeds transition into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and remain dormant. All (3) other intact seeds are non-viable because (4) seeds that were not viable could not have germinated. 
+The probability that seeds from the start of the experiment remain intact in January is represented as $\theta_1$. In January, all seeds are intact (this includes viable and non-viable seeds). We estimate the probability of a seedling emerging, conditional on being intact as $\theta_2$. I assume that there is no decay during germination (i.e., seed loss is instantaneous in January). The number of intact seeds before germination is equal to the number of seeds and seedlings after germination. At this point, the seeds transition into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and remain dormant. All (3) other intact seeds are non-viable because (4) seeds that were not viable could not have germinated. Finally, we represent the probability of a seed being intact in October, conditional on being intact in January as $\theta_3$.
 
-I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds (the sum of $(1-g_1)v_1^{\frac{1}{3}}$ and $(1-g_1)(1-v_1^{\frac{1}{3}})$. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
+% I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
 
-I need to make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the total seeds in January pre-germination is viable ($v_1^{\frac{1}{3}}$) and some of those viable seeds germinate. I include viability in estimates of germination rate so as to not overestimate the true germination rate. The number of seeds that remain intact are those that do not germinate ($1-g_1$), which includes both viable ($v_1^{\frac{1}{3}}$) and non-viable ($1-v_1^{\frac{1}{3}}$) seeds. Seeds that germinate must be viable. 
+We use the viability trials to estimate the probability of viability ($\nu_1$) for a seed that is intact in October of year $t+1$. I need to make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the total seeds in January pre-germination is viable ($\nu_1^{1/3}$) and some of those viable seeds germinate. 
 
-Here, I use viability in our germination estimates. For the full life cycle, this models the transition probabilities for intact seeds and only incorporates viability in the germination transition. 
+The seed burial experiments and viability trials thus provide information about the fate of seeds in the seed bank. We define $s_1$ as the probability of a seed being intact and viable from October in year $t$ to January in year $t+1$. We define $g_1$ as the probability of germination for a seed that is intact and viable. We define $s_2$ as the probability of survival from January to October in year $t$ for a seed that was intact and viable in January. We define $s_3$ as the probability of survival from October in year $t$ to January in year $t+1$ for a seed that was intact and viable in October. Mathematically, we write each of the transition probabilities as follows:
+%
+    \begin{align}
+\begin{split}
+s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu_1^{1/3} ) \\
+g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu_1^{1/3} ) \times ( 1 - \theta_2 )} \\
+s_2 & = \theta_3 \times \nu_1^{2/3} \\
+s_3 & = \frac{\theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )}{s_1 \times (1-g_1) \times s_2 }
+  \end{split}
+\end{align}
+%
 
-\begin{figure}
-\begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 2.75cm, % distance between nodes
-            semithick % line style
-        ]
+\subsubsection*{Parameter estimates for aboveground transitions}
 
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]
+To estimate obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate fruits per plant (parameter) and seeds per fruit (parameter). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
 
-        \node[state] (Y1a) [] {$y_{_{\mathrm{total}} ijt}$};
-        \node[state] (Y1b) [right of=Y1a] {$y_{_{\mathrm{intact}} ijt}$};
-        \node[state] (N) [left of=Y1a] {$n_{ijt}$};
-        \node[state] (Y2) [right of=Y1b] {$y_{_{\mathrm{surv}} ijt}$};
-        \node[state] (G) [below of=Y1b] {$y_{_{\mathrm{germ}} ijt}$};
-     
-        \node[draw] (O1) [above of=N] {$\mathrm{October}_{t-1}$};
-        \node[draw,dotted] (J1) [above of=Y1a, align=center] {$\mathrm{January}_{t}$ \\ pre-germ};
-        \node[draw,dotted] (J2) [above of=Y1b, align=center] {$\mathrm{January}_{t}$ \\ post-germ};
-        \node[draw,fit=(J1) (J2)] {};
-        \node[draw] (O2) [above of=Y2] {$\mathrm{October}_{t}$};
+\subsection*{Models}
 
-        \path[->] (N) edge node {$s_1$} (Y1a);
-        \path[->] (Y1a) edge node {$1-g_1$} (Y1b);
-   	\path[->] (Y1b) edge node {$s_2$} (Y2);
-       	\path[->] (Y1a) edge[bend right] node {$g_1 v_1^{\frac{1}{3}}$} (G);
+\subsubsection*{Model for seed burial experiment data}
 
-        \node[state] (T1) [below right of=G] {$n_{_{\mathrm{gt}} ijt}$};
-   	\path[dotted, ->] (Y2) edge node {} (T1);
-        \node[state] (TG) [right of=T1] {$y_{_{\mathrm{gt}} ijt}$};
-   	\path[->] (T1) edge node {$v_1$} (TG);
-        \node[state] (T2) [below of=T1] {$n_{_{\mathrm{vt}} ijt}$};
-   	\path[dotted, ->] (TG) edge node {} (T2);
-        \node[state] (VG) [right of=T2] {$y_{_{\mathrm{vt}} ijt}$};
-   	\path[->] (T2) edge node {$v_1$} (VG);
-	
-	\node[draw,fit=(N) (Y1a) (Y1b) (Y2) (G) , label={[label distance=0cm, align = right]left:{Seed bag \\ experiment}}] {};
-	
-	\node[draw,fit=(T1) (T2) (TG) (VG), label={[label distance=0cm, align = right]left:{Viability \\ trials}}] {};
+The models below represent the joint likelihood for data from the seed bag experiments. In each model, we obtain the population-level posterior distribution probability of success by marginalizing across years and taking the inverse logit.
 
-  \end{tikzpicture}
-  \caption{Diagram of data from the seed bag experiments and viability trials.}\label{figure1}
- \label{fig:seedBagDiagram}
-\end{figure}
+To estimate $\theta_1$, I fit the following model for bag $i$ in year $j$ in population $k$. 
+%
+\begin{align}
+  \begin{split}
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{total}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \end{split}
+\end{align}
+%
 
-\subsection*{Seed survival and germination model}
+To estimate $\theta_2$, I fit the following model for bag $i$ in year $j$ in population $k$. 
+%
+\begin{align}
+  \begin{split}
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{germ}}_{ijk} | y^{\mathrm{total}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \end{split}
+\end{align}
+%
 
-Overall, the aim of the model is to combine the estimates of seed survival and germination that we obtained from the seed burial experiment in the field with the viability data from the lab trials. 
+To estimate $\theta_3$, I fit the following model for bag $i$ in year $j$ in population $k$. 
+%
+\begin{align}
+  \begin{split}
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+   \mathrm{binomial} ( y^{\mathrm{oct}}_{ijk} | y^{\mathrm{total}}_{ijk}-y^{\mathrm{germ}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \end{split}
+\end{align}
+%
 
 \subsubsection*{Model for viability trial data}
 
@@ -326,113 +371,20 @@ The dataset has NAs in the viability stain column. These are there because the v
 
 A figure that would help is one that plots the predicted vs. observed proportions for the germination and viability experiments for one population. 
  Maybe start with partial pool with direct parameterization of theta via a beta prior on each bag. The goal of the experiment is bag-specific viability. Reasons to include population would be to
+ 
+ s1 We want this estimate to include seeds that germinated and seeds that were intact and viable. First, we estimate the probability of a seed being intact to January as $p^{intact} = (y^{germ}+y^{jan1})/n^{total}$. Second, we estimate the probability of a plant emerging, conditional on being intact as $p^{germ} = y^{germ}/(y^{germ}+y^{jan1})$. We then calculate 
 
+g1 First, we estimate the probability of a plant emerging, conditional on being intact as $p^{germ} = y^{germ}/(y^{germ}+y^{jan1})$. 
 
+s2 First, we estimate the probability of a seed being intact in October, conditional on being intact in January $ p = y^{oct1} / y^{jan1} $.
 
-\subsubsection*{Model for seed burial experiment data}
-
-I fit the following model for bag $i$ in year $j$ in population $k$. 
-%
-\begin{align}
-  \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{total}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
-  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
-  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
-  \end{split}
-\end{align}
-%
-From the model above, we obtain $\theta_1$ for each population by marginalizing across years and taking the inverse logit.
-
-I fit the following model for bag $i$ in year $j$ in population $k$. 
-%
-\begin{align}
-  \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
-   \mathrm{binomial} ( y^{\mathrm{germ}}_{ijk} | y^{\mathrm{total}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
-  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
-  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
-  \end{split}
-\end{align}
-%
-From the model above, we obtain $\theta_2$ for each population by marginalizing across years and taking the inverse logit.
-
-I fit the following model for bag $i$ in year $j$ in population $k$. 
-%
-\begin{align}
-  \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
-   \mathrm{binomial} ( y^{\mathrm{oct}}_{ijk} | y^{\mathrm{total}}_{ijk}-y^{\mathrm{germ}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
-  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
-  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
-  \end{split}
-\end{align}
-%
-From the model above, we obtain $\theta_3$ for each population by marginalizing across years and taking the inverse logit.
-
-I used the estimates from the model to derive transition probabilities as described in \textbf{Appendix on Conditional Probability}:
-%
-    \begin{align}
-\begin{split}
-s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu^{1/3} ) \\
-g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu^{1/3} ) \times ( 1 - \theta_2 )} \\
-s_2 & = \theta_3 \times \nu^{2/3}
-  \end{split}
-\end{align}
-
-% I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the site because viability is bag level. We simulate data from this model and calculate test statistics.
-
-\subsubsection*{Full model}
-
-To estimate the survival and germination of seeds in each population, I fit the following model for bag $i$ at population $j$ in year $k$:
-%
-\begin{align}
-  \begin{split}
- [ \bm{\phi}, \bm{\gamma}, \bm{\rho}, \bm{\alpha} | & \bm{n}, \bm{n_{\mathrm{viab}}}, \bm{y_{\mathrm{total}}},  \bm{y_{\mathrm{germ}}},  \bm{y_{\mathrm{surv}}}, \bm{y_{\mathrm{viab}}} ] \propto \\
-   & \prod_{j=1}^{J} \prod_{i=1}^{I} % \prod_{k=1}^{K}  
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ij} | n_{ij}, \mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{j} ) ) 
- \\ & \times \mathrm{binomial} ( y^{\mathrm{germ}}_{ij}  | y^{\mathrm{tot}}_{ij}  , \mathrm{f}_2( \gamma_{j} , \alpha_{ijk}) )
- \\ & \times \mathrm{binomial} ( y^{\mathrm{surv}}_{ij} | y^{\mathrm{tot}}_{ij}  -  y^{\mathrm{germ}}_{ij}   , \mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{j} ) ) 
- \\ & \times  \mathrm{binomial} ( y^{\mathrm{viab}}_{ij} | n^{\mathrm{viab}}_{ij}, \mathrm{logit}^{-1}(\alpha_{ijk}) ) 
-    \\ & \times \mathrm{normal} ( \alpha^{s1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{g1}_{0,j} | 0, 10) \mathrm{normal} ( \alpha^{s2}_{0,j} | 0, 10)  
-    \\ & \times \mathrm{normal} ( \beta^{s1}_{j} | 0, \sigma_j^{s1}) \mathrm{normal} ( \beta^{g1}_{j} | 0, \sigma_j^{g1}) \mathrm{normal} ( \beta^{s2}_{j} | 0, \sigma_j^{s2}) 
-    \\ & \times \mathrm{uniform} ( \sigma_j^{s1} | 0, 100) \mathrm{uniform} ( \sigma_j^{g1} | 0, 100)  \mathrm{uniform} ( \sigma_j^{s2} | 0, 100)   
-  \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma_{jk} )
-  \\ & \times \mathrm{normal} ( \mu_{jk} | 0 , 100 ) \mathrm{uniform} ( \sigma_{jk} | 0,100).
-  \end{split}
-\end{align}
-%
-where
-%
-\begin{align}
-\mathrm{f}_1(\alpha^{s1}_{0,j} , \beta^{s1}_{jk} ) ) & =  \phi_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \label{eq:s1} \\
-\mathrm{f}_2(\alpha^{g1}_{0,j} , \beta^{g1}_{jk},  \alpha_{ijk} ) ) & = \gamma_{jk} \times v_{ijk}^\frac{1}{3} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk}) \times ( \mathrm{logit}^{-1}(\alpha_{ijk}))^\frac{1}{3}  \label{eq:g1} \\
-\mathrm{f}_3(\alpha^{s2}_{0,j} , \beta^{s2}_{jk} ) ) & =  \rho_{jk} = \mathrm{logit}^{-1}(\alpha^{s1}_{0,j} + \beta^{s1}_{jk})  \label{eq:s2}
-\end{align}
+s3  First, we make use the probabilities for $s_1$, $g_1$ and $s_2$ (described above) to normalize the event space. Second, we estimate the probability of a seed being intact to January as $p^{intact} = (y^{germ2}+y^{jan2})/n^{total}$. Finally, we estimate the probability of a plant emerging, conditional on being intact as $p^{germ2} = y^{germ2}/(y^{germ2}+y^{jan2})$. 
 
 These models relate the average seed survival in each population to the seed survival observed in a given year through a linear model. The function has a parameter for the average seed survival in each population, and a parameter for the seed survival of each population in each year. I treated seed survival as a binomially-distributed random variable because the data come from an experiment in which we buried a known number of seeds and counted seeds. Thus for the $i$th observation, I parameterized a binomial distribution in terms of a probability and a known number of trials. I sampled a 95\% credible interval from the posterior predictive distribution for seed survival for each population and compared it to the seed burial experiments to assess whether the model from the seed burial experiments could predict the seed survival in seed burial experiments. 
 
 I fit this model with JAGS in R. %In order to evaluate the effect of the prior, we obtained estimates for all parameters with a noninformative beta(1,1) prior and the informative prior on the logit transformed $\alpha$ parameter. In the derived quantities block, we calculated the dormancy for each bag $(1-g)*v$. Question is how to get dormancy for the population because viability is bag level. We simulate data from this model and calculate test statistics.
 
-\section*{Seedling survival to fruiting}
-
-The data consist of counts of seedlings and fruiting plants in 0.5 m$^2$ plots at 20 populations from 2006--present. Each population was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and plants in each plot are counted by a single person at each visit. 
-
-For now, we assume that the data on seedlings is measured perfectly (i.e. no under- or over-counts of seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies may vary from year to year but also by geography; higher elevation populations may have delayed phenology. We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset.
-
-We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over- count) because plants stand out from the background vegetation in June. Our model estimates the proportion of seedlings that survive to become fruiting plants. Define:
-
-\begin{itemize}
-	\item $n_{ijt}$ = observed counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ population, from the $k^{th}$ year
-	%\item $z_{ijt}$ = true counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ population, from the $t^{th}$ year
-	\item $y_{ijt}$ = observed counts of fruiting plants in the $i^{th}$ plot, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-\end{itemize}
+\subsubsection*{Seedling survival to fruiting}
 
 We estimated survival across all populations taking into account both temporal and between-population variability with the following model. In this model, $\alpha^S_{0,j}$ is the logit mean survival probability at population $j$, $\beta^S_{jk}$ are independent identically distributed random variables drawn from normal distributions with mean 0 and population-specific temporal variance parameters $\sigma_j^S$. Writing the population-specific logit survival as a fixed effect means that each population parameter estimate is estimated separately with no shared variance term. The population-specific temporal variance parameter is written as a random effect, which means that each population has has year components that are drawn from a distribution with a shared variance term. I estimated the probability of surviving to fruiting using data from plots at populations in different years:
 
@@ -446,31 +398,17 @@ We estimated survival across all populations taking into account both temporal a
 \end{align}
 %
 where
-
+%
 \begin{align}
   \begin{split}
 \mathrm{f}(\alpha^S_{0,j} , \beta^S_k ) ) = \mathrm{logit}^{-1}(\alpha^S_{0,j} + \beta^S_{jk})
   \end{split}
 \end{align}
 %
-\subsection*{Fruits per plant}
-
-From 2006--2012, "we recorded...the number of fruits per plant for up to 15-20 plants per 0.5 m$^2$" (\cite{eckhart2011}). For each plant, we counted the number of undamaged fruits. We then took the damaged fruits and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used these counts to estimate the number fruits produced per plant. 
-
-% From 2013--present, we counted the number of undamaged and damaged fruits per plant for up to ... plants per 0.5 m$^2$. We used these counts to estimate the number of fruits produced per plant, and to estimate the number of those fruits that are damaged by herbivores.
-
-We seek to estimate (1) the number of fruits produced per plant and (2) the proportion of fruits that are damaged per plant. Define: 
-
-\begin{itemize}
-
-	\item $y^{TFE}_{ijk}$ = observed counts of total fruit equivalents per plant on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-%	\item $\bm{y_{ijk}} = [ y^{und}_{ijt}, y^{dam}_{ijt} ] $ = two item vector of observed counts of undamaged and damaged fruits per plant on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-	\item $n_{ijk}$ = observed counts of total fruits per plant (sum of $\bm{y_{ijk}}$) on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-%	\item $\phi_{jt}$ = the true, unobserved proportion of fruits that are damaged per plant at the $j^{th}$ population, in the $k^{th}$ year
-\end{itemize}
+\subsubsection*{Fruits per plant}
 
 To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the `nls` function in R, which returned an exponent of 1.99. The fit is close to quadratic which means a negative binomial is likely to be an appropriate distribution (\cite{linden2011}). We estimated fruits per plant across all populations taking into account both temporal and between-population variability with the following model. I first worked only with data on total fruit equivalents on a plant (2006-2012). I estimated total fruit equivalents per plant as: 
-
+%
 \begin{align}
   \begin{split}
  [ \bm{\alpha^F_0}, \bm{\beta^F}, \sigma^F | \bm{n}, \bm{y} ] \propto 
@@ -482,14 +420,14 @@ To assess what probability distribution to use when fitting this model, I fit a 
 \end{align}
 %
 where
-
+%
 \begin{align}
   \begin{split}
 \mathrm{f}_1(\alpha^F_{0,j} , \beta^F_{jk} ) ) = \lambda^F_{jk} = \mathrm{exp}( \alpha^F_{0,j} + \beta^F_{jk} ) \\
 % \mathrm{f}_2(\alpha^F_{0,j} , \beta^F_{jk} ) ) = \kappa^F = \mathrm{exp}( \alpha^F_{0,j} + \beta^F_{jk} )
   \end{split}
 \end{align}
-
+%
 \begin{align}
   \begin{split}
   \mathrm{negative \ binomial} ( y^{\mathrm{TFE}}_{ijk} | \frac{\kappa^F}{\kappa^F + \lambda^F_{jk}} ,  \kappa^F )
@@ -498,24 +436,10 @@ where
 %
 where the negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\mu}$.
 
-\subsection*{Seeds per fruit}
-
-From 2006--2012, "we collected one fruit from each of 20-30 haphazardly selected plants distributed across each population (but outside permanent plots, to avoid influencing seed input within them) to estimate the mean number of seeds produced per fruit" (\cite{eckhart2011}). In the field, we collected fruits that were undamaged. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. 
-
-From 2013--present, we collected one undamaged and one damaged fruit from each of 20-30 haphazardly selected plants distributed across each population. The plants were outside permanent plots to avoid affecting seed input. We used these fruits to estimate the mean number of seeds produced by undamaged and damaged fruits. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit and  20-30 counts of seeds produced per damaged fruit. 
-
-We seek to estimate the number of seeds per undamaged fruit. Define:
-
-%, (2) the number of seeds per damaged fruit, and (3) the proportion of seeds that are lost to herbivory in damaged fruits relative to undamaged fruits. 
-
-\begin{itemize}
-	\item $y^{und}_{ijk}$ = observed counts of seeds in the $i^{th}$ undamaged fruit, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-%	\item $y^{dam}_{ijt}$ = observed counts of seeds per damaged fruit in the $i^{th}$ fruit, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
-	\item $\lambda_{jk}$ = true, unobserved mean number of seeds per undamaged fruit from the $j^{th}$ population, from the $k^{th}$ year
-\end{itemize}
+\subsubsection*{Seeds per fruit}
 
 To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the \verb|nls| function in R, which returned an exponent of 1.38. The fit is greater than linear but less than quadratic which means that neither a Poisson nor negative binomial are likely to be entirely appropriate distributions for the data (\cite{linden2011}). I might try the parameterization in that reference but for now I am using the negative binomial because the data are overdispersed. We estimated seeds per fruit across all populations taking into account both temporal and between-population variability with the following model. Here, I used data from undamaged fruits from the years 2006-2012. I estimated seeds per fruit as: 
-
+%
 \begin{align}
   \begin{split}
  [ \bm{\alpha^P_0}, \bm{\beta^P}, \sigma^P | \bm{n}, \bm{y} ] \propto 
@@ -527,14 +451,14 @@ To assess what probability distribution to use when fitting this model, I fit a 
 \end{align}
 %
 where
-
+%
 \begin{align}
   \begin{split}
 \mathrm{f}_1(\alpha^P_{0,j} , \beta^P_{jk} ) ) = \lambda^P_{jk} = \mathrm{exp}( \alpha^P_{0,j} + \beta^P_{jk} ) \\
 % \mathrm{f}_2(\alpha^P_{0,j} , \beta^P_{jk} ) ) = \kappa^P_{jk} = \mathrm{exp}( \alpha^P_{0,j} + \beta^P_{jk} )
   \end{split}
 \end{align}
-
+%
 \begin{align}
   \begin{split}
   \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \frac{\kappa^P}{\kappa^P + \lambda^P_{jk}} ,  \kappa^FP)
@@ -543,10 +467,11 @@ where
 %
 where the negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\mu}$.
 
-\subsection*{Correlation between germination probability and variance in per-capita reproductive success}
+\subsection*{Analysis}
+\subsubsection*{Correlation between germination probability and variance in per-capita reproductive success}
 
 Increased variance in per-capita reproductive success is predicted to decrease the optimal germination probability (\cite{cohen1966,ellner1985a}). I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}). Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated at the per year and per population level as follows:
-
+%
 \begin{align}
   \begin{split}
 F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk} \label{eq:percapitars}
@@ -554,7 +479,7 @@ F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk} \label{eq:percapi
 \end{align}
 %
 where
-
+%
 \begin{align}
   \begin{split}
 \phi_{jk} & = \mathrm{logit}^{-1}(\alpha^S_{0,j} + \beta^S_{jk}) \\
@@ -565,14 +490,14 @@ where
 %
 To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I calculated the correlation between germination and variance in per-capita reproductive success with the posterior distribution for the geometric SD of per capita reproductive success and the posterior distribution of germination probability from model XX. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction.
 
-\subsection*{Correlation between germination probability and seed survival}
+\subsubsection*{Correlation between germination probability and seed survival}
 
 Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival as $s_2 s_3$ as the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction.
 
-\subsection*{Density-independent model for germination probability}
+\subsubsection*{Density-independent model for germination probability}
 
 We used estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We use the following equation to describe \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
-
+%
 \begin{align}
   \begin{split}
 \lambda_{j} = s_1 g_1 Y(t) s_0 + s_1 (1-g_1) s_2
@@ -586,6 +511,60 @@ I numerically calculated the optimal germination probability for the observed le
 Models in which per-capita reproductive success is density-independent predict that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate a density-independent model for germination probability, I compared observed germination probability to predicted germination optima. I plot this comparison in Figure~\ref{fig:obs_pred}. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed.
 
 \section*{Results}
+
+\section*{Figures}
+
+
+\begin{figure}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.75cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+
+        \node[state] (Y1a) [] {$y^{\mathrm{tot}}_{ijt}$};
+        \node[state] (Y1b) [right of=Y1a] {$y^{\mathrm{intact}}_{ijt}$};
+        \node[state] (N) [left of=Y1a] {$n_{ijt}$};
+        \node[state] (Y2) [right of=Y1b] {$y^{\mathrm{oct}}_{ijt}$};
+        \node[state] (G) [below of=Y1b] {$y^{\mathrm{germ}}_{ijt}$};
+     
+        \node[draw] (O1) [above of=N] {$\mathrm{October}_{t-1}$};
+        \node[draw,dotted] (J1) [above of=Y1a, align=center] {$\mathrm{January}_{t}$ \\ pre-germ};
+        \node[draw,dotted] (J2) [above of=Y1b, align=center] {$\mathrm{January}_{t}$ \\ post-germ};
+        \node[draw,fit=(J1) (J2)] {};
+        \node[draw] (O2) [above of=Y2] {$\mathrm{October}_{t}$};
+
+        \path[->] (N) edge node {$\theta_1$} (Y1a);
+        \path[->,dotted] (Y1a) edge node {$$} (Y1b);
+   	\path[->] (Y1b) edge node {$\theta_3$} (Y2);
+       	\path[->] (Y1a) edge[bend right] node {$\theta_2$} (G);
+
+        \node[state] (T1) [below right of=G] {$n^{\mathrm{gt}}_{ijt}$};
+   	\path[dotted, ->] (Y2) edge node {} (T1);
+        \node[state] (TG) [right of=T1] {$y^{\mathrm{gt}}_{ijt}$};
+   	\path[->] (T1) edge node {$\nu_1$} (TG);
+        \node[state] (T2) [below of=T1] {$n^{\mathrm{vt}}_{ijt}$};
+   	\path[dotted, ->] (TG) edge node {} (T2);
+        \node[state] (VG) [right of=T2] {$y^{\mathrm{vt}}_{ijt}$};
+   	\path[->] (T2) edge node {$\nu_1$} (VG);
+	
+	\node[draw,fit=(N) (Y1a) (Y1b) (Y2) (G) , label={[label distance=0cm, align = right]left:{Seed bag \\ experiment}}] {};
+	
+	\node[draw,fit=(T1) (T2) (TG) (VG), label={[label distance=0cm, align = right]left:{Viability \\ trials}}] {};
+
+  \end{tikzpicture}
+  \caption{Diagram of data from the seed bag experiments and viability trials.}\label{figure1}
+ \label{fig:seedBagDiagram}
+\end{figure}
 
 \begin{figure}
 \centering

@@ -1,46 +1,53 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: seedBankMS.aux
-The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
+The style file: abbrvnat.bst
+Illegal, another \bibstyle command---line 49 of file seedBankMS.aux
+ : \bibstyle
+ :          {/Users/gregor/Dropbox/bibliography/styleFiles/ecology}
+I'm skipping whatever remains of this command
 Database file #1: /Users/gregor/Dropbox/bibliography/seeds.bib
-You've used 19 entries,
-            2706 wiz_defined-function locations,
-            717 strings with 8821 characters,
-and the built_in function-call counts, 9278 in all, are:
-= -- 914
-> -- 409
-< -- 14
-+ -- 145
-- -- 117
-* -- 730
-:= -- 1691
-add.period$ -- 76
-call.type$ -- 19
-change.case$ -- 134
-chr.to.int$ -- 18
-cite$ -- 19
-duplicate$ -- 419
-empty$ -- 671
-format.name$ -- 166
-if$ -- 1821
+Warning--I didn't find a database entry for "hacker1984"
+Warning--I didn't find a database entry for "hacker1989"
+You've used 21 entries,
+            2773 wiz_defined-function locations,
+            774 strings with 9627 characters,
+and the built_in function-call counts, 10014 in all, are:
+= -- 1019
+> -- 421
+< -- 16
++ -- 148
+- -- 126
+* -- 869
+:= -- 1577
+add.period$ -- 115
+call.type$ -- 21
+change.case$ -- 105
+chr.to.int$ -- 20
+cite$ -- 42
+duplicate$ -- 425
+empty$ -- 829
+format.name$ -- 159
+if$ -- 2081
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 19
-newline$ -- 102
-num.names$ -- 76
-pop$ -- 152
+missing$ -- 21
+newline$ -- 165
+num.names$ -- 84
+pop$ -- 126
 preamble$ -- 1
-purify$ -- 115
+purify$ -- 84
 quote$ -- 0
-skip$ -- 245
+skip$ -- 293
 stack$ -- 0
-substring$ -- 638
-swap$ -- 48
+substring$ -- 513
+swap$ -- 34
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 171
+type$ -- 231
 warning$ -- 0
-while$ -- 92
+while$ -- 102
 width$ -- 0
-write$ -- 253
+write$ -- 384
+(There was 1 error message)
