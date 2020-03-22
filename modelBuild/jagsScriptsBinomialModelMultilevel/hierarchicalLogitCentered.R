@@ -4,11 +4,11 @@ model {
 
     for(k in 1:n_site){
           mu0[k] ~  dnorm(0, 0.001)
-          sigma0[k] ~ dunif(0,100)
+          sigma0[k] ~ dunif(0,1.5)
           tau0[k] <- 1/(sigma0[k]*sigma0[k])
     for(i in 1:n_year){
       mu[k,i] ~ dnorm(mu0[k], tau0[k])
-      sigma[k,i] ~ dunif(0,100)
+      sigma[k,i] ~ dunif(0,1.5)
       tau[k,i] <- 1/(sigma[k,i]*sigma[k,i])
       
     }

@@ -1,0 +1,27 @@
+model { 
+
+  # priors
+
+    mu0 ~ dnorm(0, .001)
+    sigma0 ~ dunif(0,20)
+    tau0 <- 1/(sigma0*sigma0)
+    
+    for(i in 1:n_year){
+        mu[i] ~ dnorm(mu0, tau0)
+        sigma[i] ~ dunif(0,20)
+   }
+  
+  # Likelihood
+  for(i in 1:n){
+    alpha.std[i] ~ dnorm(0,1)
+    alpha[i]<- mu[year[i]] + sigma[year[i]]*alpha.std[i]
+    logit(theta[i]) <- alpha[i]
+    
+    totalJan[i] ~ dbinom(theta[i], seedStart[i])
+  }
+
+    # tau = 1/(sigma*sigma)
+    # p.i ~ dnorm(mu,tau)
+    # logit(p) <- p.i
+  
+}
