@@ -318,7 +318,7 @@ The models below represent the joint likelihood for data from the seed bag exper
   \end{split}
 \end{align}
 %
-We implement the model with a non-centered parameterization at the year-level because this led to improved converge diagnostics. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
+I compared convergence diagnostics (R-hat, effective sample size) for centered and non-centered parameterizations of the model. Here, I use the centered parameterization because this led to improved converge. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
 
 \iffalse
 To estimate $\theta_2$, I fit the following model for bag $i$ in year $j$ in population $k$. 
