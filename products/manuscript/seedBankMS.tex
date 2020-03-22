@@ -200,10 +200,10 @@ In June-July 2005, we collected seeds at each of the 20 populations included in 
 
 \begin{itemize}
 	\item $n_{ijt}$ = observed count of seeds in the seed bags at the start of the experiment in October in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{intact}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year,  assumed to be measured perfectly 
-	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{total}} ijt}$= observed count of ungerminated, intact seeds plus germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 	
-	\item $y_{_{\mathrm{surv}} ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $y^{\mathrm{intact}}_{ijt}$ = observed count of ungerminated, intact seeds in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year,  assumed to be measured perfectly 
+	\item $y^{\mathrm{germ}}_{ijt}$ = observed count of germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^{\mathrm{total}}_{ijt}$= observed count of ungerminated, intact seeds plus germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $y^{\mathrm{surv}}_{ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 	
 \end{itemize}
 
 \subsubsection*{Viability trials}
@@ -215,10 +215,10 @@ After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were
 We collected the following data: 
 
 \begin{itemize}
-	\item $n_{_{\mathrm{germ}} ijt}$ = observed count of seeds at the start of the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly
-	\item $y_{_{\mathrm{germ}} ijt}$ = observed count of germinated seedlings in the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $n_{_{\mathrm{viab}} ijt}$ = observed count of seeds at the start of the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
-	\item $y_{_{\mathrm{viab}} ijt}$ = observed count of viable seedlings in the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $n^{\mathrm{germ}}_{ijt}$ = observed count of seeds at the start of the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly
+	\item $y^{\mathrm{germ}}_{ijt}$ = observed count of germinated seedlings in the $X^th$ germination trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $n^{\mathrm{viab}}_{ijt}$ = observed count of seeds at the start of the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^{\mathrm{viab}}_{ijt}$ = observed count of viable seedlings in the $X^th$ viability trial for the $i^{th}$ bag, from the $j^{th}$ population, in the $t^{th}$ year, assumed to be measured perfectly 
 \end{itemize}
 
 \subsubsection*{Seedling survival to fruiting}
@@ -241,7 +241,7 @@ From 2006--2012, "we recorded...the number of fruits per plant for up to 15-20 p
 
 % From 2013--present, we counted the number of undamaged and damaged fruits per plant for up to ... plants per 0.5 m$^2$. We used these counts to estimate the number of fruits produced per plant, and to estimate the number of those fruits that are damaged by herbivores.
 
-We seek to estimate (1) the number of fruits produced per plant and (2) the proportion of fruits that are damaged per plant. Define: 
+We seek to estimate the number of fruits produced per plant. Define: 
 
 \begin{itemize}
 
@@ -301,11 +301,11 @@ To estimate obtain year- and population-specific estimates for aboveground vital
 
 \subsection*{Models}
 
+Across all datasets, we have data from multiple years and populations. The goal is to estimate 
+
 \subsubsection*{Model for seed burial experiment data}
 
-The models below represent the joint likelihood for data from the seed bag experiments. In each model, we obtain the population-level posterior distribution probability of success by marginalizing across years and taking the inverse logit.
-
-To estimate $\theta_1$, I fit the following model for bag $i$ in year $j$ in population $k$. 
+The models below represent the joint likelihood for data from the seed bag experiments. All of data from seed bags and viability trials is in the form of binomial trials: we have counts of seeds at the start and end of an experimental window of time. All models for the parameters $\theta_1, \theta_2, \theta_3, \theta_4, \theta_5$ have the same structure for seeds in bag $i$ in year $j$ in population $k$. If the number of seeds starting the trial (trials) is $n_{ijk}$ and the number of seeds at the end of the trial (successes) is $y_{ijk}$, we write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success for each bag is drawn from this year- and population-level distribution:
 %
 \begin{align}
   \begin{split}
@@ -318,7 +318,9 @@ To estimate $\theta_1$, I fit the following model for bag $i$ in year $j$ in pop
   \end{split}
 \end{align}
 %
+We implement the model with a non-centered parameterization at the year-level because this led to improved converge diagnostics. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
 
+\iffalse
 To estimate $\theta_2$, I fit the following model for bag $i$ in year $j$ in population $k$. 
 %
 \begin{align}
@@ -346,6 +348,7 @@ To estimate $\theta_3$, I fit the following model for bag $i$ in year $j$ in pop
   \end{split}
 \end{align}
 %
+\fi
 
 \subsubsection*{Model for viability trial data}
 
@@ -512,10 +515,51 @@ Models in which per-capita reproductive success is density-independent predict t
 
 \section*{Results}
 
-\section*{Figures}
+\newpage
+\section*{Figures} 
+
+ 
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.75cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+   
+    \node (i) at (90:3cm)  {seeds};
+   \node (j) at (30:3cm) {seedlings};
+%   \node (k) at (210:3cm) {$k$};
+   \node (h) at (30:1cm) {seeds};
+%   \node (m) at (210:1cm) {seeds};
+  % \node (n) at (30:1cm) {seeds};
+
+   \draw[->] (80:3cm)  arc (80:40:3cm) node[midway]{$g_1$};
+   \draw (20:3cm) arc (20:-200:3cm) node[midway]{$\sigma F \phi s_0 s_1$};
+   \draw[->] (190:3cm) arc (190:110:3cm);
+
+   \draw (10:1.25cm)  arc (10:-220:1.25cm) node[midway]{$s_2 s_3$};
+    \draw[->] (.5,2.75) -- (1,.8) node[midway]{$1-g_1$};
+    \draw[->] (-1,.8) parabola (-.5,2.75);
+
+       
+  \end{tikzpicture}
+  \caption{Life cycle diagram for \textit{Clarkia xantiana}.}\label{lifecycle}
+ \label{fig:lifecycle}
+\end{figure}
 
 
-\begin{figure}
+\begin{figure}[!htbp]
+\centering
 \begin{tikzpicture}[
             > = stealth, % arrow head style
             shorten > = 1pt, % don't touch arrow head to node
@@ -562,7 +606,7 @@ Models in which per-capita reproductive success is density-independent predict t
 	\node[draw,fit=(T1) (T2) (TG) (VG), label={[label distance=0cm, align = right]left:{Viability \\ trials}}] {};
 
   \end{tikzpicture}
-  \caption{Diagram of data from the seed bag experiments and viability trials.}\label{figure1}
+  \caption{Diagram of data from the seed bag experiments and viability trials.}\label{seedexperiments}
  \label{fig:seedBagDiagram}
 \end{figure}
 

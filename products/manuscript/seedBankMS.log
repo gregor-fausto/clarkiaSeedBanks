@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  20 MAR 2020 16:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 MAR 2020 16:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -933,68 +933,68 @@ Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
  [17] [18]
-[19]
 
-LaTeX Warning: Reference `eq:s1' on page 20 undefined on input line 507.
-
-
-LaTeX Warning: Reference `eq:g1' on page 20 undefined on input line 507.
+LaTeX Warning: Reference `eq:s1' on page 19 undefined on input line 510.
 
 
-LaTeX Warning: Reference `eq:s2' on page 20 undefined on input line 507.
+LaTeX Warning: Reference `eq:g1' on page 19 undefined on input line 510.
 
-[20] <../figures/germ_rs_correlation.pdf, id=89, page=1, 794.97pt x 614.295pt>
+
+LaTeX Warning: Reference `eq:s2' on page 19 undefined on input line 510.
+
+[19] [20]
+<../figures/germ_rs_correlation.pdf, id=88, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 573.
+t line 617.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_rs_correlation.pdf, id=90, page=2, 794.97pt x 614.295pt>
+<../figures/germ_rs_correlation.pdf, id=89, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_rs_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 577.
+t line 621.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 31.85117pt on input line 581.
+LaTeX Warning: Float too large for page by 31.85117pt on input line 625.
 
-<../figures/germ_surv_correlation.pdf, id=91, page=1, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=90, page=1, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 1>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 588.
+put line 632.
 (pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
 
-<../figures/germ_surv_correlation.pdf, id=92, page=2, 794.97pt x 614.295pt>
+<../figures/germ_surv_correlation.pdf, id=91, page=2, 794.97pt x 614.295pt>
 File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
 
 <use ../figures/germ_surv_correlation.pdf, page 2>
 Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 592.
+put line 636.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
-LaTeX Warning: Float too large for page by 17.35117pt on input line 596.
+LaTeX Warning: Float too large for page by 17.35117pt on input line 640.
 
-<../figures/obs_pred_germ.pdf, id=93, page=1, 794.97pt x 614.295pt>
+<../figures/obs_pred_germ.pdf, id=92, page=1, 794.97pt x 614.295pt>
 File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
 
 <use ../figures/obs_pred_germ.pdf, page 1>
 Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 601.
+ 645.
 (pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21] [22 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlation.p
-df>] [23 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_correlati
-on.pdf>] [24 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
+[21] [22] [23 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlat
+ion.pdf>] [24 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_corr
+elation.pdf>] [25 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
 Underfull \hbox (badness 2538) in paragraph at lines 9--17
 []\OT1/cmr/m/n/12 M. J. Clauss and D. L. Ven-able.  Seed Ger-mi-na-tion in Dese
 rt An-nu-als: An
@@ -1012,7 +1012,7 @@ Underfull \hbox (badness 2726) in paragraph at lines 9--17
 4.  URL
  []
 
-[25
+[26
 
 ]
 Underfull \hbox (badness 4872) in paragraph at lines 75--84
@@ -1077,27 +1077,27 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ½ in font cmr12!
 Missing character: There is no Ä in font cmr12!
 Missing character: There is no ‡ in font cmr12!
-[26]
+[27]
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¤ in font cmr12!
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ³ in font cmr12!
- [27])
+ [28])
 
 Package natbib Warning: There were undefined citations.
 
-[28] (./seedBankMS.aux)
+[29] (./seedBankMS.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 18838 strings out of 493014
- 363710 string characters out of 6133351
- 454403 words of memory out of 5000000
- 22005 multiletter control sequences out of 15000+600000
+ 18953 strings out of 493014
+ 366005 string characters out of 6133351
+ 455403 words of memory out of 5000000
+ 22120 multiletter control sequences out of 15000+600000
  13777 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,19n,76p,1001b,921s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1111,18 +1111,17 @@ sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
 /local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
 /local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on seedBankMS.pdf (29 pages, 252160 bytes).
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on seedBankMS.pdf (30 pages, 243558 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
+ 192 PDF objects out of 1000 (max. 8388607)
+ 134 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
