@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 MAR 2020 13:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 MAR 2020 22:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -878,229 +878,96 @@ ABD: EveryShipout initializing macros
 \c@lstlisting=\count156
  [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1] [2]
+LaTeX Font Info:    Try loading font information for U+msa on input line 199.
 
-Package natbib Warning: Citation `hacker1984' on page 1 undefined on input line
- 143.
-
-
-Package natbib Warning: Citation `hacker1989' on page 1 undefined on input line
- 143.
-
-[1] [2]
-LaTeX Font Info:    Try loading font information for U+msa on input line 178.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 178.
+LaTeX Font Info:    Try loading font information for U+msb on input line 199.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \hbox (badness 10000) in paragraph at lines 178--178
-[]|\OT1/cmr/m/n/12 Density-independent
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--178
-[]|\OT1/cmr/m/n/12 Predictive ger-mi-na-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--178
-[]|\OT1/cmr/m/n/12 Key the-ory
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--178
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 de-
- []
-
-
-Underfull \hbox (badness 1122) in paragraph at lines 178--178
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 or $\OML
-/cmm/m/it/12 ^^Z[]$
- []
-
-[3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15]
+) [3] [4]
+[5] [6] [7] [8] [9] [10]
 Missing character: There is no √ in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no √ in font cmr12!
 Missing character: There is no § in font cmr12!
- [16]
+ [11]
 Missing character: There is no √ in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no √ in font cmr12!
 Missing character: There is no § in font cmr12!
- [17] [18]
+ [12] [13]
 
-LaTeX Warning: Reference `eq:s1' on page 19 undefined on input line 510.
-
-
-LaTeX Warning: Reference `eq:g1' on page 19 undefined on input line 510.
+LaTeX Warning: Reference `fig:germ_rs_correlation' on page 14 undefined on inpu
+t line 504.
 
 
-LaTeX Warning: Reference `eq:s2' on page 19 undefined on input line 510.
+LaTeX Warning: Reference `fig:germ_surv_correlation' on page 14 undefined on in
+put line 508.
 
-[19] [20]
-<../figures/germ_rs_correlation.pdf, id=88, page=1, 794.97pt x 614.295pt>
-File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
+[14]
 
-<use ../figures/germ_rs_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page1 used on inpu
-t line 617.
-(pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
-
-<../figures/germ_rs_correlation.pdf, id=89, page=2, 794.97pt x 614.295pt>
-File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_rs_correlation.pdf, page 2>
-Package pdftex.def Info: ../figures/germ_rs_correlation.pdf, page2 used on inpu
-t line 621.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+LaTeX Warning: Reference `eq:s1' on page 15 undefined on input line 520.
 
 
-LaTeX Warning: Float too large for page by 31.85117pt on input line 625.
-
-<../figures/germ_surv_correlation.pdf, id=90, page=1, 794.97pt x 614.295pt>
-File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_surv_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page1 used on in
-put line 632.
-(pdftex.def)             Requested size: 305.33788pt x 235.94658pt.
-
-<../figures/germ_surv_correlation.pdf, id=91, page=2, 794.97pt x 614.295pt>
-File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
-
-<use ../figures/germ_surv_correlation.pdf, page 2>
-Package pdftex.def Info: ../figures/germ_surv_correlation.pdf, page2 used on in
-put line 636.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+LaTeX Warning: Reference `eq:g1' on page 15 undefined on input line 520.
 
 
-LaTeX Warning: Float too large for page by 17.35117pt on input line 640.
+LaTeX Warning: Reference `eq:s2' on page 15 undefined on input line 520.
 
-<../figures/obs_pred_germ.pdf, id=92, page=1, 794.97pt x 614.295pt>
-File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
+[15]
 
-<use ../figures/obs_pred_germ.pdf, page 1>
-Package pdftex.def Info: ../figures/obs_pred_germ.pdf, page1 used on input line
- 645.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+LaTeX Warning: Reference `fig:obs_pred' on page 16 undefined on input line 524.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[21] [22] [23 <../figures/germ_rs_correlation.pdf> <../figures/germ_rs_correlat
-ion.pdf>] [24 <../figures/germ_surv_correlation.pdf> <../figures/germ_surv_corr
-elation.pdf>] [25 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bbl
-Underfull \hbox (badness 2538) in paragraph at lines 9--17
-[]\OT1/cmr/m/n/12 M. J. Clauss and D. L. Ven-able.  Seed Ger-mi-na-tion in Dese
-rt An-nu-als: An
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 9--17
-\OT1/cmr/m/n/12 Em-pir-i-cal Test of Adap-tive Bet Hedg-ing.  \OT1/cmr/m/it/12 
-The Amer-i-can Nat-u-ral-ist\OT1/cmr/m/n/12 , 155(2):168--
- []
-
-
-Underfull \hbox (badness 2726) in paragraph at lines 9--17
-\OT1/cmr/m/n/12 186, Feb. 2000.  ISSN 0003-0147, 1537-5323.  doi: 10.1086/30331
-4.  URL
- []
-
-[26
-
-]
-Underfull \hbox (badness 4872) in paragraph at lines 75--84
-[]\OT1/cmr/m/n/12 S. Ell-ner.  ESS ger-mi-na-tion strate-gies in ran-domly vary
--ing en-vi-ron-ments. II.
- []
-
-
-Underfull \hbox (badness 7468) in paragraph at lines 75--84
-\OT1/cmr/m/n/12 Re-cip-ro-cal Yield-Law mod-els.  \OT1/cmr/m/it/12 The-o-ret-i-
-cal Pop-u-la-tion Bi-ol-ogy\OT1/cmr/m/n/12 , 28(1):80--116,
- []
-
-
-Underfull \hbox (badness 5008) in paragraph at lines 75--84
-\OT1/cmr/m/n/12 Aug. 1985a.  ISSN 00405809.  doi: 10.1016/0040-5809(85)90023-1.
-  URL
- []
-
-
-Underfull \hbox (badness 5771) in paragraph at lines 86--95
-[]\OT1/cmr/m/n/12 S. Ell-ner.  ESS ger-mi-na-tion strate-gies in ran-domly vary
--ing en-vi-ron-ments. I.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 86--95
-\OT1/cmr/m/n/12 Logistic-type mod-els.  \OT1/cmr/m/it/12 The-o-ret-i-cal Pop-u-
-la-tion Bi-ol-ogy\OT1/cmr/m/n/12 , 28(1):50--79, Aug.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 86--95
-\OT1/cmr/m/n/12 1985b.  ISSN 00405809.  doi: 10.1016/0040-5809(85)90022-X.  URL
-
- []
-
+[16] [17] [18] (./seedBankMS.bbl
 Missing character: There is no ‚ in font cmr12!
 Missing character: There is no Ä in font cmr12!
 Missing character: There is no ê in font cmr12!
-
-Underfull \hbox (badness 1527) in paragraph at lines 106--114
-[]\OT1/cmr/m/n/12 J. R. Gre-mer and D. L. Ven-able.  Bet hedg-ing in desert win
--ter an-nual plants:
- []
-
-
-Underfull \hbox (badness 2189) in paragraph at lines 106--114
-\OT1/cmr/m/n/12 op-ti-mal ger-mi-na-tion strate-gies in a vari-able en-vi-ron-m
-ent.  \OT1/cmr/m/it/12 Ecol-ogy Let-ters\OT1/cmr/m/n/12 , 17
- []
-
-
-Underfull \hbox (badness 3919) in paragraph at lines 106--114
-\OT1/cmr/m/n/12 (3):380--387, Mar. 2014.  ISSN 1461023X.  doi: 10.1111/ele.1224
-1.  URL
- []
-
 Missing character: There is no √ in font cmr12!
 Missing character: There is no º in font cmr12!
 Missing character: There is no ≈ in font cmr12!
 Missing character: There is no Ω in font cmr12!
 Missing character: There is no ƒ in font cmr12!
 Missing character: There is no á in font cmr12!
-[27]
+ [19
+
+]
 Missing character: There is no √ in font cmr12!
 Missing character: There is no © in font cmr12!
 Missing character: There is no √ in font cmr12!
 Missing character: There is no § in font cmr12!
 Missing character: There is no √ in font cmr12!
 Missing character: There is no ≥ in font cmr12!
- [28])
+Missing character: There is no √ in font cmr12!
+Missing character: There is no ≠ in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ò in font cmr12!
+Missing character: There is no ‚ in font cmr12!
+Missing character: There is no Ä in font cmr12!
+Missing character: There is no ô in font cmr12!
+)
 
-Package natbib Warning: There were undefined citations.
+Package caption Warning: Unused \captionsetup[sub] on input line 17.
+See the caption package documentation for explanation.
 
-[29] (./seedBankMS.aux)
+[20] (./seedBankMS.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 18953 strings out of 493014
- 366005 string characters out of 6133351
- 455403 words of memory out of 5000000
- 22120 multiletter control sequences out of 15000+600000
+ 18908 strings out of 493014
+ 364795 string characters out of 6133351
+ 453403 words of memory out of 5000000
+ 22079 multiletter control sequences out of 15000+600000
  13777 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,19n,76p,1001b,921s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,19n,76p,986b,921s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
@@ -1118,10 +985,10 @@ al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on seedBankMS.pdf (30 pages, 243640 bytes).
+Output written on seedBankMS.pdf (21 pages, 199282 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 140 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,209 +1,117 @@
-\begin{thebibliography}{21}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\begin{thebibliography}{17}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 
-\bibitem[Clauss and Venable(2000)]{clauss2000}
-M.~J. Clauss and D.~L. Venable.
-\newblock Seed {Germination} in {Desert} {Annuals}: {An} {Empirical} {Test} of
-  {Adaptive} {Bet} {Hedging}.
-\newblock \emph{The American Naturalist}, 155\penalty0 (2):\penalty0 168--186,
-  Feb. 2000.
-\newblock ISSN 0003-0147, 1537-5323.
-\newblock \doi{10.1086/303314}.
-\newblock URL \url{https://www.journals.uchicago.edu/doi/10.1086/303314}.
-
-\bibitem[Cohen(1966)]{cohen1966}
-D.~Cohen.
+\bibitem[{Cohen(1966)}]{cohen1966}
+Cohen, D. 1966.
 \newblock Optimizing reproduction in a randomly varying environment.
-\newblock \emph{Journal of Theoretical Biology}, 12\penalty0 (1):\penalty0
-  119--129, Sept. 1966.
-\newblock ISSN 00225193.
-\newblock \doi{10.1016/0022-5193(66)90188-3}.
-\newblock URL
-  \url{https://linkinghub.elsevier.com/retrieve/pii/0022519366901883}.
+\newblock Journal of Theoretical Biology, {\bf 12}:119--129.
 
-\bibitem[Cohen(1967)]{cohen1967}
-D.~Cohen.
-\newblock Optimizing {Reproduction} in a {Randoruly} {Varying} {Environment}
-  when a {Correlation} {May} {Exist} between the {Conditions} at the {Time} a
-  {Choice} has to be {Made} and the {Subsequent} {Outcome}.
-\newblock \emph{Journal of Theoretical Biology}, 16:\penalty0 1--14, 1967.
-
-\bibitem[Cohen(1968)]{cohen1968}
-D.~Cohen.
+\bibitem[{Cohen(1968)}]{cohen1968}
+Cohen, D. 1968.
 \newblock A {General} {Model} of {Optimal} {Reproduction} in a {Randomly}
   {Varying} {Environment}.
-\newblock \emph{The Journal of Ecology}, 56\penalty0 (1):\penalty0 219, Mar.
-  1968.
-\newblock ISSN 00220477.
-\newblock \doi{10.2307/2258075}.
-\newblock URL \url{https://www.jstor.org/stable/2258075?origin=crossref}.
+\newblock The Journal of Ecology, {\bf 56}:219.
 
-\bibitem[Eager et~al.(2014)Eager, Rebarber, and Tenhumberg]{eager2014}
-E.~A. Eager, R.~Rebarber, and B.~Tenhumberg.
+\bibitem[{Eager et~al.(2014)Eager, Rebarber, and Tenhumberg}]{eager2014}
+Eager, E.~A., R.~Rebarber, and B.~Tenhumberg. 2014.
 \newblock Modeling and {Analysis} of a {Density}-{Dependent} {Stochastic}
   {Integral} {Projection} {Model} for a {Disturbance} {Specialist} {Plant} and
   {Its} {Seed} {Bank}.
-\newblock \emph{Bulletin of Mathematical Biology}, 76\penalty0 (7):\penalty0
-  1809--1834, 2014.
-\newblock ISSN 15229602.
-\newblock \doi{10.1007/s11538-014-9978-y}.
+\newblock Bulletin of Mathematical Biology, {\bf 76}:1809--1834.
 
-\bibitem[Easterling and Ellner(2000)]{easterling2000}
-M.~R. Easterling and S.~P. Ellner.
-\newblock Dormancy strategies in a random environment: {Comparing} structured
-  and unstructured models.
-\newblock \emph{Evolutionary Ecology Research}, 2:\penalty0 387--407, 2000.
-
-\bibitem[Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
-  Moeller]{eckhart2011}
-V.~M. Eckhart, M.~A. Geber, W.~F. Morris, E.~S. Fabio, P.~Tiffin, and D.~A.
-  Moeller.
+\bibitem[{Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
+  Moeller}]{eckhart2011}
+Eckhart, V.~M., M.~A. Geber, W.~F. Morris, E.~S. Fabio, P.~Tiffin, and D.~A.
+  Moeller. 2011.
 \newblock The {Geography} of {Demography}: {Long}-{Term} {Demographic}
   {Studies} and {Species} {Distribution} {Models} {Reveal} a {Species} {Border}
   {Limited} by {Adaptation}.
-\newblock \emph{The American Naturalist}, 178\penalty0 (S1):\penalty0 S26--S43,
-  Oct. 2011.
-\newblock ISSN 0003-0147, 1537-5323.
-\newblock \doi{10.1086/661782}.
-\newblock URL \url{https://www.journals.uchicago.edu/doi/10.1086/661782}.
+\newblock The American Naturalist, {\bf 178}:S26--S43.
 
-\bibitem[Ellner(1985{\natexlab{a}})]{ellner1985}
-S.~Ellner.
-\newblock {ESS} germination strategies in randomly varying environments. {II}.
-  {Reciprocal} {Yield}-{Law} models.
-\newblock \emph{Theoretical Population Biology}, 28\penalty0 (1):\penalty0
-  80--116, Aug. 1985{\natexlab{a}}.
-\newblock ISSN 00405809.
-\newblock \doi{10.1016/0040-5809(85)90023-1}.
-\newblock URL
-  \url{https://linkinghub.elsevier.com/retrieve/pii/0040580985900231}.
-
-\bibitem[Ellner(1985{\natexlab{b}})]{ellner1985a}
-S.~Ellner.
+\bibitem[{Ellner(1985{\natexlab{{\em a\/}}})}]{ellner1985a}
+Ellner, S. 1985{\natexlab{{\em a\/}}}.
 \newblock {ESS} germination strategies in randomly varying environments. {I}.
   {Logistic}-type models.
-\newblock \emph{Theoretical Population Biology}, 28\penalty0 (1):\penalty0
-  50--79, Aug. 1985{\natexlab{b}}.
-\newblock ISSN 00405809.
-\newblock \doi{10.1016/0040-5809(85)90022-X}.
-\newblock URL
-  \url{https://linkinghub.elsevier.com/retrieve/pii/004058098590022X}.
+\newblock Theoretical Population Biology, {\bf 28}:50--79.
 
-\bibitem[Evans and Dennehy(2005)]{evans2005}
-M.~E.~K. Evans and J.~J. Dennehy.
+\bibitem[{Ellner(1985{\natexlab{{\em b\/}}})}]{ellner1985}
+Ellner, S. 1985{\natexlab{{\em b\/}}}.
+\newblock {ESS} germination strategies in randomly varying environments. {II}.
+  {Reciprocal} {Yield}-{Law} models.
+\newblock Theoretical Population Biology, {\bf 28}:80--116.
+
+\bibitem[{Evans and Dennehy(2005)}]{evans2005}
+Evans, M. E.~K. and J.~J. Dennehy. 2005.
 \newblock Germ {Banking}: {Bet}‐{Hedging} and {Variable} {Release} {From}
   {Egg} and {Seed} {Dormancy}.
-\newblock \emph{The Quarterly Review of Biology}, 80\penalty0 (4):\penalty0
-  431--451, 2005.
-\newblock ISSN 0033-5770.
-\newblock \doi{10.1086/498282}.
+\newblock The Quarterly Review of Biology, {\bf 80}:431--451.
 
-\bibitem[Gremer and Venable(2014)]{gremer2014}
-J.~R. Gremer and D.~L. Venable.
+\bibitem[{Gremer and Venable(2014)}]{gremer2014}
+Gremer, J.~R. and D.~L. Venable. 2014.
 \newblock Bet hedging in desert winter annual plants: optimal germination
   strategies in a variable environment.
-\newblock \emph{Ecology Letters}, 17\penalty0 (3):\penalty0 380--387, Mar.
-  2014.
-\newblock ISSN 1461023X.
-\newblock \doi{10.1111/ele.12241}.
-\newblock URL \url{http://doi.wiley.com/10.1111/ele.12241}.
+\newblock Ecology Letters, {\bf 17}:380--387.
 
-\bibitem[Gremer et~al.(2016)Gremer, Kimball, and Venable]{gremer2016}
-J.~R. Gremer, S.~Kimball, and D.~L. Venable.
-\newblock Within-and among-year germination in {Sonoran} {Desert} winter
-  annuals: bet hedging and predictive germination in a variable environment.
-\newblock \emph{Ecology Letters}, 19\penalty0 (10):\penalty0 1209--1218, Oct.
-  2016.
-\newblock ISSN 1461023X.
-\newblock \doi{10.1111/ele.12655}.
-\newblock URL \url{http://doi.wiley.com/10.1111/ele.12655}.
-
-\bibitem[Heinrich et~al.(2018)Heinrich, Müller, Tellier, and
-  Živković]{heinrich2018}
-L.~Heinrich, J.~Müller, A.~Tellier, and D.~Živković.
+\bibitem[{Heinrich et~al.(2018)Heinrich, Müller, Tellier, and
+  Živković}]{heinrich2018}
+Heinrich, L., J.~Müller, A.~Tellier, and D.~Živković. 2018.
 \newblock Effects of population- and seed bank size fluctuations on neutral
   evolution and efficacy of natural selection.
-\newblock \emph{Theoretical Population Biology}, 123:\penalty0 45--69, 2018.
-\newblock ISSN 10960325.
-\newblock \doi{10.1016/j.tpb.2018.05.003}.
-\newblock URL \url{https://doi.org/10.1016/j.tpb.2018.05.003}.
+\newblock Theoretical Population Biology, {\bf 123}:45--69.
 
-\bibitem[Lindén and Mäntyniemi(2011)]{linden2011}
-A.~Lindén and S.~Mäntyniemi.
+\bibitem[{Lindén and Mäntyniemi(2011)}]{linden2011}
+Lindén, A. and S.~Mäntyniemi. 2011.
 \newblock Using the negative binomial distribution to model overdispersion in
   ecological count data.
-\newblock \emph{Ecology}, 92\penalty0 (7):\penalty0 1414--1421, July 2011.
-\newblock ISSN 0012-9658.
-\newblock \doi{10.1890/10-1831.1}.
-\newblock URL \url{http://doi.wiley.com/10.1890/10-1831.1}.
+\newblock Ecology, {\bf 92}:1414--1421.
 
-\bibitem[Mccue and Holtsford(1998)]{mccue1998b}
-K.~A. Mccue and T.~P. Holtsford.
+\bibitem[{Mccue and Holtsford(1998)}]{mccue1998b}
+Mccue, K.~A. and T.~P. Holtsford. 1998.
 \newblock Seed bank influences on genetic diversity in the rare annual
   {Clarkia} springvillensis ({Onagraceae}).
-\newblock \emph{American Journal of Botany}, 85\penalty0 (1):\penalty0 30--36,
-  1998.
-\newblock ISSN 00029122.
-\newblock \doi{10.2307/2446551}.
+\newblock American Journal of Botany, {\bf 85}:30--36.
 
-\bibitem[Nunney(2002)]{nunney2002}
-L.~Nunney.
+\bibitem[{Nunney(2002)}]{nunney2002}
+Nunney, L. 2002.
 \newblock The {Effective} {Size} of {Annual} {Plant} {Populations}: {The}
   {Interaction} of a {Seed} {Bank} with {Fluctuating} {Population} {Size} in
   {Maintaining} {Genetic} {Variation}.
-\newblock \emph{The American Naturalist}, 160\penalty0 (2):\penalty0 195, 2002.
-\newblock ISSN 00030147.
-\newblock \doi{10.2307/3079137}.
-\newblock URL \url{https://www.jstor.org/stable/10.2307/3079137}.
+\newblock The American Naturalist, {\bf 160}:195.
 
-\bibitem[Paniw et~al.(2017)Paniw, Quintana-Ascencio, Ojeda, and
-  Salguero-Gómez]{paniw2017}
-M.~Paniw, P.~F. Quintana-Ascencio, F.~Ojeda, and R.~Salguero-Gómez.
+\bibitem[{Paniw et~al.(2017)Paniw, Quintana-Ascencio, Ojeda, and
+  Salguero-Gómez}]{paniw2017}
+Paniw, M., P.~F. Quintana-Ascencio, F.~Ojeda, and R.~Salguero-Gómez. 2017.
 \newblock Accounting for uncertainty in dormant life stages in stochastic
   demographic models.
-\newblock \emph{Oikos}, 126\penalty0 (6):\penalty0 900--909, 2017.
-\newblock ISSN 16000706.
-\newblock \doi{10.1111/oik.03696}.
+\newblock Oikos, {\bf 126}:900--909.
 
-\bibitem[Philippi(1993)]{philippi1993a}
-T.~Philippi.
-\newblock Bet-{Hedging} {Germination} of {Desert} {Annuals}: {Variation}
-  {Among} {Populations} and {Maternal} {Effects} in {Lepidium} lasiocarpum.
-\newblock \emph{The American Naturalist}, 142\penalty0 (3):\penalty0 488--507,
-  Sept. 1993.
-\newblock ISSN 0003-0147, 1537-5323.
-\newblock \doi{10.1086/285551}.
-\newblock URL \url{https://www.journals.uchicago.edu/doi/10.1086/285551}.
+\bibitem[{Pironon et~al.(2018)Pironon, Villellas, Thuiller, Eckhart, Geber,
+  Moeller, and García}]{pironon2018}
+Pironon, S., J.~Villellas, W.~Thuiller, V.~M. Eckhart, M.~A. Geber, D.~A.
+  Moeller, and M.~B. García. 2018.
+\newblock The ‘{Hutchinsonian} niche’ as an assemblage of demographic
+  niches: implications for species geographic ranges.
+\newblock Ecography, {\bf 41}:1103--1113.
 
-\bibitem[Ritland(1983)]{ritland1983}
-K.~Ritland.
+\bibitem[{Ritland(1983)}]{ritland1983}
+Ritland, K. 1983.
 \newblock The joint evolution of seed dormancy and flowering time in annual
   plants living in variable environments.
-\newblock \emph{Theoretical Population Biology}, 24\penalty0 (3):\penalty0
-  213--243, 1983.
-\newblock ISSN 10960325.
-\newblock \doi{10.1016/0040-5809(83)90026-6}.
+\newblock Theoretical Population Biology, {\bf 24}:213--243.
 
-\bibitem[Venable(2007)]{venable2007}
-D.~L. Venable.
+\bibitem[{Venable(2007)}]{venable2007}
+Venable, D.~L. 2007.
 \newblock Bet hedging in a guild of desert annuals.
-\newblock \emph{Ecology}, 88\penalty0 (5):\penalty0 1086--1090, May 2007.
-\newblock ISSN 0012-9658.
-\newblock \doi{10.1890/06-1495}.
-\newblock URL \url{http://doi.wiley.com/10.1890/06-1495}.
+\newblock Ecology, {\bf 88}:1086--1090.
 
-\bibitem[Waples(2006)]{waples2006}
-R.~S. Waples.
+\bibitem[{Waples(2006)}]{waples2006}
+Waples, R.~S. 2006.
 \newblock Seed {Banks}, {Salmon}, and {Sleeping} {Genes}: {Effective}
   {Population} {Size} in {Semelparous}, {Age}-{Structured} {Species} with
   {Fluctuating} {Abundance}.
-\newblock \emph{The American Naturalist}, 167\penalty0 (1):\penalty0 118, 2006.
-\newblock ISSN 00030147.
-\newblock \doi{10.2307/3491252}.
-\newblock URL \url{https://www.jstor.org/stable/10.2307/3491252}.
+\newblock The American Naturalist, {\bf 167}:118.
 
 \end{thebibliography}
