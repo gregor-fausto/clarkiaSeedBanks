@@ -159,7 +159,7 @@ viabilityExperiment<-viabilityExperiment %>%
 
 seedBagExperiment = seedBagExperiment %>%
   dplyr::mutate(year = as.factor(yearStart)) %>%
-  dplyr::select(site,year,totalJan,seedStart,seedlingJan) %>%
+  dplyr::select(site,year,totalJan,seedStart,seedlingJan,intactOct) %>%
   dplyr::rename(siteBags = site,
                 yearBags = year)
 
@@ -223,6 +223,8 @@ inits = list(list(mu0_1 = rep(0,data$n_siteBags), sigma0_1 = rep(.5,data$n_siteB
                   sigma_1 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_2 = rep(0,data$n_siteBags), sigma0_2 = rep(.5,data$n_siteBags),
                   sigma_2 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
+                  mu0_3 = rep(0,data$n_siteBags), sigma0_3 = rep(.5,data$n_siteBags),
+                  sigma_3 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_g = rep(0,data$n_siteBags), sigma0_g = rep(.5,data$n_siteBags),
                   sigma_g = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_v = rep(0,data$n_siteBags), sigma0_v = rep(.5,data$n_siteBags),
@@ -231,6 +233,8 @@ inits = list(list(mu0_1 = rep(0,data$n_siteBags), sigma0_1 = rep(.5,data$n_siteB
                   sigma_1 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_2 = rep(-1,data$n_siteBags), sigma0_2 = rep(1,data$n_siteBags),
                   sigma_2 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
+                  mu0_3 = rep(-1,data$n_siteBags), sigma0_3 = rep(1,data$n_siteBags),
+                  sigma_3 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_g = rep(-1,data$n_siteBags), sigma0_g = rep(1,data$n_siteBags),
                   sigma_g = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_v = rep(-1,data$n_siteBags), sigma0_v = rep(1,data$n_siteBags),
@@ -239,6 +243,8 @@ inits = list(list(mu0_1 = rep(0,data$n_siteBags), sigma0_1 = rep(.5,data$n_siteB
                   sigma_1 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_2 = rep(1,data$n_siteBags), sigma0_2 = rep(1.25,data$n_siteBags),
                   sigma_2 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
+                  mu0_3 = rep(1,data$n_siteBags), sigma0_3 = rep(1.25,data$n_siteBags),
+                  sigma_3 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_g = rep(1,data$n_siteBags), sigma0_g = rep(1.25,data$n_siteBags),
                   sigma_g = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
                   mu0_v = rep(1,data$n_siteBags), sigma0_v = rep(1.25,data$n_siteBags),
@@ -255,35 +261,29 @@ update(jm, n.iter = n.update)
 
 parsToMonitor_1 = c("theta_1","mu0_1","sigma0_1","mu_1","sigma_1","p_1")
 parsToMonitor_2 = c("theta_2","mu0_2","sigma0_2","mu_2","sigma_2","p_2")
+parsToMonitor_3 = c("theta_3","mu0_3","sigma0_3","mu_3","sigma_3","p_3")
 parsToMonitor_g = c("theta_g","mu0_g","sigma0_g","mu_g","sigma_g","p_g")
 parsToMonitor_v = c("theta_v","mu0_v","sigma0_v","mu_v","sigma_v","p_v")
-parsToMonitor_deriv = c("nu_1","s1","s2")
+parsToMonitor_deriv = c("nu_1","s1","g1","s2")
 
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
                              variable.names = c(parsToMonitor_1,parsToMonitor_2,
+                                                parsToMonitor_3,
                                                 parsToMonitor_g,parsToMonitor_v,
                                                 parsToMonitor_deriv), 
                              n.iter = n.iterations, thin = n.thin)
 
-
-MCMCsummary(samples.rjags, params = c("mu0_1","sigma0_1"))
-MCMCsummary(samples.rjags, params = c("mu0_2","sigma0_2"))
-MCMCsummary(samples.rjags, params = c("mu0_g","sigma0_g"))
-MCMCsummary(samples.rjags, params = c("mu0_v","sigma0_v"))
-
-MCMCsummary(samples.rjags, params = c("mu_1","sigma_1"))
-MCMCsummary(samples.rjags, params = c("mu_2","sigma_2"))
-
-MCMCsummary(samples.rjags, params = c("p_1","p_2","p_g","p_v"))
-
-MCMCsummary(samples.rjags, params = c("s1","s2"))
+ MCMCsummary(samples.rjags, params = c("s1","g1"))
 
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBurial/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 saveRDS(samples.rjags,file=paste0(fileDirectory,"seedBurialSamples.rds"))
+saveRDS(data,file=paste0(fileDirectory,"data.rds"))
+saveRDS(seedBagExperiment,file=paste0(fileDirectory,"seedBagExperiment.rds"))
+saveRDS(viabilityExperiment,file=paste0(fileDirectory,"viabilityExperiment.rds"))
 
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
