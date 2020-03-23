@@ -40,6 +40,11 @@ model {
           sigma0_2[k] ~ dunif(0,1.5)
         tau0_2[k] <- 1/(sigma0_2[k]*sigma0_2[k])
         
+        # theta 3
+        mu0_3[k] ~  dnorm(0, 0.001)
+        sigma0_3[k] ~ dunif(0,1.5)
+        tau0_3[k] <- 1/(sigma0_3[k]*sigma0_3[k])
+        
         for(i in 1:n_yearBags){
 
             # theta 1
@@ -51,6 +56,11 @@ model {
             mu_2[k,i] ~ dnorm(mu0_2[k], tau0_2[k])
       sigma_2[k,i] ~ dunif(0,1.5)
             tau_2[k,i] <- 1/(sigma_2[k,i]*sigma_2[k,i])
+            
+            # theta 3
+            mu_3[k,i] ~ dnorm(mu0_3[k], tau0_3[k])
+            sigma_3[k,i] ~ dunif(0,1.5)
+            tau_3[k,i] <- 1/(sigma_3[k,i]*sigma_3[k,i])
     }
   }
 
@@ -77,14 +87,19 @@ model {
       # alpha
       alpha_1[i] ~ dnorm(mu_1[siteBags[i],yearBags[i]],tau_1[siteBags[i],yearBags[i]])
       alpha_2[i] ~ dnorm(mu_2[siteBags[i],yearBags[i]],tau_2[siteBags[i],yearBags[i]])
-
+      alpha_3[i] ~ dnorm(mu_3[siteBags[i],yearBags[i]],tau_3[siteBags[i],yearBags[i]])
+      
       # logit 
       logit(theta_1[i]) <- alpha_1[i]
       logit(theta_2[i]) <- alpha_2[i]
-
+      logit(theta_3[i]) <- alpha_3[i]
+      
        # likelihood
        totalJan[i] ~ dbinom(theta_1[i], seedStart[i])
         seedlingJan[i] ~ dbinom(theta_2[i], totalJan[i])
+        intactJan[i] = totalJan[i]-seedlingJan[i]
+        intactOct[i] ~ dbinom(theta_3[i], intactJan[i])
+        
     }
 
    for(i in 1:n_siteBags){
@@ -102,9 +117,13 @@ model {
 
     p.i_2[i] ~ dnorm(mu0_2[i],tau0_2[i])
     logit(p_2[i]) <- p.i_2[i]
+    
+    p.i_3[i] ~ dnorm(mu0_3[i],tau0_3[i])
+    logit(p_3[i]) <- p.i_3[i]
 
        s1[i] = p_1[i]*(p_2[i] + (1-p_2[i])*(nu_1[i])^(1/3))
-       s2[i] = p_2[i]/(1-(1-(nu_1[i]^(1/3)))*(1-p_2[i]))
+       g1[i] = p_2[i]/(1-(1-(nu_1[i]^(1/3)))*(1-p_2[i]))
+       s2[i] = p_3[i]*(nu_1[i]^(2/3))
     }
     
 }
