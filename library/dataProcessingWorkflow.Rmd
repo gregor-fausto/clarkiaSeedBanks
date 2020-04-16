@@ -12,6 +12,8 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 - [Fruits per plant data](#fruits-per-plant-data)
 - [Seedlings and fruiting plant data](#seedlings-and-fruiting-plant-data)
 - [Seed bag data](#seed-bag-data)
+- [Viability trial data](#viability-trial-data)
+
 
 ### File directories
 
@@ -19,7 +21,11 @@ The files holding datasets are originally found in the shared Dropbox folder `..
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
 
-I last ran this on 02/05/20 at 3:18 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+I also ran: 
+
+`cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/`
+
+I last ran these on 04/15/20 at 5:20 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 
 An additional folder holding datasets is originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
@@ -75,52 +81,71 @@ kable(dt)
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r}
-setwd("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites")
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
-filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
-worksheet_2006.2010 <- filenames[1:5]
-worksheet_2011.2012 <- filenames[c(7,9)]
-worksheet_2013.2015 <- filenames[c(11,13,15)]
-print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
-
-seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
-fileList<-paste0("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/",seedFiles)
+# filenames<-list.files(pattern=paste("^seeds_"), recursive=TRUE)
+# worksheet_2006.2010 <- filenames[1:5]
+# worksheet_2011.2012 <- filenames[c(7,9)]
+# worksheet_2013.2015 <- filenames[c(11,13,15)]
+# print(c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015))
+# 
+# seedFiles<-c(worksheet_2006.2010,worksheet_2011.2012,worksheet_2013.2015)
+# fileList<-paste0("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/",seedFiles)
 ```
 
 Check and count which spreadsheets have multiple sheets:
 
 ```{r}
-nSheets<-lapply(lapply(fileList,excel_sheets),length)
-unlist(nSheets)
+# nSheets<-lapply(lapply(fileList,excel_sheets),length)
+# unlist(nSheets)
 ```
 
 Check the number of columns in each spreadshseet:
 
 ```{r, message=FALSE}
-# files for 2006-2012
-unlist(lapply(lapply(fileList[1:7],read_excel),ncol))
-# files for 2013-2015, sheet 1
-unlist(lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol))
-# files for 2013-2015, sheet 2
-unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
+# # files for 2006-2012
+# unlist(lapply(lapply(fileList[1:7],read_excel),ncol))
+# # files for 2013-2015, sheet 1
+# unlist(lapply(lapply(fileList[8:10],read_excel,sheet=1),ncol))
+# # files for 2013-2015, sheet 2
+# unlist(lapply(lapply(fileList[8:10],read_excel,sheet=2),ncol))
 ```
 
 The data files for 2006-2010 have two columns. The data files include 1 sheet with the following data: 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the undamaged fruit.
 
 ```{r}
-yearExtract<-function(x){
-  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
-  tmp<-tmp[!is.na(tmp)]
-  tmp
-}
-
-years <- unlist(lapply(fileList[1:5],yearExtract))
+# yearExtract<-function(x){
+#   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+#   tmp<-tmp[!is.na(tmp)]
+#   tmp
+# }
+# 
+# years <- unlist(lapply(fileList[1:5],yearExtract))
 
 reshapeFun <- function(x){
 x %>%
   dplyr::rename(site='Site') %>%
   dplyr::rename(seedCount = `Seed no per fruit`) %>%
   dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
+}
+
+seedCountList <- list()
+
+sheetVector <- c("06 Raw Data","07 Raw Data","08 Raw Data",
+                 "09 Raw Data","10 Raw Data","11 Raw Data",
+                 "12 Raw Data","13 Raw Data","14 Raw Data",
+                 "15 Raw Data","16 Raw Data","17 Raw Data",
+                 "18 Raw Data")
+
+rangeVector <- c("Q5:V828","Q6:V1277","Q4:V1188",
+                 "P4:U1214","Q5:V1248","Q8:V1051",
+                 "Q7:V654","R12:W988","R10:W1110",
+                 "R10:W1077","S10:X1532","R9:W1667",
+                 "R12:W1311")
+
+dataList <- list()
+for(i in 1:length(sheetVector)){
+dataList[[i]] <- read_excel(paste0(directory,"Above_ground survival & fecundity 06-19.xlsx"), sheet = sheetVector[i], range = rangeVector[i],na = "NA")
 }
 
 fileDfs<-lapply(fileList[1:5],read_excel)
@@ -442,6 +467,7 @@ summarySeedBags<-seedBags  %>%
 kable(summarySeedBags, caption="Summary table of the number of seed bags counted in October for intact seeds")
 
 ```
+### Viability trial data
 
 ```{r}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
@@ -467,39 +493,69 @@ viabilityRawData <- tmp %>%
 
 save(viabilityRawData,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/viabilityRawData.rds")
 
-# october intacts
-summaryViabilityData<-viabilityRawData  %>%
-  dplyr::group_by(round,age,bagNo,site) %>%
-  dplyr::summarise(n = n())
+# germination trial 
+summaryGerminationTrials<-viabilityRawData  %>%
+  tidyr::unite("roundAge", round,age,sep="-age") %>%
+  dplyr::group_by(roundAge,site) %>%
+  dplyr::summarise(count = sum(germStart,na.rm=TRUE)) %>%
+  # use following line to count number of trials
+  # dplyr::summarise(count = sum(!is.na(germStart))) %>%
+  tidyr::spread(key=c("roundAge"),value="count")
 
-hist(summaryViabilityData$n)
+kable(summaryGerminationTrials, caption="Summary table of the number of germination trials")
 
+# viability trial 
+summaryViabilityTrials<-viabilityRawData  %>%
+  tidyr::unite("roundAge", round,age,sep="-age") %>%
+  dplyr::group_by(roundAge,site) %>%
+  dplyr::summarise(count = sum(viabStart,na.rm=TRUE)) %>%
+  # use following line to count number of trials
+  # dplyr::summarise(count = sum(!is.na(viabStart))) %>%  
+  tidyr::spread(key=c("roundAge"),value="count")
 
-ggplot(viabilityRawData %>% dplyr::filter(round==1)) + geom_boxplot(aes(x=site,y=viabTotal,color=bagNo))
+kable(summaryViabilityTrials, caption="Summary table of the number of germination trials")
+
 ```
-Rows of concern in the viability trials
+Rows of concern in the viability trials. 
+
 ```{r}
 
 # rows where the number of seeds that didn't germinate
 # is less than the number of seeds that started the viability trials
 error<-viabilityRawData %>% dplyr::filter(germNot<viabStart) 
 
+nNotGermLessThanViab = nrow(error)
+
 # add rows where bag lacks number
 error <- viabilityRawData %>% dplyr::filter(bagNo=="?") %>% 
   bind_rows(error)
+
+nNotBagNumber = nrow(error) - nNotGermLessThanViab
 
 # add one row where viabStart is NA
 # how is this different from no seeds starting
 error <- viabilityRawData %>% dplyr::filter(is.na(viabStart)) %>%
   bind_rows(error)
 
+nNotRecordedViabStart = nrow(error) - nNotBagNumber
+
 # conditional test is coded incorrectly
 error<-viabilityRawData %>% dplyr::filter(germNot==viabStart&condTest=="N") %>%
   bind_rows(error)
 
+nConditionalTestCoding = nrow(error) - nNotRecordedViabStart
+
+
 kable(error, caption="Table of rows in the viability trials data set that need to be checked for problems")
 
 ```
+
+Possible concerns include:
+
+- the number of seeds that didn't germinate is less than the number of seeds that started the viability trials (`r nNotGermLessThanViab` rows in dataset)
+- bags are missing a bag number (`r nNotBagNumber` rows in dataset)
+- data missing a number for number of seeds starting viability trials (`r nNotRecordedViabStart` rows in dataset)
+- conditional test is coded incorrectly in original data file (`r nConditionalTestCoding` rows in dataset)
 
 The majority of bags had 1-2 tests (equally split). A small number had 3 test and an even smaller had 4. But clearly need to consider that bags were tested twice. 
 
