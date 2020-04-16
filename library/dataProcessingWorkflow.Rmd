@@ -129,7 +129,7 @@ x %>%
   dplyr::mutate(damageStatusBinary = 0, permanentPlotBinary = NA)
 }
 
-seedCountList <- list()
+years <- 2006:2018
 
 sheetVector <- c("06 Raw Data","07 Raw Data","08 Raw Data",
                  "09 Raw Data","10 Raw Data","11 Raw Data",
@@ -148,228 +148,240 @@ for(i in 1:length(sheetVector)){
 dataList[[i]] <- read_excel(paste0(directory,"Above_ground survival & fecundity 06-19.xlsx"), sheet = sheetVector[i], range = rangeVector[i],na = "NA")
 }
 
-fileDfs<-lapply(fileList[1:5],read_excel)
-fileDfs<-lapply(fileDfs,reshapeFun)
+# rename variable to be consistent with other datasets
+names(dataList[[3]])[6] <- "demography?"
 
+# add year to the data frames
 for(i in 1:length(years)){
-  fileDfs[[i]] <- fileDfs[[i]] %>%
+  dataList[[i]] <- dataList[[i]] %>%
       dplyr::mutate(year=years[i])
 }
 
-seed20062010 <- fileDfs %>% 
-  purrr::reduce(full_join) 
+# join all data frames
+countSeedPerFruit <- dataList %>%
+  purrr::reduce(full_join)
+
+# clean up variable names
+countSeedPerFruit <- countSeedPerFruit %>% 
+  janitor::clean_names(case="lower_camel")
+
+# this is now missing the permanent plot binary columns - why?
+
+
+# seed20062010 <- fileDfs %>% 
+#   purrr::reduce(full_join) 
 ```
 
 The data files for 2011-2012 have four columns: (1) a column for the site at which the undamaged fruit was collected, (2) a column for the number of seeds in the undamaged fruit, and (3) a column indicating whether the fruit was collected from a permanent plot or from across the site. (4) An additional column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. 
 
 ```{r}
-yearExtract<-function(x){
-  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
-  tmp<-tmp[!is.na(tmp)]
-  tmp
-}
-
-years <- unlist(lapply(fileList[6:7],yearExtract))
-
-reshapeFun <- function(x){
-x %>%
-  dplyr::rename(site='Site') %>%
-  dplyr::rename(seedCount = `Seed no per fruit`) %>%
-  dplyr::mutate(damageStatusBinary = 0)
-}
-
-appendFontColor <- function(x){
-
-# Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x,na="NA") 
-tidyExcel <- reshapeFun(tidyExcel)
-
-# Step 2: import one column of the table, taking only the formatting and not the
-# cell values
-
-# `formats` is a pallette of fill colours that can be indexed by the
-# `local_format_id` of a given cell to get the fill colour of that cell
-font_colours <- xlsx_formats(x)$local$font$color$rgb
-
-# Import all the cells, filter out the header row, filter for the first column,
-# and create a new column `font_colour` of the font colours, by looking up the
-# local_format_id of each cell in the `font_colours` pallette.
-fonts <- xlsx_cells(x, sheet = 1) %>%
-  filter(row >= 2, col == 1) %>% # Omit the header row
-  mutate(font_colour = font_colours[local_format_id]) %>%
-  select(font_colour)
-
-# Step 3: append the `font` column to the rest of the data
-tmp <- bind_cols(tidyExcel, fonts)
-
-out <- tmp %>% 
-  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
-  dplyr::rename(permanentPlotBinary=permanentPlot) %>%
-  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000",1,0)) %>%
-  dplyr::select(-font_colour)
-
-return(out)
-
-}
-
-fileDfs<-lapply(fileList[6:7],appendFontColor)
-
-for(i in 1:length(years)){
-  fileDfs[[i]] <- fileDfs[[i]] %>%
-      dplyr::mutate(year=years[i])
-}
-
-seed20112012 <- fileDfs %>% 
-  purrr::reduce(full_join)
-
-seed20112012 %>% 
-  dplyr::filter(permanentPlotBinary!=fieldData)
+# yearExtract<-function(x){
+#   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+#   tmp<-tmp[!is.na(tmp)]
+#   tmp
+# }
+# 
+# years <- unlist(lapply(fileList[6:7],yearExtract))
+# 
+# reshapeFun <- function(x){
+# x %>%
+#   dplyr::rename(site='Site') %>%
+#   dplyr::rename(seedCount = `Seed no per fruit`) %>%
+#   dplyr::mutate(damageStatusBinary = 0)
+# }
+# 
+# appendFontColor <- function(x){
+# 
+# # Step 1: import the table taking only cell values and ignoring the formatting
+# tidyExcel <- read_excel(x,na="NA") 
+# tidyExcel <- reshapeFun(tidyExcel)
+# 
+# # Step 2: import one column of the table, taking only the formatting and not the
+# # cell values
+# 
+# # `formats` is a pallette of fill colours that can be indexed by the
+# # `local_format_id` of a given cell to get the fill colour of that cell
+# font_colours <- xlsx_formats(x)$local$font$color$rgb
+# 
+# # Import all the cells, filter out the header row, filter for the first column,
+# # and create a new column `font_colour` of the font colours, by looking up the
+# # local_format_id of each cell in the `font_colours` pallette.
+# fonts <- xlsx_cells(x, sheet = 1) %>%
+#   filter(row >= 2, col == 1) %>% # Omit the header row
+#   mutate(font_colour = font_colours[local_format_id]) %>%
+#   select(font_colour)
+# 
+# # Step 3: append the `font` column to the rest of the data
+# tmp <- bind_cols(tidyExcel, fonts)
+# 
+# out <- tmp %>% 
+#   dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+#   dplyr::rename(permanentPlotBinary=permanentPlot) %>%
+#   dplyr::mutate(fieldData = ifelse(font_colour=="FF000000",1,0)) %>%
+#   dplyr::select(-font_colour)
+# 
+# return(out)
+# 
+# }
+# 
+# fileDfs<-lapply(fileList[6:7],appendFontColor)
+# 
+# for(i in 1:length(years)){
+#   fileDfs[[i]] <- fileDfs[[i]] %>%
+#       dplyr::mutate(year=years[i])
+# }
+# 
+# seed20112012 <- fileDfs %>% 
+#   purrr::reduce(full_join)
+# 
+# seed20112012 %>% 
+#   dplyr::filter(permanentPlotBinary!=fieldData)
 ```
 
-From 2013-2015, we collected data on the number of seeds per undamaged fruit and the number of seeds per damaged fruit. The data files thus include two sheets, 1 for the number of seeds per undamaged fruit and 1 for the numbe of seeds per damaged fruit. At each site, undamaged fruits were collected from plants spread across the entire site. The data files thus include 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the fruit. 
+From 2013-2015, we collected data on the number of seeds per undamaged fruit and the number of seeds per damaged fruit. The data files thus include two sheets, 1 for the number of seeds per undamaged fruit and 1 for the number of seeds per damaged fruit. At each site, undamaged fruits were collected from plants spread across the entire site. The data files thus include 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the fruit. 
 
 The sheets for undamaged fruits have the following columns: 1 column for the site at which the undamaged fruit was collected, 1 column for the number of seeds in the undamaged fruit, and 1 column indicating whether the fruit was collected from a permanent plot or from across the site. A fourth column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
 ```{r}
-yearExtract<-function(x){
-  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
-  tmp<-tmp[!is.na(tmp)]
-  tmp
-}
-
-years <- unlist(lapply(fileList[8:10],yearExtract))
-
-reshapeFun <- function(x){
-x %>%
-  dplyr::rename(site='Site') %>%
-  dplyr::rename(seedCount = `Seed no per undamaged fruit`) %>%
-  dplyr::mutate(damageStatusBinary = 0)
-}
-
-appendFontColor <- function(x){
-
-# Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x,na="NA",sheet=1) 
-tidyExcel <- reshapeFun(tidyExcel)
-
-# Step 2: import one column of the table, taking only the formatting and not the
-# cell values
-
-# `formats` is a pallette of fill colours that can be indexed by the
-# `local_format_id` of a given cell to get the fill colour of that cell
-font_colours <- xlsx_formats(x)$local$font$color$rgb
-
-# Import all the cells, filter out the header row, filter for the first column,
-# and create a new column `font_colour` of the font colours, by looking up the
-# local_format_id of each cell in the `font_colours` pallette.
-fonts <- xlsx_cells(x, sheet = 1) %>%
-  filter(row >= 2, col == 1) %>% # Omit the header row
-  mutate(font_colour = font_colours[local_format_id]) %>%
-  select(font_colour)
-
-# Step 3: append the `font` column to the rest of the data
-tmp <- bind_cols(tidyExcel, fonts)
-
-out <- tmp %>% 
-  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
-  dplyr::rename(permanentPlotBinary=permanentPlot) %>%
-  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
-  dplyr::select(-font_colour)
-
-return(out)
-
-}
-
-fileDfs<-lapply(fileList[8:10],appendFontColor)
-
-for(i in 1:length(years)){
-  fileDfs[[i]] <- fileDfs[[i]] %>%
-      dplyr::mutate(year=years[i])
-}
-
-seedUndamaged20132015 <- fileDfs %>% 
-  purrr::reduce(full_join) 
-
-seedUndamaged20132015 %>% 
-  dplyr::filter(permanentPlotBinary!=fieldData)
+# yearExtract<-function(x){
+#   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+#   tmp<-tmp[!is.na(tmp)]
+#   tmp
+# }
+# 
+# years <- unlist(lapply(fileList[8:10],yearExtract))
+# 
+# reshapeFun <- function(x){
+# x %>%
+#   dplyr::rename(site='Site') %>%
+#   dplyr::rename(seedCount = `Seed no per undamaged fruit`) %>%
+#   dplyr::mutate(damageStatusBinary = 0)
+# }
+# 
+# appendFontColor <- function(x){
+# 
+# # Step 1: import the table taking only cell values and ignoring the formatting
+# tidyExcel <- read_excel(x,na="NA",sheet=1) 
+# tidyExcel <- reshapeFun(tidyExcel)
+# 
+# # Step 2: import one column of the table, taking only the formatting and not the
+# # cell values
+# 
+# # `formats` is a pallette of fill colours that can be indexed by the
+# # `local_format_id` of a given cell to get the fill colour of that cell
+# font_colours <- xlsx_formats(x)$local$font$color$rgb
+# 
+# # Import all the cells, filter out the header row, filter for the first column,
+# # and create a new column `font_colour` of the font colours, by looking up the
+# # local_format_id of each cell in the `font_colours` pallette.
+# fonts <- xlsx_cells(x, sheet = 1) %>%
+#   filter(row >= 2, col == 1) %>% # Omit the header row
+#   mutate(font_colour = font_colours[local_format_id]) %>%
+#   select(font_colour)
+# 
+# # Step 3: append the `font` column to the rest of the data
+# tmp <- bind_cols(tidyExcel, fonts)
+# 
+# out <- tmp %>% 
+#   dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+#   dplyr::rename(permanentPlotBinary=permanentPlot) %>%
+#   dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
+#   dplyr::select(-font_colour)
+# 
+# return(out)
+# 
+# }
+# 
+# fileDfs<-lapply(fileList[8:10],appendFontColor)
+# 
+# for(i in 1:length(years)){
+#   fileDfs[[i]] <- fileDfs[[i]] %>%
+#       dplyr::mutate(year=years[i])
+# }
+# 
+# seedUndamaged20132015 <- fileDfs %>% 
+#   purrr::reduce(full_join) 
+# 
+# seedUndamaged20132015 %>% 
+#   dplyr::filter(permanentPlotBinary!=fieldData)
 ```
 
 
 The sheets for damaged fruits have the following columns: 1 column for the site at which the damaged fruit was collected, and 1 column for the number of seeds in the damaged fruit. Another column has notes: some sites did not have any damaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
 ```{r}
-yearExtract<-function(x){
-  tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
-  tmp<-tmp[!is.na(tmp)]
-  tmp
-}
-
-years <- unlist(lapply(fileList[8:10],yearExtract))
-
-reshapeFun <- function(x){
-x %>%
-  dplyr::rename(site='Site') %>%
-  dplyr::rename(seedCount = `Seed no per damaged fruit`) %>%
-  dplyr::mutate(damageStatusBinary = 1, permanentPlot = NA)
-}
-
-appendFontColor <- function(x){
-
-# Step 1: import the table taking only cell values and ignoring the formatting
-tidyExcel <- read_excel(x,na=c("NA","MA"),sheet=2) 
-tidyExcel <- reshapeFun(tidyExcel)
-
-# Step 2: import one column of the table, taking only the formatting and not the
-# cell values
-
-# `formats` is a pallette of fill colours that can be indexed by the
-# `local_format_id` of a given cell to get the fill colour of that cell
-font_colours <- xlsx_formats(x)$local$font$color$rgb
-
-# Import all the cells, filter out the header row, filter for the first column,
-# and create a new column `font_colour` of the font colours, by looking up the
-# local_format_id of each cell in the `font_colours` pallette.
-fonts <- xlsx_cells(x, sheet = 2) %>%
-  filter(row >= 2, col == 1) %>% # Omit the header row
-  mutate(font_colour = font_colours[local_format_id]) %>%
-  select(font_colour)
-
-# Step 3: append the `font` column to the rest of the data
-tmp <- bind_cols(tidyExcel, fonts)
-
-out <- tmp %>% 
-  dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
-  dplyr::rename(permanentPlotBinary = permanentPlot) %>%
-  dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
-  dplyr::select(-font_colour)
-
-return(out)
-
-}
-
-fileDfs<-lapply(fileList[8:10],appendFontColor)
-
-for(i in 1:length(years)){
-  fileDfs[[i]] <- fileDfs[[i]] %>%
-      dplyr::mutate(year=years[i])
-}
-
-seedDamaged20132015 <- fileDfs %>% 
-  purrr::reduce(full_join) 
-
-seedDamaged20132015 %>% 
-  dplyr::filter(permanentPlotBinary!=fieldData)
+# yearExtract<-function(x){
+#   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
+#   tmp<-tmp[!is.na(tmp)]
+#   tmp
+# }
+# 
+# years <- unlist(lapply(fileList[8:10],yearExtract))
+# 
+# reshapeFun <- function(x){
+# x %>%
+#   dplyr::rename(site='Site') %>%
+#   dplyr::rename(seedCount = `Seed no per damaged fruit`) %>%
+#   dplyr::mutate(damageStatusBinary = 1, permanentPlot = NA)
+# }
+# 
+# appendFontColor <- function(x){
+# 
+# # Step 1: import the table taking only cell values and ignoring the formatting
+# tidyExcel <- read_excel(x,na=c("NA","MA"),sheet=2) 
+# tidyExcel <- reshapeFun(tidyExcel)
+# 
+# # Step 2: import one column of the table, taking only the formatting and not the
+# # cell values
+# 
+# # `formats` is a pallette of fill colours that can be indexed by the
+# # `local_format_id` of a given cell to get the fill colour of that cell
+# font_colours <- xlsx_formats(x)$local$font$color$rgb
+# 
+# # Import all the cells, filter out the header row, filter for the first column,
+# # and create a new column `font_colour` of the font colours, by looking up the
+# # local_format_id of each cell in the `font_colours` pallette.
+# fonts <- xlsx_cells(x, sheet = 2) %>%
+#   filter(row >= 2, col == 1) %>% # Omit the header row
+#   mutate(font_colour = font_colours[local_format_id]) %>%
+#   select(font_colour)
+# 
+# # Step 3: append the `font` column to the rest of the data
+# tmp <- bind_cols(tidyExcel, fonts)
+# 
+# out <- tmp %>% 
+#   dplyr::select(site,seedCount,permanentPlot,damageStatusBinary,font_colour) %>%
+#   dplyr::rename(permanentPlotBinary = permanentPlot) %>%
+#   dplyr::mutate(fieldData = ifelse(font_colour=="FF000000"|font_colour=="FF008000",1,0)) %>%
+#   dplyr::select(-font_colour)
+# 
+# return(out)
+# 
+# }
+# 
+# fileDfs<-lapply(fileList[8:10],appendFontColor)
+# 
+# for(i in 1:length(years)){
+#   fileDfs[[i]] <- fileDfs[[i]] %>%
+#       dplyr::mutate(year=years[i])
+# }
+# 
+# seedDamaged20132015 <- fileDfs %>% 
+#   purrr::reduce(full_join) 
+# 
+# seedDamaged20132015 %>% 
+#   dplyr::filter(permanentPlotBinary!=fieldData)
 ```
 
 It might be useful to summarize the datasets:
 
 ```{r}
-fullSeedDataset <- seed20062010 %>%
-  dplyr::full_join(seed20112012) %>%
-  dplyr::full_join(seedUndamaged20132015) %>%
-  dplyr::full_join(seedDamaged20132015)
+# fullSeedDataset <- seed20062010 %>%
+#   dplyr::full_join(seed20112012) %>%
+#   dplyr::full_join(seedUndamaged20132015) %>%
+#   dplyr::full_join(seedDamaged20132015)
 
-write_rds(fullSeedDataset,"~/Dropbox/clarkiaSeedBanks/library/dataFromWorkflowFile/fullSeedDataset.RDS")
+write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
 
 summary20062010<-seed20062010 %>%
   dplyr::group_by(year,site) %>%
@@ -401,8 +413,9 @@ kable(summaryDamaged20132015, caption="Summary table of the number of counts of 
 ```
 
 ### Fruits per plant data
-### Seedlings and fruiting plant data
 
+
+### Seedlings and fruiting plant data
 
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
