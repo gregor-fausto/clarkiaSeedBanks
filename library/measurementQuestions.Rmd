@@ -1,0 +1,284 @@
+---
+output: github_document
+---
+
+### Measurement
+
+I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
+
+- [Fruits per plant](#fruits-per-plant)
+- [Seedlings and fruiting plant data](#seedlings-and-fruiting-plant-data)
+- [Seed rain and seedlings](#seed-rain-and-seedlings)
+
+### Load packages
+
+Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+```
+
+### Fruits per plant
+
+One question I have about the data is whether plants in permanent plots have more fruits than plants outside of permanent plots. This may be likely if permanent plots are more likely to be surveyed for all plants, while extra plants are counted ad hoc. This may bias the 'extra plants' towards plants that are larger, have more fruits, or are more visible.
+
+This could matter if we are calculating seed rain by using the average number of fruits per plant to estimate plant size in a population-year combination. I calculated the average number of fruits per plant in permanent plots vs. outside of permanent plots. I did not correct for sampling variation. This first pass suggests that plants outside of permanent plots are, on average, larger than those in permanent plots.
+
+A more appropriate comparison might be the average with all plots (permanent and extra) versus the average with just the permanent plots. This suggests a similar story.
+
+I'm not exactly sure what to do with this information...but when calculating the seed rain I think I should use the number of fruits on plants in the permanent plots. 
+
+```{r}
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+
+test<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year,permanentPlot)%>%
+  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
+  tidyr::pivot_wider(names_from=permanentPlot,values_from=mu) %>%
+  dplyr::mutate(ratio = `0`/`1`) 
+
+ggplot(data=countFruitsPerPlantAllPlots %>% group_by(site,year,permanentPlot) %>% dplyr::summarise(mu=mean(countFruitNumberPerPlant))) +
+  geom_point(aes(x=year,y=mu,color=as.factor(permanentPlot)),alpha=.5) +
+  geom_line(aes(x=year,y=mu,color=as.factor(permanentPlot)),alpha=.5) +
+  facet_wrap(~site,scale='free') +
+  theme_bw()
+```
+
+There seems to be a geographic component to this relationship.
+
+```{r}
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+  dplyr::select(site,easting) %>%
+  dplyr::mutate(easting=easting/1000)
+
+```
+
+```{r}
+countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year,permanentPlot) %>%
+  dplyr::summarise(mu = mean(countFruitNumberPerPlant),
+                   sd = sd(countFruitNumberPerPlant),
+                   n = n(),
+                   se = sd/n,
+                   p = 1/se) %>%
+  dplyr::left_join(position,by="site")
+
+ggplot(countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
+  geom_point(aes(x=easting,y=mu,size=1/se,color=as.factor(permanentPlot)),alpha=.5) +
+  facet_wrap(~year) +
+  theme_bw()
+
+ggplot(countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
+  geom_point(aes(x=easting,y=n,color=as.factor(permanentPlot))) +
+  geom_smooth(aes(x=easting,y=n,color=as.factor(permanentPlot)),method='lm') +
+  facet_wrap(~year,scales='free')
+
+ggplot(data=countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
+  geom_point(aes(x=easting,y=mu,color=as.factor(permanentPlot)),alpha=.5) +
+  geom_smooth(aes(x=easting,y=mu,color=as.factor(permanentPlot)),method='lm',se=FALSE) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+```{r}
+hist(test$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n extra plots vs. permanent plots",
+     ylab="ratio")
+abline(v=1,col="red")
+
+testAll<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year)%>%
+  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant))
+
+testPermanent<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year)%>%
+  dplyr::summarise(mu.permanent = mean(countFruitNumberPerPlant))
+
+testComparison <- testAll %>%
+  dplyr::left_join(testPermanent,by=c("site","year")) %>%
+  dplyr::mutate(ratio = mu.all/mu.permanent) 
+
+hist(testComparison$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n all plots vs. permanent plots only",
+     ylab="ratio")
+abline(v=1,col="red")
+
+```
+
+In the plot below, I plot the mean number of fruits per plant (from transects) versus easting. The size of points corresponds to `1/(standard error)`. Larger points have lower standard error, smaller points have higher standard error. 
+
+The second plot shows that if there is a geographic pattern it is possibly because there are often more plants per plot in eastern vs western populations. 
+
+```{r}
+countFruitsPerPlantTransects<-readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+
+countFruitsPerPlantTransectsSummary <- countFruitsPerPlantTransects %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu = mean(countFruitsPerPlant),
+                   sd = sd(countFruitsPerPlant),
+                   n = n(),
+                   se = sd/n,
+                   p = 1/se) %>%
+  dplyr::left_join(position,by="site")
+
+ggplot(countFruitsPerPlantTransectsSummary) +
+  geom_point(aes(x=easting,y=mu,size=1/se),alpha=.5) +
+  facet_wrap(~year) +
+  theme_bw()
+
+ggplot(countFruitsPerPlantTransectsSummary) +
+  geom_point(aes(x=easting,y=sd)) +
+  geom_smooth(aes(x=easting,y=sd),method='lm') +
+  facet_wrap(~year,scales='free')
+
+ggplot(countFruitsPerPlantTransectsSummary) +
+  geom_point(aes(x=easting,y=n)) +
+  geom_smooth(aes(x=easting,y=n),method='lm') +
+  facet_wrap(~year,scales='free')
+
+countUndamagedDamagedFruitsPerPlantTransects<- readRDS("~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
+
+```
+
+I started thinking about this pattern because I wanted to understand seed rain into plots.
+
+### Seedlings and fruiting plant data
+
+In this section, I will look at undercounting in the seedling to fruiting plant transition. How often are there fewer seedlings counted than fruiting plants, and how does this affect estimates of survival? All I need to do is show that undercounting does happen in some cases. 
+
+A solution would be to estimate the true number of seedlings using a model for undercounting, use that true number of seedlings:
+
+Yit seedlings ~ binomial(Nit, pit)
+
+Yit is observed, Nit is true latent state, p is binomial detection probability. Set at each year/site combination.
+
+"The estimates of population size (Ni,t) were rounded to the nearest integer away from zero in order to conform to the support of the binomial distribution." (paper by Koons and Hobbs)
+
+Then use Yit ~ binomial(Nit, sit) where Yit is the number of fruiting plants, and sit is the probability of survival, given that Nit is the true, latent number of seedlings. 
+
+### Seed rain and seedlings
+
+```{r}
+## need to turn this first part into RDS file
+## Seedlings from transects 
+df <- readxl::read_excel("~/Dropbox/Clarkia-LTREB/20_demography_sites/Survivorship & Fecundity_06-15.xls", na = c("","NA","?"))
+
+df <- df %>% janitor::clean_names()
+
+### Census 1
+dfSummary<-df %>%
+  dplyr::select(easting,site,transect,position,contains(c("seedling"))) %>%
+  pivot_longer(cols=contains(c("seedling")),
+               names_to = c(".value", "censusTime", "year"),
+               names_pattern = "(.*)_(.*)_(.*)"
+  ) %>% 
+  dplyr::select(-censusTime) %>%
+  dplyr::mutate(year = as.numeric(paste0("20",year))) %>%
+  dplyr::rename(seedlingCount = seedling_number)
+
+## Fruits per plant from transects
+countFruitsPerPlantTransects<-readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+
+fruitSummary <- countFruitsPerPlantTransects %>%
+  dplyr::group_by(site,year,transect,position) %>%
+  dplyr::summarise(countFruitsPerPlot = sum(countFruitsPerPlant),
+                   n = n())
+```
+
+```{r}
+# add 1 to the year in the fruit summary dataset to match the seedling year
+# fruiting plants in year t match seedlings in year t+1
+
+years = 2009
+
+df <- list()
+
+for(i in 1:length(years)){
+ tmp <-  dfSummary %>%
+    dplyr::filter(year==years[i]) %>%
+   dplyr::rename(n = seedlingCount) %>%
+   dplyr::mutate(year=2) %>%
+   dplyr::filter(year==2 & n>0)
+
+ tmp1 <- fruitSummary %>%
+   dplyr::filter(year==years[[i]]-1) %>%
+   dplyr::ungroup(year) %>%
+      dplyr::mutate(year=1,
+                    n = ifelse(is.na(n),0,n)) %>%
+   dplyr::select(site,year,transect,position,n)
+
+  tmp2 <- fruitSummary %>%
+   dplyr::filter(year==years[[i]]-2) %>%
+   dplyr::ungroup(year) %>%
+      dplyr::mutate(year=0,
+                     n = ifelse(is.na(n),0,n)) %>%
+   dplyr::select(site,year,transect,position,n)
+ 
+ df[[i]] <- tmp %>% 
+   dplyr::left_join(tmp1,by=c("site","transect","position")) %>% 
+   dplyr::left_join(tmp2,by=c("site","transect","position")) %>% View
+ 
+}
+
+df[[1]] %>% 
+  pivot_wider(names_from = "year",values_from="n") %>% View
+
+
+ggplot(df[[1]] ) + 
+  geom_line(aes(x=year,y=n,group=interaction(site,transect,position)),alpha=.5) +
+  facet_wrap(~site,scale='free') + theme_bw()
+
+```
+
+One option would be to run a model with a incorporation rate from one year old seeds as well as a parameter for a number of seeds that come from elsewhere. For sites where the 1 year old seeds make most of the contribution, the second parameter would be small. 
+
+```{r}
+fruitSummary2 = fruitSummary
+fruitSummary2$year = fruitSummary2$year+2
+fruitSummary2<-fruitSummary2 %>% dplyr::rename(countFruitsPerPlot2 = countFruitsPerPlot,
+                                n2=n)
+
+fruitSummary$year=fruitSummary$year+1
+
+
+# set NA = 0
+joinedFruitSeedling<-dfSummary %>%
+  dplyr::full_join(fruitSummary,by=c("site","year","transect","position")) %>%
+  dplyr::full_join(fruitSummary2,by=c("site","year","transect","position")) %>% 
+  #dplyr::filter(year>2008) %>%
+  dplyr::mutate(countFruitsPerPlot2 = ifelse(is.na(countFruitsPerPlot2),0,countFruitsPerPlot2),
+                countFruitsPerPlot = ifelse(is.na(countFruitsPerPlot),0,countFruitsPerPlot),
+                seedlingCount = ifelse(is.na(seedlingCount),0,seedlingCount))
+
+ggplot(data=dfSummary %>% dplyr::filter(year>2006&year<2009)) +
+  geom_line(aes(x=as.factor(year),y=seedlingCount,group=interaction(site,transect,position)),alpha=0.5) +
+  theme_bw()
+```
+
+```{r}
+# create a ratio of proportion of plots with seeds the year before
+joinedFruitSeedlingSummary<-joinedFruitSeedling %>%
+  dplyr::mutate(test = ifelse(countFruitsPerPlot==0&countFruitsPerPlot2&seedlingCount>0,1,0)) %>%
+  group_by(site,year,easting) %>%
+  dplyr::summarise(p=sum(test)/n()) 
+
+ggplot(data=joinedFruitSeedlingSummary) +
+  geom_histogram(aes(p)) +
+  facet_wrap(~year,scales='free_y') + xlim(c(0,1))
+
+ggplot() +
+  geom_point(data=joinedFruitSeedlingSummary,aes(x=easting,y=p),size=.5,col='orange',alpha=0.5) +
+  geom_point(data=joinedSummary,aes(x=easting,y=phat),size=1,col='black',alpha=0.5) +
+  geom_smooth(data=joinedSummary,aes(x=easting,y=phat),method="lm") +
+  facet_wrap(~year,scales='free',nrow=2) +
+  ylab("Ratio of seedlings to seeds per plot") +
+  theme_bw()
+
+ggplot() +
+  geom_point(data=joinedFruitSeedling,aes(x=year,y=p),size=.5,col='orange',alpha=0.5) +
+  geom_point(data=joinedSummary,aes(x=year,y=phat),size=1,col='black',alpha=0.5) +
+  facet_wrap(~site,scales='free',nrow=4) +
+  ylab("Ratio of seedlings to seeds per plot") +
+  theme_bw()
+```

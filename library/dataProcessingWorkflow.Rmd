@@ -668,44 +668,6 @@ write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/
 
 ```
 
-One question I have about the data is whether plants in permanent plots have more fruits than plants outside of permanent plots. This may be likely if permanent plots are more likely to be surveyed for all plants, while extra plants are counted ad hoc. This may bias the 'extra plants' towards plants that are larger, have more fruits, or are more visible.
-
-This could matter if we are calculating seed rain by using the average number of fruits per plant to estimate plant size in a population-year combination. I calculated the average number of fruits per plant in permanent plots vs. outside of permanent plots. I did not correct for sampling variation. This first pass suggests that plants outside of permanent plots are, on average, larger than those in permanent plots.
-
-A more appropriate comparison might be the average with all plots (permanent and extra) versus the average with just the permanent plots. This suggests a similar story.
-
-I'm not exactly sure what to do with this information...but when calculating the seed rain I think I should use the number of fruits on plants in the permanent plots. 
-
-```{r}
-test<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year,permanentPlot)%>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
-  tidyr::pivot_wider(names_from=permanentPlot,values_from=mu) %>%
-  dplyr::mutate(ratio = `0`/`1`) 
-
-hist(test$ratio,breaks=20, main = "Distribution of ratio of mean fruits per plant in \n extra plots vs. permanent plots",
-     ylab="ratio")
-abline(v=1,col="red")
-
-testAll<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant))
-
-testPermanent<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.permanent = mean(countFruitNumberPerPlant))
-
-testComparison <- testAll %>%
-  dplyr::left_join(testPermanent,by=c("site","year")) %>%
-  dplyr::mutate(ratio = mu.all/mu.permanent) 
-
-hist(testComparison$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n all plots vs. permanent plots only",
-     ylab="ratio")
-abline(v=1,col="red")
-
-```
-
 ### Seedlings and fruiting plant data
 
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
