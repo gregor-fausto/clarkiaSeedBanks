@@ -37,9 +37,9 @@ summary <- censusSeedlingsFruitingPlants %>%
   dplyr::summarise(prop = sum(error,na.rm=TRUE)/n())
 ```
 
-In the observations from 2006-2015, `summary$prop`% of observations
-exhibit undercounting (i.e. fewer seedlings in a plot in
-January/February than fruiting plants in June).
+In the observations from 2006-2015, 4.5% of observations exhibit
+undercounting (i.e. fewer seedlings in a plot in January/February than
+fruiting plants in June).
 
 One approach to this would be to assume that the survival in these plots
 is 100%. This would mean setting the number of seedlings in the plots
