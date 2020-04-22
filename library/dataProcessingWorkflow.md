@@ -9,13 +9,13 @@ the data processing workflow:
 
   - [File directories](#file-directories)
   - [Processing data](#processing-data)
-  - [Seeds per fruit data](#seeds-per-fruit-data)
+  - [Seedlings and fruiting plant
+    data](#seedlings-and-fruiting-plant-data)
   - [Fruits per plant data for
     transects](#fruits-per-plant-data-for-transects)
   - [Fruits per plant data extra
     plots](#fruits-per-plant-data-extra-plots)
-  - [Seedlings and fruiting plant
-    data](#seedlings-and-fruiting-plant-data)
+  - [Seeds per fruit data](#seeds-per-fruit-data)
   - [Seed bag data](#seed-bag-data)
   - [Viability trial data](#viability-trial-data)
 
@@ -164,6 +164,643 @@ kable(dt)
 | reshapeSiteVariables.R                | 2017-12-08 14:23:44 |
 | reshapeSurvivalFecundity.R            | 2016-10-18 08:56:25 |
 
+### Seedlings and fruiting plant data
+
+Start with the survival data. This is file `.../reshapeSeeds.R` file in
+the list above.
+
+``` r
+directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+# 
+
+# extract data and write out temporary csv
+tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
+                      sheet = 1, na = c("","NA" )) %>%
+  janitor::clean_names(case="lower_camel") %>%
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
+
+names(tmp)
+```
+
+    ##  [1] "easting"              "northing"             "site"                
+    ##  [4] "transect"             "position"             "seedlingNumber1_06"  
+    ##  [7] "flowplNumber6_06"     "fruitplNumber6_06"    "numberFruitplSdl06"  
+    ## [10] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
+    ## [13] "fruitPl6_07"          "numberFruitplSdl07"   "seedlingNumber1_08"  
+    ## [16] "flowplNumber6_08"     "fruitplNumber6_08"    "fruitPl6_08"         
+    ## [19] "numberFruitplSdl08"   "seedlingNumber1_09"   "flowplNumber5_09"    
+    ## [22] "fruitplNumber6_09"    "fruitPl6_09"          "numberFruitplSdl09"  
+    ## [25] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [28] "fruitplNumberSdl10"   "seedlingNumber2_11"   "fruitplNumber6_11"   
+    ## [31] "fruitFlPl6_11"        "fruitplNumberSdl11"   "seedlingNumber2_12"  
+    ## [34] "fruitplNumber6_12"    "fruitPl6_12"          "fruitplNumberSdl12"  
+    ## [37] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [40] "damagedFruitPl6_13"   "fruitplNumberSdl13"   "seedlingNumber2_14"  
+    ## [43] "fruitplNumber6_14"    "undamagedFruitPl6_14" "damagedFruitPl6_14"  
+    ## [46] "fruitplNumberSdl14"   "seedlingNumber2_15"   "fruitplNumber6_15"   
+    ## [49] "undamagedFruitPl6_15" "damagedFruitPl6_15"   "fruitplNumberSdl15"  
+    ## [52] "comments"
+
+``` r
+# remove conditional and easting/northing
+tmp <- tmp %>%
+  dplyr::select(-contains("numberFruitplSdl")) %>%
+  dplyr::select(-contains("fruitplNumberSdl")) %>%
+  dplyr::select(-c("easting","northing"))
+
+names(tmp)
+```
+
+    ##  [1] "site"                 "transect"             "position"            
+    ##  [4] "seedlingNumber1_06"   "flowplNumber6_06"     "fruitplNumber6_06"   
+    ##  [7] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
+    ## [10] "fruitPl6_07"          "seedlingNumber1_08"   "flowplNumber6_08"    
+    ## [13] "fruitplNumber6_08"    "fruitPl6_08"          "seedlingNumber1_09"  
+    ## [16] "flowplNumber5_09"     "fruitplNumber6_09"    "fruitPl6_09"         
+    ## [19] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [22] "seedlingNumber2_11"   "fruitplNumber6_11"    "fruitFlPl6_11"       
+    ## [25] "seedlingNumber2_12"   "fruitplNumber6_12"    "fruitPl6_12"         
+    ## [28] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [31] "damagedFruitPl6_13"   "seedlingNumber2_14"   "fruitplNumber6_14"   
+    ## [34] "undamagedFruitPl6_14" "damagedFruitPl6_14"   "seedlingNumber2_15"  
+    ## [37] "fruitplNumber6_15"    "undamagedFruitPl6_15" "damagedFruitPl6_15"  
+    ## [40] "comments"
+
+``` r
+# remove fruits per plant averages
+tmp <- tmp %>%
+  dplyr::select(-contains("fruitPl",ignore.case=FALSE)) %>%
+  dplyr::select(-contains("undamagedFruitPl")) %>%
+  dplyr::select(-contains("damagedFruitPl"))
+
+names(tmp)
+```
+
+    ##  [1] "site"               "transect"           "position"          
+    ##  [4] "seedlingNumber1_06" "flowplNumber6_06"   "fruitplNumber6_06" 
+    ##  [7] "seedlingNumber1_07" "flowplNumber6_07"   "fruitplNumber6_07" 
+    ## [10] "seedlingNumber1_08" "flowplNumber6_08"   "fruitplNumber6_08" 
+    ## [13] "seedlingNumber1_09" "flowplNumber5_09"   "fruitplNumber6_09" 
+    ## [16] "seedlingNumber1_10" "fruitplNumber6_10"  "seedlingNumber2_11"
+    ## [19] "fruitplNumber6_11"  "fruitFlPl6_11"      "seedlingNumber2_12"
+    ## [22] "fruitplNumber6_12"  "seedlingNumber2_13" "fruitplNumber6_13" 
+    ## [25] "seedlingNumber2_14" "fruitplNumber6_14"  "seedlingNumber2_15"
+    ## [28] "fruitplNumber6_15"  "comments"
+
+``` r
+# select relevant columns
+tmp <- tmp %>%
+  dplyr::select(contains(c("site","transect","position","seedlingNumber","fruitplNumber"),ignore.case=FALSE))
+
+names(tmp)
+```
+
+    ##  [1] "site"               "transect"           "position"          
+    ##  [4] "seedlingNumber1_06" "seedlingNumber1_07" "seedlingNumber1_08"
+    ##  [7] "seedlingNumber1_09" "seedlingNumber1_10" "seedlingNumber2_11"
+    ## [10] "seedlingNumber2_12" "seedlingNumber2_13" "seedlingNumber2_14"
+    ## [13] "seedlingNumber2_15" "fruitplNumber6_06"  "fruitplNumber6_07" 
+    ## [16] "fruitplNumber6_08"  "fruitplNumber6_09"  "fruitplNumber6_10" 
+    ## [19] "fruitplNumber6_11"  "fruitplNumber6_12"  "fruitplNumber6_13" 
+    ## [22] "fruitplNumber6_14"  "fruitplNumber6_15"
+
+``` r
+# remove 
+
+censusSeedlingsFruitingPlants <- tmp %>%
+  tidyr::pivot_longer(cols=contains(c("seedlingNumber","fruitplNumber")),
+               names_to = c("variable","year"),
+               names_pattern = "(.*)_(.*)",
+               values_to = "count") %>%
+  tidyr::separate(variable,into = c("variable", "month"), "(?<=[a-z])(?=[0-9])") %>%
+  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
+  dplyr::mutate(position = as.character(position))
+
+censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
+  dplyr::select(-month) %>%
+  tidyr::pivot_wider(names_from = variable,
+                     values_from = count) 
+
+readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+```
+
+Here, I summarize the seedling to fruiting plant dataset in two ways.
+First, I plot the total number of estimates for seedling survival to
+fruiting per population and year.
+
+``` r
+tmp1 <- censusSeedlingsFruitingPlants %>%
+  dplyr::filter(!(seedlingNumber==0&fruitplNumber==0)) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(seedlingNumber))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+kable(tmp1, caption="Summary table of the number of estimates for seedling survival to fruiting")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   18 |   21 |   22 |   26 |   24 |   26 |   20 |   23 |    3 |   26 |
+| BR   |   19 |   30 |   29 |   30 |   30 |   30 |   29 |   30 |    9 |   27 |
+| CF   |   20 |   21 |   28 |   29 |   29 |   21 |   23 |   27 |   15 |   15 |
+| CP3  |   18 |   19 |   19 |   13 |   19 |    8 |   NA |   10 |    1 |    7 |
+| DEM  |   18 |   17 |   14 |   21 |   24 |   25 |   18 |   22 |    3 |    9 |
+| DLW  |   16 |   18 |   13 |   15 |   17 |   22 |   16 |   19 |    1 |   13 |
+| EC   |   20 |   28 |   30 |   30 |   30 |   30 |   30 |   24 |    2 |   10 |
+| FR   |   20 |   28 |   27 |   27 |   30 |   30 |   24 |   25 |    7 |   15 |
+| GCN  |   18 |   20 |   15 |   20 |   28 |   29 |   22 |   27 |    5 |   17 |
+| KYE  |   18 |   28 |   28 |   30 |   30 |   30 |   27 |   28 |    1 |   27 |
+| LCE  |   20 |   12 |   18 |   19 |   19 |    1 |    1 |    3 |    1 |    8 |
+| LCW  |   16 |   27 |   27 |   27 |   21 |    4 |   NA |   15 |   NA |    1 |
+| LO   |   12 |   15 |   28 |   29 |   27 |    2 |    1 |   19 |    5 |   11 |
+| MC   |   17 |   11 |   22 |   25 |   27 |   30 |   29 |   27 |    6 |   18 |
+| OKRE |   14 |   10 |    8 |   19 |   21 |   17 |    7 |   19 |    6 |   10 |
+| OKRW |   19 |   19 |   22 |   20 |   19 |   12 |    9 |   13 |   NA |    3 |
+| OSR  |   15 |   13 |    9 |    9 |   23 |   26 |   18 |   20 |    1 |   14 |
+| S22  |   17 |   10 |   21 |   18 |   28 |   17 |   27 |   26 |   NA |   17 |
+| SM   |   15 |    8 |   13 |   18 |   23 |   25 |   18 |   24 |   NA |   19 |
+| URS  |    4 |   17 |   10 |    7 |   12 |   14 |    3 |    5 |    2 |    1 |
+
+Summary table of the number of estimates for seedling survival to
+fruiting
+
+``` r
+ #print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+```
+
+Second, I plot the number of estimates for seedling survival to fruiting
+per population and year that do not have fewer seedlings than fruiting
+plants
+
+``` r
+tmp <- censusSeedlingsFruitingPlants %>%
+  dplyr::filter(!(seedlingNumber==0&fruitplNumber==0)) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::filter(fruitplNumber<=seedlingNumber) %>%
+  dplyr::summarise(count = sum(!is.na(seedlingNumber))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+vals<-signif((1-tmp[,-1]/tmp1[,-1])*100,2)
+
+tmp1 = cbind(tmp[,1],vals)
+kable(tmp1, caption="Summary table of the percentage of plots with fruiting plant counts exceeding seedling counts")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |    0 | 14.0 |  9.1 |  0.0 | 12.0 |  0.0 |  5.0 |  0.0 |  0.0 |  0.0 |
+| BR   |    0 |  3.3 | 10.0 |  0.0 | 33.0 |  0.0 |  3.4 |  0.0 | 44.0 |  0.0 |
+| CF   |    0 |  9.5 |  7.1 |  3.4 | 17.0 |  9.5 |  0.0 |  0.0 |  6.7 |  0.0 |
+| CP3  |    0 |  5.3 | 21.0 | 15.0 |  0.0 | 12.0 |   NA |  0.0 |   NA |  0.0 |
+| DEM  |    0 | 35.0 | 14.0 |  0.0 | 29.0 |  4.0 |  0.0 |  0.0 |  0.0 |  0.0 |
+| DLW  |    0 | 11.0 |  7.7 | 13.0 | 29.0 |  4.5 |  6.2 |  0.0 |  0.0 |  0.0 |
+| EC   |    0 | 29.0 | 30.0 |  0.0 | 20.0 |  0.0 |  0.0 | 21.0 | 50.0 |  0.0 |
+| FR   |    5 |  3.6 |  7.4 |  3.7 |  0.0 |  0.0 |  0.0 |  0.0 | 43.0 |  0.0 |
+| GCN  |    0 |  0.0 | 27.0 |  0.0 | 29.0 | 17.0 |  0.0 |  0.0 |   NA |  0.0 |
+| KYE  |    0 |  3.6 | 29.0 |  0.0 | 47.0 |  3.3 |  0.0 |  3.6 |   NA |  3.7 |
+| LCE  |    0 | 50.0 |  5.6 | 37.0 |  0.0 |  0.0 |  0.0 |  0.0 |  0.0 |  0.0 |
+| LCW  |    0 |  3.7 |  0.0 |  0.0 |  4.8 | 25.0 |   NA |  0.0 |   NA |  0.0 |
+| LO   |    0 | 33.0 |  7.1 |  6.9 |  0.0 |   NA |  0.0 |  0.0 |  0.0 |  9.1 |
+| MC   |    0 | 27.0 |  4.5 |  8.0 |  7.4 |  0.0 |  0.0 |  0.0 | 33.0 |  0.0 |
+| OKRE |    0 | 20.0 | 12.0 | 11.0 | 14.0 | 18.0 |  0.0 |  0.0 | 17.0 |  0.0 |
+| OKRW |    0 |  5.3 |  0.0 |  5.0 | 37.0 | 33.0 |  0.0 |  0.0 |   NA |  0.0 |
+| OSR  |    0 |  7.7 | 11.0 |  0.0 | 39.0 | 15.0 |  0.0 |  0.0 |   NA |  0.0 |
+| S22  |    0 |  0.0 | 19.0 |  5.6 | 18.0 | 18.0 |  3.7 |  0.0 |   NA |  0.0 |
+| SM   |    0 |  0.0 | 23.0 |  0.0 | 61.0 | 20.0 |  0.0 |  4.2 |   NA |  0.0 |
+| URS  |    0 |  5.9 |  0.0 | 14.0 | 17.0 |  7.1 |  0.0 |  0.0 |  0.0 |  0.0 |
+
+Summary table of the percentage of plots with fruiting plant counts
+exceeding seedling counts
+
+``` r
+# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE)
+```
+
+### Fruits per plant data for transects
+
+From 2007-2012, there is data on the number of total fruit equivalents
+on each plant in each permanent plot. In the Excel files, this means
+that each year’s sheet is a ragged array in which a row corresponds to a
+permanent plot. Each row has a different number of columns because each
+plot has a different number of plants, and each plant is recorded in its
+own cell.
+
+The code below takes these Excel files and converts them into a long
+data frame with the following columns …
+
+``` r
+# directory for excel files
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
+# years for datasets
+years = 2007:2012
+
+# names of the files
+namesFruitPerPlantFiles = list.files(directory)[3:8]
+
+#range of the data in each file
+rangeFruitPerPlantColumnNames = c("A1:AL602","A1:BC602",
+                                  "A1:AU602","A1:AT602",
+                                  "A1:AN602","A1:U602")
+
+# range of the data in each file
+rangeFruitPerPlantData = c("A3:AL602","A3:BC602",
+                                  "A3:AU602","A3:AT602",
+                                  "A3:AN602","A3:U602")
+
+# empty list
+listDataFrames20072012 <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+  # extract names from first row
+(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                      sheet = 1, range = rangeFruitPerPlantColumnNames[i], 
+                      na = "NA", n_max=0) %>% 
+    names())
+
+  # extract data and write temporary csv 
+tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 1, range = rangeFruitPerPlantData[i],
+              na = "NA",  col_names=cnames) %>%
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-raw.csv"))
+
+# remove columns with summary statistics
+tmp <- tmp %>%
+  dplyr::select(-contains(c("fruitpl_number","average")) )
+
+# get names of variables
+keyVariables = names(tmp)
+
+# get columns with data
+tmp2 <- tmp %>%
+  dplyr::select(-c(site,transect,position))
+
+# rename columns
+plantNumbers <- paste0("plant_",1:dim(tmp2)[2])
+
+# rename data frame
+names(tmp) <- c(keyVariables[1:3],plantNumbers)
+
+# use pivot_longer to create long form data
+# remove rows with NA (corresponding to no plants)
+countFruitsPerPlantFromTransects <- tmp %>%
+  tidyr::pivot_longer(cols=contains(c("plant")),
+               names_to = "plantNumber",
+               values_to = "countFruitsPerPlant") %>%
+  dplyr::filter(!is.na(countFruitsPerPlant))
+  
+# add data frame to list
+listDataFrames20072012[[i]] <- countFruitsPerPlantFromTransects
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20072012[[i]] <- listDataFrames20072012[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+# unlist and bind data frames
+countFruitsPerPlantTransects <- listDataFrames20072012 %>%
+  purrr::reduce(full_join)
+
+# write data frame to RDS
+readr::write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+```
+
+Summary tables
+
+``` r
+tmp <- countFruitsPerPlantTransects %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(countFruitsPerPlant))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+tmp <- arrange(tmp,tmp$site)
+
+kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from transects")
+```
+
+| site | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   42 |  145 |   47 |  151 |  105 |   11 |
+| BR   |  172 |  515 |  222 |  377 |  153 |   61 |
+| CF   |   22 |   75 |  118 |  321 |  164 |   29 |
+| CP3  |   29 |   18 |   23 |   23 |    4 |   NA |
+| DEM  |   70 |   56 |  139 |  200 |  100 |   15 |
+| DLW  |    6 |    8 |   11 |   40 |   34 |   19 |
+| EC   |  122 |  126 |  253 |  350 |  289 |   25 |
+| FR   |  100 |   21 |  115 |  326 |   94 |    3 |
+| GCN  |   NA |    8 |   NA |  107 |  179 |   17 |
+| KYE  |   40 |  151 |  112 |  251 |  195 |    3 |
+| LCE  |   25 |   66 |   41 |    6 |   NA |   NA |
+| LCW  |  253 |  266 |   16 |   58 |    3 |   NA |
+| LO   |   15 |  187 |  472 |   68 |    2 |    1 |
+| MC   |   24 |   33 |   56 |  150 |  188 |    4 |
+| OKRE |   11 |   11 |   27 |   57 |   35 |    1 |
+| OKRW |    8 |   14 |   24 |  103 |   10 |   NA |
+| OSR  |   13 |   20 |   36 |  159 |  129 |   32 |
+| S22  |   NA |   23 |   30 |  102 |   22 |    3 |
+| SM   |    5 |   26 |   42 |  137 |  159 |    2 |
+| URS  |    3 |    3 |    2 |   10 |   17 |    1 |
+
+Summary of dataset on total fruit equivalents per plant from transects
+
+``` r
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+```
+
+From 2013-2018, there is data on the number of undamaged and damaged
+fruits on each plant in each permanent plot. In the Excel files, this
+means that each year’s sheet is a ragged array in which a row
+corresponds to a permanent plot. Each row has a different number of
+columns because each plot has a different number of plants, and each
+plant is recorded in its own cell.
+
+The code below takes these Excel files and converts them into a long
+data frame with the following columns …
+
+``` r
+# directory for excel files
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
+# years for datasets
+years = 2013:2018
+
+# names of the files
+namesFruitPerPlantFiles = list.files(directory)[9:14]
+
+#range of the data in each file
+rangeUndamagedFruitPerPlantColumnNames = c("A1:M602","A1:M602",
+                                  "A1:Q602","A1:M602",
+                                  "A1:W602","A1:Y602")
+
+rangeDamagedFruitPerPlantColumnNames = c("N1:T602","N1:T602",
+                                         "R1:AB602","N1:T602",
+                                         "X1:AN602","AA1:AS602")
+
+# range of the data in each file
+rangeUndamagedFruitPerPlantData = c("A3:M602","A3:M602",
+                                  "A3:Q602","A3:M602",
+                                  "A3:W602","A3:Y602")
+
+rangeDamagedFruitPerPlantData = c("N3:T602","N3:T602",
+                                    "R3:AB602","N3:T602",
+                                    "X3:AN602","AA3:AS602")
+
+# empty list
+listDataFrames20132018Undamaged <- list()
+listDataFrames20132018Damaged <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+  # extract names from first row
+(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                      sheet = 1, range = rangeUndamagedFruitPerPlantColumnNames[i], 
+                      na = "NA", n_max=0) %>% 
+    names())
+
+  # extract data and write temporary csv 
+tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 1, range = rangeUndamagedFruitPerPlantData[i],
+              na = "NA",  col_names=cnames) %>%
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-undamaged-raw.csv"))
+
+# remove columns with summary statistics
+tmp <- tmp %>%
+  dplyr::select(-contains(c("fruitpl_number","average","undamaged_fruit_pl","damaged_fruit_pl")) )
+
+# get names of variables
+keyVariables = names(tmp)
+
+# get columns with data
+tmp2 <- tmp %>%
+  dplyr::select(-c(site,transect,position))
+
+# rename columns
+plantNumbers <- paste0("plant_",1:dim(tmp2)[2])
+
+# rename data frame
+names(tmp) <- c(keyVariables[1:3],plantNumbers)
+
+# use pivot_longer to create long form data
+# remove rows with NA (corresponding to no plants)
+countUndamagedFruitsPerPlantFromTransects <- tmp %>%
+  tidyr::pivot_longer(cols=contains(c("plant")),
+               names_to = "plantNumber",
+               values_to = "countUndamagedFruitsPerPlant") %>%
+  dplyr::filter(!is.na(countUndamagedFruitsPerPlant)) 
+  
+# add data frame to list
+listDataFrames20132018Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransects
+
+## now do the damaged fruit counts
+
+  # extract names from first row
+(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                      sheet = 1, range = rangeDamagedFruitPerPlantColumnNames[i], 
+                      na = "NA", n_max=0) %>% 
+    names())
+
+  # extract data and write temporary csv 
+tmpDamaged <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 1, range = rangeDamagedFruitPerPlantData[i],
+              na = "NA",  col_names=cnames) %>%
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-damaged-raw.csv"))
+
+# rename columns
+plantNumbersDamaged <- paste0("plant_",1:dim(tmpDamaged)[2])
+
+# rename data frame
+names(tmpDamaged) <- plantNumbersDamaged
+
+# add columns with variable names
+tmpDamaged <- tmp %>%
+  dplyr::select(c(site,transect,position)) %>%
+  dplyr::bind_cols(tmpDamaged)
+
+# use pivot_longer to create long form data
+# remove rows with NA (corresponding to no plants)
+countDamagedFruitsPerPlantFromTransects <- tmpDamaged %>%
+  tidyr::pivot_longer(cols=contains(c("plant")),
+               names_to = "plantNumber",
+               values_to = "countDamagedFruitsPerPlant") %>%
+  dplyr::filter(!is.na(countDamagedFruitsPerPlant)) 
+  
+listDataFrames20132018Damaged[[i]] <- countDamagedFruitsPerPlantFromTransects
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20132018Undamaged[[i]] <- listDataFrames20132018Undamaged[[i]] %>%
+      dplyr::mutate(year=years[i],
+                    damage=0)
+  
+    listDataFrames20132018Damaged[[i]] <- listDataFrames20132018Damaged[[i]] %>%
+      dplyr::mutate(year=years[i],
+                    damage=1)
+}
+
+# unlist and bind data frames
+countUndamagedFruitsPerPlantTransects <- listDataFrames20132018Undamaged %>%
+  purrr::reduce(full_join)
+
+countDamagedFruitsPerPlantTransects <- listDataFrames20132018Damaged %>%
+  purrr::reduce(full_join)
+
+countUndamagedDamagedFruitsPerPlantTransects<-left_join(countUndamagedFruitsPerPlantTransects,countDamagedFruitsPerPlantTransects,by=c("site","transect","position","plantNumber","year")) %>%
+  dplyr::select(-c("damage.x","damage.y"))
+
+# write data frame to RDS
+readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
+```
+
+Summary tables
+
+``` r
+tmp <- countUndamagedDamagedFruitsPerPlantTransects %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(countUndamagedFruitsPerPlant))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+tmp<-arrange(tmp,tmp$site)
+
+kable(tmp, caption="Summary of dataset on undamaged and damaged fruits per plant from transects")
+```
+
+| site | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |    7 |    3 |   NA |    3 |   12 |   38 |
+| BR   |   32 |    8 |    3 |    5 |   46 |  107 |
+| CF   |   13 |   12 |    2 |    6 |   33 |   NA |
+| CP3  |    2 |    1 |   NA |   NA |    1 |   NA |
+| DEM  |   12 |    3 |    2 |    5 |  134 |  156 |
+| DLW  |    2 |   NA |   NA |    4 |   11 |   11 |
+| EC   |   13 |    1 |   15 |    2 |    9 |   NA |
+| FR   |   NA |    4 |    1 |    1 |   42 |   13 |
+| GCN  |    1 |    9 |    3 |   NA |   NA |    4 |
+| KYE  |    6 |    1 |   19 |   NA |    3 |    4 |
+| LCE  |   NA |   NA |    1 |   14 |   24 |   73 |
+| LCW  |   NA |   NA |   NA |   NA |   NA |    1 |
+| LO   |    6 |    2 |    1 |    6 |   12 |   11 |
+| MC   |   NA |    3 |   NA |    7 |   10 |   NA |
+| OKRE |    5 |    3 |    1 |    2 |   19 |    4 |
+| OKRW |   NA |   NA |   NA |    1 |    4 |    1 |
+| OSR  |    1 |    1 |   NA |   NA |   NA |   NA |
+| S22  |    1 |   NA |    4 |    4 |    6 |   NA |
+| SM   |    8 |   NA |    9 |   NA |   NA |   NA |
+| URS  |   NA |   NA |   NA |   NA |    3 |   NA |
+
+Summary of dataset on undamaged and damaged fruits per plant from
+transects
+
+``` r
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+```
+
+### Fruits per plant data extra plots
+
+For 2006, there is no data on fruits per plant associated with permanent
+plots. From 2007-2012, additional plants outside of permanent plots were
+sampled to supplement counts of fruits per plant.
+
+``` r
+# directory for excel files
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
+# years for datasets
+years = 2006:2012
+
+# names of the files
+namesFruitPerPlantFiles = list.files(directory)[2:8]
+
+#range of the data in each file
+rangeFruitPerPlantData = c("A1:C4580","A1:C3133",
+                           "A1:C3755","A1:C3664",
+                           "A1:C5249","A1:C3209",
+                           "A1:C1222")
+
+# empty list
+listDataFrames20062012 <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+    # extract data and write temporary csv 
+tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 2, range = rangeFruitPerPlantData[i],
+              na = "NA") %>%
+  janitor::clean_names("lower_camel") %>%
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+
+tmp <- tmp %>%
+  dplyr::rename(countFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
+  dplyr::mutate(damage=0)
+
+# add data frame to list
+listDataFrames20062012[[i]] <- tmp
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20062012[[i]] <- listDataFrames20062012[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+# unlist and bind data frames
+countFruitsPerPlantAllPlots <- listDataFrames20062012 %>%
+  purrr::reduce(full_join)
+
+# write data frame to RDS
+readr::write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+```
+
+``` r
+tmp <- countFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==0) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(countFruitNumberPerPlant))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+tmp<-arrange(tmp,tmp$site)
+
+kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from extra plots")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |  153 |  118 |   77 |  108 |   NA |   38 |   52 |
+| BR   |  349 |   58 |  229 |   17 |  115 |   48 |   64 |
+| CF   |  282 |  143 |  150 |   68 |   38 |   74 |   68 |
+| CP3  |  279 |  197 |  128 |  178 |  177 |  103 |   25 |
+| DEM  |  177 |   67 |   NA |   52 |  188 |   28 |   78 |
+| DLW  |  208 |  124 |  110 |  139 |  147 |   70 |   54 |
+| EC   |  370 |   74 |    7 |   34 |   46 |  112 |   58 |
+| FR   |  261 |   88 |  133 |   61 |  102 |   57 |   14 |
+| GCN  |  240 |  169 |  148 |  125 |  161 |   79 |  136 |
+| KYE  |  285 |  155 |  174 |   87 |  155 |   30 |   72 |
+| LCE  |  246 |  194 |   81 |  105 |  127 |   29 |    0 |
+| LCW  |  243 |   17 |   75 |  178 |  167 |   50 |    3 |
+| LO   |   98 |   98 |   67 |   NA |  132 |   38 |    2 |
+| MC   |  163 |  133 |  109 |   95 |   56 |   90 |   73 |
+| OKRE |  100 |   36 |   32 |  113 |   50 |   87 |    4 |
+| OKRW |  280 |   52 |   57 |   51 |  125 |   91 |    6 |
+| OSR  |  277 |  288 |  246 |  150 |  157 |  145 |  117 |
+| S22  |  319 |  111 |   69 |  157 |  144 |   83 |  112 |
+| SM   |  217 |   20 |   53 |   79 |   33 |   41 |   49 |
+| URS  |   32 |   40 |   38 |   52 |  145 |   40 |    6 |
+
+Summary of dataset on total fruit equivalents per plant from extra plots
+
+``` r
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+```
+
 ### Seeds per fruit data
 
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the
@@ -225,8 +862,90 @@ countSeedPerFruit <- countSeedPerFruit %>%
 
 # save the dataframe as an RDS file
 readr::write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+```
 
-# this is now missing the permanent plot binary columns - why?
+Summary table.
+
+``` r
+tmp <- countSeedPerFruit %>%
+  dplyr::filter(damaged==0) %>%
+  dplyr::filter(demography==1) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(sdno))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+kable(tmp, caption="Summary of dataset on seeds per undamaged fruit")
+```
+
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   21 |   19 |   41 |   30 |   30 |   28 |   29 |   29 |   30 |   29 |   29 |   32 |   27 |
+| BR   |   20 |   29 |   32 |   30 |   29 |   18 |   29 |   39 |   31 |   31 |   30 |   27 |   32 |
+| CF   |   20 |   45 |   30 |   29 |   34 |   30 |   27 |   28 |   30 |   26 |   28 |   31 |   33 |
+| CP3  |   20 |   36 |   41 |   30 |   30 |   29 |   21 |   30 |   30 |   21 |   29 |   29 |   11 |
+| DEM  |   20 |   32 |   29 |   30 |   32 |   27 |   27 |   30 |   24 |   28 |   30 |   25 |   29 |
+| DLW  |   20 |   29 |   22 |   30 |   31 |   28 |   25 |   33 |    1 |   30 |   29 |   32 |   35 |
+| EC   |   20 |   17 |   29 |   30 |   31 |   26 |   22 |   30 |   31 |   31 |   30 |   30 |    4 |
+| FR   |   20 |   34 |   31 |   30 |   31 |   31 |   10 |    2 |   46 |   30 |   38 |   31 |   31 |
+| GCN  |   20 |   29 |   29 |   30 |   32 |   30 |   29 |   27 |   28 |   29 |   30 |   30 |   30 |
+| KYE  |   20 |   30 |   30 |   30 |   30 |   30 |   28 |   25 |   30 |   29 |   27 |   31 |   30 |
+| LCE  |   20 |   30 |   30 |   30 |   32 |   12 |    0 |   30 |   29 |   38 |   30 |   26 |   37 |
+| LCW  |   20 |   50 |   28 |   30 |   35 |   32 |    4 |    0 |    0 |    0 |    0 |   28 |   33 |
+| LO   |   32 |   44 |   30 |   30 |   37 |    2 |    2 |   24 |   30 |    0 |   30 |   28 |   28 |
+| MC   |   20 |   50 |   29 |   30 |   35 |   30 |   26 |   24 |   46 |   35 |   30 |   34 |   30 |
+| OKRE |   20 |   40 |   26 |   30 |   30 |   28 |    3 |   30 |   18 |   24 |   31 |   35 |   22 |
+| OKRW |   20 |   28 |   33 |   30 |   34 |   28 |    4 |    0 |    9 |    0 |   27 |   26 |   29 |
+| OSR  |   20 |   32 |   32 |   30 |   30 |   28 |   29 |   29 |   30 |   37 |   32 |   33 |   30 |
+| S22  |   20 |   40 |   33 |   30 |   28 |   23 |   30 |   30 |   23 |   30 |   30 |   30 |   17 |
+| SM   |   20 |   44 |   31 |   29 |   32 |   30 |   27 |   30 |    3 |    8 |    0 |   30 |    3 |
+| URS  |   18 |   30 |   25 |   30 |   30 |   27 |    5 |    0 |    0 |    0 |   29 |   16 |    0 |
+
+Summary of dataset on seeds per undamaged fruit
+
+``` r
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+```
+
+Summary table.
+
+``` r
+tmp <- countSeedPerFruit %>%
+  dplyr::filter(damaged==1) %>%
+  dplyr::filter(demography==1) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(sdno))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+kable(tmp, caption="Summary of dataset on seeds per damaged fruit")
+```
+
+| site | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   17 |   20 |   11 |   30 |   28 |   28 |
+| BR   |   24 |   25 |   23 |   30 |   26 |   26 |
+| CF   |   22 |   29 |   27 |   29 |   28 |   28 |
+| CP3  |   23 |   11 |    9 |   14 |   20 |    4 |
+| DEM  |    5 |   14 |   25 |   30 |   20 |   28 |
+| DLW  |    8 |    0 |   30 |   30 |   30 |   33 |
+| EC   |   12 |   22 |    8 |   30 |   30 |    1 |
+| FR   |    2 |   25 |   15 |   32 |   26 |   17 |
+| GCN  |    1 |    0 |    3 |    7 |   22 |   30 |
+| KYE  |   23 |   34 |   15 |   28 |   32 |   31 |
+| LCE  |    1 |   11 |   15 |   24 |   16 |    7 |
+| LCW  |    0 |    0 |    0 |    0 |   16 |   15 |
+| LO   |    4 |   14 |    0 |   27 |   29 |    4 |
+| MC   |    4 |   15 |   15 |   30 |   24 |   31 |
+| OKRE |   13 |    8 |    9 |   18 |   30 |    7 |
+| OKRW |    0 |    4 |    0 |   21 |   24 |    5 |
+| OSR  |    1 |   19 |   26 |   36 |   20 |   25 |
+| S22  |    1 |    3 |    2 |    7 |   10 |    1 |
+| SM   |    1 |    3 |    0 |    0 |    0 |    0 |
+| URS  |    0 |    0 |    0 |   19 |   20 |    0 |
+
+Summary of dataset on seeds per damaged fruit
+
+``` r
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
 ```
 
 The data files for 2011-2012 have four columns: (1) a column for the
@@ -484,424 +1203,6 @@ It might be useful to summarize the datasets:
 # kable(summaryTable, caption="Summary table of the number of counts of seeds from undamaged fruits")
 # 
 # kable(summaryDamaged20132015, caption="Summary table of the number of counts of seeds from damaged fruits")
-```
-
-### Fruits per plant data for transects
-
-From 2007-2012, there is data on the number of total fruit equivalents
-on each plant in each permanent plot. In the Excel files, this means
-that each year’s sheet is a ragged array in which a row corresponds to a
-permanent plot. Each row has a different number of columns because each
-plot has a different number of plants, and each plant is recorded in its
-own cell.
-
-The code below takes these Excel files and converts them into a long
-data frame with the following columns …
-
-``` r
-# directory for excel files
-directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
-
-# years for datasets
-years = 2007:2012
-
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[3:8]
-
-#range of the data in each file
-rangeFruitPerPlantColumnNames = c("A1:AL602","A1:BC602",
-                                  "A1:AU602","A1:AT602",
-                                  "A1:AN602","A1:U602")
-
-# range of the data in each file
-rangeFruitPerPlantData = c("A3:AL602","A3:BC602",
-                                  "A3:AU602","A3:AT602",
-                                  "A3:AN602","A3:U602")
-
-# empty list
-listDataFrames20072012 <- list()
-
-# loop to create data frame with each year of data
-for(i in 1:length(namesFruitPerPlantFiles)){
-  
-  # extract names from first row
-(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                      sheet = 1, range = rangeFruitPerPlantColumnNames[i], 
-                      na = "NA", n_max=0) %>% 
-    names())
-
-  # extract data and write temporary csv 
-tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                            sheet = 1, range = rangeFruitPerPlantData[i],
-              na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-raw.csv"))
-
-# remove columns with summary statistics
-tmp <- tmp %>%
-  dplyr::select(-contains(c("fruitpl_number","average")) )
-
-# get names of variables
-keyVariables = names(tmp)
-
-# get columns with data
-tmp2 <- tmp %>%
-  dplyr::select(-c(site,transect,position))
-
-# rename columns
-plantNumbers <- paste0("plant_",1:dim(tmp2)[2])
-
-# rename data frame
-names(tmp) <- c(keyVariables[1:3],plantNumbers)
-
-# use pivot_longer to create long form data
-# remove rows with NA (corresponding to no plants)
-countFruitsPerPlantFromTransects <- tmp %>%
-  tidyr::pivot_longer(cols=contains(c("plant")),
-               names_to = "plantNumber",
-               values_to = "countFruitsPerPlant") %>%
-  dplyr::filter(!is.na(countFruitsPerPlant))
-  
-# add data frame to list
-listDataFrames20072012[[i]] <- countFruitsPerPlantFromTransects
-
-}
-
-# append year to data frames  
-for(i in 1:length(years)){
-  listDataFrames20072012[[i]] <- listDataFrames20072012[[i]] %>%
-      dplyr::mutate(year=years[i])
-}
-
-# unlist and bind data frames
-countFruitsPerPlantTransects <- listDataFrames20072012 %>%
-  purrr::reduce(full_join)
-
-# write data frame to RDS
-readr::write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
-```
-
-From 2013-2018, there is data on the number of undamaged and damaged
-fruits on each plant in each permanent plot. In the Excel files, this
-means that each year’s sheet is a ragged array in which a row
-corresponds to a permanent plot. Each row has a different number of
-columns because each plot has a different number of plants, and each
-plant is recorded in its own cell.
-
-The code below takes these Excel files and converts them into a long
-data frame with the following columns …
-
-``` r
-# directory for excel files
-directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
-
-# years for datasets
-years = 2013:2018
-
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[9:14]
-
-#range of the data in each file
-rangeUndamagedFruitPerPlantColumnNames = c("A1:M602","A1:M602",
-                                  "A1:Q602","A1:M602",
-                                  "A1:W602","A1:Y602")
-
-rangeDamagedFruitPerPlantColumnNames = c("N1:T602","N1:T602",
-                                         "R1:AB602","N1:T602",
-                                         "X1:AN602","AA1:AS602")
-
-# range of the data in each file
-rangeUndamagedFruitPerPlantData = c("A3:M602","A3:M602",
-                                  "A3:Q602","A3:M602",
-                                  "A3:W602","A3:Y602")
-
-rangeDamagedFruitPerPlantData = c("N3:T602","N3:T602",
-                                    "R3:AB602","N3:T602",
-                                    "X3:AN602","AA3:AS602")
-
-# empty list
-listDataFrames20132018Undamaged <- list()
-listDataFrames20132018Damaged <- list()
-
-# loop to create data frame with each year of data
-for(i in 1:length(namesFruitPerPlantFiles)){
-  
-  # extract names from first row
-(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                      sheet = 1, range = rangeUndamagedFruitPerPlantColumnNames[i], 
-                      na = "NA", n_max=0) %>% 
-    names())
-
-  # extract data and write temporary csv 
-tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                            sheet = 1, range = rangeUndamagedFruitPerPlantData[i],
-              na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-undamaged-raw.csv"))
-
-# remove columns with summary statistics
-tmp <- tmp %>%
-  dplyr::select(-contains(c("fruitpl_number","average","undamaged_fruit_pl","damaged_fruit_pl")) )
-
-# get names of variables
-keyVariables = names(tmp)
-
-# get columns with data
-tmp2 <- tmp %>%
-  dplyr::select(-c(site,transect,position))
-
-# rename columns
-plantNumbers <- paste0("plant_",1:dim(tmp2)[2])
-
-# rename data frame
-names(tmp) <- c(keyVariables[1:3],plantNumbers)
-
-# use pivot_longer to create long form data
-# remove rows with NA (corresponding to no plants)
-countUndamagedFruitsPerPlantFromTransects <- tmp %>%
-  tidyr::pivot_longer(cols=contains(c("plant")),
-               names_to = "plantNumber",
-               values_to = "countUndamagedFruitsPerPlant") %>%
-  dplyr::filter(!is.na(countUndamagedFruitsPerPlant)) 
-  
-# add data frame to list
-listDataFrames20132018Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransects
-
-## now do the damaged fruit counts
-
-  # extract names from first row
-(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                      sheet = 1, range = rangeDamagedFruitPerPlantColumnNames[i], 
-                      na = "NA", n_max=0) %>% 
-    names())
-
-  # extract data and write temporary csv 
-tmpDamaged <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                            sheet = 1, range = rangeDamagedFruitPerPlantData[i],
-              na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-damaged-raw.csv"))
-
-# rename columns
-plantNumbersDamaged <- paste0("plant_",1:dim(tmpDamaged)[2])
-
-# rename data frame
-names(tmpDamaged) <- plantNumbersDamaged
-
-# add columns with variable names
-tmpDamaged <- tmp %>%
-  dplyr::select(c(site,transect,position)) %>%
-  dplyr::bind_cols(tmpDamaged)
-
-# use pivot_longer to create long form data
-# remove rows with NA (corresponding to no plants)
-countDamagedFruitsPerPlantFromTransects <- tmpDamaged %>%
-  tidyr::pivot_longer(cols=contains(c("plant")),
-               names_to = "plantNumber",
-               values_to = "countDamagedFruitsPerPlant") %>%
-  dplyr::filter(!is.na(countDamagedFruitsPerPlant)) 
-  
-listDataFrames20132018Damaged[[i]] <- countDamagedFruitsPerPlantFromTransects
-
-}
-
-# append year to data frames  
-for(i in 1:length(years)){
-  listDataFrames20132018Undamaged[[i]] <- listDataFrames20132018Undamaged[[i]] %>%
-      dplyr::mutate(year=years[i],
-                    damage=0)
-  
-    listDataFrames20132018Damaged[[i]] <- listDataFrames20132018Damaged[[i]] %>%
-      dplyr::mutate(year=years[i],
-                    damage=1)
-}
-
-# unlist and bind data frames
-countUndamagedFruitsPerPlantTransects <- listDataFrames20132018Undamaged %>%
-  purrr::reduce(full_join)
-
-countDamagedFruitsPerPlantTransects <- listDataFrames20132018Damaged %>%
-  purrr::reduce(full_join)
-
-countUndamagedDamagedFruitsPerPlantTransects<-bind_rows(countUndamagedFruitsPerPlantTransects,countDamagedFruitsPerPlantTransects)
-
-# write data frame to RDS
-readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
-```
-
-### Fruits per plant data extra plots
-
-For 2006, there is no data on fruits per plant associated with permanent
-plots. From 2007-2012, additional plants outside of permanent plots were
-sampled to supplement counts of fruits per plant.
-
-``` r
-# directory for excel files
-directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
-
-# years for datasets
-years = 2006:2012
-
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[2:8]
-
-#range of the data in each file
-rangeFruitPerPlantData = c("A1:C4580","A1:C3133",
-                           "A1:C3755","A1:C3664",
-                           "A1:C5249","A1:C3209",
-                           "A1:C1222")
-
-# empty list
-listDataFrames20062012 <- list()
-
-# loop to create data frame with each year of data
-for(i in 1:length(namesFruitPerPlantFiles)){
-  
-    # extract data and write temporary csv 
-tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
-                            sheet = 2, range = rangeFruitPerPlantData[i],
-              na = "NA") %>%
-  janitor::clean_names("lower_camel") %>%
-  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
-
-tmp <- tmp %>%
-  dplyr::rename(countFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
-  dplyr::mutate(damage=0)
-
-# add data frame to list
-listDataFrames20062012[[i]] <- tmp
-
-}
-
-# append year to data frames  
-for(i in 1:length(years)){
-  listDataFrames20062012[[i]] <- listDataFrames20062012[[i]] %>%
-      dplyr::mutate(year=years[i])
-}
-
-# unlist and bind data frames
-countFruitsPerPlantAllPlots <- listDataFrames20062012 %>%
-  purrr::reduce(full_join)
-
-# write data frame to RDS
-readr::write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
-```
-
-### Seedlings and fruiting plant data
-
-Start with the survival data. This is file `.../reshapeSeeds.R` file in
-the list above.
-
-``` r
-directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
-# 
-
-# extract data and write out temporary csv
-tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
-                      sheet = 1, na = c("","NA" )) %>%
-  janitor::clean_names(case="lower_camel") %>%
-  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
-
-names(tmp)
-```
-
-    ##  [1] "easting"              "northing"             "site"                
-    ##  [4] "transect"             "position"             "seedlingNumber1_06"  
-    ##  [7] "flowplNumber6_06"     "fruitplNumber6_06"    "numberFruitplSdl06"  
-    ## [10] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
-    ## [13] "fruitPl6_07"          "numberFruitplSdl07"   "seedlingNumber1_08"  
-    ## [16] "flowplNumber6_08"     "fruitplNumber6_08"    "fruitPl6_08"         
-    ## [19] "numberFruitplSdl08"   "seedlingNumber1_09"   "flowplNumber5_09"    
-    ## [22] "fruitplNumber6_09"    "fruitPl6_09"          "numberFruitplSdl09"  
-    ## [25] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
-    ## [28] "fruitplNumberSdl10"   "seedlingNumber2_11"   "fruitplNumber6_11"   
-    ## [31] "fruitFlPl6_11"        "fruitplNumberSdl11"   "seedlingNumber2_12"  
-    ## [34] "fruitplNumber6_12"    "fruitPl6_12"          "fruitplNumberSdl12"  
-    ## [37] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
-    ## [40] "damagedFruitPl6_13"   "fruitplNumberSdl13"   "seedlingNumber2_14"  
-    ## [43] "fruitplNumber6_14"    "undamagedFruitPl6_14" "damagedFruitPl6_14"  
-    ## [46] "fruitplNumberSdl14"   "seedlingNumber2_15"   "fruitplNumber6_15"   
-    ## [49] "undamagedFruitPl6_15" "damagedFruitPl6_15"   "fruitplNumberSdl15"  
-    ## [52] "comments"
-
-``` r
-# remove conditional and easting/northing
-tmp <- tmp %>%
-  dplyr::select(-contains("numberFruitplSdl")) %>%
-  dplyr::select(-contains("fruitplNumberSdl")) %>%
-  dplyr::select(-c("easting","northing"))
-
-names(tmp)
-```
-
-    ##  [1] "site"                 "transect"             "position"            
-    ##  [4] "seedlingNumber1_06"   "flowplNumber6_06"     "fruitplNumber6_06"   
-    ##  [7] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
-    ## [10] "fruitPl6_07"          "seedlingNumber1_08"   "flowplNumber6_08"    
-    ## [13] "fruitplNumber6_08"    "fruitPl6_08"          "seedlingNumber1_09"  
-    ## [16] "flowplNumber5_09"     "fruitplNumber6_09"    "fruitPl6_09"         
-    ## [19] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
-    ## [22] "seedlingNumber2_11"   "fruitplNumber6_11"    "fruitFlPl6_11"       
-    ## [25] "seedlingNumber2_12"   "fruitplNumber6_12"    "fruitPl6_12"         
-    ## [28] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
-    ## [31] "damagedFruitPl6_13"   "seedlingNumber2_14"   "fruitplNumber6_14"   
-    ## [34] "undamagedFruitPl6_14" "damagedFruitPl6_14"   "seedlingNumber2_15"  
-    ## [37] "fruitplNumber6_15"    "undamagedFruitPl6_15" "damagedFruitPl6_15"  
-    ## [40] "comments"
-
-``` r
-# remove fruits per plant averages
-tmp <- tmp %>%
-  dplyr::select(-contains("fruitPl",ignore.case=FALSE)) %>%
-  dplyr::select(-contains("undamagedFruitPl")) %>%
-  dplyr::select(-contains("damagedFruitPl"))
-
-names(tmp)
-```
-
-    ##  [1] "site"               "transect"           "position"          
-    ##  [4] "seedlingNumber1_06" "flowplNumber6_06"   "fruitplNumber6_06" 
-    ##  [7] "seedlingNumber1_07" "flowplNumber6_07"   "fruitplNumber6_07" 
-    ## [10] "seedlingNumber1_08" "flowplNumber6_08"   "fruitplNumber6_08" 
-    ## [13] "seedlingNumber1_09" "flowplNumber5_09"   "fruitplNumber6_09" 
-    ## [16] "seedlingNumber1_10" "fruitplNumber6_10"  "seedlingNumber2_11"
-    ## [19] "fruitplNumber6_11"  "fruitFlPl6_11"      "seedlingNumber2_12"
-    ## [22] "fruitplNumber6_12"  "seedlingNumber2_13" "fruitplNumber6_13" 
-    ## [25] "seedlingNumber2_14" "fruitplNumber6_14"  "seedlingNumber2_15"
-    ## [28] "fruitplNumber6_15"  "comments"
-
-``` r
-# select relevant columns
-tmp <- tmp %>%
-  dplyr::select(contains(c("site","transect","position","seedlingNumber","fruitplNumber"),ignore.case=FALSE))
-
-names(tmp)
-```
-
-    ##  [1] "site"               "transect"           "position"          
-    ##  [4] "seedlingNumber1_06" "seedlingNumber1_07" "seedlingNumber1_08"
-    ##  [7] "seedlingNumber1_09" "seedlingNumber1_10" "seedlingNumber2_11"
-    ## [10] "seedlingNumber2_12" "seedlingNumber2_13" "seedlingNumber2_14"
-    ## [13] "seedlingNumber2_15" "fruitplNumber6_06"  "fruitplNumber6_07" 
-    ## [16] "fruitplNumber6_08"  "fruitplNumber6_09"  "fruitplNumber6_10" 
-    ## [19] "fruitplNumber6_11"  "fruitplNumber6_12"  "fruitplNumber6_13" 
-    ## [22] "fruitplNumber6_14"  "fruitplNumber6_15"
-
-``` r
-# remove 
-
-censusSeedlingsFruitingPlants <- tmp %>%
-  tidyr::pivot_longer(cols=contains(c("seedlingNumber","fruitplNumber")),
-               names_to = c("variable","year"),
-               names_pattern = "(.*)_(.*)",
-               values_to = "count") %>%
-  tidyr::separate(variable,into = c("variable", "month"), "(?<=[a-z])(?=[0-9])") %>%
-  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
-  dplyr::mutate(position = as.character(position))
-
-censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
-  dplyr::select(-month) %>%
-  tidyr::pivot_wider(names_from = variable,
-                     values_from = count) 
-
-readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 ```
 
 ### Seed bag data

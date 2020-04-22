@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 MAR 2020 17:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 APR 2020 11:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -215,6 +215,21 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
 (./parameter-table.aux
 
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:titleviab' multiply defined.
+
+
 LaTeX Warning: Label `tab:titleviab' multiply defined.
 
 )
@@ -328,7 +343,7 @@ e
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd)
-Overfull \hbox (10.98994pt too wide) in alignment at lines 47--47
+Overfull \hbox (10.98994pt too wide) in alignment at lines 49--49
 [][][][] 
  []
 
@@ -338,7 +353,7 @@ Overfull \hbox (10.98994pt too wide) in alignment at lines 47--47
 [2]
 
 Package caption Warning: \captionsetup{type*=...} or \captionof
-(caption)                outside box or environment on input line 104.
+(caption)                outside box or environment on input line 106.
 See the caption package documentation for explanation.
 
 [3] [4] [5]
@@ -355,7 +370,12 @@ s/underCounting.pdf used on input line 258.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6] [7 </Users/gregor/Dropbox/clarkiaSeedBanks/products/figures/underCounting.p
-df>] [8] (./parameter-table.aux)
+df>] [8] [9]
+Overfull \hbox (99.46526pt too wide) in paragraph at lines 392--419
+ [][] 
+ []
+
+[10] [11] [12] (./parameter-table.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -363,20 +383,20 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  4156 strings out of 493014
  61180 string characters out of 6133351
- 129013 words of memory out of 5000000
+ 138017 words of memory out of 5000000
  7635 multiletter control sequences out of 15000+600000
  11355 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,13n,39p,554b,301s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,13n,39p,555b,301s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></
 usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-Output written on parameter-table.pdf (8 pages, 72067 bytes).
+Output written on parameter-table.pdf (12 pages, 77085 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 47 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
