@@ -57,7 +57,7 @@ mcmcSummary<-cbind(mcmcSummary,site=siteNames)
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
-pdf(paste0(dirFigures,"g1_space.pdf"), width=8, height=6)
+pdf(paste0(dirFigures,"spatial-g1.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
 plot(vr$easting,vr$med,ylim=c(0.0,1),
@@ -104,7 +104,7 @@ mcmcSummary<-cbind(mcmcSummary,site=siteNames)
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
-pdf(paste0(dirFigures,"s1_space.pdf"), width=8, height=6)
+pdf(paste0(dirFigures,"spatial-s1.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
 plot(vr$easting,vr$med,ylim=c(0.0,1),
@@ -147,7 +147,7 @@ mcmcSummary<-cbind(mcmcSummary,site=siteNames)
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
-pdf(paste0(dirFigures,"s2-space.pdf"), width=8, height=6)
+pdf(paste0(dirFigures,"spatial-s2.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
 plot(vr$easting,vr$med,ylim=c(0.0,1),
@@ -171,8 +171,33 @@ for(i in 1:20){
   lines(density(s2[,i]),lwd=.5)
 }
 
+################################################################################
+# ???
+#################################################################################
+ref<-seedBagExperiment %>% 
+  dplyr::select(yearBags,siteBags) %>%
+  tidyr::unite(yearSite,c(yearBags,siteBags))
+
+nYears = length(unique(seedBagExperiment$yearBags))
+
+sampleYear <-sample(1:nYears,1)
+par(mfrow=c(1,3))
+for(i in sampleYear){
+  # filter data to year
+  tmp = seedBagExperiment %>% 
+    dplyr::filter(yearBags==unique(seedBagExperiment$yearBags)[i]) %>%
+    dplyr::mutate(observed.p = totalJan/seedStart) %>%
+    dplyr::arrange(observed.p)
+  
+  mcmcSummary<-mcmcSamples %>%
+    tidybayes::spread_draws(theta_1[yearBags]) %>%
+    dplyr::group_by(yearBags) %>%
+    dplyr::summarise(med = median(theta_1), 
+                     ci.lo = quantile(theta_1,probs=0.025), 
+                     ci.hi = quantile(theta_1,probs=0.975))
+  
 tmp<-tmp %>%
-  dplyr::left_join(mcmcSummary,by="year")
+  dplyr::left_join(mcmcSummary,by="yearBags")
 
 mle = sum(tmp$fruitingPlantNumber)/sum(tmp$seedlingNumber)
 
@@ -832,7 +857,7 @@ library(bayesplot)
 library(dplyr)
 
 
-iter<-dim(MCMCchains(samplesBinLinkBetaPriorPartialMeanHier,params="fruitingPlantNumberSim"))[1]
+iter<-dim(MCMCchains(mcmcSamples,params="fruitingPlantNumberSim"))[1]
 
 #stat:skew
 skew <- psych::skew

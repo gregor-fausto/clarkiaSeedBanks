@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 MAR 2020 17:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 APR 2020 12:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -935,7 +935,41 @@ LaTeX Warning: Reference `eq:s2' on page 15 undefined on input line 523.
 LaTeX Warning: Reference `fig:obs_pred' on page 16 undefined on input line 528.
 
 
-[16] [17] [18] (./seedBankMS.bbl
+[16] <../figures/spatial-g1.pdf, id=75, page=1, 578.16pt x 433.62pt>
+File: ../figures/spatial-g1.pdf Graphic file (type pdf)
+
+<use ../figures/spatial-g1.pdf, page 1>
+Package pdftex.def Info: ../figures/spatial-g1.pdf, page1 used on input line 63
+0.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../figures/spatial-s1.pdf, id=76, page=1, 578.16pt x 433.62pt>
+File: ../figures/spatial-s1.pdf Graphic file (type pdf)
+
+<use ../figures/spatial-s1.pdf, page 1>
+Package pdftex.def Info: ../figures/spatial-s1.pdf, page1 used on input line 63
+7.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../figures/spatial-s2.pdf, id=77, page=1, 578.16pt x 433.62pt>
+File: ../figures/spatial-s2.pdf Graphic file (type pdf)
+
+<use ../figures/spatial-s2.pdf, page 1>
+Package pdftex.def Info: ../figures/spatial-s2.pdf, page1 used on input line 64
+4.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[17] [18] [19 <../figures/spatial-g1.pdf>] [20 <../figures/spatial-s1.pdf>]
+[21 <../figures/spatial-s2.pdf>] (./seedBankMS.bbl
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no  in font cmr12!
@@ -945,7 +979,7 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ½ in font cmr12!
 Missing character: There is no Ä in font cmr12!
 Missing character: There is no ‡ in font cmr12!
- [19
+ [22
 
 ]
 Missing character: There is no Ã in font cmr12!
@@ -967,16 +1001,19 @@ Missing character: There is no ™ in font cmr12!
 Package caption Warning: Unused \captionsetup[sub] on input line 17.
 See the caption package documentation for explanation.
 
-[20] (./seedBankMS.aux)
+[23] (./seedBankMS.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 19077 strings out of 493014
- 366901 string characters out of 6133351
+ 19094 strings out of 493014
+ 367348 string characters out of 6133351
  467877 words of memory out of 5000000
- 22243 multiletter control sequences out of 15000+600000
+ 22256 multiletter control sequences out of 15000+600000
  14090 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,19n,76p,986b,921s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -997,10 +1034,10 @@ al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on seedBankMS.pdf (21 pages, 203969 bytes).
+Output written on seedBankMS.pdf (24 pages, 218308 bytes).
 PDF statistics:
- 140 PDF objects out of 1000 (max. 8388607)
- 100 compressed objects within 1 object stream
+ 171 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
