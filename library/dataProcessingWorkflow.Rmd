@@ -67,7 +67,7 @@ library(tidyxl)
 
 Scripts for the original processing I did is located in the following folder. I want to document when I last updated these files before I start updating the workflow. None of the original scripts are going to be changed. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 dir = c("/Users/Gregor/Dropbox/projects/clarkiaScripts/code/reshapeDataScripts/")
 files = list.files(path=dir)
 dt <- data.frame(files)
@@ -87,7 +87,7 @@ Start with the seed data. This is file `.../reshapeSeeds.R` file in the list abo
 
 The data files for 2006-2010 have two columns. The data files include 1 sheet with the following data: 1 column for the site at which the undamaged fruit was collected, and 1 column for the number of seeds in the undamaged fruit.
 
-```{r warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
 # all years in the dataset
@@ -145,7 +145,7 @@ write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedP
 
 The data files for 2011-2012 have four columns: (1) a column for the site at which the undamaged fruit was collected, (2) a column for the number of seeds in the undamaged fruit, and (3) a column indicating whether the fruit was collected from a permanent plot or from across the site. (4) An additional column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # yearExtract<-function(x){
 #   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
 #   tmp<-tmp[!is.na(tmp)]
@@ -213,7 +213,7 @@ From 2013-2015, we collected data on the number of seeds per undamaged fruit and
 
 The sheets for undamaged fruits have the following columns: 1 column for the site at which the undamaged fruit was collected, 1 column for the number of seeds in the undamaged fruit, and 1 column indicating whether the fruit was collected from a permanent plot or from across the site. A fourth column has notes: some seed counts were randomly resampled from previous years' counts and some sites did not have any undamaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # yearExtract<-function(x){
 #   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
 #   tmp<-tmp[!is.na(tmp)]
@@ -280,7 +280,7 @@ The sheets for undamaged fruits have the following columns: 1 column for the sit
 
 The sheets for damaged fruits have the following columns: 1 column for the site at which the damaged fruit was collected, and 1 column for the number of seeds in the damaged fruit. Another column has notes: some sites did not have any damaged fruits in the given year. Some of the data files have empty columns between the data and the notes.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # yearExtract<-function(x){
 #   tmp<-as.numeric(sapply(strsplit(x, c("[seeds_.xls]")), "["))
 #   tmp<-tmp[!is.na(tmp)]
@@ -346,7 +346,7 @@ The sheets for damaged fruits have the following columns: 1 column for the site 
 
 It might be useful to summarize the datasets:
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # need to rewrite this code block
 
 # summary20062010<-seed20062010 %>%
@@ -384,7 +384,7 @@ From 2007-2012, there is data on the number of total fruit equivalents on each p
 
 The code below takes these Excel files and converts them into a long data frame with the following columns ...
 
-```{r warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # directory for excel files
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
@@ -471,7 +471,7 @@ From 2013-2018, there is data on the number of undamaged and damaged fruits on e
 
 The code below takes these Excel files and converts them into a long data frame with the following columns ...
 
-```{r warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # directory for excel files
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
@@ -612,7 +612,7 @@ write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/po
 
 For 2006, there is no data on fruits per plant associated with permanent plots. From 2007-2012, additional plants outside of permanent plots were sampled to supplement counts of fruits per plant.
 
-```{r warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # directory for excel files
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
@@ -669,7 +669,7 @@ write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/
 
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 # 
 
@@ -725,7 +725,7 @@ write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingDat
 
 Data for seed bags from the field.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 
 tmp <- read_excel(paste0(dir,"seed bag data.xls"),sheet = 1,na=c("NA","?"))
@@ -765,7 +765,7 @@ kable(summarySeedBags, caption="Summary table of the number of seed bags counted
 ```
 ### Viability trial data
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
 
 tmp <- read_excel(paste0(dir,"germ_viab_data_final_updated.xlsx"),sheet = 1,na=c("NA","?","."))
@@ -814,7 +814,7 @@ kable(summaryViabilityTrials, caption="Summary table of the number of germinatio
 ```
 Rows of concern in the viability trials. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 
 # rows where the number of seeds that didn't germinate
 # is less than the number of seeds that started the viability trials

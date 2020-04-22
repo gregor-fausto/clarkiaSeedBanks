@@ -168,16 +168,14 @@ kable(dt)
 Start with the seed data. This is file `.../reshapeSeeds.R` file in the
 list above.
 
-``` r
-directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
-```
-
 The data files for 2006-2010 have two columns. The data files include 1
 sheet with the following data: 1 column for the site at which the
 undamaged fruit was collected, and 1 column for the number of seeds in
 the undamaged fruit.
 
 ``` r
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
 # all years in the dataset
 years <- 2006:2018
 
@@ -219,22 +217,7 @@ for(i in 1:length(years)){
 # join all data frames
 countSeedPerFruit <- dataList %>%
   purrr::reduce(full_join)
-```
 
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-    ## Joining, by = c("Site_No", "SITE", "Full_Site_Name", "Sdno", "damaged?", "demography?", "year")
-
-``` r
 # clean up variable names and use lower camelcase for variable names
 countSeedPerFruit <- countSeedPerFruit %>% 
   janitor::clean_names(case="lower_camel")
@@ -581,57 +564,7 @@ countFruitsPerPlantFromTransects <- tmp %>%
 listDataFrames20072012[[i]] <- countFruitsPerPlantFromTransects
 
 }
-```
 
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 27 more problems
-
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 44 more problems
-
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 36 more problems
-
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 35 more problems
-
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 29 more problems
-
-    ## New names:
-    ## * `` -> ...7
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * … and 10 more problems
-
-``` r
 # append year to data frames  
 for(i in 1:length(years)){
   listDataFrames20072012[[i]] <- listDataFrames20072012[[i]] %>%
@@ -641,16 +574,7 @@ for(i in 1:length(years)){
 # unlist and bind data frames
 countFruitsPerPlantTransects <- listDataFrames20072012 %>%
   purrr::reduce(full_join)
-```
 
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countFruitsPerPlant", "year")
-
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countFruitsPerPlant", "year")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countFruitsPerPlant", "year")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countFruitsPerPlant", "year")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countFruitsPerPlant", "year")
-
-``` r
 # write data frame to RDS
 write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
 ```
@@ -776,105 +700,7 @@ countDamagedFruitsPerPlantFromTransects <- tmpDamaged %>%
 listDataFrames20132018Damaged[[i]] <- countDamagedFruitsPerPlantFromTransects
 
 }
-```
 
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 5 more problems
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 5 more problems
-
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 1 more problem
-
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 11 more problems
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 11 more problems
-
-    ## New names:
-    ## * `` -> ...8
-    ## * `` -> ...9
-    ## * `` -> ...10
-    ## * `` -> ...11
-    ## * `` -> ...12
-    ## * … and 13 more problems
-
-    ## New names:
-    ## * `` -> ...2
-    ## * `` -> ...3
-    ## * `` -> ...4
-    ## * `` -> ...5
-    ## * `` -> ...6
-    ## * … and 13 more problems
-
-``` r
 # append year to data frames  
 for(i in 1:length(years)){
   listDataFrames20132018Undamaged[[i]] <- listDataFrames20132018Undamaged[[i]] %>%
@@ -889,28 +715,10 @@ for(i in 1:length(years)){
 # unlist and bind data frames
 countUndamagedFruitsPerPlantTransects <- listDataFrames20132018Undamaged %>%
   purrr::reduce(full_join)
-```
 
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countUndamagedFruitsPerPlant", "year", "damage")
-
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countUndamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countUndamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countUndamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countUndamagedFruitsPerPlant", "year", "damage")
-
-``` r
 countDamagedFruitsPerPlantTransects <- listDataFrames20132018Damaged %>%
   purrr::reduce(full_join)
-```
 
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countDamagedFruitsPerPlant", "year", "damage")
-
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countDamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countDamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countDamagedFruitsPerPlant", "year", "damage")
-    ## Joining, by = c("site", "transect", "position", "plantNumber", "countDamagedFruitsPerPlant", "year", "damage")
-
-``` r
 countUndamagedDamagedFruitsPerPlantTransects<-bind_rows(countUndamagedFruitsPerPlantTransects,countDamagedFruitsPerPlantTransects)
 
 # write data frame to RDS
@@ -970,75 +778,10 @@ for(i in 1:length(years)){
 # unlist and bind data frames
 countFruitsPerPlantAllPlots <- listDataFrames20062012 %>%
   purrr::reduce(full_join)
-```
 
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-    ## Joining, by = c("site", "countFruitNumberPerPlant", "permanentPlot", "damage", "year")
-
-``` r
 # write data frame to RDS
 write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
 ```
-
-One question I have about the data is whether plants in permanent plots
-have more fruits than plants outside of permanent plots. This may be
-likely if permanent plots are more likely to be surveyed for all plants,
-while extra plants are counted ad hoc. This may bias the ‘extra plants’
-towards plants that are larger, have more fruits, or are more visible.
-
-This could matter if we are calculating seed rain by using the average
-number of fruits per plant to estimate plant size in a population-year
-combination. I calculated the average number of fruits per plant in
-permanent plots vs. outside of permanent plots. I did not correct for
-sampling variation. This first pass suggests that plants outside of
-permanent plots are, on average, larger than those in permanent plots.
-
-A more appropriate comparison might be the average with all plots
-(permanent and extra) versus the average with just the permanent plots.
-This suggests a similar story.
-
-I’m not exactly sure what to do with this information…but when
-calculating the seed rain I think I should use the number of fruits on
-plants in the permanent plots.
-
-``` r
-test<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year,permanentPlot)%>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
-  tidyr::pivot_wider(names_from=permanentPlot,values_from=mu) %>%
-  dplyr::mutate(ratio = `0`/`1`) 
-
-hist(test$ratio,breaks=20, main = "Distribution of ratio of mean fruits per plant in \n extra plots vs. permanent plots",
-     ylab="ratio")
-abline(v=1,col="red")
-```
-
-![](dataProcessingWorkflow_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
-
-``` r
-testAll<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant))
-
-testPermanent<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.permanent = mean(countFruitNumberPerPlant))
-
-testComparison <- testAll %>%
-  dplyr::left_join(testPermanent,by=c("site","year")) %>%
-  dplyr::mutate(ratio = mu.all/mu.permanent) 
-
-hist(testComparison$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n all plots vs. permanent plots only",
-     ylab="ratio")
-abline(v=1,col="red")
-```
-
-![](dataProcessingWorkflow_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
 
 ### Seedlings and fruiting plant data
 
@@ -1046,23 +789,118 @@ Start with the survival data. This is file `.../reshapeSeeds.R` file in
 the list above.
 
 ``` r
-# dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 # 
-# tmp <- read_excel(paste0(dir,"Surv_Fec_env_06-15.xls"),sheet = 1,na="NA")
-# surv_fec <- tmp %>%
-#   dplyr::rename(year=year_spring)
-# 
-# ###########################################################################
-# # Survival and fecundity
-# ###########################################################################
-# survival <- surv_fec %>%
-#   select(c(site,year,transect,position,seedling.,fruitpl.,tot_or_undamaged_frperpl.,damaged_frpl.))
-# 
-# survival <- survival %>%
-#   dplyr::rename(noSeedlings = seedling.) %>%
-#   dplyr::rename(noFruitingPlants = fruitpl.) %>%
-#   dplyr::rename(noTotalFruitEqUndFruitsPerPl = tot_or_undamaged_frperpl.) %>%
-#   dplyr::rename(noDamFruitsPerPl = damaged_frpl.)
+
+# extract data and write out temporary csv
+tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
+                      sheet = 1, na = c("","NA" )) %>%
+  janitor::clean_names(case="lower_camel") %>%
+  write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
+
+names(tmp)
+```
+
+    ##  [1] "easting"              "northing"             "site"                
+    ##  [4] "transect"             "position"             "seedlingNumber1_06"  
+    ##  [7] "flowplNumber6_06"     "fruitplNumber6_06"    "numberFruitplSdl06"  
+    ## [10] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
+    ## [13] "fruitPl6_07"          "numberFruitplSdl07"   "seedlingNumber1_08"  
+    ## [16] "flowplNumber6_08"     "fruitplNumber6_08"    "fruitPl6_08"         
+    ## [19] "numberFruitplSdl08"   "seedlingNumber1_09"   "flowplNumber5_09"    
+    ## [22] "fruitplNumber6_09"    "fruitPl6_09"          "numberFruitplSdl09"  
+    ## [25] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [28] "fruitplNumberSdl10"   "seedlingNumber2_11"   "fruitplNumber6_11"   
+    ## [31] "fruitFlPl6_11"        "fruitplNumberSdl11"   "seedlingNumber2_12"  
+    ## [34] "fruitplNumber6_12"    "fruitPl6_12"          "fruitplNumberSdl12"  
+    ## [37] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [40] "damagedFruitPl6_13"   "fruitplNumberSdl13"   "seedlingNumber2_14"  
+    ## [43] "fruitplNumber6_14"    "undamagedFruitPl6_14" "damagedFruitPl6_14"  
+    ## [46] "fruitplNumberSdl14"   "seedlingNumber2_15"   "fruitplNumber6_15"   
+    ## [49] "undamagedFruitPl6_15" "damagedFruitPl6_15"   "fruitplNumberSdl15"  
+    ## [52] "comments"
+
+``` r
+# remove conditional and easting/northing
+tmp <- tmp %>%
+  dplyr::select(-contains("numberFruitplSdl")) %>%
+  dplyr::select(-contains("fruitplNumberSdl")) %>%
+  dplyr::select(-c("easting","northing"))
+
+names(tmp)
+```
+
+    ##  [1] "site"                 "transect"             "position"            
+    ##  [4] "seedlingNumber1_06"   "flowplNumber6_06"     "fruitplNumber6_06"   
+    ##  [7] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
+    ## [10] "fruitPl6_07"          "seedlingNumber1_08"   "flowplNumber6_08"    
+    ## [13] "fruitplNumber6_08"    "fruitPl6_08"          "seedlingNumber1_09"  
+    ## [16] "flowplNumber5_09"     "fruitplNumber6_09"    "fruitPl6_09"         
+    ## [19] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [22] "seedlingNumber2_11"   "fruitplNumber6_11"    "fruitFlPl6_11"       
+    ## [25] "seedlingNumber2_12"   "fruitplNumber6_12"    "fruitPl6_12"         
+    ## [28] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [31] "damagedFruitPl6_13"   "seedlingNumber2_14"   "fruitplNumber6_14"   
+    ## [34] "undamagedFruitPl6_14" "damagedFruitPl6_14"   "seedlingNumber2_15"  
+    ## [37] "fruitplNumber6_15"    "undamagedFruitPl6_15" "damagedFruitPl6_15"  
+    ## [40] "comments"
+
+``` r
+# remove fruits per plant averages
+tmp <- tmp %>%
+  dplyr::select(-contains("fruitPl",ignore.case=FALSE)) %>%
+  dplyr::select(-contains("undamagedFruitPl")) %>%
+  dplyr::select(-contains("damagedFruitPl"))
+
+names(tmp)
+```
+
+    ##  [1] "site"               "transect"           "position"          
+    ##  [4] "seedlingNumber1_06" "flowplNumber6_06"   "fruitplNumber6_06" 
+    ##  [7] "seedlingNumber1_07" "flowplNumber6_07"   "fruitplNumber6_07" 
+    ## [10] "seedlingNumber1_08" "flowplNumber6_08"   "fruitplNumber6_08" 
+    ## [13] "seedlingNumber1_09" "flowplNumber5_09"   "fruitplNumber6_09" 
+    ## [16] "seedlingNumber1_10" "fruitplNumber6_10"  "seedlingNumber2_11"
+    ## [19] "fruitplNumber6_11"  "fruitFlPl6_11"      "seedlingNumber2_12"
+    ## [22] "fruitplNumber6_12"  "seedlingNumber2_13" "fruitplNumber6_13" 
+    ## [25] "seedlingNumber2_14" "fruitplNumber6_14"  "seedlingNumber2_15"
+    ## [28] "fruitplNumber6_15"  "comments"
+
+``` r
+# select relevant columns
+tmp <- tmp %>%
+  dplyr::select(contains(c("site","transect","position","seedlingNumber","fruitplNumber"),ignore.case=FALSE))
+
+names(tmp)
+```
+
+    ##  [1] "site"               "transect"           "position"          
+    ##  [4] "seedlingNumber1_06" "seedlingNumber1_07" "seedlingNumber1_08"
+    ##  [7] "seedlingNumber1_09" "seedlingNumber1_10" "seedlingNumber2_11"
+    ## [10] "seedlingNumber2_12" "seedlingNumber2_13" "seedlingNumber2_14"
+    ## [13] "seedlingNumber2_15" "fruitplNumber6_06"  "fruitplNumber6_07" 
+    ## [16] "fruitplNumber6_08"  "fruitplNumber6_09"  "fruitplNumber6_10" 
+    ## [19] "fruitplNumber6_11"  "fruitplNumber6_12"  "fruitplNumber6_13" 
+    ## [22] "fruitplNumber6_14"  "fruitplNumber6_15"
+
+``` r
+# remove 
+
+censusSeedlingsFruitingPlants <- tmp %>%
+  tidyr::pivot_longer(cols=contains(c("seedlingNumber","fruitplNumber")),
+               names_to = c("variable","year"),
+               names_pattern = "(.*)_(.*)",
+               values_to = "count") %>%
+  tidyr::separate(variable,into = c("variable", "month"), "(?<=[a-z])(?=[0-9])") %>%
+  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
+  dplyr::mutate(position = as.character(position))
+
+censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
+  dplyr::select(-month) %>%
+  tidyr::pivot_wider(names_from = variable,
+                     values_from = count) 
+
+write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 ```
 
 ### Seed bag data
