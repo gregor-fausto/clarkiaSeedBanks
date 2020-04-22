@@ -123,6 +123,7 @@ library(readxl)
 library(knitr)
 library(lubridate)
 library(tidyxl)
+library(readr)
 ```
 
 Scripts for the original processing I did is located in the following
@@ -223,7 +224,7 @@ countSeedPerFruit <- countSeedPerFruit %>%
   janitor::clean_names(case="lower_camel")
 
 # save the dataframe as an RDS file
-write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+readr::write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
 
 # this is now missing the permanent plot binary columns - why?
 ```
@@ -533,7 +534,7 @@ for(i in 1:length(namesFruitPerPlantFiles)){
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-raw.csv"))
 
 # remove columns with summary statistics
 tmp <- tmp %>%
@@ -576,7 +577,7 @@ countFruitsPerPlantTransects <- listDataFrames20072012 %>%
   purrr::reduce(full_join)
 
 # write data frame to RDS
-write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+readr::write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
 ```
 
 From 2013-2018, there is data on the number of undamaged and damaged
@@ -634,7 +635,7 @@ for(i in 1:length(namesFruitPerPlantFiles)){
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeUndamagedFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-undamaged-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-undamaged-raw.csv"))
 
 # remove columns with summary statistics
 tmp <- tmp %>%
@@ -676,7 +677,7 @@ listDataFrames20132018Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransect
 tmpDamaged <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeDamagedFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-damaged-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-damaged-raw.csv"))
 
 # rename columns
 plantNumbersDamaged <- paste0("plant_",1:dim(tmpDamaged)[2])
@@ -722,7 +723,7 @@ countDamagedFruitsPerPlantTransects <- listDataFrames20132018Damaged %>%
 countUndamagedDamagedFruitsPerPlantTransects<-bind_rows(countUndamagedFruitsPerPlantTransects,countDamagedFruitsPerPlantTransects)
 
 # write data frame to RDS
-write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
+readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
 ```
 
 ### Fruits per plant data extra plots
@@ -758,7 +759,7 @@ tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]),
                             sheet = 2, range = rangeFruitPerPlantData[i],
               na = "NA") %>%
   janitor::clean_names("lower_camel") %>%
-  write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
 
 tmp <- tmp %>%
   dplyr::rename(countFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
@@ -780,7 +781,7 @@ countFruitsPerPlantAllPlots <- listDataFrames20062012 %>%
   purrr::reduce(full_join)
 
 # write data frame to RDS
-write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+readr::write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
 ```
 
 ### Seedlings and fruiting plant data
@@ -796,7 +797,7 @@ directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites
 tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
                       sheet = 1, na = c("","NA" )) %>%
   janitor::clean_names(case="lower_camel") %>%
-  write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
 
 names(tmp)
 ```
@@ -900,7 +901,7 @@ censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   tidyr::pivot_wider(names_from = variable,
                      values_from = count) 
 
-write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 ```
 
 ### Seed bag data
@@ -910,7 +911,7 @@ Data for seed bags from the field.
 ``` r
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 
-tmp <- read_excel(paste0(dir,"seed bag data.xls"),sheet = 1,na=c("NA","?"))
+tmp <- readxl::read_excel(paste0(dir,"seed bag data.xls"),sheet = 1,na=c("NA","?"))
 
 seedBags <- tmp %>%
   dplyr::rename(bagNo = 'bag #') %>%
@@ -924,7 +925,9 @@ seedBags <- tmp %>%
   dplyr::rename(intactOct = 'Oct_intact') %>%
   dplyr::select(-c("viability%"))
 
-save(seedBags,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/seedBagsData.rda")
+seedBagsData <- seedBags
+
+readr::write_rds(seedBagsData,"~/Dropbox/dataLibrary/postProcessingData/seedBagsData.rds")
 
 # january germinants
 summarySeedBags<-seedBags  %>%
@@ -1022,7 +1025,7 @@ viabilityRawData <- tmp %>%
   dplyr::rename(viabPerc2 = '%Viabil') %>%
   dplyr::rename(viabTotal = 'Overall_viability')
 
-save(viabilityRawData,file="/Users/Gregor/Dropbox/clarkiaSeedBanks/library/dataFromWorkFlowFile/viabilityRawData.rds")
+readr::write_rds(viabilityRawData,"~/Dropbox/dataLibrary/postProcessingData/viabilityRawData.rds")
 
 # germination trial 
 summaryGerminationTrials<-viabilityRawData  %>%
