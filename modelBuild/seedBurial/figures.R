@@ -37,7 +37,6 @@ parsToMonitor_deriv = c("nu_1","s1","g1","s2")
 
 library(bayesplot)
 
-arm::discrete.histogram(MCMCsummary(mcmcSamples)$Rhat)
 ################################################################################
 # Germination
 #################################################################################
@@ -66,6 +65,15 @@ mcmcSummary<-mcmcSamples %>%
   )
 mcmcSummary<-cbind(mcmcSummary,site=siteNames)
 
+g1Summary <- mcmcSummary %>%
+  dplyr::rename(ci.lo95 = ci.lo,
+                ci.hi95 = ci.hi,
+                ci.lo50 = ci.lo2,
+                ci.hi50 = ci.hi2)
+
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+dir.create(file.path(fileDirectory), showWarnings = FALSE)
+saveRDS(g1Summary,file=paste0(fileDirectory,"g1Summary.RDS"))
 
 
 vr = position %>% 
@@ -115,6 +123,18 @@ mcmcSummary<-mcmcSamples %>%
   )
 mcmcSummary<-cbind(mcmcSummary,site=siteNames)
 
+
+s1Summary <- mcmcSummary %>%
+  dplyr::rename(ci.lo95 = ci.lo,
+                ci.hi95 = ci.hi,
+                ci.lo50 = ci.lo2,
+                ci.hi50 = ci.hi2)
+
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+dir.create(file.path(fileDirectory), showWarnings = FALSE)
+saveRDS(s1Summary,file=paste0(fileDirectory,"s1Summary.RDS"))
+
+
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
@@ -157,6 +177,17 @@ mcmcSummary<-mcmcSamples %>%
                    ci.hi2 = quantile(s2,probs=0.75)
   )
 mcmcSummary<-cbind(mcmcSummary,site=siteNames)
+
+
+s2Summary <- mcmcSummary %>%
+  dplyr::rename(ci.lo95 = ci.lo,
+                ci.hi95 = ci.hi,
+                ci.lo50 = ci.lo2,
+                ci.hi50 = ci.hi2)
+
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+dir.create(file.path(fileDirectory), showWarnings = FALSE)
+saveRDS(s2Summary,file=paste0(fileDirectory,"s2Summary.RDS"))
 
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")

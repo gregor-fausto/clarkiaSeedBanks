@@ -311,3 +311,157 @@ summary[,3:5]<-signif(summary[,3:5],digits=3)
 
 kable(arrange(summary), caption="Summary table of fruits per plant")
 ```
+
+### Comparison 2
+
+```{r}
+g1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/g1Summary.RDS")
+s1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s1Summary.RDS")
+s2Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s2Summary.RDS")
+
+extractMed <- function(x){
+  x<-x %>%
+    dplyr::select(site,med)
+  return(x)
+}
+
+g1Summary<-extractMed(g1Summary) %>% dplyr::rename(g1 = med)
+s1Summary<-extractMed(s1Summary) %>% dplyr::rename(s1 = med)
+s2Summary<-extractMed(s2Summary) %>% dplyr::rename(s2 = med)
+
+```
+
+```{r}
+censusSeedlingsFruitingPlants<-readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+
+censusSummary<-censusSeedlingsFruitingPlants %>%
+  dplyr::filter(year<2010) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(fruitplno = mean(fruitplNumber),
+                   sdlno = mean(seedlingNumber))
+
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+
+countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year<2010) %>%
+  #dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(fruitno = mean(countFruitNumberPerPlant))
+
+countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+
+countSeedPerFruitSummary<-countSeedPerFruit %>%
+    dplyr::filter(demography==1) %>%
+  dplyr::select(site,sdno,damaged,year) %>%
+  dplyr::filter(year<2010) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(sdno = mean(sdno))
+
+```
+
+```{r}
+df<-censusSummary %>%
+  dplyr::left_join(s1Summary,by="site")%>%
+  dplyr::left_join(s2Summary,by="site")%>%
+  dplyr::left_join(g1Summary,by="site")%>%
+  dplyr::left_join(countFruitsPerPlantAllPlotsSummary,by=c("site","year")) %>%
+  dplyr::left_join(countSeedPerFruitSummary,by=c("site","year"))
+
+df<-df %>%
+  dplyr::mutate(exp = fruitplno*fruitno*sdno*(s2^(3/8))*s1*g1) %>%
+  dplyr::mutate(fudge1 = ifelse(sdlno/exp>1,1,sdlno/exp)) %>%
+  dplyr::left_join(position,by="site")
+
+ggplot() +
+  geom_point(data=df,aes(x=easting,y=exp)) +
+  facet_wrap(~year,scales = 'free')
+ 
+ggplot() +
+  geom_point(data=df,aes(x=easting,y=fudge1)) +
+  facet_wrap(~year,scales = 'free') 
+```
+
+```{r}
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+  dplyr::select(site,easting) %>%
+  dplyr::mutate(easting=easting/1000)
+
+df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
+
+df<-janitor::clean_names(df,"lower_camel")
+
+df<-df %>%
+  dplyr::select(population,contains("sdlngOE",ignore.case=FALSE)) %>%  tidyr::pivot_longer(cols=contains(c("sdlngOE")),
+               names_to = "variable",
+               values_to = "estimate") %>%  
+  tidyr::separate(variable,into = c("variable", "year"), "(?<=[A-Z])(?=[0-9])") %>%
+  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
+  dplyr::select(-variable) %>%
+  dplyr::rename(site=population) %>%
+  dplyr::filter(!is.na(estimate))
+
+df<-df %>%
+  dplyr::left_join(position,by="site")
+
+ggplot(data=df) +
+  geom_point(aes(x=easting,y=estimate)) +
+  facet_wrap(~year) +
+  theme_bw()
+
+```
+
+These plots show the ratio of observed to expected seedlings. The observed seedlings were counted in plots in the field. The expected seedlings were calculated by multiplying the number of fruiting plants with the mean fruits per plant with the mean seeds per fruit with belowground seed rates.
+
+```{r}
+
+perm0 <- countFruitsPerPlantAllPlotsSummary %>%
+  dplyr::filter(year==2007) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(year=2008) %>%
+  dplyr::filter(permanentPlot==0)
+
+out<-df %>%
+  dplyr::left_join(perm0,by=c("site","year","easting")) %>%
+  dplyr::filter(year==2008)
+
+ggplot(data=out) +
+  geom_point(aes(x=estimate,y=mu)) +
+  facet_wrap(~year) +
+  theme_bw()
+```
+
+```{r}
+
+perm1 <- countFruitsPerPlantAllPlotsSummary %>%
+  dplyr::filter(year==2007) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(year=2008) %>%
+  dplyr::filter(permanentPlot==1)
+
+out<-df %>%
+  dplyr::left_join(perm1,by=c("site","year","easting")) %>%
+  dplyr::filter(year==2008)
+
+ggplot(data=out) +
+  geom_point(aes(x=estimate,y=mu)) +
+  facet_wrap(~year) +
+  theme_bw()
+
+```
+
+```{r}
+s <- censusSeedlingsFruitingPlants %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu = mean(seedlingNumber,na.rm=TRUE))%>%
+  dplyr::left_join(position,by="site")
+
+o <- censusSeedlingsFruitingPlants %>%
+dplyr::left_join(position,by="site")
+
+ggplot(s) +
+    geom_point(aes(x=easting,y=mu)) +
+  geom_point(data=o,aes(x=easting,y=seedlingNumber),alpha=.25,size=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+
+```
