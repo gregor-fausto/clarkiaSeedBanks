@@ -14,6 +14,7 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 - [Seeds per fruit data](#seeds-per-fruit-data)
 - [Seed bag data](#seed-bag-data)
 - [Viability trial data](#viability-trial-data)
+- [Seed pot data](#seed-pot-data)
 
 ### File directories
 
@@ -26,12 +27,12 @@ I also ran:
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/`
 
 I last ran these on 04/15/20 at 5:20 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
-
 An additional folder holding datasets is originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/`
 
 I last ran this on 02/06/20 at 10:50 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+Data for seed pots was shared via email on 04/11/2020 as `seed_pot_data_updated.xlsx`.
 
 Additional changes:
 
@@ -870,6 +871,7 @@ summarySeedBags<-seedBags  %>%
 kable(summarySeedBags, caption="Summary table of the number of seed bags counted in October for intact seeds")
 
 ```
+
 ### Viability trial data
 
 ```{r, message=FALSE, warning=FALSE}
@@ -963,3 +965,32 @@ Possible concerns include:
 The majority of bags had 1-2 tests (equally split). A small number had 3 test and an even smaller had 4. But clearly need to consider that bags were tested twice. 
 
 Data for viability trials in the lab. 
+
+### Seed pot data
+
+```{r, message=FALSE, warning=FALSE}
+dir=c("/Users/Gregor/Dropbox/dataLibrary/seedPots/")
+
+tmp <- readxl::read_excel(paste0(dir,"seed_pot_data_updated.xlsx"),sheet = 1,na=c("NA","?","."))
+
+tmp <- tmp %>%
+  dplyr::rename(site = 'Site') %>%
+  dplyr::select(-Pop) %>%
+  dplyr::rename(block = 'Block') %>%
+  dplyr::rename(row = 'Row') %>%
+  dplyr::rename(column = 'Col') %>%
+  dplyr::rename(seedNumber = 'sd#') %>% 
+  dplyr::mutate(seedNumber = as.numeric(ifelse(seedNumber=="C",0,seedNumber))) %>%
+  dplyr::rename(yearPlaced = 'yr_pl') %>%
+  dplyr::rename(yearCollected = 'yr_coll') %>%
+  dplyr::rename(yearCensusOne = 'census1') %>%
+  dplyr::rename(seedlingNumberCensusOne = 'sdl#_yr1') %>%
+  dplyr::rename(yearCensusTwo = 'census2') %>%
+  dplyr::rename(seedlingNumberCensusTwo = 'sdl#_yr2') %>%
+  dplyr::rename(yearCensusThree = 'census3') %>%
+  dplyr::rename(seedlingNumberCensusThree = 'sdl#_yr3')
+
+seedPotData <- tmp
+
+readr::write_rds(seedPotData,"~/Dropbox/dataLibrary/postProcessingData/seedPotData.rds")
+```
