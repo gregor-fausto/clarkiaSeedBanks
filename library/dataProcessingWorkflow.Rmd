@@ -15,6 +15,7 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 - [Seed bag data](#seed-bag-data)
 - [Viability trial data](#viability-trial-data)
 - [Seed pot data](#seed-pot-data)
+- [Site abiotic data](#site-abiotic-data)
 
 ### File directories
 
@@ -993,4 +994,20 @@ tmp <- tmp %>%
 seedPotData <- tmp
 
 readr::write_rds(seedPotData,"~/Dropbox/dataLibrary/postProcessingData/seedPotData.rds")
+```
+
+### Site abiotic data
+
+```{r, message=FALSE, warning=FALSE}
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+
+tmp <- readxl::read_excel(paste0(dir,"20_site_env_climate_2005-2014.xls"), 
+                            sheet = 1, range = "B2:M22")
+
+tmp <- tmp %>%
+  janitor::clean_names(case="lower_camel")
+
+siteAbioticData <- tmp
+
+readr::write_rds(siteAbioticData,"~/Dropbox/dataLibrary/postProcessingData/siteAbioticData.rds")
 ```

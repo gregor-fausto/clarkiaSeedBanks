@@ -283,6 +283,200 @@ abline(v=1,col="red")
 
 ![](measurementQuestions_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
+#### Discrepancy all data vs. subset of data
+
+Next, I looked to see whether there is a geographic component to this
+relationship.
+
+``` r
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+  dplyr::select(site,easting) %>%
+  dplyr::mutate(easting=easting/1000)
+
+countFruitsPerPlantJointSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant)) 
+
+countFruitsPerPlantPermanentSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu.perm = mean(countFruitNumberPerPlant)) 
+
+countFruitsPerPlantJointSummary<-countFruitsPerPlantJointSummary %>%
+  dplyr::left_join(countFruitsPerPlantPermanentSummary,by=c("site","year")) %>%
+  tidyr::pivot_longer(cols=c("mu.all","mu.perm"),names_to = "vars",values_to = "values") %>%
+  dplyr::left_join(position,by="site")
+```
+
+I plotted the geographic pattern to estimates from plants in (blue) and
+outside (pink) of permanent plots.
+
+``` r
+ggplot(data=countFruitsPerPlantJointSummary %>% dplyr::filter(year>2006)) +
+  geom_point(aes(x=easting,y=values,color=as.factor(vars)),alpha=.5) +
+  geom_smooth(aes(x=easting,y=values,color=as.factor(vars)),method='lm',se=FALSE) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+``` r
+jointDiscrepancy<-countFruitsPerPlantJointSummary %>%
+  tidyr::pivot_wider(names_from=c("vars"),values_from=c("values")) %>%
+  dplyr::mutate(delta = `mu.all`-`mu.perm`)
+
+ggplot(data=jointDiscrepancy %>% dplyr::filter(year>2006)) +
+  geom_smooth(aes(x=easting,y=delta),method='lm') +
+  geom_point(aes(x=easting,y=delta),alpha=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 8 rows containing non-finite values (stat_smooth).
+
+    ## Warning: Removed 8 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+#### Area and discrepancy
+
+First, I load in the site abiotic data and calculate the proportion of
+the site that is covered by the permanent plots. The area data is in
+hectares (1 ha = 10000 meters squared). There are 30 1$$0.5 meter plots
+at each site.
+
+``` r
+siteAbioticData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/siteAbioticData.RDS")
+
+plotProp = siteAbioticData %>%
+  dplyr::select(site,area,easting) %>%
+  dplyr::mutate(areaMeters = area*10000) %>%
+  dplyr::mutate(plotsProportion = (30*.5)/areaMeters)
+```
+
+I then calculated the difference between the average size of plants
+outside of permanent plots vs. the average size of plants in permanent
+plots (`delta`).
+
+``` r
+countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year,permanentPlot) %>%
+  dplyr::summarise(mu = mean(countFruitNumberPerPlant),
+                   sd = sd(countFruitNumberPerPlant),
+                   n = n(),
+                   se = sd/n,
+                   p = 1/se) %>%
+  dplyr::left_join(plotProp,by="site")
+
+deltaSummary<-countFruitsPerPlantAllPlotsSummary %>%
+  dplyr::filter(year>2006) %>%
+  dplyr::select(-c(sd,n,se,p)) %>%
+  tidyr::pivot_wider(names_from=c("permanentPlot"),values_from=c("mu")) %>%
+  dplyr::mutate(delta = `0`-`1`)
+```
+
+We hypothesized that there might be a bigger difference between the size
+of plants in/out of permanent plots at sites where the permanent plots
+were a smaller fraction of the total site area. Plotting the difference
+in mean plant size against the proportion of the site taken up by
+permanent plots, we expected a negative relationship between the
+difference and proportion of the site taken up by the plots. We did not
+find this relationship.
+
+``` r
+ggplot(data=deltaSummary) +
+  geom_smooth(aes(x=plotsProportion,y=delta),method='lm') +
+  geom_point(aes(x=plotsProportion,y=delta),alpha=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
+
+    ## Warning: Removed 11 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+ggplot(data=deltaSummary) +
+  geom_smooth(aes(x=plotsProportion,y=delta),method='lm') +
+  geom_point(aes(x=plotsProportion,y=delta),alpha=.5) +
+ # facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
+    
+    ## Warning: Removed 11 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+Here is the discrepancy plotted against easting
+
+``` r
+ggplot(data=deltaSummary) +
+  geom_smooth(aes(x=easting,y=delta),method='lm') +
+  geom_point(aes(x=easting,y=delta),alpha=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
+
+    ## Warning: Removed 11 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+Next, I compared the difference in sample size between permanent and
+extra plots. I took the difference of the number of extra plots and
+permanent plots. Positive values indicate there were more extra plots.
+Negative values indicate there were more permanent plots.
+
+I hypothesized that site-year combinations with greater differences in
+sample size of permanent vs. extra plots might have greater differences
+in plant size. This doesn’t seem to be uniformly true.
+
+``` r
+sampleSummary<-countFruitsPerPlantAllPlotsSummary %>%
+  dplyr::filter(year>2006) %>%
+  dplyr::select(-c(sd,mu,se,p)) %>%
+  tidyr::pivot_wider(names_from=c("permanentPlot"),values_from=c("n")) %>%
+  dplyr::mutate(nDelta = `0`-`1`)
+
+comparison<-deltaSummary %>%
+  dplyr::left_join(sampleSummary,by=c("site","year","area","easting","areaMeters","plotsProportion"))
+
+ggplot(data=comparison) +
+    geom_hline(yintercept=0) +
+    geom_vline(xintercept=0) +
+  geom_smooth(aes(x=nDelta,y=delta),method='lm') +
+  geom_point(aes(x=nDelta,y=delta),alpha=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
+
+    ## Warning: Removed 11 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+There is no obvious geographic pattern to difference in sample size
+either.
+
+``` r
+ggplot(data=comparison) +
+  geom_smooth(aes(x=easting,y=nDelta),method='lm') +
+  geom_point(aes(x=easting,y=nDelta),alpha=.5) +
+  facet_wrap(~year,scale='free') +
+  theme_bw()
+```
+
+    ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
+
+    ## Warning: Removed 11 rows containing missing values (geom_point).
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
 ### Comparison of estimates for F
 
 I compared the estimates for fruits per plant in the datasets I have to
@@ -575,3 +769,154 @@ kable(arrange(summary), caption="Summary table of fruits per plant")
 | URS  | 2012 |    22.00 |            22.00 |                       1.00 |
 
 Summary table of fruits per plant
+
+### Comparison 2
+
+``` r
+# g1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/g1Summary.RDS")
+# s1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s1Summary.RDS")
+# s2Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s2Summary.RDS")
+# 
+# extractMed <- function(x){
+#   x<-x %>%
+#     dplyr::select(site,med)
+#   return(x)
+# }
+# 
+# g1Summary<-extractMed(g1Summary) %>% dplyr::rename(g1 = med)
+# s1Summary<-extractMed(s1Summary) %>% dplyr::rename(s1 = med)
+# s2Summary<-extractMed(s2Summary) %>% dplyr::rename(s2 = med)
+```
+
+``` r
+# censusSeedlingsFruitingPlants<-readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+# 
+# censusSummary<-censusSeedlingsFruitingPlants %>%
+#   dplyr::filter(year<2010) %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(fruitplno = mean(fruitplNumber),
+#                    sdlno = mean(seedlingNumber))
+# 
+# countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+# 
+# countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
+#   dplyr::filter(year<2010) %>%
+#   #dplyr::filter(permanentPlot==1) %>%
+#   dplyr::group_by(site,year,permanentPlot) %>%
+#   dplyr::summarise(fruitno = mean(countFruitNumberPerPlant))
+# 
+# countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+# 
+# countSeedPerFruitSummary<-countSeedPerFruit %>%
+#     dplyr::filter(demography==1) %>%
+#   dplyr::select(site,sdno,damaged,year) %>%
+#   dplyr::filter(year<2010) %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(sdno = mean(sdno))
+```
+
+``` r
+# df<-censusSummary %>%
+#   dplyr::left_join(s1Summary,by="site")%>%
+#   dplyr::left_join(s2Summary,by="site")%>%
+#   dplyr::left_join(g1Summary,by="site")%>%
+#   dplyr::left_join(countFruitsPerPlantAllPlotsSummary,by=c("site","year")) %>%
+#   dplyr::left_join(countSeedPerFruitSummary,by=c("site","year"))
+# 
+# df<-df %>%
+#   dplyr::mutate(exp = fruitplno*fruitno*sdno*(s2^(3/8))*s1*g1) %>%
+#   dplyr::mutate(fudge1 = ifelse(sdlno/exp>1,1,sdlno/exp)) %>%
+#   dplyr::left_join(position,by="site")
+# 
+# ggplot() +
+#   geom_point(data=df,aes(x=easting,y=exp)) +
+#   facet_wrap(~year,scales = 'free')
+#  
+# ggplot() +
+#   geom_point(data=df,aes(x=easting,y=fudge1)) +
+#   facet_wrap(~year,scales = 'free') 
+```
+
+``` r
+# position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+#   dplyr::select(site,easting) %>%
+#   dplyr::mutate(easting=easting/1000)
+# 
+# df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
+# 
+# df<-janitor::clean_names(df,"lower_camel")
+# 
+# df<-df %>%
+#   dplyr::select(population,contains("sdlngOE",ignore.case=FALSE)) %>%  tidyr::pivot_longer(cols=contains(c("sdlngOE")),
+#                names_to = "variable",
+#                values_to = "estimate") %>%  
+#   tidyr::separate(variable,into = c("variable", "year"), "(?<=[A-Z])(?=[0-9])") %>%
+#   dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
+#   dplyr::select(-variable) %>%
+#   dplyr::rename(site=population) %>%
+#   dplyr::filter(!is.na(estimate))
+# 
+# df<-df %>%
+#   dplyr::left_join(position,by="site")
+# 
+# ggplot(data=df) +
+#   geom_point(aes(x=easting,y=estimate)) +
+#   facet_wrap(~year) +
+#   theme_bw()
+```
+
+These plots show the ratio of observed to expected seedlings. The
+observed seedlings were counted in plots in the field. The expected
+seedlings were calculated by multiplying the number of fruiting plants
+with the mean fruits per plant with the mean seeds per fruit with
+belowground seed rates.
+
+``` r
+# perm0 <- countFruitsPerPlantAllPlotsSummary %>%
+#   dplyr::filter(year==2007) %>%
+#   dplyr::ungroup() %>%
+#   dplyr::mutate(year=2008) %>%
+#   dplyr::filter(permanentPlot==0)
+# 
+# out<-df %>%
+#   dplyr::left_join(perm0,by=c("site","year","easting")) %>%
+#   dplyr::filter(year==2008)
+# 
+# ggplot(data=out) +
+#   geom_point(aes(x=estimate,y=mu)) +
+#   facet_wrap(~year) +
+#   theme_bw()
+```
+
+``` r
+# perm1 <- countFruitsPerPlantAllPlotsSummary %>%
+#   dplyr::filter(year==2007) %>%
+#   dplyr::ungroup() %>%
+#   dplyr::mutate(year=2008) %>%
+#   dplyr::filter(permanentPlot==1)
+# 
+# out<-df %>%
+#   dplyr::left_join(perm1,by=c("site","year","easting")) %>%
+#   dplyr::filter(year==2008)
+# 
+# ggplot(data=out) +
+#   geom_point(aes(x=estimate,y=mu)) +
+#   facet_wrap(~year) +
+#   theme_bw()
+```
+
+``` r
+# s <- censusSeedlingsFruitingPlants %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(mu = mean(seedlingNumber,na.rm=TRUE))%>%
+#   dplyr::left_join(position,by="site")
+# 
+# o <- censusSeedlingsFruitingPlants %>%
+# dplyr::left_join(position,by="site")
+# 
+# ggplot(s) +
+#     geom_point(aes(x=easting,y=mu)) +
+#   geom_point(data=o,aes(x=easting,y=seedlingNumber),alpha=.25,size=.5) +
+#   facet_wrap(~year,scale='free') +
+#   theme_bw()
+```
