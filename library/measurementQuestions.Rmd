@@ -148,84 +148,41 @@ ggplot(data=countFruitsPerPlantAllPlots %>% group_by(site,year,permanentPlot) %>
   ylab("Mean number fruits per plant") +
   theme_bw()
 ```
-Next, I looked to see whether there is a geographic component to this relationship.
+I compared the mean number of fruits per plant for the permanent plot data versus the permanent plot plus extra throws data. This comparison is more relevant than the one comparing to permanent vs. non-permanent plots because this is what is used in the analysis.
 
 ```{r, message=FALSE, warning=FALSE}
 position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
   dplyr::select(site,easting) %>%
   dplyr::mutate(easting=easting/1000)
 
-countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year,permanentPlot) %>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant),
-                   sd = sd(countFruitNumberPerPlant),
-                   n = n(),
-                   se = sd/n,
-                   p = 1/se) %>%
+countFruitsPerPlantJointSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant)) 
+
+countFruitsPerPlantPermanentSummary<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu.perm = mean(countFruitNumberPerPlant)) 
+
+countFruitsPerPlantJointSummary<-countFruitsPerPlantJointSummary %>%
+  dplyr::left_join(countFruitsPerPlantPermanentSummary,by=c("site","year")) %>%
+  tidyr::pivot_longer(cols=c("mu.all","mu.perm"),names_to = "vars",values_to = "values") %>%
   dplyr::left_join(position,by="site")
 ```
 
-I plotted the geographic pattern to estimates from plants in (blue) and outside (pink) of permanent plots. 
+I plotted the geographic pattern to estimates from plants in (blue) and outside+inside (pink) of permanent plots. 
 
 ```{r, message=FALSE, warning=FALSE}
-ggplot(data=countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
-  geom_point(aes(x=easting,y=mu,color=as.factor(permanentPlot)),alpha=.5) +
-  geom_smooth(aes(x=easting,y=mu,color=as.factor(permanentPlot)),method='lm',se=FALSE) +
+ggplot(data=countFruitsPerPlantJointSummary %>% dplyr::filter(year>2006)) +
+  geom_point(aes(x=easting,y=values,color=as.factor(vars)),alpha=.5) +
+  geom_smooth(aes(x=easting,y=values,color=as.factor(vars)),method='lm',se=FALSE) +
   facet_wrap(~year,scale='free') +
   theme_bw()
 ```
 
-I plotted the mean number of fruits per plant vs. easting, with point size corresonding to 1/standard error. Small points have a higher SE; large points have a smaller SE. 
+I hypothesized that the difference in plant size could be the result of 2 different processes. First, the permanent plots might have a different distribution of fruits per plant than the extra throws. If this were the case (for example) it might be that the permanent plots have smaller plants than the extra throws. Second, the permanent plots might have the same distribution of fruits per plant as the extra throws, but the extra throws might sample more plants and so have a longer tail. In this case, extra throws might also include small plants but also sample the large plant end of the distribution.
 
-```{r, message=FALSE, warning=FALSE}
-ggplot(countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
-  geom_point(aes(x=easting,y=mu,size=1/se,color=as.factor(permanentPlot)),alpha=.5) +
-  facet_wrap(~year) +
-  ylab("Mean number of fruits per plant") +
-  theme_bw()
-```
-I looked at how whether the sample size in each category changed geographically.
-
-```{r, message=FALSE, warning=FALSE}
-ggplot(countFruitsPerPlantAllPlotsSummary %>% dplyr::filter(year>2006)) +
-  geom_point(aes(x=easting,y=n,color=as.factor(permanentPlot))) +
-  geom_smooth(aes(x=easting,y=n,color=as.factor(permanentPlot)),method='lm') +
-  facet_wrap(~year,scales='free') + 
-  ylab("Sample size")
-```
-I looked at the distribution of the ratio of mean fruits per plant from extra plots vs. permanent plots. The red line corresponds to a 1:1 ratio.
-
-```{r}
-test<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year,permanentPlot)%>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
-  tidyr::pivot_wider(names_from=permanentPlot,values_from=mu) %>%
-  dplyr::mutate(ratio = `0`/`1`) 
-
-hist(test$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n extra plots vs. permanent plots")
-abline(v=1,col="red")
-```
-
-I looked at the distribution of the ratio of mean fruits per plant from all plots vs. permanent plots only. The red line corresponds to a 1:1 ratio.
-
-```{r, message=FALSE, warning=FALSE}
-testAll<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant))
-
-testPermanent<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year)%>%
-  dplyr::summarise(mu.permanent = mean(countFruitNumberPerPlant))
-
-testComparison <- testAll %>%
-  dplyr::left_join(testPermanent,by=c("site","year")) %>%
-  dplyr::mutate(ratio = mu.all/mu.permanent) 
-
-hist(testComparison$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n all plots vs. permanent plots only")
-abline(v=1,col="red")
-
-```
+To distinguish between these possibilities, I plotted histograms comparing the distribution of plant size for permanent plots and extra throws for each site and year combination (see: fruitsPerPlantComparison.pdf). The plots suggest both patterns. For example, for Borel Road in 2007, the shape of the distributions support process 1: counts in the permanent plots captured small plants that were not counted in the extra throws. Now, for Borel Road in 2012, the shape of the distributions support process 2: counts in permanent and extra plots seem to include a similar distribution of plant sizes, but there are more plants in extra plots and so a longer tail. 
 
 ```{r}
 siteNames = unique(countFruitsPerPlantAllPlots$site)
@@ -252,37 +209,8 @@ dev.off()
 
 #### Discrepancy all data vs. subset of data
 
-Next, I looked to see whether there is a geographic component to this relationship.
+I looked at the data in a different way, plotting just the difference between the full and permanent plot data.
 
-```{r, message=FALSE, warning=FALSE}
-position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-  dplyr::select(site,easting) %>%
-  dplyr::mutate(easting=easting/1000)
-
-countFruitsPerPlantJointSummary<-countFruitsPerPlantAllPlots %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mu.all = mean(countFruitNumberPerPlant)) 
-
-countFruitsPerPlantPermanentSummary<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mu.perm = mean(countFruitNumberPerPlant)) 
-
-countFruitsPerPlantJointSummary<-countFruitsPerPlantJointSummary %>%
-  dplyr::left_join(countFruitsPerPlantPermanentSummary,by=c("site","year")) %>%
-  tidyr::pivot_longer(cols=c("mu.all","mu.perm"),names_to = "vars",values_to = "values") %>%
-  dplyr::left_join(position,by="site")
-```
-
-I plotted the geographic pattern to estimates from plants in (blue) and outside (pink) of permanent plots. 
-
-```{r, message=FALSE, warning=FALSE}
-ggplot(data=countFruitsPerPlantJointSummary %>% dplyr::filter(year>2006)) +
-  geom_point(aes(x=easting,y=values,color=as.factor(vars)),alpha=.5) +
-  geom_smooth(aes(x=easting,y=values,color=as.factor(vars)),method='lm',se=FALSE) +
-  facet_wrap(~year,scale='free') +
-  theme_bw()
-```
 ```{r}
 
 jointDiscrepancy<-countFruitsPerPlantJointSummary %>%
@@ -294,8 +222,10 @@ ggplot(data=jointDiscrepancy %>% dplyr::filter(year>2006)) +
   geom_point(aes(x=easting,y=delta),alpha=.5) +
   facet_wrap(~year,scale='free') +
   theme_bw()
+```
+Next, I looked at whether plots with more plants in extra throw plots vs. permanent plots had a greater difference in plant size. This seems true in some years but not all.
 
-
+```{r}
 countFruitsPerPlantJointNSummary<-countFruitsPerPlantAllPlots %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(n.all = n()) 
@@ -325,7 +255,11 @@ ggplot(data=comparisonN %>% dplyr::filter(year>2006)) +
   geom_point(aes(x=nDelta,y=delta),alpha=.5) +
   facet_wrap(~year,scale='free') +
   theme_bw()
+```
 
+I then looked at whether some sites had greater difference in plant size when extra throw plots had more plants.
+
+```{r}
 ggplot(data=comparisonN %>% dplyr::filter(year>2006)) +
   geom_smooth(aes(x=nDelta,y=delta),method='lm') +
   geom_point(aes(x=nDelta,y=delta),alpha=.5) +
@@ -338,6 +272,9 @@ ggplot(data=comparisonN %>% dplyr::filter(year>2006)) +
 Here we see that generally when there are more extra plots the discrepancy between permanent plot plant size and all plot plant size grows. 
 
 #### Area and discrepancy
+
+I evaluated the hypothesis that the difference would be greatest at sites where the permanent plots cover less of the population. This does not seem to be the case. Instead, there doesn't seem to be a relationship between proportion of the plot covered by permanent plots and the difference.
+
 
 First, I load in the site abiotic data and calculate the proportion of the site that is covered by the permanent plots. The area data is in hectares (1 ha = 10000 meters squared). There are 30 1$\times$0.5 meter plots at each site. 
 ```{r}
@@ -372,12 +309,6 @@ deltaSummary<-countFruitsPerPlantAllPlotsSummary %>%
 We hypothesized that there might be a bigger difference between the size of plants in/out of permanent plots at sites where the permanent plots were a smaller fraction of the total site area. Plotting the difference in mean plant size against the proportion of the site taken up by permanent plots, we expected a negative relationship between the difference and proportion of the site taken up by the plots. We did not find this relationship.
 
 ```{r}
-ggplot(data=deltaSummary) +
-  geom_smooth(aes(x=plotsProportion,y=delta),method='lm') +
-  geom_point(aes(x=plotsProportion,y=delta),alpha=.5) +
-  facet_wrap(~year,scale='free') +
-  theme_bw()
-
 ggplot(data=deltaSummary) +
   geom_smooth(aes(x=plotsProportion,y=delta),method='lm') +
   geom_point(aes(x=plotsProportion,y=delta),alpha=.5) +
@@ -427,7 +358,6 @@ ggplot(data=comparison) +
   facet_wrap(~year,scale='free') +
   theme_bw()
 ```
-
 
 
 ### Comparison of estimates for F
