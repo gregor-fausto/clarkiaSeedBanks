@@ -205,6 +205,7 @@ test<-countFruitsPerPlantAllPlots %>%
 hist(test$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n extra plots vs. permanent plots")
 abline(v=1,col="red")
 ```
+
 I looked at the distribution of the ratio of mean fruits per plant from all plots vs. permanent plots only. The red line corresponds to a 1:1 ratio.
 
 ```{r, message=FALSE, warning=FALSE}
@@ -224,6 +225,29 @@ testComparison <- testAll %>%
 hist(testComparison$ratio,breaks=100, main = "Distribution of ratio of mean fruits per plant in \n all plots vs. permanent plots only")
 abline(v=1,col="red")
 
+```
+
+```{r}
+siteNames = unique(countFruitsPerPlantAllPlots$site)
+plotList <- list()
+for(i in 1:20){
+plotList[[i]]<-(countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year>2006) %>%
+  dplyr::filter(site==siteNames[i]) %>%
+  ggplot( aes(x=countFruitNumberPerPlant, fill=as.factor(permanentPlot))) +
+    geom_histogram( alpha=.5, position = 'identity',bins=30) +
+    scale_fill_manual(values=c("black", "orange")) +
+    labs(fill="") +
+    theme_bw() +
+  facet_wrap(~year,scales='free') +
+  labs(title=siteNames[i]))
+}
+
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/fruitsPerPlantComparison.pdf")
+for(i in 1:20){
+  print(plotList[[i]])
+}
+dev.off()
 ```
 
 #### Discrepancy all data vs. subset of data
@@ -357,7 +381,9 @@ ggplot(data=deltaSummary) +
 ggplot(data=deltaSummary) +
   geom_smooth(aes(x=plotsProportion,y=delta),method='lm') +
   geom_point(aes(x=plotsProportion,y=delta),alpha=.5) +
- # facet_wrap(~year,scale='free') +
+  facet_wrap(~year) +
+  ylab("Mean fruits per plant in extra throws \n minus mean fruits per plant in permanent plots") +
+  xlab("Proportion of site covered by permanent plots")+
   theme_bw()
 ```
 Here is the discrepancy plotted against easting
