@@ -1,0 +1,141 @@
+\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% set up packages, geometry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{geometry, textcomp, amsmath, graphicx, amssymb,fancyhdr,subcaption,bm}                		
+\geometry{letterpaper, marginparwidth=60pt}                   		
+\usepackage[superscript,noadjust]{cite} % puts dash in citations to abbreviate
+%\usepackage [autostyle, english = american]{csquotes} % sets US-style quotes
+%\MakeOuterQuote{"} % sets quote style
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\small}
+
+\usepackage{float}
+
+\usepackage{pgf, tikz, eqnarray}
+\usetikzlibrary{arrows, automata}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}                                                      %%
+%%%%%%%%%% EXAFT 1in MARGINS %%%%%%%                                   %%
+\setlength{\textwidth}{6.5in}     %%                                   %%
+\setlength{\oddsidemargin}{0in}   %% (It is recommended that you       %%
+\setlength{\evensidemargin}{0in}  %%  not change these parameters,     %%
+\setlength{\textheight}{8.5in}    %%  at the risk of having your       %%
+\setlength{\topmargin}{0in}       %%  proposal dismissed on the basis  %%
+\setlength{\headheight}{0in}      %%  of incorrect formatting!!!)      %%
+\setlength{\headsep}{0in}         %%                                   %%
+\setlength{\footskip}{.5in}       %%                                   %%
+\setlength\parindent{0pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                                   %%		
+
+
+\begin{document}
+
+\section*{Seeds per fruit}
+
+From 2006--2012, "we collected one fruit from each of 20-30 haphazardly selected plants distributed across each population (but outside plots, to avoid influencing seed input within them) to estimate the mean number of seeds produced per fruit" (Eckhart et al. 2011). We collected fruits that were undamaged in the field, and fruits were broken open to count seeds. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. \\
+
+From 2013--present, we collected one undamaged and one damaged fruit from each of 20-30 haphazardly selected plants distributed across each population. The plants were again outside plots to avoid affecting seed input. We used these fruits to estimate the mean number of seeds produced by undamaged and damaged fruits. Fruits were broken open to count seeds. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit and  20-30 counts of seeds produced per damaged fruit. \\
+
+We seek to estimate (1) the number of seeds per undamaged fruit, (2) the number of seeds per damaged fruit, and (3) the proportion of seeds that are lost to herbivory in damaged fruits relative to undamaged fruits. \\
+
+Define:
+
+\begin{itemize}
+	\item $y^{und}_{ijt}$ = observed counts of seeds per undamaged fruit in the $i^{th}$ fruit, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $y^{dam}_{ijt}$ = observed counts of seeds per damaged fruit in the $i^{th}$ fruit, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $\lambda_{jt}$ = true, unobserved mean number of seeds per undamaged fruit from the $j^{th}$ site, from the $t^{th}$ year
+\end{itemize}
+
+\section*{Fruits per plant}
+
+From 2006--2012, "we recorded...the number of fruits per plant for up to 15-20 plants per 0.5 m$^2$" (Eckhart et al. 2011). For each plant, we counted the number of undamaged fruits. We then took the damaged fruits and stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used these counts to estimate the number fruits produced per plant. //
+
+From 2013--present, we counted the number of undamaged and damaged fruits per plant for up to ... plants per 0.5 m$^2$. We used these counts to estimate the number of fruits produced per plant, and to estimate the number of those fruits that are damaged by herbivores. \\
+
+We seek to estimate (1) the number of fruits produced per plant and (2) the proportion of fruits that are damaged per plant. \\
+
+Define: 
+
+\begin{itemize}
+
+	\item $y^{TFE}_{ijt}$ = observed counts of total fruit equivalents per plant on the $i^{th}$ plant, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $\bm{y_{ijt}} = [ y^{und}_{ijt}, y^{dam}_{ijt} ] $ = two item vector of observed counts of undamaged and damaged fruits per plant on the $i^{th}$ plant, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $n_{ijt}$ = observed counts of total fruits per plant (sum of $\bm{y_{ijt}}$) on the $i^{th}$ plant, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $\phi_{jt}$ = the true, unobserved proportion of fruits that are damaged per plant at the $j^{th}$ site, in the $t^{th}$ year
+
+\end{itemize}
+
+\section*{Seedling survival to fruiting}
+
+The data consist of counts of seedlings and fruiting plants in 0.5 m$^2$ plots at 20 sites from 2006--present. Each site was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and plants in each plot are counted by a single person at each visit. \\
+
+We would like to assume that the data on seedlings is measured perfectly (i.e. we did not over or under count) but we know this is not true. There are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the site. Delayed phenology may vary from year to year but also by geography; higher elevation sites may have delayed phenology. Seedlings are harder to see than fruiting plants. We want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. \\
+
+We assume that the data on fruiting plants is measured perfectly (i.e. we did not over or under count) because plants stand out from the background vegetation in June. \\
+
+We seek to estimate (1) the proportion of seedlings that survive to become fruiting plants and (2) the true number of seedlings.  \\
+
+Define:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ site, from the $t^{th}$ year
+	\item $z_{ijt}$ = true counts of seedlings in the $i^{th}$ plot, from the $j^{th}$ site, from the $t^{th}$ year
+	\item $y_{ijt}$ = observed counts of fruiting plants in the $i^{th}$ plot, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly
+\end{itemize}
+
+\section*{Seed survival }
+
+The data come from two experiments that involved burying seeds in seed bags (2005--2009) and seed pots (2013--present). We seek to estimate (1) seed survival for different periods of the year or as a monthly rate, (2) germination of 0-, 1- and 2-year old seeds, and (3) viability of intact seeds unearthed in October. 
+
+\subsection*{Seed bag experiments}
+In October, we buried 10 5 $\times$ 5-cm nylon mesh bags at each site, each containing 100 seeds collected at the site in June-July. In January, we removed these 10 bags and counted the number of germinated seedlings and the number of ungerminated, intact seeds in each bag. We then returned the ungerminated, intact seeds to the resealed bag and returned the bag to the field. In October, we removed these bags and counted the number of ungerminated, intact seeds. \\
+
+Define:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed count of seeds in the seed bags at the start of the experiment in October in the $i^{th}$ bag, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^1_{ijt}$ = observed count of germinated seedlings in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^2_{ijt}$ = observed count of ungerminated, intact seeds in the seed bags in January in the $i^{th}$ bag, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $y^3_{ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $y^3_{ijt}$ = observed count of ungerminated, intact seeds in the seed bags in October in the $i^{th}$ bag, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 	
+	\item $v_{ijt}$ = the true, unobserved proportion of intact seeds that are viable in the $i^{th}$ bag at the $j^{th}$ site, in the $t^{th}$ year [estimated in the viability assays]
+\end{itemize}
+
+\subsubsection*{Viability assays}
+
+We assessed the viability of these seeds using laboratory assays. We conducted two to three tests of up to 15 seeds each on each bag. First, we placed seeds on moist filter paper and counted germinants over 10 days. Second, we took the remaining ungerminated seeds and stained the seeds with tetrazolium chloride, counting the number of seeds that stained red. \\
+
+Define:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed count of seeds starting the viability assay from the $i^{th}$ bag, from the $j^{th}$ site, in the $k^{th}$ replicate, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^1_{ijt}$ =  observed count of germinated seedlings in the first viability assay (germination induction) from the $i^{th}$ bag, from the $j^{th}$ site, in the $k^{th}$ replicate, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $y^2_{ijt}$ =  observed count of stained seedlings in the second viability assay (tetrazolium stain) from the $i^{th}$ bag, from the $j^{th}$ site, in the $k^{th}$ replicate, from the $t^{th}$ year, assumed to be measured perfectly
+	\item $v_{ijt}$ = the true, unobserved proportion of intact seeds that are viable in the $i^{th}$ bag at the $j^{th}$ site, in the $t^{th}$ year
+\end{itemize}
+
+\subsection*{Seed pot experiments}
+In October, we set out pots at each site, each containing ~50 seeds collected at the site in June-July. In January of the following three years, we counted the number of germinated seedlings in each pot. [In the first two years of the experiment, removed pots to try to extract seeds but that didn't succeed so we left pots in place instead.] \\
+
+We assume that the data on the initial number of seeds in the seed pots, and the counts of germinated seedlings are measured perfectly. \\
+
+We seek to estimate (1) monthly survival in the soil seed bank and (2) germination of seeds. \\
+
+Define:
+
+\begin{itemize}
+	\item $n_{ijt}$ = observed count of seeds in the seed pots at the start of the experiment in October in the $i^{th}$ pot, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^1_{ijt}$ = observed count of germinated seedlings in the pots in the first January in the $i^{th}$ pot, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^2_{ijt}$ = observed count of germinated seedlings in the pots in the second January in the $i^{th}$ pot, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $y^3_{ijt}$ = observed count of germinated seedlings in the pots in the third January in the $i^{th}$ pot, from the $j^{th}$ site, from the $t^{th}$ year, assumed to be measured perfectly 
+	\item $\delta_{j}$ = the true, unobserved proportion of seeds that decay from the seed bank each month at the $j^{th}$ site
+	\item $\gamma_{j}$ = the true, unobserved proportion of seeds that germinate each year at the $j^{th}$ site
+\end{itemize}
+
+
+\end{document}

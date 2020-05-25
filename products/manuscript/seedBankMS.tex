@@ -230,9 +230,9 @@ We collected the following data:
 
 \subsubsection*{Seedling survival to fruiting}
 
-To assess the survival of germinants to fruiting plants for \textit{C. xantiana}, we use data of counts of seedlings and fruiting plants in 0.5 m$^2$ plots at 20 populations from 2006--present (\cite{eckhart2011}). Each population was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and plants in each plot are counted by a single person at each visit. 
+To assess the survival of germinants to fruiting plants for \textit{C. xantiana}, we use data of counts of seedlings and fruiting plants in 30 0.5 m$^2$ plots at 20 populations from 2006--present (\cite{eckhart2011}). Each population was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and fruiting plants in each plot are counted by a single person at each visit. 
 
-%For now, we assume that the data on seedlings is measured perfectly (i.e. no under- or over-counts of seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies may vary from year to year but also by geography; higher elevation populations may have delayed phenology. We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset.
+For now, we assume that the data on seedlings is measured perfectly (i.e. we did not under- or over-count seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies from year to year and by geography. In particular, populations at higher elevations may have delayed phenology. \hl{We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset.}
 
 We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over- count) because plants stand out from the background vegetation in June. Our model estimates the proportion of seedlings that survive to become fruiting plants. Define:
 
@@ -244,9 +244,11 @@ We assume that the data on fruiting plants is measured perfectly (i.e. we did no
 
 \subsubsection*{Fruits per plant}
 
-To assess the number of fruits per plant for \textit{C. xantiana}, we use data on counts of the number of fruits per plant in 0.5m$^2$ plots at 20 populations (\cite{eckhart2011}). For each of 15-20 plants, we counted the number of undamaged fruits. We then took the damaged fruits and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used these counts to estimate the number fruits produced per plant. 
+To assess the number of fruits per plant for \textit{C. xantiana}, we use data on counts of the number of fruits per plant at 20 populations (\cite{eckhart2011}). At each population, we made two sets of counts. First, we counted the number of fruits per plant on all plants in the 0.5m$^2$ permanent plots. Second, we counted the number of fruits per plant on plants that we sampled haphazardly across the site using throws of a 0.5m$^2$ grid.
 
-% From 2013--present, we counted the number of undamaged and damaged fruits per plant for up to ... plants per 0.5 m$^2$. We used these counts to estimate the number of fruits produced per plant, and to estimate the number of those fruits that are damaged by herbivores.
+From 2006--2012, we counted the number of undamaged fruits on a plant. We then took the damaged fruits on a plant and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used these counts to estimate the number fruits produced per plant. 
+
+From 2013--present, we counted the number of undamaged and damaged fruits on a plant plant. We used these counts to estimate the number of fruits produced per plant.
 
 We seek to estimate the number of fruits produced per plant. Define: 
 
@@ -262,13 +264,11 @@ We seek to estimate the number of fruits produced per plant. Define:
 
 To assess the number of seeds per fruit for \textit{C. xantiana}, we use data on counts of the seeds per fruit of fruits that were haphazardly collected in 20 populations (\cite{eckhart2011}). In the field, we collected fruits that were undamaged. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. 
 
-% From 2006--2012, "we collected one fruit from each of 20-30 haphazardly selected plants distributed across each population (but outside permanent plots, to avoid influencing seed input within them) to estimate the mean number of seeds produced per fruit" (\cite{eckhart2011}). 
+From 2006--2012, we collected one undamaged fruit from each of 20-30 plants that were haphazardly collected across each population.
 
 From 2013--present, we collected one undamaged and one damaged fruit from each of 20-30 haphazardly selected plants distributed across each population. The plants were outside permanent plots to avoid affecting seed input. We used these fruits to estimate the mean number of seeds produced by undamaged and damaged fruits. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit and  20-30 counts of seeds produced per damaged fruit. 
 
 We seek to estimate the number of seeds per undamaged fruit. Define:
-
-%, (2) the number of seeds per damaged fruit, and (3) the proportion of seeds that are lost to herbivory in damaged fruits relative to undamaged fruits. 
 
 \begin{itemize}
 	\item $y^{und}_{ijk}$ = observed counts of seeds in the $i^{th}$ undamaged fruit, from the $j^{th}$ population, from the $k^{th}$ year, assumed to be measured perfectly
@@ -278,7 +278,7 @@ We seek to estimate the number of seeds per undamaged fruit. Define:
 
 \subsection*{Model framework}
 
-We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We obtain population-specific estimates for belowground vital rates, and to obtain year- and population-specific estimates for aboveground vital rates. We use these transition probabilities to analyze correlations between germination probability and variance in per-capita reproductive success, correlation between germination probability and seed survival, and to compare the optimal germination fraction from a density-independent model to the observed germination fraction. 
+We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We obtain population-specific estimates for belowground vital rates, and obtain year- and population-specific estimates for aboveground vital rates. We use these vital rate estimates to analyze correlations between germination probability and variance in per-capita reproductive success, correlation between germination probability and seed survival, and to compare the optimal germination fraction from a density-independent model to the observed germination fraction. 
 
 \subsubsection*{Parameter estimates for belowground transitions}
 
@@ -306,7 +306,18 @@ s_3 & = \frac{\theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )}{
 
 \subsubsection*{Parameter estimates for aboveground transitions}
 
-To estimate obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate fruits per plant (parameter) and seeds per fruit (parameter). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
+To obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate fruits per plant (parameter) and seeds per fruit (parameter). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
+
+From 2006--2012, we counted total fruit equivalents in the field, and estimated the number of seeds in undamaged fruits in the lab. Starting in 2013, we began to count undamaged and damaged fruits in the field, and estimate the number of seeds in both undamaged and damaged fruits in the lab. To compare these components of fitness across all years of the study, we converted the number of undamaged and damaged fruits to total fruit equivalents with the following relationship:
+
+%
+    \begin{align}
+\begin{split}
+\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} 
+  \end{split}
+\end{align}
+%
+
 
 \subsection*{Models}
 
@@ -314,7 +325,7 @@ Across all datasets, we have data from multiple years and populations. The goal 
 
 \subsubsection*{Model for seed burial experiment data}
 
-The models below represent the joint likelihood for data from the seed bag experiments. All of data from seed bags and viability trials is in the form of binomial trials: we have counts of seeds at the start and end of an experimental window of time. All models for the parameters $\theta_1, \theta_2, \theta_3, \theta_4, \theta_5$ have the same structure for seeds in bag $i$ in year $j$ in population $k$. If the number of seeds starting the trial (trials) is $n_{ijk}$ and the number of seeds at the end of the trial (successes) is $y_{ijk}$, we write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success for each bag is drawn from this year- and population-level distribution:
+The models below represent the joint likelihood for data from the seed bag experiments. All data from seed bags and viability trials is in the form of binomial trials: we have counts of seeds at the start and end of an experimental window of time. All models for the parameters $\theta_1, \theta_2, \theta_3, \theta_4, \theta_5$ have the same structure for seeds in bag $i$ in year $j$ in population $k$. If the number of seeds starting the trial (trials) is $n_{ijk}$ and the number of seeds at the end of the trial (successes) is $y_{ijk}$, we write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success for each bag is drawn from this year- and population-level distribution:
 %
 \begin{align}
   \begin{split}
