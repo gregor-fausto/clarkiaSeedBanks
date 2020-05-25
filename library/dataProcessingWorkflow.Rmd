@@ -33,7 +33,10 @@ An additional folder holding datasets is originally found in the shared Dropbox 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/`
 
 I last ran this on 02/06/20 at 10:50 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+
 Data for seed pots was shared via email on 04/11/2020 as `seed_pot_data_updated.xlsx`.
+
+Updated data on survivorship and fruiting plants was shared via email on 05/13/2018 as `Survivorship & Fecundity_06-18vers2.xls`. This contains data through seedling counts in 2018.
 
 Additional changes:
 
@@ -53,6 +56,8 @@ Additional changes:
 - deleted empty rows at the bottom of the file `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2014.xlsx`, sheet 2; these are filled with some formatting and otherwise may give problems with data importing
 
 - saved `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xls` as `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xlsx`
+
+- save `/Users/Gregor/Dropbox/dataLibrary/Survivorship & Fecundity_06-18vers2.xls` as `/Users/Gregor/Dropbox/dataLibrary/Survivorship & Fecundity_06-18vers2.xlsx`
 
 
 ### Processing data {#processing-data-link}
@@ -89,11 +94,11 @@ kable(dt)
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r, message=FALSE, warning=FALSE}
-directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
-# 
+directory=c("/Users/Gregor/Dropbox/dataLibrary/")
+ 
 
 # extract data and write out temporary csv
-tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
+tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-18vers2.xls"), 
                       sheet = 1, na = c("","NA" )) %>%
   janitor::clean_names(case="lower_camel") %>%
   readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
@@ -135,7 +140,9 @@ censusSeedlingsFruitingPlants <- tmp %>%
 censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   dplyr::select(-month) %>%
   tidyr::pivot_wider(names_from = variable,
-                     values_from = count) 
+                     values_from = count) %>%
+  # remove for full dataset
+  dplyr::filter(year<2018)
 
 readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 
@@ -151,7 +158,7 @@ tmp1 <- censusSeedlingsFruitingPlants %>%
 
 kable(tmp1, caption="Summary table of the number of estimates for seedling survival to fruiting")
 
- #print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+ #print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 Second, I plot the number of estimates for seedling survival to fruiting per population and year that do not have fewer seedlings than fruiting plants
@@ -169,17 +176,16 @@ vals<-signif((1-tmp[,-1]/tmp1[,-1])*100,2)
 tmp1 = cbind(tmp[,1],vals)
 kable(tmp1, caption="Summary table of the percentage of plots with fruiting plant counts exceeding seedling counts")
 
-# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Fruits per plant data for transects
 
 From 2007-2012, there is data on the number of total fruit equivalents on each plant in each permanent plot. In the Excel files, this means that each year's sheet is a ragged array in which a row corresponds to a permanent plot. Each row has a different number of columns because each plot has a different number of plants, and each plant is recorded in its own cell.
 
-The code below takes these Excel files and converts them into a long data frame with the following columns ...
+The code below takes these Excel files and converts them into a long data frame with the following columns: `site`, `transect`, `position`, `plantNumber`, `countFruitsPerPlant`, and `year`.
 
 ```{r, message=FALSE, warning=FALSE}
-# directory for excel files
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
 # years for datasets
@@ -205,10 +211,10 @@ listDataFrames20072012 <- list()
 for(i in 1:length(namesFruitPerPlantFiles)){
   
   # extract names from first row
-(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                       sheet = 1, range = rangeFruitPerPlantColumnNames[i], 
                       na = "NA", n_max=0) %>% 
-    names())
+    names()
 
   # extract data and write temporary csv 
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
@@ -272,7 +278,7 @@ tmp <- arrange(tmp,tmp$site)
 
 kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from transects")
 
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 From 2013-2018, there is data on the number of undamaged and damaged fruits on each plant in each permanent plot. In the Excel files, this means that each year's sheet is a ragged array in which a row corresponds to a permanent plot. Each row has a different number of columns because each plot has a different number of plants, and each plant is recorded in its own cell.
@@ -417,7 +423,7 @@ readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLib
 
 ```
 
-Summary tables
+Summary tables.
 
 ```{r, message=FALSE, warning=FALSE}
 tmp <- countUndamagedDamagedFruitsPerPlantTransects %>%
@@ -429,7 +435,7 @@ tmp<-arrange(tmp,tmp$site)
 
 kable(tmp, caption="Summary of dataset on undamaged and damaged fruits per plant from transects")
 
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Fruits per plant data extra plots
@@ -500,7 +506,83 @@ tmp<-arrange(tmp,tmp$site)
 
 kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from extra plots")
 
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
+```
+
+From 2013-2018, there is data on the number of undamaged and damaged fruits on each plant in additional plots outside of permanent plots. These additional plots were sampled to supplement counts of fruits per plant from permanent plots. 
+
+The code below takes these Excel files and converts them into a long data frame with the following columns ...
+
+```{r, message=FALSE, warning=FALSE}
+# directory for excel files
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
+# years for datasets
+years = 2013:2018
+
+# names of the files
+namesFruitPerPlantFiles = list.files(directory)[9:14]
+
+#range of the data in each file
+rangeFruitPerPlantData = c("A1:D822","A1:D1246",
+                           "A1:D991","A1:D1227",
+                           "A1:D2931","A1:D2071")
+
+# empty list
+listDataFrames20132018 <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+    # extract data and write temporary csv 
+tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 2, range = rangeFruitPerPlantData[i],
+              na = "NA") %>%
+  janitor::clean_names("lower_camel") %>%
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+
+tmp <- tmp %>%
+  dplyr::rename(countUndamagedFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
+  dplyr::rename(countDamagedFruitNumberPerPlant=damagedFruitNumberPerPlant) 
+
+# tmp <- tmp %>%
+#   tidyr::pivot_longer(cols=c(countUndamagedFruitNumberPerPlant,
+#                              countDamagedFruitNumberPerPlant),
+#                       names_to = "damage", 
+#                       values_to = "countFruitNumberPerPlant")
+
+# add data frame to list
+listDataFrames20132018[[i]] <- tmp
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20132018[[i]] <- listDataFrames20132018[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+# unlist and bind data frames
+countUndamagedDamagedFruitsPerPlantAllPlots <- listDataFrames20132018 %>%
+  purrr::reduce(full_join)
+
+# write data frame to RDS
+readr::write_rds(countUndamagedDamagedFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+tmp <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==0) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(countUndamagedFruitNumberPerPlant))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+tmp<-arrange(tmp,tmp$site)
+
+kable(tmp, caption="Summary of dataset on undamaged and damaged fruits per plant from extra plots")
+
+ # print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 

@@ -11,6 +11,8 @@
 
 \usepackage{graphicx}
 
+\usepackage{rotating}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -19,6 +21,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DATASETS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{center}
 \captionof{table}{ Summary of data sets used to estimate parameters. } \label{tab:title1} 
@@ -51,6 +57,10 @@
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PARAMETERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{center}
 \captionof{table}{ Description of key parameters. } \label{tab:title2} 
  \begin{tabularx}{\linewidth}{c X} 
@@ -76,7 +86,7 @@
 
  $\sigma$ & Probability of survival of seedlings to fruiting plants\\
 
- $F$ & Number of fruits per plant \\
+ $F$ & Number of total fruit equivalents per plant \\
  
  $\phi$ & Number of seeds per undamaged fruit \\ 
   \hline
@@ -85,24 +95,12 @@
 
 \newpage
 
-% header for seed burial data table
 
-%\begin{table}[ht]
-%\centering
-%\begin{tabular}{lcccccc}
-%  \hline
-%  \hline
-% &  \multicolumn{3}{c}{Age 1} & \multicolumn{2}{c}{Age 2} & Age 3 \\
-% \cmidrule(lr){2-4} \cmidrule(lr){5-6} \cmidrule(lr){7-7} 
-%Population & 2007 & 2008 & 2009 & 2008 & 2009 & 2009 \\ 
-%  \hline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SEED BAG BURIAL EXPERIMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Tue Mar 24 16:48:39 2020
 \captionof{table}{ Summary of dataset from seed bag burial experiment. [Data set $\bm{\mathrm{Y}}_1$]  } \label{tab:titleburial} 
 \begin{table}[ht]
 \centering
@@ -143,8 +141,6 @@ BG &   7 &  10 &  10 &   6 &  10 &   3 \\
 % VIABILITY FOR SEED BAG BURIAL EXPERIMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Tue Mar 24 17:14:38 2020
 \captionof{table}{ Summary of dataset on viability of seeds from seed bag burial experiment. [Data set $\bm{\mathrm{Y}}_2$] } \label{tab:titleviab} 
 \begin{table}[ht]
 \centering
@@ -185,73 +181,88 @@ BG &   7 &  10 &  10 &   6 &  10 &   3 \\
 % SEEDLING SURVIVAL TO FRUITING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Wed Mar 25 10:25:29 2020
+ \small
+% Let LaTeX figure out amount of intercolumn whitespace
+\setlength\tabcolsep{0pt} 
+
+
 \captionof{table}{ Summary of dataset on seedling survival to fruiting. [Data set $\bm{\mathrm{Y}}_4$] } \label{tab:sigma} 
-\begin{table}[ht]
+\
 \centering
-\begin{tabular}{lcccccccccc}
+\begin{tabular*}{\textwidth}{ l @{\extracolsep{\fill}} *{26}{c} }
   \hline
-Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 \\ 
   \hline
-BG &  18 &  18 &  20 &  26 &  21 &  26 &  19 &  23 &   3 &  26 \\ 
-  BR &  19 &  29 &  26 &  30 &  20 &  30 &  28 &  30 &   5 &  27 \\ 
-  CF &  20 &  19 &  26 &  28 &  24 &  19 &  23 &  27 &  14 &  15 \\ 
-  CP3 &  18 &  18 &  15 &  11 &  19 &   7 &  &  10 &  &   7 \\ 
-  DEM &  18 &  11 &  12 &  21 &  17 &  24 &  18 &  22 &   3 &   9 \\ 
-  DLW &  16 &  16 &  12 &  13 &  12 &  21 &  15 &  19 &   1 &  13 \\ 
-  EC &  20 &  20 &  21 &  30 &  24 &  30 &  30 &  19 &   1 &  10 \\ 
-  FR &  19 &  27 &  25 &  26 &  30 &  30 &  24 &  25 &   4 &  15 \\ 
-  GCN &  18 &  20 &  11 &  20 &  20 &  24 &  22 &  27 &  &  17 \\ 
-  KYE &  18 &  27 &  20 &  30 &  16 &  29 &  27 &  27 &  &  26 \\ 
-  LCE &  20 &   6 &  17 &  12 &  19 &   1 &   1 &   3 &   1 &   8 \\ 
-  LCW &  16 &  26 &  27 &  27 &  20 &   3 &  &  15 &  &   1 \\ 
-  LO &  12 &  10 &  26 &  27 &  27 &  &   1 &  19 &   5 &  10 \\ 
-  MC &  17 &   8 &  21 &  23 &  25 &  30 &  29 &  27 &   4 &  18 \\ 
-  OKRE &  14 &   8 &   7 &  17 &  18 &  14 &   7 &  19 &   5 &  10 \\ 
-  OKRW &  19 &  18 &  22 &  19 &  12 &   8 &   9 &  13 &  &   3 \\ 
-  OSR &  15 &  12 &   8 &   9 &  14 &  22 &  18 &  20 &  &  14 \\ 
-  S22 &  17 &  10 &  17 &  17 &  23 &  14 &  26 &  26 &  &  17 \\ 
-  SM &  15 &   8 &  10 &  18 &   9 &  20 &  18 &  23 &  &  19 \\ 
-  URS &   4 &  16 &  10 &   6 &  10 &  13 &   3 &   5 &   2 &   1 \\ 
+  Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\ 
+  \hline
+BG &  18 &  21 &  22 &  26 &  24 &  26 &  20 &  23 &   3 &  26 &   5 &  16 \\ 
+  BR &  19 &  30 &  29 &  30 &  30 &  30 &  29 &  30 &   9 &  27 &   5 &  26 \\ 
+  CF &  20 &  21 &  28 &  29 &  29 &  21 &  23 &  27 &  15 &  15 &   5 &  22 \\ 
+  CP3 &  18 &  19 &  19 &  13 &  19 &   8 & -- &  10 &   1 &   7 & -- &   6 \\ 
+  DEM &  18 &  17 &  14 &  21 &  24 &  25 &  18 &  22 &   3 &   9 &   4 &  21 \\ 
+  DLW &  16 &  18 &  13 &  15 &  17 &  22 &  16 &  19 &   1 &  13 &   5 &  11 \\ 
+  EC &  20 &  28 &  30 &  30 &  30 &  30 &  30 &  24 &   2 &  10 &   9 &   8 \\ 
+  FR &  20 &  28 &  27 &  27 &  30 &  30 &  24 &  25 &   7 &  15 &   3 &  17 \\ 
+  GCN &  18 &  20 &  15 &  20 &  28 &  29 &  22 &  27 &   5 &  17 & -- &   1 \\ 
+  KYE &  18 &  28 &  28 &  30 &  30 &  30 &  27 &  28 &   1 &  27 &   9 &  12 \\ 
+  LCE &  20 &  12 &  18 &  19 &  19 &   1 &   1 &   3 &   1 &   8 &   7 &  19 \\ 
+  LCW &  16 &  27 &  27 &  27 &  21 &   4 & -- &  15 & -- &   1 & -- &   4 \\ 
+  LO &  12 &  15 &  28 &  29 &  27 &   2 &   1 &  19 &   5 &  11 &   6 &  19 \\ 
+  MC &  17 &  11 &  22 &  25 &  27 &  30 &  29 &  27 &   6 &  18 &   8 &  15 \\ 
+  OKRE &  14 &  10 &   8 &  19 &  21 &  17 &   7 &  19 &   6 &  10 &   5 &  15 \\ 
+  OKRW &  19 &  19 &  22 &  20 &  19 &  12 &   9 &  13 & -- &   3 &   1 &   3 \\ 
+  OSR &  15 &  13 &   9 &   9 &  23 &  26 &  18 &  20 &   1 &  14 & -- &   1 \\ 
+  S22 &  17 &  10 &  21 &  18 &  28 &  17 &  27 &  26 & -- &  17 &   4 &  10 \\ 
+  SM &  15 &   8 &  13 &  18 &  23 &  25 &  18 &  24 & -- &  19 &   8 &  13 \\ 
+  URS &   4 &  17 &  10 &   7 &  12 &  14 &   3 &   5 &   2 &   1 & -- &   5 \\ 
    \hline
-\end{tabular}
-\end{table}
- 
- \newpage
- 
- % latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Wed Mar 25 10:41:34 2020
+\end{tabular*}
+
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNDERCOUNTING FOR SEEDLING SURVIVAL TO FRUITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
  \captionof{table}{ Summary of undercounting in the dataset on seedling survival to fruiting. Values are the percentage of plots with more fruiting plants than seedlings. } \label{tab:undercount} 
-\begin{table}[ht]
 \centering
-\begin{tabular}{lcccccccccc}
+\
+\begin{tabular*}{\textwidth}{ l @{\extracolsep{\fill}} *{26}{c} }
   \hline
-site & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 \\ 
   \hline
-BG & 0.00 & 14.00 & 9.10 & 0.00 & 12.00 & 0.00 & 5.00 & 0.00 & 0.00 & 0.00 \\ 
-  BR & 0.00 & 3.30 & 10.00 & 0.00 & 33.00 & 0.00 & 3.40 & 0.00 & 44.00 & 0.00 \\ 
-  CF & 0.00 & 9.50 & 7.10 & 3.40 & 17.00 & 9.50 & 0.00 & 0.00 & 6.70 & 0.00 \\ 
-  CP3 & 0.00 & 5.30 & 21.00 & 15.00 & 0.00 & 12.00 &  & 0.00 &  & 0.00 \\ 
-  DEM & 0.00 & 35.00 & 14.00 & 0.00 & 29.00 & 4.00 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
-  DLW & 0.00 & 11.00 & 7.70 & 13.00 & 29.00 & 4.50 & 6.20 & 0.00 & 0.00 & 0.00 \\ 
-  EC & 0.00 & 29.00 & 30.00 & 0.00 & 20.00 & 0.00 & 0.00 & 21.00 & 50.00 & 0.00 \\ 
-  FR & 5.00 & 3.60 & 7.40 & 3.70 & 0.00 & 0.00 & 0.00 & 0.00 & 43.00 & 0.00 \\ 
-  GCN & 0.00 & 0.00 & 27.00 & 0.00 & 29.00 & 17.00 & 0.00 & 0.00 &  & 0.00 \\ 
-  KYE & 0.00 & 3.60 & 29.00 & 0.00 & 47.00 & 3.30 & 0.00 & 3.60 &  & 3.70 \\ 
-  LCE & 0.00 & 50.00 & 5.60 & 37.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
-  LCW & 0.00 & 3.70 & 0.00 & 0.00 & 4.80 & 25.00 &  & 0.00 &  & 0.00 \\ 
-  LO & 0.00 & 33.00 & 7.10 & 6.90 & 0.00 &  & 0.00 & 0.00 & 0.00 & 9.10 \\ 
-  MC & 0.00 & 27.00 & 4.50 & 8.00 & 7.40 & 0.00 & 0.00 & 0.00 & 33.00 & 0.00 \\ 
-  OKRE & 0.00 & 20.00 & 12.00 & 11.00 & 14.00 & 18.00 & 0.00 & 0.00 & 17.00 & 0.00 \\ 
-  OKRW & 0.00 & 5.30 & 0.00 & 5.00 & 37.00 & 33.00 & 0.00 & 0.00 &  & 0.00 \\ 
-  OSR & 0.00 & 7.70 & 11.00 & 0.00 & 39.00 & 15.00 & 0.00 & 0.00 &  & 0.00 \\ 
-  S22 & 0.00 & 0.00 & 19.00 & 5.60 & 18.00 & 18.00 & 3.70 & 0.00 &  & 0.00 \\ 
-  SM & 0.00 & 0.00 & 23.00 & 0.00 & 61.00 & 20.00 & 0.00 & 4.20 &  & 0.00 \\ 
-  URS & 0.00 & 5.90 & 0.00 & 14.00 & 17.00 & 7.10 & 0.00 & 0.00 & 0.00 & 0.00 \\
+Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 \\ 
+  \hline
+BG & 0.00 & 14.00 & 9.10 & 0.00 & 12.00 & 0.00 & 5.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
+  BR & 0.00 & 3.30 & 10.00 & 0.00 & 33.00 & 0.00 & 3.40 & 0.00 & 44.00 & 0.00 & 20.00 & 0.00 \\ 
+  CF & 0.00 & 9.50 & 7.10 & 3.40 & 17.00 & 9.50 & 0.00 & 0.00 & 6.70 & 0.00 & 0.00 & 4.50 \\ 
+  CP3 & 0.00 & 5.30 & 21.00 & 15.00 & 0.00 & 12.00 & -- & 0.00 & -- & 0.00 & -- & 0.00 \\ 
+  DEM & 0.00 & 35.00 & 14.00 & 0.00 & 29.00 & 4.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
+  DLW & 0.00 & 11.00 & 7.70 & 13.00 & 29.00 & 4.50 & 6.20 & 0.00 & 0.00 & 0.00 & 40.00 & 0.00 \\ 
+  EC & 0.00 & 29.00 & 30.00 & 0.00 & 20.00 & 0.00 & 0.00 & 21.00 & 50.00 & 0.00 & 11.00 & 0.00 \\ 
+  FR & 5.00 & 3.60 & 7.40 & 3.70 & 0.00 & 0.00 & 0.00 & 0.00 & 43.00 & 0.00 & 33.00 & 0.00 \\ 
+  GCN & 0.00 & 0.00 & 27.00 & 0.00 & 29.00 & 17.00 & 0.00 & 0.00 & -- & 0.00 & -- & 0.00 \\ 
+  KYE & 0.00 & 3.60 & 29.00 & 0.00 & 47.00 & 3.30 & 0.00 & 3.60 & -- & 3.70 & 0.00 & 0.00 \\ 
+  LCE & 0.00 & 50.00 & 5.60 & 37.00 & 5.30 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 14.00 & 5.30 \\ 
+  LCW & 0.00 & 3.70 & 0.00 & 0.00 & 4.80 & 25.00 & -- & 0.00 & -- & 0.00 & -- & 0.00 \\ 
+  LO & 0.00 & 33.00 & 7.10 & 6.90 & 0.00 & -- & 0.00 & 0.00 & 0.00 & 9.10 & 33.00 & 11.00 \\ 
+  MC & 0.00 & 27.00 & 4.50 & 8.00 & 7.40 & 0.00 & 0.00 & 0.00 & 33.00 & 0.00 & 38.00 & 6.70 \\ 
+  OKRE & 0.00 & 20.00 & 12.00 & 11.00 & 14.00 & 18.00 & 0.00 & 0.00 & 17.00 & 0.00 & 20.00 & 6.70 \\ 
+  OKRW & 0.00 & 5.30 & 0.00 & 5.00 & 37.00 & 33.00 & 0.00 & 0.00 & -- & 0.00 & -- & 0.00 \\ 
+  OSR & 0.00 & 7.70 & 11.00 & 0.00 & 39.00 & 15.00 & 0.00 & 0.00 & -- & 0.00 & -- & 0.00 \\ 
+  S22 & 0.00 & 0.00 & 19.00 & 5.60 & 18.00 & 18.00 & 3.70 & 0.00 & -- & 0.00 & 50.00 & 0.00 \\ 
+  SM & 0.00 & 0.00 & 23.00 & 0.00 & 61.00 & 20.00 & 0.00 & 4.20 & -- & 0.00 & 0.00 & 0.00 \\ 
+  URS & 0.00 & 5.90 & 0.00 & 14.00 & 17.00 & 7.10 & 0.00 & 0.00 & 0.00 & 0.00 & -- & 0.00 \\ 
       \hline
-\end{tabular}
-\end{table}
+\end{tabular*}
+
+\clearpage
+
+\normalsize
+
+% return to default
+ \setlength\tabcolsep{6pt} 
+
+\iffalse
  
   \begin{figure}[h]
    \centering
@@ -259,80 +270,67 @@ BG & 0.00 & 14.00 & 9.10 & 0.00 & 12.00 & 0.00 & 5.00 & 0.00 & 0.00 & 0.00 \\
     \caption{ Graphical summary of undercounting in the dataset on seedling survival to fruiting. Each panel summarizes the datasets on seedling survival to fruiting (Tables~\ref{tab:sigma} and~\ref{tab:undercount}). The black lines correspond to total plots with data on seedling survival. The red lines correspond to the number of plots with fewer seedlings than fruiting plants in a plot (corresponding to undercounting). }
  \label{fig:obs_pred}
 \end{figure}
+
+\fi
  
- 
+   \clearpage
+   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% FRUITS PER PLANT
+% FRUITS PER PLANT: TOTAL FRUIT EQUIVALENTS FROM PLOTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \newpage
   
 \captionof{table}{ Summary of dataset on total fruit equivalents per plant from transects. [Data set $\bm{\mathrm{Y}}_5$] } \label{tab:sigma} 
 \begin{table}[ht]
 \centering
-\begin{tabular}{lccccccc}
+\begin{tabular}{lcccccc}
   \hline
-Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 \\ 
+Population & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 \\ 
   \hline
 BG &  42 & 145 &  47 & 151 & 105 &  11 \\ 
   BR & 172 & 515 & 222 & 377 & 153 &  61 \\ 
   CF &  22 &  75 & 118 & 321 & 164 &  29 \\ 
-  CP3 &  29 &  18 &  23 &  23 &   4 &  \\ 
+  CP3 &  29 &  18 &  23 &  23 &   4 & -- \\ 
   DEM &  70 &  56 & 139 & 200 & 100 &  15 \\ 
   DLW &   6 &   8 &  11 &  40 &  34 &  19 \\ 
   EC & 122 & 126 & 253 & 350 & 289 &  25 \\ 
   FR & 100 &  21 & 115 & 326 &  94 &   3 \\ 
-  GCN &  &   8 &  & 107 & 179 &  17 \\ 
+  GCN & -- &   8 & -- & 107 & 179 &  17 \\ 
   KYE &  40 & 151 & 112 & 251 & 195 &   3 \\ 
-  LCE &  25 &  66 &  41 &   6 &  &  \\ 
-  LCW & 253 & 266 &  16 &  58 &   3 &  \\ 
+  LCE &  25 &  66 &  41 &   6 & -- & -- \\ 
+  LCW & 253 & 266 &  16 &  58 &   3 & -- \\ 
   LO &  15 & 187 & 472 &  68 &   2 &   1 \\ 
   MC &  24 &  33 &  56 & 150 & 188 &   4 \\ 
   OKRE &  11 &  11 &  27 &  57 &  35 &   1 \\ 
-  OKRW &   8 &  14 &  24 & 103 &  10 &  \\ 
+  OKRW &   8 &  14 &  24 & 103 &  10 & -- \\ 
   OSR &  13 &  20 &  36 & 159 & 129 &  32 \\ 
-  S22 &  &  23 &  30 & 102 &  22 &   3 \\ 
+  S22 & -- &  23 &  30 & 102 &  22 &   3 \\ 
   SM &   5 &  26 &  42 & 137 & 159 &   2 \\ 
   URS &   3 &   3 &   2 &  10 &  17 &   1 \\ 
    \hline
 \end{tabular}
 \end{table}
 
-   \newpage
+ \newpage
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRUITS PER PLANT: UNDAMAGED/DAMAGED FRUITS PER PLANT FROM PLOTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  \captionof{table}{   Summary of dataset on undamaged and damaged fruits per plant from transects. [Data set $\bm{\mathrm{Y}}_6$] } \label{tab:sigma} 
 \begin{table}[ht]
 \centering
 \begin{tabular}{lcccccc}
   \hline
-Population & 2013 & 2014 & 2015 & 2016 & 2017 & 2018 \\ 
-  \hline
-BG &   7 &   3 &  &   3 &  12 &  38 \\ 
-  BR &  32 &   8 &   3 &   5 &  46 & 107 \\ 
-  CF &  13 &  12 &   2 &   6 &  33 &  \\ 
-  CP3 &   2 &   1 &  &  &   1 &  \\ 
-  DEM &  12 &   3 &   2 &   5 & 134 & 156 \\ 
-  DLW &   2 &  &  &   4 &  11 &  11 \\ 
-  EC &  13 &   1 &  15 &   2 &   9 &  \\ 
-  FR &  &   4 &   1 &   1 &  42 &  13 \\ 
-  GCN &   1 &   9 &   3 &  &  &   4 \\ 
-  KYE &   6 &   1 &  19 &  &   3 &   4 \\ 
-  LCE &  &  &   1 &  14 &  24 &  73 \\ 
-  LCW &  &  &  &  &  &   1 \\ 
-  LO &   6 &   2 &   1 &   6 &  12 &  11 \\ 
-  MC &  &   3 &  &   7 &  10 &  \\ 
-  OKRE &   5 &   3 &   1 &   2 &  19 &   4 \\ 
-  OKRW &  &  &  &   1 &   4 &   1 \\ 
-  OSR &   1 &   1 &  &  &  &  \\ 
-  S22 &   1 &  &   4 &   4 &   6 &  \\ 
-  SM &   8 &  &   9 &  &  &  \\ 
-  URS &  &  &  &  &   3 &  \\ 
+Population & 2013 & 2014 & 2015 & 2016 & 2017 & 2018 \\   \hlineBG &   7 &   3 & -- &   3 &  12 &  38 \\   BR &  32 &   8 &   3 &   5 &  46 & 107 \\   CF &  13 &  12 &   2 &   6 &  33 & -- \\   CP3 &   2 &   1 & -- & -- &   1 & -- \\   DEM &  12 &   3 &   2 &   5 & 134 & 156 \\   DLW &   2 & -- & -- &   4 &  11 &  11 \\   EC &  13 &   1 &  15 &   2 &   9 & -- \\   FR & -- &   4 &   1 &   1 &  42 &  13 \\   GCN &   1 &   9 &   3 & -- & -- &   4 \\   KYE &   6 &   1 &  19 & -- &   3 &   4 \\   LCE & -- & -- &   1 &  14 &  24 &  73 \\   LCW & -- & -- & -- & -- & -- &   1 \\   LO &   6 &   2 &   1 &   6 &  12 &  11 \\   MC & -- &   3 & -- &   7 &  10 & -- \\   OKRE &   5 &   3 &   1 &   2 &  19 &   4 \\   OKRW & -- & -- & -- &   1 &   4 &   1 \\   OSR &   1 &   1 & -- & -- & -- & -- \\   S22 &   1 & -- &   4 &   4 &   6 & -- \\   SM &   8 & -- &   9 & -- & -- & -- \\   URS & -- & -- & -- & -- &   3 & -- \\ 
      \hline
 \end{tabular}
 \end{table}
 
   \newpage
   
-    \newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRUITS PER PLANT: TOTAL FRUIT EQUIVALENTS EXTRA PLOTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 \captionof{table}{ Summary of dataset on total fruit equivalents per plant from extra plots. [Data set $\bm{\mathrm{Y}}_7$] } \label{tab:sigma} 
 \begin{table}[ht]
@@ -341,11 +339,11 @@ BG &   7 &   3 &  &   3 &  12 &  38 \\
   \hline
 Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 \\ 
   \hline
-BG & 153 & 118 &  77 & 108 &  &  38 &  52 \\ 
+BG & 153 & 118 &  77 & 108 & -- &  38 &  52 \\ 
   BR & 349 &  58 & 229 &  17 & 115 &  48 &  64 \\ 
   CF & 282 & 143 & 150 &  68 &  38 &  74 &  68 \\ 
   CP3 & 279 & 197 & 128 & 178 & 177 & 103 &  25 \\ 
-  DEM & 177 &  67 &  &  52 & 188 &  28 &  78 \\ 
+  DEM & 177 &  67 & -- &  52 & 188 &  28 &  78 \\ 
   DLW & 208 & 124 & 110 & 139 & 147 &  70 &  54 \\ 
   EC & 370 &  74 &   7 &  34 &  46 & 112 &  58 \\ 
   FR & 261 &  88 & 133 &  61 & 102 &  57 &  14 \\ 
@@ -353,7 +351,7 @@ BG & 153 & 118 &  77 & 108 &  &  38 &  52 \\
   KYE & 285 & 155 & 174 &  87 & 155 &  30 &  72 \\ 
   LCE & 246 & 194 &  81 & 105 & 127 &  29 &   0 \\ 
   LCW & 243 &  17 &  75 & 178 & 167 &  50 &   3 \\ 
-  LO &  98 &  98 &  67 &  & 132 &  38 &   2 \\ 
+  LO &  98 &  98 &  67 & -- & 132 &  38 &   2 \\ 
   MC & 163 & 133 & 109 &  95 &  56 &  90 &  73 \\ 
   OKRE & 100 &  36 &  32 & 113 &  50 &  87 &   4 \\ 
   OKRW & 280 &  52 &  57 &  51 & 125 &  91 &   6 \\ 
@@ -367,6 +365,10 @@ BG & 153 & 118 &  77 & 108 &  &  38 &  52 \\
 
   \newpage
  
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRUITS PER PLANT: UNDAMAGED/DAMAGED FRUITS EXTRA PLOTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
  \captionof{table}{   Summary of dataset on undamaged and damaged fruits per plant from extra plots. [Data set $\bm{\mathrm{Y}}_9$] } \label{tab:sigma} 
 \begin{table}[ht]
 \centering
@@ -374,22 +376,44 @@ BG & 153 & 118 &  77 & 108 &  &  38 &  52 \\
   \hline
 Population & 2013 & 2014 & 2015 & 2016 & 2017 & 2018 \\ 
   \hline
-
+BG &  34 &  89 &  52 &  53 &  90 & 126 \\ 
+  BR &  82 & 173 &  62 &  79 & 134 & 167 \\ 
+  CF &  58 & 102 &  50 &  90 & 165 & 150 \\ 
+  CP3 & 149 &  87 &  59 &  69 & 141 &  11 \\ 
+  DEM &  20 &  43 &  43 &  62 & 121 & 100 \\ 
+  DLW &  66 &  35 &  61 &  56 & 232 & 158 \\ 
+  EC &  41 &  41 &  81 &  64 & 142 &   6 \\ 
+  FR &   6 &  55 &  40 &  52 & 156 &  61 \\ 
+  GCN &   9 &  35 &  55 &  64 & 103 & 130 \\ 
+  KYE &  54 & 135 & 101 &  57 & 141 & 129 \\ 
+  LCE &  25 &  53 &  60 & 135 &  94 &  82 \\ 
+  LCW &   0 &   0 &   0 &   0 &  48 & 154 \\ 
+  LO &   2 &  46 & -- &   8 & 175 &  38 \\ 
+  MC &   5 &  74 &  44 &  46 & 122 & 113 \\ 
+  OKRE &  63 &  28 &  31 &  38 &  78 &  32 \\ 
+  OKRW &   0 &   8 &   0 &  31 & 126 &  34 \\ 
+  OSR &  46 & 159 & 104 &  99 & 150 & 108 \\ 
+  S22 & -- &  29 &  65 & 102 & 253 &  18 \\ 
+  SM &  52 &   3 &  19 &   0 &  53 &  18 \\ 
+  URS &   0 &   0 &   0 &  79 &  35 &   0 \\ 
      \hline
 \end{tabular}
 \end{table}
+ 
+\newpage
 
- 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SEEDS PER FRUIT
+% SEEDS PER UNDAMAGED FRUIT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
- % latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Wed Mar 25 10:18:59 2020
+
+ \small
+% Let LaTeX figure out amount of intercolumn whitespace
+\setlength\tabcolsep{0pt} 
+
+
 \captionof{table}{ Summary of dataset on seeds per undamaged fruit. [Data set $\bm{\mathrm{Y}}_9$] } \label{tab:titleviab} 
-\begin{table}[ht]
 \centering
-\begin{tabular}{lccccccccccccc}
+\begin{tabular*}{\textwidth}{ l @{\extracolsep{\fill}} *{26}{c} }
   \hline
   \hline
 Population & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 & 2018 \\ 
@@ -415,18 +439,22 @@ BG &  21 &  19 &  41 &  30 &  30 &  28 &  29 &  29 &  30 &  29 &  29 &  32 &  27
   SM &  20 &  44 &  31 &  29 &  32 &  30 &  27 &  30 &   3 &   8 &   0 &  30 &   3 \\ 
   URS &  18 &  30 &  25 &  30 &  30 &  27 &   5 &   0 &   0 &   0 &  29 &  16 &   0 \\ 
    \hline
-\end{tabular}
-\end{table}
+\end{tabular*}
 
-  \newpage
+
+\newpage
+
+\normalsize
+
+% return to default
+ \setlength\tabcolsep{6pt} 
+
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SEEDS PER DAMAGED FRUIT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
- % latex table generated in R 3.6.2 by xtable 1.8-4 package
-% Wed Mar 25 10:18:59 2020
-\captionof{table}{ Summary of dataset on seeds per damaged fruit. [Data set $\bm{\mathrm{Y}}_10$] } \label{tab:titleviab} 
+\captionof{table}{ Summary of dataset on seeds per damaged fruit. [Data set $\bm{\mathrm{Y}}_{10}$] } \label{tab:titleviab} 
 \begin{table}[ht]
 \centering
 \begin{tabular}{lcccccc}

@@ -18,6 +18,8 @@ the data processing workflow:
   - [Seeds per fruit data](#seeds-per-fruit-data)
   - [Seed bag data](#seed-bag-data)
   - [Viability trial data](#viability-trial-data)
+  - [Seed pot data](#seed-pot-data)
+  - [Site abiotic data](#site-abiotic-data)
 
 ### File directories
 
@@ -40,11 +42,9 @@ fruit\ \&\ seed\ files/`
 I last ran these on 04/15/20 at 5:20 PM. The files in this directory are
 now a copy of those in the shared Dropbox folder. For the time being,
 the copy of the files remains outside of the folder that gets updated on
-Git.
-
-An additional folder holding datasets is originally found in the shared
-Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from
-monica/`. I created a folder on my local Dropbox
+Git. An additional folder holding datasets is originally found in the
+shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files
+from monica/`. I created a folder on my local Dropbox
 `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To
 copy the files, I run the following in my Terminal:
 
@@ -56,6 +56,13 @@ I last ran this on 02/06/20 at 10:50 AM. The files in this directory are
 now a copy of those in the shared Dropbox folder. For the time being,
 the copy of the files remains outside of the folder that gets updated on
 Git.
+
+Data for seed pots was shared via email on 04/11/2020 as
+`seed_pot_data_updated.xlsx`.
+
+Updated data on survivorship and fruiting plants was shared via email on
+05/13/2018 as `Survivorship & Fecundity_06-18vers2.xls`. This contains
+data through seedling counts in 2018.
 
 Additional changes:
 
@@ -110,6 +117,11 @@ Additional changes:
     `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xls`
     as
     `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/seeds_2015.xlsx`
+
+  - save `/Users/Gregor/Dropbox/dataLibrary/Survivorship &
+    Fecundity_06-18vers2.xls` as
+    `/Users/Gregor/Dropbox/dataLibrary/Survivorship &
+    Fecundity_06-18vers2.xlsx`
 
 ### Processing data
 
@@ -170,11 +182,11 @@ Start with the survival data. This is file `.../reshapeSeeds.R` file in
 the list above.
 
 ``` r
-directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
-# 
+directory=c("/Users/Gregor/Dropbox/dataLibrary/")
+ 
 
 # extract data and write out temporary csv
-tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-15.xls"), 
+tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-18vers2.xls"), 
                       sheet = 1, na = c("","NA" )) %>%
   janitor::clean_names(case="lower_camel") %>%
   readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
@@ -183,23 +195,27 @@ names(tmp)
 ```
 
     ##  [1] "easting"              "northing"             "site"                
-    ##  [4] "transect"             "position"             "seedlingNumber1_06"  
-    ##  [7] "flowplNumber6_06"     "fruitplNumber6_06"    "numberFruitplSdl06"  
-    ## [10] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
-    ## [13] "fruitPl6_07"          "numberFruitplSdl07"   "seedlingNumber1_08"  
-    ## [16] "flowplNumber6_08"     "fruitplNumber6_08"    "fruitPl6_08"         
-    ## [19] "numberFruitplSdl08"   "seedlingNumber1_09"   "flowplNumber5_09"    
-    ## [22] "fruitplNumber6_09"    "fruitPl6_09"          "numberFruitplSdl09"  
-    ## [25] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
-    ## [28] "fruitplNumberSdl10"   "seedlingNumber2_11"   "fruitplNumber6_11"   
-    ## [31] "fruitFlPl6_11"        "fruitplNumberSdl11"   "seedlingNumber2_12"  
-    ## [34] "fruitplNumber6_12"    "fruitPl6_12"          "fruitplNumberSdl12"  
-    ## [37] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
-    ## [40] "damagedFruitPl6_13"   "fruitplNumberSdl13"   "seedlingNumber2_14"  
-    ## [43] "fruitplNumber6_14"    "undamagedFruitPl6_14" "damagedFruitPl6_14"  
-    ## [46] "fruitplNumberSdl14"   "seedlingNumber2_15"   "fruitplNumber6_15"   
-    ## [49] "undamagedFruitPl6_15" "damagedFruitPl6_15"   "fruitplNumberSdl15"  
-    ## [52] "comments"
+    ##  [4] "transect"             "position"             "year"                
+    ##  [7] "seedlingNumber1_06"   "fruitplNumber6_06"    "numberFruitplSdl06"  
+    ## [10] "seedlingNumber1_07"   "fruitplNumber6_07"    "fruitPl6_07"         
+    ## [13] "numberFruitplSdl07"   "seedlingNumber1_08"   "fruitplNumber6_08"   
+    ## [16] "fruitPl6_08"          "numberFruitplSdl08"   "seedlingNumber1_09"  
+    ## [19] "fruitplNumber6_09"    "fruitPl6_09"          "numberFruitplSdl09"  
+    ## [22] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [25] "fruitplNumberSdl10"   "seedlingNumber2_11"   "fruitplNumber6_11"   
+    ## [28] "fruitFlPl6_11"        "fruitplNumberSdl11"   "seedlingNumber2_12"  
+    ## [31] "fruitplNumber6_12"    "fruitPl6_12"          "fruitplNumberSdl12"  
+    ## [34] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [37] "damagedFruitPl6_13"   "fruitplNumberSdl13"   "seedlingNumber2_14"  
+    ## [40] "fruitplNumber6_14"    "undamagedFruitPl6_14" "damagedFruitPl6_14"  
+    ## [43] "fruitplNumberSdl14"   "seedlingNumber2_15"   "fruitplNumber6_15"   
+    ## [46] "undamagedFruitPl6_15" "damagedFruitPl6_15"   "fruitplNumberSdl15"  
+    ## [49] "seedlingNumber2_16"   "fruitplNumber6_16"    "undamagedFruitPl6_16"
+    ## [52] "damagedFruitPl6_16"   "fruitplNumberSdl16"   "seedlingNumber2_17"  
+    ## [55] "fruitplNumber6_17"    "undamagedFruitPl6_17" "damagedFruitPl6_17"  
+    ## [58] "fruitplNumberSdl17"   "seedlingNumber2_18"   "fruitplNumber6_18"   
+    ## [61] "undamagedFruitPl6_18" "damagedFruitPl6_18"   "fruitplNumberSdl18"  
+    ## [64] "comments"
 
 ``` r
 # remove conditional and easting/northing
@@ -212,19 +228,22 @@ names(tmp)
 ```
 
     ##  [1] "site"                 "transect"             "position"            
-    ##  [4] "seedlingNumber1_06"   "flowplNumber6_06"     "fruitplNumber6_06"   
-    ##  [7] "seedlingNumber1_07"   "flowplNumber6_07"     "fruitplNumber6_07"   
-    ## [10] "fruitPl6_07"          "seedlingNumber1_08"   "flowplNumber6_08"    
-    ## [13] "fruitplNumber6_08"    "fruitPl6_08"          "seedlingNumber1_09"  
-    ## [16] "flowplNumber5_09"     "fruitplNumber6_09"    "fruitPl6_09"         
-    ## [19] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
-    ## [22] "seedlingNumber2_11"   "fruitplNumber6_11"    "fruitFlPl6_11"       
-    ## [25] "seedlingNumber2_12"   "fruitplNumber6_12"    "fruitPl6_12"         
-    ## [28] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
-    ## [31] "damagedFruitPl6_13"   "seedlingNumber2_14"   "fruitplNumber6_14"   
-    ## [34] "undamagedFruitPl6_14" "damagedFruitPl6_14"   "seedlingNumber2_15"  
-    ## [37] "fruitplNumber6_15"    "undamagedFruitPl6_15" "damagedFruitPl6_15"  
-    ## [40] "comments"
+    ##  [4] "year"                 "seedlingNumber1_06"   "fruitplNumber6_06"   
+    ##  [7] "seedlingNumber1_07"   "fruitplNumber6_07"    "fruitPl6_07"         
+    ## [10] "seedlingNumber1_08"   "fruitplNumber6_08"    "fruitPl6_08"         
+    ## [13] "seedlingNumber1_09"   "fruitplNumber6_09"    "fruitPl6_09"         
+    ## [16] "seedlingNumber1_10"   "fruitplNumber6_10"    "fruitPl6_10"         
+    ## [19] "seedlingNumber2_11"   "fruitplNumber6_11"    "fruitFlPl6_11"       
+    ## [22] "seedlingNumber2_12"   "fruitplNumber6_12"    "fruitPl6_12"         
+    ## [25] "seedlingNumber2_13"   "fruitplNumber6_13"    "undamagedFruitPl6_13"
+    ## [28] "damagedFruitPl6_13"   "seedlingNumber2_14"   "fruitplNumber6_14"   
+    ## [31] "undamagedFruitPl6_14" "damagedFruitPl6_14"   "seedlingNumber2_15"  
+    ## [34] "fruitplNumber6_15"    "undamagedFruitPl6_15" "damagedFruitPl6_15"  
+    ## [37] "seedlingNumber2_16"   "fruitplNumber6_16"    "undamagedFruitPl6_16"
+    ## [40] "damagedFruitPl6_16"   "seedlingNumber2_17"   "fruitplNumber6_17"   
+    ## [43] "undamagedFruitPl6_17" "damagedFruitPl6_17"   "seedlingNumber2_18"  
+    ## [46] "fruitplNumber6_18"    "undamagedFruitPl6_18" "damagedFruitPl6_18"  
+    ## [49] "comments"
 
 ``` r
 # remove fruits per plant averages
@@ -237,15 +256,16 @@ names(tmp)
 ```
 
     ##  [1] "site"               "transect"           "position"          
-    ##  [4] "seedlingNumber1_06" "flowplNumber6_06"   "fruitplNumber6_06" 
-    ##  [7] "seedlingNumber1_07" "flowplNumber6_07"   "fruitplNumber6_07" 
-    ## [10] "seedlingNumber1_08" "flowplNumber6_08"   "fruitplNumber6_08" 
-    ## [13] "seedlingNumber1_09" "flowplNumber5_09"   "fruitplNumber6_09" 
-    ## [16] "seedlingNumber1_10" "fruitplNumber6_10"  "seedlingNumber2_11"
-    ## [19] "fruitplNumber6_11"  "fruitFlPl6_11"      "seedlingNumber2_12"
-    ## [22] "fruitplNumber6_12"  "seedlingNumber2_13" "fruitplNumber6_13" 
-    ## [25] "seedlingNumber2_14" "fruitplNumber6_14"  "seedlingNumber2_15"
-    ## [28] "fruitplNumber6_15"  "comments"
+    ##  [4] "year"               "seedlingNumber1_06" "fruitplNumber6_06" 
+    ##  [7] "seedlingNumber1_07" "fruitplNumber6_07"  "seedlingNumber1_08"
+    ## [10] "fruitplNumber6_08"  "seedlingNumber1_09" "fruitplNumber6_09" 
+    ## [13] "seedlingNumber1_10" "fruitplNumber6_10"  "seedlingNumber2_11"
+    ## [16] "fruitplNumber6_11"  "fruitFlPl6_11"      "seedlingNumber2_12"
+    ## [19] "fruitplNumber6_12"  "seedlingNumber2_13" "fruitplNumber6_13" 
+    ## [22] "seedlingNumber2_14" "fruitplNumber6_14"  "seedlingNumber2_15"
+    ## [25] "fruitplNumber6_15"  "seedlingNumber2_16" "fruitplNumber6_16" 
+    ## [28] "seedlingNumber2_17" "fruitplNumber6_17"  "seedlingNumber2_18"
+    ## [31] "fruitplNumber6_18"  "comments"
 
 ``` r
 # select relevant columns
@@ -259,10 +279,12 @@ names(tmp)
     ##  [4] "seedlingNumber1_06" "seedlingNumber1_07" "seedlingNumber1_08"
     ##  [7] "seedlingNumber1_09" "seedlingNumber1_10" "seedlingNumber2_11"
     ## [10] "seedlingNumber2_12" "seedlingNumber2_13" "seedlingNumber2_14"
-    ## [13] "seedlingNumber2_15" "fruitplNumber6_06"  "fruitplNumber6_07" 
-    ## [16] "fruitplNumber6_08"  "fruitplNumber6_09"  "fruitplNumber6_10" 
-    ## [19] "fruitplNumber6_11"  "fruitplNumber6_12"  "fruitplNumber6_13" 
-    ## [22] "fruitplNumber6_14"  "fruitplNumber6_15"
+    ## [13] "seedlingNumber2_15" "seedlingNumber2_16" "seedlingNumber2_17"
+    ## [16] "seedlingNumber2_18" "fruitplNumber6_06"  "fruitplNumber6_07" 
+    ## [19] "fruitplNumber6_08"  "fruitplNumber6_09"  "fruitplNumber6_10" 
+    ## [22] "fruitplNumber6_11"  "fruitplNumber6_12"  "fruitplNumber6_13" 
+    ## [25] "fruitplNumber6_14"  "fruitplNumber6_15"  "fruitplNumber6_16" 
+    ## [28] "fruitplNumber6_17"  "fruitplNumber6_18"
 
 ``` r
 # remove 
@@ -279,7 +301,9 @@ censusSeedlingsFruitingPlants <- tmp %>%
 censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   dplyr::select(-month) %>%
   tidyr::pivot_wider(names_from = variable,
-                     values_from = count) 
+                     values_from = count) %>%
+  # remove for full dataset
+  dplyr::filter(year<2018)
 
 readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 ```
@@ -298,34 +322,34 @@ tmp1 <- censusSeedlingsFruitingPlants %>%
 kable(tmp1, caption="Summary table of the number of estimates for seedling survival to fruiting")
 ```
 
-| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| BG   |   18 |   21 |   22 |   26 |   24 |   26 |   20 |   23 |    3 |   26 |
-| BR   |   19 |   30 |   29 |   30 |   30 |   30 |   29 |   30 |    9 |   27 |
-| CF   |   20 |   21 |   28 |   29 |   29 |   21 |   23 |   27 |   15 |   15 |
-| CP3  |   18 |   19 |   19 |   13 |   19 |    8 |   NA |   10 |    1 |    7 |
-| DEM  |   18 |   17 |   14 |   21 |   24 |   25 |   18 |   22 |    3 |    9 |
-| DLW  |   16 |   18 |   13 |   15 |   17 |   22 |   16 |   19 |    1 |   13 |
-| EC   |   20 |   28 |   30 |   30 |   30 |   30 |   30 |   24 |    2 |   10 |
-| FR   |   20 |   28 |   27 |   27 |   30 |   30 |   24 |   25 |    7 |   15 |
-| GCN  |   18 |   20 |   15 |   20 |   28 |   29 |   22 |   27 |    5 |   17 |
-| KYE  |   18 |   28 |   28 |   30 |   30 |   30 |   27 |   28 |    1 |   27 |
-| LCE  |   20 |   12 |   18 |   19 |   19 |    1 |    1 |    3 |    1 |    8 |
-| LCW  |   16 |   27 |   27 |   27 |   21 |    4 |   NA |   15 |   NA |    1 |
-| LO   |   12 |   15 |   28 |   29 |   27 |    2 |    1 |   19 |    5 |   11 |
-| MC   |   17 |   11 |   22 |   25 |   27 |   30 |   29 |   27 |    6 |   18 |
-| OKRE |   14 |   10 |    8 |   19 |   21 |   17 |    7 |   19 |    6 |   10 |
-| OKRW |   19 |   19 |   22 |   20 |   19 |   12 |    9 |   13 |   NA |    3 |
-| OSR  |   15 |   13 |    9 |    9 |   23 |   26 |   18 |   20 |    1 |   14 |
-| S22  |   17 |   10 |   21 |   18 |   28 |   17 |   27 |   26 |   NA |   17 |
-| SM   |   15 |    8 |   13 |   18 |   23 |   25 |   18 |   24 |   NA |   19 |
-| URS  |    4 |   17 |   10 |    7 |   12 |   14 |    3 |    5 |    2 |    1 |
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   18 |   21 |   22 |   26 |   24 |   26 |   20 |   23 |    3 |   26 |    5 |   16 |
+| BR   |   19 |   30 |   29 |   30 |   30 |   30 |   29 |   30 |    9 |   27 |    5 |   26 |
+| CF   |   20 |   21 |   28 |   29 |   29 |   21 |   23 |   27 |   15 |   15 |    5 |   22 |
+| CP3  |   18 |   19 |   19 |   13 |   19 |    8 |   NA |   10 |    1 |    7 |   NA |    6 |
+| DEM  |   18 |   17 |   14 |   21 |   24 |   25 |   18 |   22 |    3 |    9 |    4 |   21 |
+| DLW  |   16 |   18 |   13 |   15 |   17 |   22 |   16 |   19 |    1 |   13 |    5 |   11 |
+| EC   |   20 |   28 |   30 |   30 |   30 |   30 |   30 |   24 |    2 |   10 |    9 |    8 |
+| FR   |   20 |   28 |   27 |   27 |   30 |   30 |   24 |   25 |    7 |   15 |    3 |   17 |
+| GCN  |   18 |   20 |   15 |   20 |   28 |   29 |   22 |   27 |    5 |   17 |   NA |    1 |
+| KYE  |   18 |   28 |   28 |   30 |   30 |   30 |   27 |   28 |    1 |   27 |    9 |   12 |
+| LCE  |   20 |   12 |   18 |   19 |   19 |    1 |    1 |    3 |    1 |    8 |    7 |   19 |
+| LCW  |   16 |   27 |   27 |   27 |   21 |    4 |   NA |   15 |   NA |    1 |   NA |    4 |
+| LO   |   12 |   15 |   28 |   29 |   27 |    2 |    1 |   19 |    5 |   11 |    6 |   19 |
+| MC   |   17 |   11 |   22 |   25 |   27 |   30 |   29 |   27 |    6 |   18 |    8 |   15 |
+| OKRE |   14 |   10 |    8 |   19 |   21 |   17 |    7 |   19 |    6 |   10 |    5 |   15 |
+| OKRW |   19 |   19 |   22 |   20 |   19 |   12 |    9 |   13 |   NA |    3 |    1 |    3 |
+| OSR  |   15 |   13 |    9 |    9 |   23 |   26 |   18 |   20 |    1 |   14 |   NA |    1 |
+| S22  |   17 |   10 |   21 |   18 |   28 |   17 |   27 |   26 |   NA |   17 |    4 |   10 |
+| SM   |   15 |    8 |   13 |   18 |   23 |   25 |   18 |   24 |   NA |   19 |    8 |   13 |
+| URS  |    4 |   17 |   10 |    7 |   12 |   14 |    3 |    5 |    2 |    1 |   NA |    5 |
 
 Summary table of the number of estimates for seedling survival to
 fruiting
 
 ``` r
- #print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+ #print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 Second, I plot the number of estimates for seedling survival to fruiting
@@ -346,34 +370,34 @@ tmp1 = cbind(tmp[,1],vals)
 kable(tmp1, caption="Summary table of the percentage of plots with fruiting plant counts exceeding seedling counts")
 ```
 
-| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| BG   |    0 | 14.0 |  9.1 |  0.0 | 12.0 |  0.0 |  5.0 |  0.0 |  0.0 |  0.0 |
-| BR   |    0 |  3.3 | 10.0 |  0.0 | 33.0 |  0.0 |  3.4 |  0.0 | 44.0 |  0.0 |
-| CF   |    0 |  9.5 |  7.1 |  3.4 | 17.0 |  9.5 |  0.0 |  0.0 |  6.7 |  0.0 |
-| CP3  |    0 |  5.3 | 21.0 | 15.0 |  0.0 | 12.0 |   NA |  0.0 |   NA |  0.0 |
-| DEM  |    0 | 35.0 | 14.0 |  0.0 | 29.0 |  4.0 |  0.0 |  0.0 |  0.0 |  0.0 |
-| DLW  |    0 | 11.0 |  7.7 | 13.0 | 29.0 |  4.5 |  6.2 |  0.0 |  0.0 |  0.0 |
-| EC   |    0 | 29.0 | 30.0 |  0.0 | 20.0 |  0.0 |  0.0 | 21.0 | 50.0 |  0.0 |
-| FR   |    5 |  3.6 |  7.4 |  3.7 |  0.0 |  0.0 |  0.0 |  0.0 | 43.0 |  0.0 |
-| GCN  |    0 |  0.0 | 27.0 |  0.0 | 29.0 | 17.0 |  0.0 |  0.0 |   NA |  0.0 |
-| KYE  |    0 |  3.6 | 29.0 |  0.0 | 47.0 |  3.3 |  0.0 |  3.6 |   NA |  3.7 |
-| LCE  |    0 | 50.0 |  5.6 | 37.0 |  0.0 |  0.0 |  0.0 |  0.0 |  0.0 |  0.0 |
-| LCW  |    0 |  3.7 |  0.0 |  0.0 |  4.8 | 25.0 |   NA |  0.0 |   NA |  0.0 |
-| LO   |    0 | 33.0 |  7.1 |  6.9 |  0.0 |   NA |  0.0 |  0.0 |  0.0 |  9.1 |
-| MC   |    0 | 27.0 |  4.5 |  8.0 |  7.4 |  0.0 |  0.0 |  0.0 | 33.0 |  0.0 |
-| OKRE |    0 | 20.0 | 12.0 | 11.0 | 14.0 | 18.0 |  0.0 |  0.0 | 17.0 |  0.0 |
-| OKRW |    0 |  5.3 |  0.0 |  5.0 | 37.0 | 33.0 |  0.0 |  0.0 |   NA |  0.0 |
-| OSR  |    0 |  7.7 | 11.0 |  0.0 | 39.0 | 15.0 |  0.0 |  0.0 |   NA |  0.0 |
-| S22  |    0 |  0.0 | 19.0 |  5.6 | 18.0 | 18.0 |  3.7 |  0.0 |   NA |  0.0 |
-| SM   |    0 |  0.0 | 23.0 |  0.0 | 61.0 | 20.0 |  0.0 |  4.2 |   NA |  0.0 |
-| URS  |    0 |  5.9 |  0.0 | 14.0 | 17.0 |  7.1 |  0.0 |  0.0 |  0.0 |  0.0 |
+| site | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |    0 | 14.0 |  9.1 |  0.0 | 12.0 |  0.0 |  5.0 |  0.0 |  0.0 |  0.0 |    0 |  0.0 |
+| BR   |    0 |  3.3 | 10.0 |  0.0 | 33.0 |  0.0 |  3.4 |  0.0 | 44.0 |  0.0 |   20 |  0.0 |
+| CF   |    0 |  9.5 |  7.1 |  3.4 | 17.0 |  9.5 |  0.0 |  0.0 |  6.7 |  0.0 |    0 |  4.5 |
+| CP3  |    0 |  5.3 | 21.0 | 15.0 |  0.0 | 12.0 |   NA |  0.0 |   NA |  0.0 |   NA |  0.0 |
+| DEM  |    0 | 35.0 | 14.0 |  0.0 | 29.0 |  4.0 |  0.0 |  0.0 |  0.0 |  0.0 |    0 |  0.0 |
+| DLW  |    0 | 11.0 |  7.7 | 13.0 | 29.0 |  4.5 |  6.2 |  0.0 |  0.0 |  0.0 |   40 |  0.0 |
+| EC   |    0 | 29.0 | 30.0 |  0.0 | 20.0 |  0.0 |  0.0 | 21.0 | 50.0 |  0.0 |   11 |  0.0 |
+| FR   |    5 |  3.6 |  7.4 |  3.7 |  0.0 |  0.0 |  0.0 |  0.0 | 43.0 |  0.0 |   33 |  0.0 |
+| GCN  |    0 |  0.0 | 27.0 |  0.0 | 29.0 | 17.0 |  0.0 |  0.0 |   NA |  0.0 |   NA |  0.0 |
+| KYE  |    0 |  3.6 | 29.0 |  0.0 | 47.0 |  3.3 |  0.0 |  3.6 |   NA |  3.7 |    0 |  0.0 |
+| LCE  |    0 | 50.0 |  5.6 | 37.0 |  5.3 |  0.0 |  0.0 |  0.0 |  0.0 |  0.0 |   14 |  5.3 |
+| LCW  |    0 |  3.7 |  0.0 |  0.0 |  4.8 | 25.0 |   NA |  0.0 |   NA |  0.0 |   NA |  0.0 |
+| LO   |    0 | 33.0 |  7.1 |  6.9 |  0.0 |   NA |  0.0 |  0.0 |  0.0 |  9.1 |   33 | 11.0 |
+| MC   |    0 | 27.0 |  4.5 |  8.0 |  7.4 |  0.0 |  0.0 |  0.0 | 33.0 |  0.0 |   38 |  6.7 |
+| OKRE |    0 | 20.0 | 12.0 | 11.0 | 14.0 | 18.0 |  0.0 |  0.0 | 17.0 |  0.0 |   20 |  6.7 |
+| OKRW |    0 |  5.3 |  0.0 |  5.0 | 37.0 | 33.0 |  0.0 |  0.0 |   NA |  0.0 |   NA |  0.0 |
+| OSR  |    0 |  7.7 | 11.0 |  0.0 | 39.0 | 15.0 |  0.0 |  0.0 |   NA |  0.0 |   NA |  0.0 |
+| S22  |    0 |  0.0 | 19.0 |  5.6 | 18.0 | 18.0 |  3.7 |  0.0 |   NA |  0.0 |   50 |  0.0 |
+| SM   |    0 |  0.0 | 23.0 |  0.0 | 61.0 | 20.0 |  0.0 |  4.2 |   NA |  0.0 |    0 |  0.0 |
+| URS  |    0 |  5.9 |  0.0 | 14.0 | 17.0 |  7.1 |  0.0 |  0.0 |  0.0 |  0.0 |   NA |  0.0 |
 
 Summary table of the percentage of plots with fruiting plant counts
 exceeding seedling counts
 
 ``` r
-# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Fruits per plant data for transects
@@ -386,10 +410,10 @@ plot has a different number of plants, and each plant is recorded in its
 own cell.
 
 The code below takes these Excel files and converts them into a long
-data frame with the following columns …
+data frame with the following columns: `site`, `transect`, `position`,
+`plantNumber`, `countFruitsPerPlant`, and `year`.
 
 ``` r
-# directory for excel files
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
 # years for datasets
@@ -415,10 +439,10 @@ listDataFrames20072012 <- list()
 for(i in 1:length(namesFruitPerPlantFiles)){
   
   # extract names from first row
-(cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                       sheet = 1, range = rangeFruitPerPlantColumnNames[i], 
                       na = "NA", n_max=0) %>% 
-    names())
+    names()
 
   # extract data and write temporary csv 
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
@@ -509,7 +533,7 @@ kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from
 Summary of dataset on total fruit equivalents per plant from transects
 
 ``` r
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 From 2013-2018, there is data on the number of undamaged and damaged
@@ -659,7 +683,7 @@ countUndamagedDamagedFruitsPerPlantTransects<-left_join(countUndamagedFruitsPerP
 readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
 ```
 
-Summary tables
+Summary tables.
 
 ``` r
 tmp <- countUndamagedDamagedFruitsPerPlantTransects %>%
@@ -699,7 +723,7 @@ Summary of dataset on undamaged and damaged fruits per plant from
 transects
 
 ``` r
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Fruits per plant data extra plots
@@ -798,7 +822,114 @@ kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from
 Summary of dataset on total fruit equivalents per plant from extra plots
 
 ``` r
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE)
+# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
+```
+
+From 2013-2018, there is data on the number of undamaged and damaged
+fruits on each plant in additional plots outside of permanent plots.
+These additional plots were sampled to supplement counts of fruits per
+plant from permanent plots.
+
+The code below takes these Excel files and converts them into a long
+data frame with the following columns …
+
+``` r
+# directory for excel files
+directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
+
+# years for datasets
+years = 2013:2018
+
+# names of the files
+namesFruitPerPlantFiles = list.files(directory)[9:14]
+
+#range of the data in each file
+rangeFruitPerPlantData = c("A1:D822","A1:D1246",
+                           "A1:D991","A1:D1227",
+                           "A1:D2931","A1:D2071")
+
+# empty list
+listDataFrames20132018 <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+    # extract data and write temporary csv 
+tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 2, range = rangeFruitPerPlantData[i],
+              na = "NA") %>%
+  janitor::clean_names("lower_camel") %>%
+  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+
+tmp <- tmp %>%
+  dplyr::rename(countUndamagedFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
+  dplyr::rename(countDamagedFruitNumberPerPlant=damagedFruitNumberPerPlant) 
+
+# tmp <- tmp %>%
+#   tidyr::pivot_longer(cols=c(countUndamagedFruitNumberPerPlant,
+#                              countDamagedFruitNumberPerPlant),
+#                       names_to = "damage", 
+#                       values_to = "countFruitNumberPerPlant")
+
+# add data frame to list
+listDataFrames20132018[[i]] <- tmp
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20132018[[i]] <- listDataFrames20132018[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+# unlist and bind data frames
+countUndamagedDamagedFruitsPerPlantAllPlots <- listDataFrames20132018 %>%
+  purrr::reduce(full_join)
+
+# write data frame to RDS
+readr::write_rds(countUndamagedDamagedFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+```
+
+``` r
+tmp <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
+  dplyr::filter(permanentPlot==0) %>%
+  dplyr::group_by(year,site) %>%
+  dplyr::summarise(count = sum(!is.na(countUndamagedFruitNumberPerPlant))) %>%
+  tidyr::pivot_wider(names_from=year,values_from=count)
+
+tmp<-arrange(tmp,tmp$site)
+
+kable(tmp, caption="Summary of dataset on undamaged and damaged fruits per plant from extra plots")
+```
+
+| site | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| BG   |   34 |   89 |   52 |   53 |   90 |  126 |
+| BR   |   82 |  173 |   62 |   79 |  134 |  167 |
+| CF   |   58 |  102 |   50 |   90 |  165 |  150 |
+| CP3  |  149 |   87 |   59 |   69 |  141 |   11 |
+| DEM  |   20 |   43 |   43 |   62 |  121 |  100 |
+| DLW  |   66 |   35 |   61 |   56 |  232 |  158 |
+| EC   |   41 |   41 |   81 |   64 |  142 |    6 |
+| FR   |    6 |   55 |   40 |   52 |  156 |   61 |
+| GCN  |    9 |   35 |   55 |   64 |  103 |  130 |
+| KYE  |   54 |  135 |  101 |   57 |  141 |  129 |
+| LCE  |   25 |   53 |   60 |  135 |   94 |   82 |
+| LCW  |    0 |    0 |    0 |    0 |   48 |  154 |
+| LO   |    2 |   46 |   NA |    8 |  175 |   38 |
+| MC   |    5 |   74 |   44 |   46 |  122 |  113 |
+| OKRE |   63 |   28 |   31 |   38 |   78 |   32 |
+| OKRW |    0 |    8 |    0 |   31 |  126 |   34 |
+| OSR  |   46 |  159 |  104 |   99 |  150 |  108 |
+| S22  |   NA |   29 |   65 |  102 |  253 |   18 |
+| SM   |   52 |    3 |   19 |    0 |   53 |   18 |
+| URS  |    0 |    0 |    0 |   79 |   35 |    0 |
+
+Summary of dataset on undamaged and damaged fruits per plant from extra
+plots
+
+``` r
+ # print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Seeds per fruit data
@@ -1277,32 +1408,33 @@ summarySeedBags<-seedBags  %>%
 kable(summarySeedBags, caption="Summary table of the number of seed bags counted in October for intact seeds")
 ```
 
-| site       |    2007-age1 | 2008-age1 | 2008-age2 | 2009-age1 | 2009-age2 | 2009-age3 |
-| :--------- | -----------: | --------: | --------: | --------: | --------: | --------: |
-| BG         |            7 |        10 |         6 |        10 |        10 |         3 |
-| BR         |           10 |        10 |         9 |        10 |        10 |         9 |
-| CF         |           10 |        10 |        10 |        10 |        10 |        10 |
-| CP3        |            7 |        10 |         9 |         9 |         6 |         7 |
-| DEM        |            8 |         9 |         7 |        10 |         7 |         6 |
-| DLW        |            9 |         9 |         8 |         9 |         9 |         6 |
-| EC         |            9 |        10 |         8 |        10 |        10 |         8 |
-| FR         |            9 |         8 |         8 |        10 |        10 |         4 |
-| GCN        |           10 |        10 |         9 |        10 |         9 |         7 |
-| KYE        |           10 |        10 |         9 |        10 |         9 |         9 |
-| LCE        |           10 |        10 |         9 |         9 |         7 |         9 |
-| LCW        |           10 |        10 |         9 |         5 |         7 |         8 |
-| LO         |           10 |         9 |        10 |        10 |        11 |         9 |
-| MC         |           10 |        10 |         9 |        10 |         9 |         9 |
-| OKRE       |           10 |        11 |        10 |        10 |         7 |         9 |
-| OKRW       |           10 |        10 |         9 |         8 |         9 |         8 |
-| OSR        |           10 |        10 |         8 |        10 |         9 |         9 |
-| S22        |            9 |        10 |         8 |        10 |        10 |         8 |
-| SM         |            9 |        10 |         8 |         9 |        10 |        10 |
-| URS        |            7 |         9 |         5 |         9 |         9 |         4 |
-| \#\#\# Via | bility trial |      data |           |           |           |           |
+| site | 2007-age1 | 2008-age1 | 2008-age2 | 2009-age1 | 2009-age2 | 2009-age3 |
+| :--- | --------: | --------: | --------: | --------: | --------: | --------: |
+| BG   |         7 |        10 |         6 |        10 |        10 |         3 |
+| BR   |        10 |        10 |         9 |        10 |        10 |         9 |
+| CF   |        10 |        10 |        10 |        10 |        10 |        10 |
+| CP3  |         7 |        10 |         9 |         9 |         6 |         7 |
+| DEM  |         8 |         9 |         7 |        10 |         7 |         6 |
+| DLW  |         9 |         9 |         8 |         9 |         9 |         6 |
+| EC   |         9 |        10 |         8 |        10 |        10 |         8 |
+| FR   |         9 |         8 |         8 |        10 |        10 |         4 |
+| GCN  |        10 |        10 |         9 |        10 |         9 |         7 |
+| KYE  |        10 |        10 |         9 |        10 |         9 |         9 |
+| LCE  |        10 |        10 |         9 |         9 |         7 |         9 |
+| LCW  |        10 |        10 |         9 |         5 |         7 |         8 |
+| LO   |        10 |         9 |        10 |        10 |        11 |         9 |
+| MC   |        10 |        10 |         9 |        10 |         9 |         9 |
+| OKRE |        10 |        11 |        10 |        10 |         7 |         9 |
+| OKRW |        10 |        10 |         9 |         8 |         9 |         8 |
+| OSR  |        10 |        10 |         8 |        10 |         9 |         9 |
+| S22  |         9 |        10 |         8 |        10 |        10 |         8 |
+| SM   |         9 |        10 |         8 |         9 |        10 |        10 |
+| URS  |         7 |         9 |         5 |         9 |         9 |         4 |
 
 Summary table of the number of seed bags counted in October for intact
 seeds
+
+### Viability trial data
 
 ``` r
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data and scripts/files from monica/")
@@ -1491,3 +1623,48 @@ test and an even smaller had 4. But clearly need to consider that bags
 were tested twice.
 
 Data for viability trials in the lab.
+
+### Seed pot data
+
+``` r
+dir=c("/Users/Gregor/Dropbox/dataLibrary/seedPots/")
+
+tmp <- readxl::read_excel(paste0(dir,"seed_pot_data_updated.xlsx"),sheet = 1,na=c("NA","?","."))
+
+tmp <- tmp %>%
+  dplyr::rename(site = 'Site') %>%
+  dplyr::select(-Pop) %>%
+  dplyr::rename(block = 'Block') %>%
+  dplyr::rename(row = 'Row') %>%
+  dplyr::rename(column = 'Col') %>%
+  dplyr::rename(seedNumber = 'sd#') %>% 
+  dplyr::mutate(seedNumber = as.numeric(ifelse(seedNumber=="C",0,seedNumber))) %>%
+  dplyr::rename(yearPlaced = 'yr_pl') %>%
+  dplyr::rename(yearCollected = 'yr_coll') %>%
+  dplyr::rename(yearCensusOne = 'census1') %>%
+  dplyr::rename(seedlingNumberCensusOne = 'sdl#_yr1') %>%
+  dplyr::rename(yearCensusTwo = 'census2') %>%
+  dplyr::rename(seedlingNumberCensusTwo = 'sdl#_yr2') %>%
+  dplyr::rename(yearCensusThree = 'census3') %>%
+  dplyr::rename(seedlingNumberCensusThree = 'sdl#_yr3')
+
+seedPotData <- tmp
+
+readr::write_rds(seedPotData,"~/Dropbox/dataLibrary/postProcessingData/seedPotData.rds")
+```
+
+### Site abiotic data
+
+``` r
+dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+
+tmp <- readxl::read_excel(paste0(dir,"20_site_env_climate_2005-2014.xls"), 
+                            sheet = 1, range = "B2:M22")
+
+tmp <- tmp %>%
+  janitor::clean_names(case="lower_camel")
+
+siteAbioticData <- tmp
+
+readr::write_rds(siteAbioticData,"~/Dropbox/dataLibrary/postProcessingData/siteAbioticData.rds")
+```
