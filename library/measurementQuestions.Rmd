@@ -188,16 +188,23 @@ To distinguish between these possibilities, I plotted histograms comparing the d
 siteNames = unique(countFruitsPerPlantAllPlots$site)
 plotList <- list()
 for(i in 1:20){
-plotList[[i]]<-(countFruitsPerPlantAllPlots %>%
+plotList[[i]]<-
+  ggplot( ) +
+    geom_histogram( data = countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year>2006) %>%
+  dplyr::filter(site==siteNames[i]) , aes(x=countFruitNumberPerPlant,
+              fill=as.factor(permanentPlot)), alpha=.5, position = 'identity',bins=30) +
+    scale_fill_manual(values=c("black", "orange")) +
+    geom_vline(data = countFruitsPerPlantAllPlots %>%
   dplyr::filter(year>2006) %>%
   dplyr::filter(site==siteNames[i]) %>%
-  ggplot( aes(x=countFruitNumberPerPlant, fill=as.factor(permanentPlot))) +
-    geom_histogram( alpha=.5, position = 'identity',bins=30) +
-    scale_fill_manual(values=c("black", "orange")) +
+    dplyr::group_by(year,permanentPlot) %>%
+    dplyr::summarise(mu = mean(countFruitNumberPerPlant)), aes(xintercept = mu, color = as.factor(permanentPlot))) +
+      scale_color_manual(values=c("black", "orange")) +
     labs(fill="") +
     theme_bw() +
   facet_wrap(~year,scales='free') +
-  labs(title=siteNames[i]))
+  labs(title=siteNames[i])
 }
 
 pdf("~/Dropbox/clarkiaSeedBanks/products/figures/fruitsPerPlantComparison.pdf")

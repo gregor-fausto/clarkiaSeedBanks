@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAR 2020 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 MAY 2020 09:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -863,12 +863,12 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count153
-LaTeX Font Info:    Try loading font information for U+msa on input line 83.
+LaTeX Font Info:    Try loading font information for U+msa on input line 85.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 83.
+LaTeX Font Info:    Try loading font information for U+msb on input line 85.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -878,7 +878,7 @@ File: ../figures/appendix/comparison.pdf Graphic file (type pdf)
 
 <use ../figures/appendix/comparison.pdf, page 1>
 Package pdftex.def Info: ../figures/appendix/comparison.pdf, page1 used on inpu
-t line 90.
+t line 94.
 (pdftex.def)             Requested size: 469.75499pt x 156.58939pt.
  [1
 
@@ -890,13 +890,13 @@ See the caption package documentation for explanation.
 
 [4] (./appendix-x-conditional-probability.aux) ) 
 Here is how much of TeX's memory you used:
- 18436 strings out of 493014
- 357623 string characters out of 6133351
+ 18458 strings out of 493014
+ 357906 string characters out of 6133351
  442413 words of memory out of 5000000
- 21607 multiletter control sequences out of 15000+600000
- 12602 words of font info for 46 fonts, out of 8000000 for 9000
+ 21625 multiletter control sequences out of 15000+600000
+ 17357 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,15n,66p,1338b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,15n,66p,799b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-
 dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-di
@@ -906,7 +906,7 @@ fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/
 type1/public/cm-super/sfrm1200.pfb>
-Output written on appendix-x-conditional-probability.pdf (4 pages, 103575 bytes
+Output written on appendix-x-conditional-probability.pdf (4 pages, 104127 bytes
 ).
 PDF statistics:
  56 PDF objects out of 1000 (max. 8388607)
