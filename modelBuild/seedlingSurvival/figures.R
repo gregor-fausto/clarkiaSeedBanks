@@ -30,9 +30,9 @@ mcmcSamples <- readRDS(simFiles[[3]])
 parsToMonitor_1 = c("theta_1","mu0_1","sigma0_1","mu_1","sigma_1")
 parsToMonitor_deriv = c("p0_1","p_1")
 
-MCMCtrace(mcmcSamples,params="mu0_1")
-MCMCtrace(mcmcSamples,params="sigma0_1")
-MCMCsummary(mcmcSamples,params="p0_1")
+# MCMCtrace(mcmcSamples,params="mu0_1")
+# MCMCtrace(mcmcSamples,params="sigma0_1")
+# MCMCsummary(mcmcSamples,params="p0_1")
 
 library(bayesplot)
 
@@ -85,12 +85,12 @@ segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
 
 dev.off()
 
-p_1<-MCMCchains(mcmcSamples,params="p_1")
-
-plot(density(p_1),type='n',ylim=c(0,20))
-for(i in 1:20){
-  lines(density(p_1[,i]),lwd=.5)
-}
+# p_1<-MCMCchains(mcmcSamples,params="p_1")
+# 
+# plot(density(p_1),type='n',ylim=c(0,20))
+# for(i in 1:20){
+#   lines(density(p_1[,i]),lwd=.5)
+# }
 
 ggplot(data=vr) +
   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
@@ -146,6 +146,16 @@ dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 saveRDS(seedlingSurvivalSummary,file=paste0(fileDirectory,"seedlingSurvivalSummary.RDS"))
 
+## summary table
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+seedlingSurvivalSummary <- tmp
+write.csv(seedlingSurvivalSummary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedlingSurvivalSummary.csv",
+          row.names=FALSE)
+
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
@@ -165,6 +175,28 @@ segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
 segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
 
 #dev.off()
+
+
+g1 <- ggplot(data=vr) +
+  # geom_smooth(aes(x=easting,y=med),method='lm',se=FALSE,color='gray',alpha=0.5) +
+  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=easting,y=med)) +
+  facet_wrap(~year,nrow=1) +
+  ylim(c(0,1)) +
+  theme_bw() +
+  ylab("Seedling survival probability [P(sigma)]") +
+  xlab("Easting (km)") 
+
+
+ggsave(filename=paste0(dirFigures,"annual-sigma.pdf"),
+       plot=g1,width=24,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-sigma.pdf"),
+              paste0(dirFigures,"annual-sigma.pdf")), 
+            output = paste0(dirFigures,"summary-sigma.pdf"))
+
 
 ggplot(data=vr) +
   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
