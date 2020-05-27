@@ -107,6 +107,61 @@ for(i in 1:20){
   lines(density(g1[,i]),lwd=.5)
 }
 
+
+siteIndex <- data.frame(siteIndex=unique(seedBagExperiment$siteBags),siteBags=1:20)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary<-mcmcSamples %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(g1.0[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(g1.0), 
+                   ci.lo = quantile(g1.0,probs=0.025), 
+                   ci.hi = quantile(g1.0,probs=0.975),
+                   ci.lo2 = quantile(g1.0,probs=0.25), 
+                   ci.hi2 = quantile(g1.0,probs=0.75)
+  )
+mcmcSummary<-mcmcSummary %>%
+  dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(siteBags,yearBags)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+vr = position %>% 
+  dplyr::left_join(mcmcSummary,by="site")
+
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+g1Summary <- tmp
+write.csv(g1Summary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/g1Summary.csv",
+          row.names=FALSE)
+
+g1 <- ggplot(data=vr) +
+  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=easting,y=med)) +
+  facet_wrap(~year,nrow=1) +
+  theme_bw() +
+  ylab("Germination probability [P(G)]") +
+  xlab("Easting (km)") 
+
+g1
+
+ggsave(filename=paste0(dirFigures,"annual-g1.pdf"),
+       plot=g1,width=20,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-g1.pdf"),
+              paste0(dirFigures,"annual-g1.pdf")), 
+            output = paste0(dirFigures,"summary-g1.pdf"))
+
+
 ################################################################################
 # Winter seed survival (s1)
 #################################################################################
@@ -162,6 +217,61 @@ for(i in 1:20){
   lines(density(s1[,i]),lwd=.5)
 }
 
+
+
+siteIndex <- data.frame(siteIndex=unique(seedBagExperiment$siteBags),siteBags=1:20)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary<-mcmcSamples %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(s1.0[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(s1.0), 
+                   ci.lo = quantile(s1.0,probs=0.025), 
+                   ci.hi = quantile(s1.0,probs=0.975),
+                   ci.lo2 = quantile(s1.0,probs=0.25), 
+                   ci.hi2 = quantile(s1.0,probs=0.75)
+  )
+mcmcSummary<-mcmcSummary %>%
+  dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(siteBags,yearBags)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+vr = position %>% 
+  dplyr::left_join(mcmcSummary,by="site")
+
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+s1Summary <- tmp
+write.csv(s1Summary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/s1Summary.csv",
+          row.names=FALSE)
+
+g1 <- ggplot(data=vr) +
+  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=easting,y=med)) +
+  facet_wrap(~year,nrow=1) +
+  theme_bw() +
+  ylab("Seed survival probability in first winter [P(S1)]") +
+  xlab("Easting (km)") 
+
+
+ggsave(filename=paste0(dirFigures,"annual-s1.pdf"),
+       plot=g1,width=20,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-s1.pdf"),
+              paste0(dirFigures,"annual-s1.pdf")), 
+            output = paste0(dirFigures,"summary-s1.pdf"))
+
+
 ################################################################################
 # Summer seed survival (s2)
 #################################################################################
@@ -215,6 +325,60 @@ plot(density(s2),type='n',ylim=c(0,8))
 for(i in 1:20){
   lines(density(s2[,i]),lwd=.5)
 }
+
+
+siteIndex <- data.frame(siteIndex=unique(seedBagExperiment$siteBags),siteBags=1:20)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary<-mcmcSamples %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(s2.0[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(s2.0), 
+                   ci.lo = quantile(s2.0,probs=0.025), 
+                   ci.hi = quantile(s2.0,probs=0.975),
+                   ci.lo2 = quantile(s2.0,probs=0.25), 
+                   ci.hi2 = quantile(s2.0,probs=0.75)
+  )
+mcmcSummary<-mcmcSummary %>%
+  dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(siteBags,yearBags)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+vr = position %>% 
+  dplyr::left_join(mcmcSummary,by="site")
+
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+s2Summary <- tmp
+write.csv(s1Summary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/s2Summary.csv",
+          row.names=FALSE)
+
+g1 <- ggplot(data=vr) +
+  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=easting,y=med)) +
+  facet_wrap(~year,nrow=1) +
+  theme_bw() +
+  ylab("Seed survival probability in first summer [P(S2)]") +
+  xlab("Easting (km)") 
+
+
+ggsave(filename=paste0(dirFigures,"annual-s2.pdf"),
+       plot=g1,width=20,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-s2.pdf"),
+              paste0(dirFigures,"annual-s2.pdf")), 
+            output = paste0(dirFigures,"summary-s2.pdf"))
+
 
 # ################################################################################
 # # ???

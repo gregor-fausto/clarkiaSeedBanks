@@ -248,13 +248,15 @@ parsToMonitor_3 = c("theta_3","mu0_3","sigma0_3","mu_3","sigma_3","p_3")
 parsToMonitor_g = c("theta_g","mu0_g","sigma0_g","mu_g","sigma_g","p_g")
 parsToMonitor_v = c("theta_v","mu0_v","sigma0_v","mu_v","sigma_v","p_v")
 parsToMonitor_deriv = c("nu_1","s1","g1","s2")
+parsToMonitor_deriv2 = c("nu0_1","s1.0","g1.0","s2.0")
+
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
                              variable.names = c(parsToMonitor_1,parsToMonitor_2,
                                                 parsToMonitor_3,
                                                 parsToMonitor_g,parsToMonitor_v,
-                                                parsToMonitor_deriv), 
+                                                parsToMonitor_deriv,parsToMonitor_deriv2), 
                              n.iter = n.iterations, thin = n.thin)
 
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBurial/")
