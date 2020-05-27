@@ -21,7 +21,7 @@ model {
   }
 
     
-                                        # Likelihood
+    # Likelihood
       
     for(i in 1:n){
         
