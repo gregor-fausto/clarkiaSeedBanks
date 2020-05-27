@@ -124,7 +124,34 @@ model {
        s1[i] = p_1[i]*(p_2[i] + (1-p_2[i])*(nu_1[i])^(1/3))
        g1[i] = p_2[i]/(1-(1-(nu_1[i]^(1/3)))*(1-p_2[i]))
        s2[i] = p_3[i]*(nu_1[i]^(2/3))
-    }
+   
+  
+  for(k in 1:n_yearBags){
     
+    p.i0_g[i,k] ~ dnorm(mu_g[i,k],tau_g[i,k])
+    logit(p0_g[i,k]) <- p.i0_g[i,k]
+    
+    p.i0_v[i,k] ~ dnorm(mu_v[i,k],tau_v[i,k])
+    logit(p0_v[i,k]) <- p.i0_v[i,k]
+    
+    nu0_1[i,k] = p0_g[i,k] + p0_v[i,k]*(1-p0_g[i,k])
+    
+    p.i0_1[i,k] ~ dnorm(mu_1[i,k],tau_1[i,k])
+    logit(p0_1[i,k]) <- p.i0_1[i,k]
+    
+    p.i0_2[i,k] ~ dnorm(mu_2[i,k],tau_2[i,k])
+    logit(p0_2[i,k]) <- p.i0_2[i,k]
+  
+    p.i0_3[i,k] ~ dnorm(mu_3[i,k],tau_3[i,k])
+    logit(p0_3[i,k]) <- p.i0_3[i,k]
+    
+    s1.0[i,k] = p0_1[i,k]*(p0_2[i,k] + (1-p0_2[i,k])*(nu0_1[i,k])^(1/3))
+    g1.0[i,k] = p0_2[i,k]/(1-(1-(nu0_1[i,k]^(1/3)))*(1-p0_2[i,k]))
+    s2.0[i,k] = p0_3[i,k]*(nu0_1[i,k]^(2/3))
+    
+    
+  }
 }
+    
+} 
 
