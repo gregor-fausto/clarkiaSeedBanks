@@ -232,7 +232,7 @@ We collected the following data:
 
 To assess the survival of germinants to fruiting plants for \textit{C. xantiana}, we use data of counts of seedlings and fruiting plants in 30 0.5 m$^2$ plots at 20 populations from 2006--present (\cite{eckhart2011}). Each population was visited in February and June to count the number of seedlings and fruiting plants, respectively. Seedlings and fruiting plants in each plot are counted by a single person at each visit. 
 
-For now, we assume that the data on seedlings is measured perfectly (i.e. we did not under- or over-count seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies from year to year and by geography. In particular, populations at higher elevations may have delayed phenology. \hl{We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset.}
+For now, we assume that the data on seedlings is measured perfectly (i.e. we did not under- or over-count seedlings). However, there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies from year to year and by geography. In particular, populations at higher elevations may have delayed phenology. \hl{We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings. For now, I ignored data that involved undercounting by filtering out those rows in the dataset. I had trouble developing a model for undercounting. }
 
 We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over- count) because plants stand out from the background vegetation in June. Our model estimates the proportion of seedlings that survive to become fruiting plants. Define:
 
@@ -318,11 +318,14 @@ From 2006--2012, we counted total fruit equivalents in the field, and estimated 
 \end{align}
 %
 
+We use the number of seeds per undamaged fruit to calculate per-seed fitness. 
 
 \subsection*{Models}
 
-Across all datasets, we have data from multiple years and populations. The goal is to estimate 
+Across all datasets, we have data from multiple years and populations. The goal is to get model-based estimates of vital rates. We use the models to separate variability in parameters between temporal variability and variability due to sampling (\hl{e.g. Gould and Nichols 1998}). This is particularly important for our estimates of per capita reproductive success because we calculate annual estimates to get a sense of the interannual variation. Failing to account for sampling variation can upwardly bias estimates of temporal variation. 
 
+Sample sizes for parameters vary both within years across populations, as well as across populations. Accounting for sampling variability is important for making conclusions about differences among populations. 
+ 
 \subsubsection*{Model for seed burial experiment data}
 
 The models below represent the joint likelihood for data from the seed bag experiments. All data from seed bags and viability trials is in the form of binomial trials: we have counts of seeds at the start and end of an experimental window of time. All models for the parameters $\theta_1, \theta_2, \theta_3, \theta_4, \theta_5$ have the same structure for seeds in bag $i$ in year $j$ in population $k$. If the number of seeds starting the trial (trials) is $n_{ijk}$ and the number of seeds at the end of the trial (successes) is $y_{ijk}$, we write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success for each bag is drawn from this year- and population-level distribution:
@@ -338,7 +341,7 @@ The models below represent the joint likelihood for data from the seed bag exper
   \end{split}
 \end{align}
 %
-I compared convergence diagnostics (R-hat, effective sample size) for centered and non-centered parameterizations of the model. Here, I use the centered parameterization because this led to improved converge. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
+I compared convergence diagnostics (R-hat, effective sample size) for centered and non-centered parameterizations of the model. Here, I use the centered parameterization because this led to improved convergence. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
 
 \iffalse
 To estimate $\theta_2$, I fit the following model for bag $i$ in year $j$ in population $k$. 
@@ -413,36 +416,36 @@ I fit this model with JAGS in R. %In order to evaluate the effect of the prior, 
 
 \subsubsection*{Seedling survival to fruiting}
 
-We estimated survival across all populations taking into account both temporal and between-population variability with the following model. In this model, $\alpha^S_{0,j}$ is the logit mean survival probability at population $j$, $\beta^S_{jk}$ are independent identically distributed random variables drawn from normal distributions with mean 0 and population-specific temporal variance parameters $\sigma_j^S$. Writing the population-specific logit survival as a fixed effect means that each population parameter estimate is estimated separately with no shared variance term. The population-specific temporal variance parameter is written as a random effect, which means that each population has has year components that are drawn from a distribution with a shared variance term. I estimated the probability of surviving to fruiting using data from plots at populations in different years:
+We estimated survival across all populations taking into account both temporal and between-population variability with the following model. We write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success (seedling survival to fruiting) for each plot is drawn from this year- and population-level distribution. The model thus has a similar structure as the model for data on seed survival.
+
+% FIXED EFFECTS MODEL In this model, $\alpha^S_{0,j}$ is the logit mean survival probability at population $j$, $\beta^S_{jk}$ are independent identically distributed random variables drawn from normal distributions with mean 0 and population-specific temporal variance parameters $\sigma_j^S$. Writing the population-specific logit survival as a fixed effect means that each population parameter estimate is estimated separately with no shared variance term. The population-specific temporal variance parameter is written as a random effect, which means that each population has has year components that are drawn from a distribution with a shared variance term. I estimated the probability of surviving to fruiting using data from plots at populations in different years:
 
 \begin{align}
   \begin{split}
- [ \bm{\alpha^S_0}, \bm{\beta^S}, \sigma^S | \bm{n}, \bm{y} ] \propto 
- & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K} \mathrm{binomial} ( y_{ijk} | n_{ijt}, \mathrm{f}(\alpha^S_{0,j} , \beta^S_{jk} ) )
-     \\ & \times \mathrm{normal} ( \beta^S_{jk} | 0, \sigma_j^S) 
-    \\ & \times \mathrm{normal} ( \alpha^S_{0,j} | 0, 10) \mathrm{uniform} ( \sigma_j^S | 0, 100)  
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha} | \bm{n}, \bm{y} ] \propto 
+ & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K} \mathrm{binomial} ( y_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{jk} )  )
+   \\ & \times \mathrm{normal} ( \alpha_{jk}  | \mu^S_{jk}, \sigma^S_{jk} )
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma_{0,k} )
+  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0, 1.5)
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0, 1.5 ).
    \end{split}
 \end{align}
 %
-where
-%
-\begin{align}
-  \begin{split}
-\mathrm{f}(\alpha^S_{0,j} , \beta^S_k ) ) = \mathrm{logit}^{-1}(\alpha^S_{0,j} + \beta^S_{jk})
-  \end{split}
-\end{align}
-%
+
 \subsubsection*{Fruits per plant}
 
-To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the `nls` function in R, which returned an exponent of 1.99. The fit is close to quadratic which means a negative binomial is likely to be an appropriate distribution (\cite{linden2011}). We estimated fruits per plant across all populations taking into account both temporal and between-population variability with the following model. I first worked only with data on total fruit equivalents on a plant (2006-2012). I estimated total fruit equivalents per plant as: 
+Visual inspection of the data on total fruit equivalents (2006--2012) per plant suggests these counts are overdispersed. To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the \textbf{nls} function in R, which returned an exponent of 1.85. The fit is close to quadratic which means a negative binomial is likely to be an appropriate distribution (\cite{linden2011}). 
+
+We estimated fruits per plant across all populations taking into account both temporal and between-population variability with the following model. I first worked only with data on total fruit equivalents on a plant (2006-2012). I estimated total fruit equivalents per plant as: 
 %
 \begin{align}
   \begin{split}
  [ \bm{\alpha^F_0}, \bm{\beta^F}, \sigma^F | \bm{n}, \bm{y} ] \propto 
- & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K}  \mathrm{negative \ binomial} ( y^{\mathrm{TFE}}_{ijk} | \mathrm{f}_1(\alpha^F_{0,j} , \beta^F_{jk} ),  \kappa^F ) )
-     \\ & \times \mathrm{normal} ( \alpha^F_{0,j} | 0, 10) 
-     \\ & \times \mathrm{normal} ( \beta^F_{jk} | 0, \sigma^F_j) 
-    \\ & \times \mathrm{normal} ( \sigma^F_j | 0, 100)  
+ & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K}  \mathrm{negative \ binomial} ( y^{\mathrm{TFE}}_{ijk} | \mathrm{f} ( \gamma_{jk} ),  \kappa_{jk} ) 
+     \\ & \times \mathrm{gamma} ( \kappa_{jk} | 0.001 , 0.001 ) 
+     \\ & \times \mathrm{normal} ( \gamma_{jk} | \mu_{0,j} , \sigma_j) 
+    \\ & \times \mathrm{normal} ( \mu_{0,j} | 0, 0.001 ) 
+    \\ & \times \mathrm{normal} ( \sigma_j | 0, 1.5 )  
    \end{split}
 \end{align}
 %
@@ -450,30 +453,50 @@ where
 %
 \begin{align}
   \begin{split}
-\mathrm{f}_1(\alpha^F_{0,j} , \beta^F_{jk} ) ) = \lambda^F_{jk} = \mathrm{exp}( \alpha^F_{0,j} + \beta^F_{jk} ) \\
-% \mathrm{f}_2(\alpha^F_{0,j} , \beta^F_{jk} ) ) = \kappa^F = \mathrm{exp}( \alpha^F_{0,j} + \beta^F_{jk} )
+\mathrm{f} ( \gamma_{jk} ) = \lambda_{jk} = \mathrm{exp}(  \gamma_{jk} ) \\
   \end{split}
 \end{align}
+%
+The negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\lambda}$.
 %
 \begin{align}
   \begin{split}
-  \mathrm{negative \ binomial} ( y^{\mathrm{TFE}}_{ijk} | \frac{\kappa^F}{\kappa^F + \lambda^F_{jk}} ,  \kappa^F )
+  \mathrm{negative \ binomial} ( y^{\mathrm{TFE}}_{ijk} | \frac{\kappa_{jk}}{\kappa_{jk} + \lambda_{jk}} ,  \kappa_{jk} )
   \end{split}
 \end{align}
 %
-where the negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\mu}$.
+
+Visual inspection of the data on undamaged fruits per plant (2013--2018) per plant suggests these counts are overdispersed. To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the \textbf{nls} function in R, which returned an exponent of 1.97. The fit is close to quadratic which means a negative binomial is likely to be an appropriate distribution (\cite{linden2011}). 
+
+\hl{Here I calculate fruits per plant across all plant populations taking into account both temporal and between-population variability.} I think what I need to do is estimate the mean seeds per undamaged fruit (as below) and the seeds per damaged fruit (same model as below), take the ratio of the means and use that to get an annual estimate of the ratio by which to correct damaged fruits. 
+
+I use the ratio and multiply it by the number of damaged fruits and add it to the number of damaged fruits to get a number of total fruit equivalents. I can round that value so that it's a count similar to that for the other dataset. 
+
+THEN I can fit a model that calculates a per year fruits per plant (for total fruit equivalents) for all years. 
+
+%
+    \begin{align}
+\begin{split}
+\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} 
+  \end{split}
+\end{align}
+%
+
+Alternatively, I calculate fitness in two different ways for the different sets of years. From 2006--2012 I calculate the mean number of fruits per plant for total fruit equivalents and then for 2013--2018 I calculate the number of undamaged and damaged fruits and then multiply each by 
+
 
 \subsubsection*{Seeds per fruit}
 
-To assess what probability distribution to use when fitting this model, I fit a power model with an intercept to the mean and variance using the \verb|nls| function in R, which returned an exponent of 1.38. The fit is greater than linear but less than quadratic which means that neither a Poisson nor negative binomial are likely to be entirely appropriate distributions for the data (\cite{linden2011}). I might try the parameterization in that reference but for now I am using the negative binomial because the data are overdispersed. We estimated seeds per fruit across all populations taking into account both temporal and between-population variability with the following model. Here, I used data from undamaged fruits from the years 2006-2012. I estimated seeds per fruit as: 
+\hl{To assess what probability distribution to use when fitting this model,} I fit a power model with an intercept to the mean and variance using the \verb|nls| function in R, which returned an exponent of 1.38. The fit is greater than linear but less than quadratic which means that neither a Poisson nor negative binomial are likely to be entirely appropriate distributions for the data (\cite{linden2011}). I might try the parameterization in that reference but for now I am using the negative binomial because the data are overdispersed. We estimated seeds per fruit across all populations taking into account both temporal and between-population variability with the following model. Here, I used data from undamaged fruits from the years 2006-2012. I estimated seeds per fruit as:
 %
 \begin{align}
   \begin{split}
  [ \bm{\alpha^P_0}, \bm{\beta^P}, \sigma^P | \bm{n}, \bm{y} ] \propto 
- & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K}  \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \mathrm{f}_1(\alpha^P_{0,j} , \beta^P_{jk} ), \kappa^P ) )
-     \\ & \times \mathrm{normal} ( \alpha^P_{0,j} | 0, 10)  
-     \\ & \times \mathrm{normal} ( \beta^P_{jk} | 0, \sigma^P_j) 
-    \\ & \times \mathrm{normal} ( \sigma^P_j | 0, 100)  
+ & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=1}^{K}  \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \mathrm{f} ( \gamma_{jk} ),  \kappa_{jk} ) 
+     \\ & \times \mathrm{gamma} ( \kappa_{jk} | 0.001 , 0.001 ) 
+     \\ & \times \mathrm{normal} ( \gamma_{jk} | \mu_{0,j} , \sigma_j) 
+    \\ & \times \mathrm{normal} ( \mu_{0,j} | 0, 0.001 ) 
+    \\ & \times \mathrm{normal} ( \sigma_j | 0, 1.5 )  
    \end{split}
 \end{align}
 %
@@ -481,18 +504,17 @@ where
 %
 \begin{align}
   \begin{split}
-\mathrm{f}_1(\alpha^P_{0,j} , \beta^P_{jk} ) ) = \lambda^P_{jk} = \mathrm{exp}( \alpha^P_{0,j} + \beta^P_{jk} ) \\
-% \mathrm{f}_2(\alpha^P_{0,j} , \beta^P_{jk} ) ) = \kappa^P_{jk} = \mathrm{exp}( \alpha^P_{0,j} + \beta^P_{jk} )
+\mathrm{f} ( \gamma_{jk} ) = \lambda_{jk} = \mathrm{exp}(  \gamma_{jk} ) \\
   \end{split}
 \end{align}
+%
+The negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\lambda}$.
 %
 \begin{align}
   \begin{split}
-  \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \frac{\kappa^P}{\kappa^P + \lambda^P_{jk}} ,  \kappa^FP)
+  \mathrm{negative \ binomial} ( y^{\mathrm{und}}_{ijk} | \frac{\kappa_{jk}}{\kappa_{jk} + \lambda_{jk}} ,  \kappa_{jk} )
   \end{split}
 \end{align}
-%
-where the negative binomial is parameterized with probability parameter $p$ and dispersion parameter $r$ [$ \mathrm{negative \ binomial}(p,r)$]. In this case $p=\frac{\kappa}{\kappa+\mu}$.
 
 \subsection*{Analysis}
 \subsubsection*{Correlation between germination probability and variance in per-capita reproductive success}
