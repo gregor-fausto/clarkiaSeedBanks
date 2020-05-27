@@ -39,7 +39,7 @@ library(bayesplot)
 #################################################################################
 
 data <- readRDS(simFiles[[2]])
-countFruitsPerPlantTransects <- readRDS(simFiles[[1]])
+countFruitsPerPlant <- readRDS(simFiles[[1]])
 
 position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
   dplyr::select(site,easting,northing,elevation) %>%
@@ -49,7 +49,7 @@ position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/site
 # Site-level
 #################################################################################
 
-siteNames <- unique(countFruitsPerPlantTransects$site)
+siteNames <- unique(countFruitsPerPlant$site)
 
 mcmcSummary<-mcmcSamples %>%
   
@@ -113,8 +113,8 @@ dev.off()
 # Site-year
 #################################################################################
 
-siteIndex <- data.frame(siteIndex=unique(countFruitsPerPlant$site),site=1)
-yearIndex <- data.frame(year=1:6,yearIndex=2007:2012)
+siteIndex <- data.frame(siteIndex=unique(countFruitsPerPlant$site),site=1:20)
+yearIndex <- data.frame(year=1:7,yearIndex=2006:2012)
 
 mcmcSummary<-mcmcSamples %>%
   tidybayes::recover_types(data) %>%
@@ -150,16 +150,58 @@ mcmcSummary<-mcmcSummary %>%
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
+## summary table
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+fruitsPerPlantSummary <- tmp
+write.csv(fruitsPerPlantSummary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/fruitsPerPlantSummary.csv",
+          row.names=FALSE)
+
+mu = countFruitsPerPlant %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu=mean(countFruitsPerPlant,na.rm=TRUE), n = n()) %>%
+  dplyr::mutate(year=as.numeric(year))
+
+summary=mu %>%
+  dplyr::left_join(vr,by=c("site","year"))
+
+plot(summary$med, summary$mu, col = summary$year)
+abline(a=0,b=1)
+#dev.off()
+
+g1 <- ggplot(data=vr) +
+  # geom_smooth(aes(x=easting,y=med),method='lm',se=FALSE,color='gray',alpha=0.5) +
+  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=easting,y=med)) +
+  facet_wrap(~year,nrow=1) +
+  theme_bw() +
+  ylab("Total fruit equivalents per plant") +
+  xlab("Easting (km)") 
+
+
+ggsave(filename=paste0(dirFigures,"annual-fruitsPerPlant-allplots.pdf"),
+       plot=g1,width=20,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-fruitsPerPlant-allplots.pdf"),
+              paste0(dirFigures,"annual-fruitsPerPlant-allplots.pdf")), 
+            output = paste0(dirFigures,"summary-fruitsPerPlant-allplots.pdf"))
+
+
 #pdf(paste0(dirFigures,"spatial-sigma.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0.0,1),
-     ylab="Seedling survival probability [P(sigma)]",
+plot(vr$easting,vr$med,ylim=c(0,45),
+     ylab="Fruits per plant",
      xlab="Easting (km)", 
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16,type='n')
 
-points(vr$easting,vr$med,ylim=c(0.0,1),
+points(vr$easting,vr$med,
        pch=16)
 
 segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
@@ -172,7 +214,6 @@ ggplot(data=vr) +
   geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
   geom_point(aes(x=easting,y=med)) +
   facet_wrap(~year,nrow=2) +
-  ylim(c(0,1)) +
   theme_bw()
 
 ggplot(data=vr) +
@@ -180,6 +221,5 @@ ggplot(data=vr) +
   geom_linerange(aes(x=year,ymin=ci.lo2,ymax=ci.hi2),size=1) +
   geom_point(aes(x=year,y=med)) +
   facet_wrap(~site,nrow=4) +
-  ylim(c(0,1)) +
   theme_bw()
 

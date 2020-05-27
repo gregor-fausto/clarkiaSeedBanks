@@ -1,11 +1,14 @@
 #################################################################################
 ################################################################################
 ################################################################################
-# Code for figures to compare the following modeling approaches for the seedling survivorship data
+# Code for figures to compare the following modeling approaches for the seed per fruit data
+#
+# List of R scripts that generate data for this file
+# "/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/fecundity/seedsPerFruitModelScripts.R/"
 #
 # Scripts by Gregor Siegmund
 # fausto.siegmund@gmail.com
-# last updated 04-22-2020
+# last updated 05-27-2020
 #################################################################################
 #################################################################################
 #################################################################################
@@ -77,13 +80,21 @@ plot(vr$easting,vr$med,ylim=c(0,60),
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16,type='n')
 
-points(vr$easting,vr$med,ylim=c(0.0,1),
+points(vr$easting,vr$med,
      pch=16)
 
 segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
 segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
 
 dev.off()
+
+mu = countSeedPerFruit %>%
+  dplyr::group_by(site) %>%
+  dplyr::summarise(mu=mean(sdno,na.rm=TRUE)) %>%
+  dplyr::left_join(position,by='site')
+
+points(mu$easting,mu$mu,
+       pch=16,col='red',cex=.5)
 
 # p_1<-MCMCchains(mcmcSamples,params="p_1")
 # 
@@ -113,8 +124,8 @@ dev.off()
 # Site-year
 #################################################################################
 
-siteIndex <- data.frame(siteIndex=unique(countFruitsPerPlant$site),site=1)
-yearIndex <- data.frame(year=1:6,yearIndex=2007:2012)
+siteIndex <- data.frame(siteIndex=unique(countSeedPerFruit$site),site=1:20)
+yearIndex <- data.frame(year=1:13,yearIndex=2006:2018)
 
 mcmcSummary<-mcmcSamples %>%
   tidybayes::recover_types(data) %>%
@@ -150,36 +161,96 @@ mcmcSummary<-mcmcSummary %>%
 vr = position %>% 
   dplyr::left_join(mcmcSummary,by="site")
 
-#pdf(paste0(dirFigures,"spatial-sigma.pdf"), width=8, height=6)
+#pdf(paste0(dirFigures,"seedsPerFruit-annual.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0.0,1),
-     ylab="Seedling survival probability [P(sigma)]",
+plot(vr$easting,vr$med, ylim = c(0,100),
+     ylab="Seeds per fruit",
      xlab="Easting (km)", 
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16,type='n')
 
-points(vr$easting,vr$med,ylim=c(0.0,1),
+points(vr$easting,vr$med,
        pch=16)
 
 segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
 segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
 
+## summary table
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+seedsPerFruitSummary <- tmp
+write.csv(seedsPerFruitSummary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedsPerFruitSummary.csv",
+          row.names=FALSE)
+
+# figure 
+
+#pdf(paste0(dirFigures,"spatial-sigma.pdf"), width=8, height=6)
+
+# mcmcSamples %>%
+#   tidybayes::spread_draws(gamma[site,year]) %>%
+#   dplyr::filter(site==20) %>%
+#   ggplot(aes(y = year, x = exp(gamma))) +
+#   #facet_wrap(~year,scale='free') +
+#   stat_halfeyeh(.width = c(.95, .66)) +
+#   stat_pointintervalh(aes(y = year-.25), point_interval = median_hdi, .width = c(.95, .66)) 
+  
+  
+## summary table
+
+tmp <- vr %>% 
+  dplyr::select(site,year,med,ci.lo,ci.hi)
+
+seedsPerFruitSummary <- tmp
+write.csv(seedsPerFruitSummary , 
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedsPerFruitSummary.csv",
+          row.names=FALSE)
+
+ 
+mu = countSeedPerFruit %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu=mean(sdno,na.rm=TRUE), n = n()) %>%
+  dplyr::mutate(year=as.numeric(year))
+
+summary=mu %>%
+  dplyr::left_join(vr,by=c("site","year"))
+
+plot(summary$med, summary$mu, col = summary$year)
+
+lm(summary$mu,)
+abline(a=0,b=1)
 #dev.off()
 
-ggplot(data=vr) +
+g1 <- ggplot(data=vr) +
+ # geom_smooth(aes(x=easting,y=med),method='lm',se=FALSE,color='gray',alpha=0.5) +
   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
   geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
   geom_point(aes(x=easting,y=med)) +
-  facet_wrap(~year,nrow=2) +
-  ylim(c(0,1)) +
-  theme_bw()
+  facet_wrap(~year,nrow=1) +
+  theme_bw() +
+  ylab("Seeds per undamaged fruit") +
+  xlab("Easting (km)") 
+
+
+ggsave(filename=paste0(dirFigures,"annual-seedsPerFruit.pdf"),
+       plot=g1,width=20,height=4)
+
+library(pdftools)
+pdf_combine(c(paste0(dirFigures,"spatial-seedsPerFruit.pdf"),
+              paste0(dirFigures,"annual-seedsPerFruit.pdf")), 
+            output = paste0(dirFigures,"summary-seedPerFruit.pdf"))
 
 ggplot(data=vr) +
   geom_linerange(aes(x=year,ymin=ci.lo,ymax=ci.hi),size=.25) +
   geom_linerange(aes(x=year,ymin=ci.lo2,ymax=ci.hi2),size=1) +
   geom_point(aes(x=year,y=med)) +
   facet_wrap(~site,nrow=4) +
-  ylim(c(0,1)) +
   theme_bw()
+
+countSeedPerFruit %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(n = n()) %>% View
 
