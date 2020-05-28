@@ -117,7 +117,7 @@ vr.site = vr %>%
 #################################################################################
 
 siteIndex <- data.frame(siteIndex=unique(censusSeedlingsFruitingPlants$site),site=1:20)
-yearIndex <- data.frame(year=1:10,yearIndex=2006:2015)
+yearIndex <- data.frame(year=1:14,yearIndex=2006:2019)
 
 mcmcSummary<-mcmcSamples %>%
   tidybayes::recover_types(data) %>%
@@ -151,8 +151,8 @@ saveRDS(seedlingSurvivalSummary,file=paste0(fileDirectory,"seedlingSurvivalSumma
 
 ## summary table
 
-tmp <- vr %>% 
-  dplyr::select(site,year,med,ci.lo,ci.hi)
+tmp <- seedlingSurvivalSummary %>% 
+  dplyr::select(site,year,med,ci.lo95,ci.hi95)
 
 seedlingSurvivalSummary <- tmp
 write.csv(seedlingSurvivalSummary , 

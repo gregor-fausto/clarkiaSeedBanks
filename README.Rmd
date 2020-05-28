@@ -33,7 +33,34 @@ Siegmund, G.-F., and M. A. Geber.
 
 ----
 
+### Summary
+
+```{r, echo=FALSE}
+variables = c("Parameter",2006:2019)
+
+s0 = c("s0", rep("N",3),rep("-",11))
+s1 = c("s1", rep("Y",3),rep("-",11))
+g1 = c("g1", rep("Y",3),rep("-",11))
+s2 = c("s2", rep("Y",3),rep("-",11))
+sigma = c("sigma", rep("Y",14),rep("N",0))
+Fec = c("Fec", rep("Y",8),rep("N",6))
+phi = c("phi", rep("Y",13),rep("N",1))
+
+dt = rbind(s0,s1,g1,s2,sigma,Fec,phi)
+
+dt = data.frame(dt,row.names=dt[,1])
+
+colnames(dt) = variables
+kable(dt,row.names=FALSE)
+
+
+```
+
 ### Library Metadata
+
+
+
+
 
 #### sigmaDF
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 MAY 2020 14:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 MAY 2020 07:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -225,7 +225,26 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \rot@float@box=\box28
 \rot@mess@toks=\toks23
 )
-No file data-summary.aux.
+(./data-summary.aux
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:sigma' multiply defined.
+
+
+LaTeX Warning: Label `tab:titleviab' multiply defined.
+
+
+LaTeX Warning: Label `tab:titleviab' multiply defined.
+
+)
 \openout1 = `data-summary.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
@@ -240,6 +259,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
 LaTeX Font Info:    ... okay on input line 23.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
 LaTeX Font Info:    ... okay on input line 23.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -354,13 +374,13 @@ See the caption package documentation for explanation.
 
 ] [8] [9] [10] [11] [12] (./data-summary.aux)
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4262 strings out of 493014
- 62283 string characters out of 6133351
- 132700 words of memory out of 5000000
+ 4264 strings out of 493014
+ 62317 string characters out of 6133351
+ 132791 words of memory out of 5000000
  7737 multiletter control sequences out of 15000+600000
  13824 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -371,7 +391,7 @@ Here is how much of TeX's memory you used:
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
 usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
 r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-Output written on data-summary.pdf (12 pages, 84794 bytes).
+Output written on data-summary.pdf (12 pages, 84875 bytes).
 PDF statistics:
  67 PDF objects out of 1000 (max. 8388607)
  46 compressed objects within 1 object stream

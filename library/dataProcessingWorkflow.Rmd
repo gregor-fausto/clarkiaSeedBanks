@@ -27,7 +27,7 @@ I also ran:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/`
 
-I last ran these on 04/15/20 at 5:20 PM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+I last ran these on 05/28/20 at 7:38 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 An additional folder holding datasets is originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/`
@@ -94,11 +94,11 @@ kable(dt)
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r, message=FALSE, warning=FALSE}
-directory=c("/Users/Gregor/Dropbox/dataLibrary/")
+directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
  
 
 # extract data and write out temporary csv
-tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-18vers2.xls"), 
+tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-20.xls"), 
                       sheet = 1, na = c("","NA" )) %>%
   janitor::clean_names(case="lower_camel") %>%
   readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
@@ -142,7 +142,7 @@ censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   tidyr::pivot_wider(names_from = variable,
                      values_from = count) %>%
   # remove for full dataset
-  dplyr::filter(year<2018)
+  dplyr::filter(year<2020)
 
 readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 
@@ -158,7 +158,7 @@ tmp1 <- censusSeedlingsFruitingPlants %>%
 
 kable(tmp1, caption="Summary table of the number of estimates for seedling survival to fruiting")
 
- #print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
+# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 Second, I plot the number of estimates for seedling survival to fruiting per population and year that do not have fewer seedlings than fruiting plants
@@ -176,7 +176,7 @@ vals<-signif((1-tmp[,-1]/tmp1[,-1])*100,2)
 tmp1 = cbind(tmp[,1],vals)
 kable(tmp1, caption="Summary table of the percentage of plots with fruiting plant counts exceeding seedling counts")
 
-# print(xtable::xtable(tmp1, type = "latex"), include.rownames=FALSE, NA.string = "--")
+# print(xtable::xtable(tmp1, type = "latex", digits=1), include.rownames=FALSE, NA.string = "--")
 ```
 
 ### Fruits per plant data for transects
@@ -388,6 +388,7 @@ tmpDamaged <- tmp %>%
 # use pivot_longer to create long form data
 # remove rows with NA (corresponding to no plants)
 countDamagedFruitsPerPlantFromTransects <- tmpDamaged %>%
+  dplyr::mutate_at(vars(contains('plant_')), as.numeric) %>%
   tidyr::pivot_longer(cols=contains(c("plant")),
                names_to = "plantNumber",
                values_to = "countDamagedFruitsPerPlant") %>%
