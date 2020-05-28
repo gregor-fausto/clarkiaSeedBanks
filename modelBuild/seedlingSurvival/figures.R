@@ -109,6 +109,9 @@ ggplot(data=vr) +
   ylim(c(0,1)) +
   theme_bw()
 
+vr.site = vr %>%
+  dplyr::select(site,med)
+
 ################################################################################
 # Site-year
 #################################################################################
@@ -214,3 +217,87 @@ ggplot(data=vr) +
   ylim(c(0,1)) +
   theme_bw()
 
+## ordered figure
+
+ggplot(data=vr) +
+  geom_linerange(aes(x=reorder(site,desc(med)),ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=reorder(site,desc(med)),ymin=ci.lo2,ymax=ci.hi2),size=1) +
+  geom_point(aes(x=reorder(site,desc(med)),y=med)) +
+  coord_flip() +
+  ylim(c(0,1)) +
+  theme_bw()
+
+
+# mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(p_1[site,year]) %>%
+#   dplyr::left_join(siteIndex,by="site") %>%
+#   dplyr::left_join(yearIndex,by="year") %>%
+#   dplyr::ungroup() %>%
+#   dplyr::select(-c(site,year)) %>%
+#   dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::left_join(vr.site, by="site") %>%
+#   dplyr::arrange(med) %>% 
+#   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+#   dplyr::group_by(site,year) %>%
+#   median_qi(.width = c(.66)) %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::arrange(p_1,.by_group = TRUE) %>%
+#  dplyr::mutate(year=factor(year)) %>%
+#   mutate(id = row_number()) %>%
+#   ggplot(aes(x = id , y = p_1)) +
+#   geom_pointinterval( position = "dodge",size=.5) +
+#   coord_flip() +
+#   facet_grid(site ~ ., scales="free_x", space="free_x") +
+#   theme_bw() +
+#   theme(panel.spacing=unit(0,"pt"), 
+#         panel.border=element_rect(colour="grey50", fill=NA)) +
+#   ylim(c(0,1)) +
+#   theme(axis.title.y=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank())
+
+
+g1 <- mcmcSamples %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p_1[site,year]) %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(p1.med = median(p_1), 
+                   ci.lo = quantile(p_1,probs=0.27), 
+                   ci.hi = quantile(p_1,probs=0.83),
+  ) %>%
+  
+  dplyr::ungroup() %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::select(-c(site,year)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+  dplyr::group_by(site) %>%
+  dplyr::arrange(desc(p1.med),.by_group = TRUE) %>%
+  dplyr::mutate(year=factor(year)) %>%
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id , y = p1.med)) + 
+  geom_hline(aes(yintercept=med),linetype='dotted') +
+  
+  geom_point(aes(color=year)) +
+  
+  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+ggsave(filename=paste0(dirFigures,"interannual-sigma.pdf"),
+       plot=g1,width=6,height=12)

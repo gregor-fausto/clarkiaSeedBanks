@@ -120,6 +120,9 @@ points(mu$easting,mu$mu,
 #   ylim(c(0,1)) +
 #   theme_bw()
 
+vr.site = vr %>%
+  dplyr::select(site,med)
+
 ################################################################################
 # Site-year
 #################################################################################
@@ -254,3 +257,46 @@ countSeedPerFruit %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(n = n()) %>% View
 
+
+g1 <- mcmcSamples %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(gamma[site,year]) %>%
+  dplyr::mutate(lambda = exp(gamma)) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(lambda.med = median(lambda), 
+                   ci.lo = quantile(lambda,probs=0.27), 
+                   ci.hi = quantile(lambda,probs=0.83),
+  ) %>%
+  
+  dplyr::ungroup() %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::select(-c(site,year)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+  dplyr::group_by(site) %>%
+  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+  dplyr::mutate(year=factor(year)) %>%
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id , y = lambda.med)) + 
+  geom_hline(aes(yintercept=med),linetype='dotted') +
+  
+  geom_point(aes(color=year)) +
+  
+  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+
+ggsave(filename=paste0(dirFigures,"interannual-seedsPerFruit.pdf"),
+       plot=g1,width=6,height=12)
