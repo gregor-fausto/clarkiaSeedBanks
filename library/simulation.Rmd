@@ -1,0 +1,171 @@
+---
+output: github_document
+---
+
+### Packages
+
+I am using the packages `tidyverse` and `readxl` (documentation:
+<https://readxl.tidyverse.org/>).
+
+Load the libraries for data processing (see
+<https://github.com/r-lib/rlang/issues/669> for the overwrite message I
+am suppressing).
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+```
+
+For model building I am using:
+
+```{r}
+library(rjags)
+library(tidybayes)
+library(MCMCvis)
+```
+
+### Basic model
+
+$ N(t+1) = A N(t) $
+
+where 
+
+$ A = s_1g_1 \sigma F \phi s_0 $
+
+### Simulate data
+
+Start with a set of mean values that projecs a population growth rate just above 1.
+
+```{r}
+s1 = .25;
+g1 = 0.15;
+sigma = .5;
+fec = 5;
+phi = 15;
+s0 = .75;
+
+vitalRates = c(s1,g1,sigma,fec,phi,s0)
+A = prod(vitalRates)
+A
+```
+
+I start with a data set with many samples per vital rate.
+
+```{r data}
+N = 1000
+
+samples = list()
+
+samples[[1]] = rbinom(n=N,size=100,prob=s1)
+samples[[2]] = rbinom(n=N,size=100,prob=g1)
+samples[[3]] = rbinom(n=N,size=100,prob=sigma)
+samples[[4]] = rnbinom(n=N,size=100,mu = fec)
+samples[[5]] = rnbinom(n=N,size=100,mu = phi)
+samples[[6]] = rbinom(n=N,size=100,prob=s0)
+
+names(samples) = c("s1","g1","sigma","fec","phi","s0")
+```
+
+Plot samples.
+
+```{r}
+par(mfrow=c(3,2))
+
+arm::discrete.histogram(samples$s1/100,xlim=c(0,1),main="s1");abline(v=s1,col='red',lwd=2,lty='dotted')
+
+arm::discrete.histogram(samples$g1/100,xlim=c(0,1),main="g1");abline(v=g1,col='red',lwd=2,lty='dotted')
+
+arm::discrete.histogram(samples$sigma/100,xlim=c(0,1),main="sigma");abline(v=sigma,col='red',lwd=2,lty='dotted')
+
+arm::discrete.histogram(samples$fec,main="fec");abline(v=fec,col='red',lwd=2,lty='dotted')
+
+arm::discrete.histogram(samples$phi,main="phi");abline(v=phi,col='red',lwd=2,lty='dotted')
+
+arm::discrete.histogram(samples$s0/100,xlim=c(0,1),main="s0");abline(v=s0,col='red',lwd=2,lty='dotted')
+```
+
+## Resample
+```{r}
+
+bootSamples = data.frame(s1=samples[[1]],g1=samples[[2]],sigma=samples[[3]],fec=samples[[4]],phi=samples[[5]],s0=samples[[6]])
+
+data = bootSamples
+
+generateYear = function(dataYear, N){
+  
+  dat = dataYear
+  tmp=list()
+  tmp[[1]] = rbinom(n=N,size=100,prob=dat$s1/100)
+  tmp[[2]] = rbinom(n=N,size=100,prob=dat$g1/100)
+  tmp[[3]] = rbinom(n=N,size=100,prob=dat$sigma/100)
+  tmp[[4]] = rnbinom(n=N,size=100,mu = dat$fec)
+  tmp[[5]] = rnbinom(n=N,size=100,mu = dat$phi)
+  tmp[[6]] = rbinom(n=N,size=100,prob=dat$s0/100)
+  
+  tmp = data.frame(s1=tmp[[1]],g1=tmp[[2]],sigma=tmp[[3]],fec=tmp[[4]],phi=tmp[[5]],s0=tmp[[6]])
+  
+  return(tmp)
+}
+```
+
+Plot global mean and per year means
+
+```{r}
+
+years = list()
+for(i in 1:5){
+  years[[i]] = generateYear(dataYear=data[i,],N=1000)
+}
+
+par(mfrow=c(1,1))
+
+ggplot() +
+  geom_histogram(aes(x=bootSamples$s1/100),bins=100) +
+  geom_vline(xintercept=s1,col='red') +
+
+    theme_bw() +
+  xlim(c(0,1))
+
+ggplot() +
+ geom_histogram(aes(x=years[[1]]$s1/100),bins=100,fill='green',alpha=.2) +
+  geom_histogram(aes(x=years[[2]]$s1/100),bins=100,fill='orange',alpha=.2) +
+  geom_histogram(aes(x=years[[3]]$s1/100),bins=100,fill='red',alpha=.2) +
+  geom_histogram(aes(x=years[[4]]$s1/100),bins=100,fill='blue',alpha=.2) +
+  geom_histogram(aes(x=years[[5]]$s1/100),bins=100,fill='pink',alpha=.2) +
+  
+    geom_vline(xintercept=data[1,]$s1/100,col='green') +
+    geom_vline(xintercept=data[2,]$s1/100,col='orange') +
+    geom_vline(xintercept=data[3,]$s1/100,col='red') +
+    geom_vline(xintercept=data[4,]$s1/100,col='blue') +
+    geom_vline(xintercept=data[5,]$s1/100,col='pink') +
+
+    theme_bw() +
+  xlim(c(0,1))
+
+
+ggplot() +
+    geom_histogram(aes(x=bootSamples$phi),bins=100) +
+  geom_vline(xintercept=phi,col='black',lwd=2) +
+  
+ geom_histogram(aes(x=years[[1]]$phi),bins=100,fill='green',alpha=.2) +
+  geom_histogram(aes(x=years[[2]]$phi),bins=100,fill='orange',alpha=.2) +
+  geom_histogram(aes(x=years[[3]]$phi),bins=100,fill='red',alpha=.2) +
+  geom_histogram(aes(x=years[[4]]$phi),bins=100,fill='blue',alpha=.2) +
+  geom_histogram(aes(x=years[[5]]$phi),bins=100,fill='pink',alpha=.2) +
+  
+    geom_vline(xintercept=data[1,]$phi,col='green') +
+    geom_vline(xintercept=data[2,]$phi,col='orange') +
+    geom_vline(xintercept=data[3,]$phi,col='red') +
+    geom_vline(xintercept=data[4,]$phi,col='blue') +
+    geom_vline(xintercept=data[5,]$phi,col='pink') +
+
+    theme_bw() 
+
+```
+
+### Estimation
+
+
+
+
