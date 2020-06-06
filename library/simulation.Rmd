@@ -35,137 +35,323 @@ $ A = s_1g_1 \sigma F \phi s_0 $
 
 ### Simulate data
 
+```{r}
+# ## Hypotheses
+# 
+# ## Fitness and seed banks
+
+### COPULA
+
+library(MASS)
+
+probabilityOfSurvival = 0.2
+meanFecundity = 5
+
+sim <- function(rho,p.survival= probabilityOfSurvival,mu.fec=meanFecundity,reps=1000){
+
+# a and b are hyperparameters of the binomial distribution
+a = 100
+b = p.survival
+
+# alpha and beta are hyperparameters of the negative binomial distribution
+alpha =  100
+beta =  mu.fec
+
+# Defines the temporal correlation between the two parameters.
+rho = rho
+
+# Generates standard multivariate normal data with correlation structure defined by rho.
+Z <- mvrnorm(n=reps,mu=c(0,0), 
+             matrix(data=c(1,rho,rho,1),
+                    nrow=2,ncol=2))
+
+# Apply the Normal CDF function to Z to obtain data that is uniform on the interval [0,1], but still correlated.
+U = pnorm(Z)
+
+# x is gamma distributed
+X = qbinom(U[,1],size=a,prob=b) 
+
+# y is beta distributed
+Y = qnbinom(U[,2],size=alpha,mu=beta) 
+
+X = cbind(X,Y)
+return(X)
+}
+
+par(mfrow=c(3,2))
+X=sim(rho=-.5)
+arm::discrete.histogram(X[,1]/100,xlim=c(0,1),main="sigma");abline(v=probabilityOfSurvival,col='red',lwd=2,lty='dotted')
+arm::discrete.histogram(X[,2],main="fec");abline(v=meanFecundity,col='red',lwd=2,lty='dotted')
+X=sim(rho=0)
+arm::discrete.histogram(X[,1]/100,xlim=c(0,1),main="sigma");abline(v=probabilityOfSurvival,col='red',lwd=2,lty='dotted')
+arm::discrete.histogram(X[,2],main="fec");abline(v=meanFecundity,col='red',lwd=2,lty='dotted')
+X=sim(rho=.5)
+arm::discrete.histogram(X[,1]/100,xlim=c(0,1),main="sigma");abline(v=probabilityOfSurvival,col='red',lwd=2,lty='dotted')
+arm::discrete.histogram(X[,2],main="fec");abline(v=meanFecundity,col='red',lwd=2,lty='dotted')
+
+par(mfrow=c(1,3))
+X=sim(rho=-.5)
+plot(X[,1],X[,2],xlim=c(0,60),ylim=c(0,20),pch=16,cex=.5)
+X=sim(rho=0)
+plot(X[,1],X[,2],xlim=c(0,60),ylim=c(0,20),pch=16,cex=.5)
+X=sim(rho=.5)
+plot(X[,1],X[,2],xlim=c(0,60),ylim=c(0,20),pch=16,cex=.5)
+```
+
 Start with a set of mean values that projecs a population growth rate just above 1.
 
-```{r}
-s1 = .25;
-g1 = 0.15;
-sigma = .5;
-fec = 5;
-phi = 15;
-s0 = .75;
-
-vitalRates = c(s1,g1,sigma,fec,phi,s0)
-A = prod(vitalRates)
-A
-```
-
-I start with a data set with many samples per vital rate.
-
-```{r data}
-N = 1000
-
-samples = list()
-
-samples[[1]] = rbinom(n=N,size=100,prob=s1)
-samples[[2]] = rbinom(n=N,size=100,prob=g1)
-samples[[3]] = rbinom(n=N,size=100,prob=sigma)
-samples[[4]] = rnbinom(n=N,size=100,mu = fec)
-samples[[5]] = rnbinom(n=N,size=100,mu = phi)
-samples[[6]] = rbinom(n=N,size=100,prob=s0)
-
-names(samples) = c("s1","g1","sigma","fec","phi","s0")
-```
-
-Plot samples.
-
-```{r}
-par(mfrow=c(3,2))
-
-arm::discrete.histogram(samples$s1/100,xlim=c(0,1),main="s1");abline(v=s1,col='red',lwd=2,lty='dotted')
-
-arm::discrete.histogram(samples$g1/100,xlim=c(0,1),main="g1");abline(v=g1,col='red',lwd=2,lty='dotted')
-
-arm::discrete.histogram(samples$sigma/100,xlim=c(0,1),main="sigma");abline(v=sigma,col='red',lwd=2,lty='dotted')
-
-arm::discrete.histogram(samples$fec,main="fec");abline(v=fec,col='red',lwd=2,lty='dotted')
-
-arm::discrete.histogram(samples$phi,main="phi");abline(v=phi,col='red',lwd=2,lty='dotted')
-
-arm::discrete.histogram(samples$s0/100,xlim=c(0,1),main="s0");abline(v=s0,col='red',lwd=2,lty='dotted')
-```
-
 ## Resample
-```{r}
-
-bootSamples = data.frame(s1=samples[[1]],g1=samples[[2]],sigma=samples[[3]],fec=samples[[4]],phi=samples[[5]],s0=samples[[6]])
-
-data = bootSamples
-
-generateYear = function(dataYear, N){
-  
-  dat = dataYear
-  tmp=list()
-  tmp[[1]] = rbinom(n=N,size=100,prob=dat$s1/100)
-  tmp[[2]] = rbinom(n=N,size=100,prob=dat$g1/100)
-  tmp[[3]] = rbinom(n=N,size=100,prob=dat$sigma/100)
-  tmp[[4]] = rnbinom(n=N,size=100,mu = dat$fec)
-  tmp[[5]] = rnbinom(n=N,size=100,mu = dat$phi)
-  tmp[[6]] = rbinom(n=N,size=100,prob=dat$s0/100)
-  
-  tmp = data.frame(s1=tmp[[1]],g1=tmp[[2]],sigma=tmp[[3]],fec=tmp[[4]],phi=tmp[[5]],s0=tmp[[6]])
-  
-  return(tmp)
-}
-```
 
 Plot global mean and per year means
 
 ```{r}
 
+# get global distribution
+dataGlobal = sim(rho=0)
+data = dataGlobal
+dataGlobal = as.data.frame(dataGlobal)
+
+# get distribution for each year by sampling mean from global distribution
 years = list()
+
 for(i in 1:5){
-  years[[i]] = generateYear(dataYear=data[i,],N=1000)
+  years[[i]] = cbind(year=i,sim(rho=0,p.survival=data[i,][1]/100,mu.fec=data[i,][2],reps=250))
 }
 
-par(mfrow=c(1,1))
+dataGroup = do.call(rbind.data.frame, years) %>% dplyr::mutate(year=as.factor(year))
 
-ggplot() +
-  geom_histogram(aes(x=bootSamples$s1/100),bins=100) +
-  geom_vline(xintercept=s1,col='red') +
 
+# plots
+
+ggplot(data=dataGlobal) +
+  geom_histogram(aes(x=X/100),bins=100) +
+  geom_vline(xintercept=probabilityOfSurvival,col='red') +
     theme_bw() +
   xlim(c(0,1))
 
 ggplot() +
- geom_histogram(aes(x=years[[1]]$s1/100),bins=100,fill='green',alpha=.2) +
-  geom_histogram(aes(x=years[[2]]$s1/100),bins=100,fill='orange',alpha=.2) +
-  geom_histogram(aes(x=years[[3]]$s1/100),bins=100,fill='red',alpha=.2) +
-  geom_histogram(aes(x=years[[4]]$s1/100),bins=100,fill='blue',alpha=.2) +
-  geom_histogram(aes(x=years[[5]]$s1/100),bins=100,fill='pink',alpha=.2) +
-  
-    geom_vline(xintercept=data[1,]$s1/100,col='green') +
-    geom_vline(xintercept=data[2,]$s1/100,col='orange') +
-    geom_vline(xintercept=data[3,]$s1/100,col='red') +
-    geom_vline(xintercept=data[4,]$s1/100,col='blue') +
-    geom_vline(xintercept=data[5,]$s1/100,col='pink') +
-
+ #   geom_histogram(data=dataGlobal,aes(x=X/100),bins=100) +
+  geom_vline(xintercept=probabilityOfSurvival,col='red') +
+ geom_histogram(data=dataGroup,aes(x=X/100,fill=year),bins=100,alpha=.2,position='identity') +
     theme_bw() +
   xlim(c(0,1))
 
 
-ggplot() +
-    geom_histogram(aes(x=bootSamples$phi),bins=100) +
-  geom_vline(xintercept=phi,col='black',lwd=2) +
-  
- geom_histogram(aes(x=years[[1]]$phi),bins=100,fill='green',alpha=.2) +
-  geom_histogram(aes(x=years[[2]]$phi),bins=100,fill='orange',alpha=.2) +
-  geom_histogram(aes(x=years[[3]]$phi),bins=100,fill='red',alpha=.2) +
-  geom_histogram(aes(x=years[[4]]$phi),bins=100,fill='blue',alpha=.2) +
-  geom_histogram(aes(x=years[[5]]$phi),bins=100,fill='pink',alpha=.2) +
-  
-    geom_vline(xintercept=data[1,]$phi,col='green') +
-    geom_vline(xintercept=data[2,]$phi,col='orange') +
-    geom_vline(xintercept=data[3,]$phi,col='red') +
-    geom_vline(xintercept=data[4,]$phi,col='blue') +
-    geom_vline(xintercept=data[5,]$phi,col='pink') +
+ggplot(data=dataGlobal) +
+  geom_histogram(aes(x=Y),bins=100) +
+  geom_vline(xintercept=meanFecundity,col='red') +
+    theme_bw()
 
-    theme_bw() 
+ggplot() +
+  geom_vline(xintercept=meanFecundity,col='red') +
+ geom_histogram(data=dataGroup,aes(x=Y,fill=year),bins=100,alpha=.2,position='identity') +
+    theme_bw()
+
+```
+
+```{r}
+
+# get global distribution
+dataGlobal = sim(rho=0)
+data = dataGlobal
+dataGlobal = as.data.frame(dataGlobal)
+
+# get distribution for each year by sampling mean from global distribution
+years = list()
+
+for(i in 1:6){
+  val = sample(1:dim(dataGlobal)[1],1,replace=TRUE)
+  years[[i]] = cbind(year=i,sim(rho=0,p.survival=data[val,][1]/100,mu.fec=data[val,][2]))
+}
+
+dataGroup = do.call(rbind.data.frame, years) %>% dplyr::mutate(year=as.factor(year))
+
+ggplot() +
+  geom_point(data=dataGlobal,aes(x=X/100,y=Y),size=0.5,col='red') +
+  theme_bw() 
+
+ggplot() +
+  geom_point(data=dataGlobal,aes(x=X/100,y=Y),size=0.5,col='red') +
+  geom_point(data=dataGroup,aes(x=X/100,y=Y),size=0.5,alpha=0.5) +
+  facet_wrap(~year) +
+  theme_bw() 
 
 ```
 
 ### Estimation
 
+```{r}
+set.seed(1)
+
+# get global distribution
+dataGlobal = sim(rho=0)
+data = dataGlobal
+dataGlobal = as.data.frame(dataGlobal)
+
+# get distribution for each year by sampling mean from global distribution
+years = list()
+
+for(i in 1:6){
+  val = sample(1:dim(dataGlobal)[1],1,replace=TRUE)
+  years[[i]] = cbind(year=i,sim(rho=0,p.survival=data[val,][1]/100,mu.fec=data[val,][2]))
+}
+
+dataGroup = do.call(rbind.data.frame, years) %>% dplyr::mutate(year=as.factor(year))
+
+names(dataGroup) = c("year","fruitplNumber","sdno")
+dataGroup$seedlingNumber = 100
+dataGroup$site = as.factor(1)
+```
+Tidy up
+
+```{r}
+dataForBayes <- tidybayes::compose_data(dataGroup)
+```
+
+ Set JAGS parameters and random seed
 
 
 
+```{r}
+# scalars that specify the 
+# number of iterations in the chain for adaptation
+# number of iterations for burn-in
+# number of samples in the final chain
+
+n.adapt = 3000
+n.update = 5000
+n.iterations = 1000
+n.thin = 1
+
+set.seed(10)
+dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/library/")
+
+paste0(c("mu0_","sigma0_"),c("s","f"))
+paramNames = c("mu0_","sigma0_")
+dataNames = c("s","f")
+
+hyperpriors <- as.vector(outer(paramNames, dataNames, paste0))
+priors <- c("sigma_s","r_f")
+
+aList <- list(0,.5,
+     0,.5,
+     matrix(rep(.5,1,6),nrow=1,ncol=6),
+     matrix(10, nrow=1,ncol=6))
+names(aList) = c(hyperpriors,priors)
+
+# set inits for JAGS
+inits = list(aList,aList,aList)
+
+# # Call to JAGS
+# 
+# # tuning (n.adapt)
+jm = jags.model(paste0(dir,"simulationJAGS.R"), data = dataForBayes, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
+```
+
+```{r}
+# burn-in (n.update)
+update(jm, n.iter = n.update)
+
+parsToMonitor_s = c("theta_s","mu0_s","sigma0_s","mu_s","sigma_s")
+parsToMonitor_f = c("lambda_f","mu0_f","sigma0_f","gamma_f","r_f")
+parsToMonitor_deriv = c("p0_s","p_s","p0_f","p_f")
+
+# chain (n.iter)
+samples.rjags = coda.samples(jm, 
+                             variable.names = c(parsToMonitor_deriv), 
+                             n.iter = n.iterations, thin = n.thin)
+
+
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/")
+dir.create(file.path(fileDirectory), showWarnings = FALSE)
+# 
+saveRDS(samples.rjags,file=paste0(fileDirectory,"simulationSamples.rds"))
+saveRDS(dataGroup,file=paste0(fileDirectory,"simulationData.rds"))
+saveRDS(dataForBayes,file=paste0(fileDirectory,"simulationDataBayes.rds"))
+
+MCMCsummary(samples.rjags)
+```
+
+```{r}
+samples.rjags %>%
+  tidybayes::recover_types() %>%
+  tidybayes::spread_draws(p0_s,p0_f) %>%
+  dplyr::summarise(med = median(p0_f), 
+                   ci.lo = quantile(p0_f,probs=0.025), 
+                   ci.hi = quantile(p0_f,probs=0.975),
+                   ci.lo2 = quantile(p0_f,probs=0.25), 
+                   ci.hi2 = quantile(p0_f,probs=0.75)
+  )
+
+samps = samples.rjags %>%
+  tidybayes::recover_types() %>%
+  tidybayes::spread_draws(p0_s,p0_f) 
+ 
+ggplot() +
+  geom_point(data=dataGlobal,aes(x=X/100,y=Y),size=0.5,col='red') +
+  theme_bw() +
+  geom_segment(aes(x=probabilityOfSurvival,xend=probabilityOfSurvival,y=0,yend=meanFecundity)) +
+  geom_segment(aes(x=0,xend=probabilityOfSurvival,y=meanFecundity,yend=meanFecundity))
+
+ggplot() +
+  geom_point(data=samps,aes(x=p0_s,y=p0_f),size=0.5,col='red') +
+  theme_bw()+ylim(c(0,250)) +
+  geom_segment(aes(x=probabilityOfSurvival,xend=probabilityOfSurvival,y=0,yend=meanFecundity)) +
+  geom_segment(aes(x=0,xend=probabilityOfSurvival,y=meanFecundity,yend=meanFecundity))
+
+ggplot(data=samps) +
+  geom_histogram(aes(x=p0_s),bins=100) +
+  geom_vline(xintercept=probabilityOfSurvival,col='red')
+
+ggplot(data=samps) +
+  geom_histogram(aes(x=p0_f),bins=100) +
+  geom_vline(xintercept=meanFecundity,col='red') +xlim(c(0,100))
+```
+```{r}
+summaryBayes <- samples.rjags %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p_f[site,year]) %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(med = median(p_f), 
+                   ci.lo = quantile(p_f,probs=0.025), 
+                   ci.hi = quantile(p_f,probs=0.975),
+                   ci.lo2 = quantile(p_f,probs=0.25), 
+                   ci.hi2 = quantile(p_f,probs=0.75)
+  ) %>% dplyr::mutate(year = as.factor(year))
+  
+summaryOG <- dataGroup %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(mu=mean(sdno))
+
+summaryBind<- summaryBayes %>% dplyr::left_join(summaryOG,by="year")
+
+plot(summaryBind$med,summaryBind$mu,xlim=c(0,10),ylim=c(0,10));
+segments(x0=summaryBind$med,y0=summaryBind$ci.lo,y1=summaryBind$ci.hi)
+abline(a=0,b=1)
+
+```
+
+```{r}
+summaryBayes <- samples.rjags %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p_s[site,year]) %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(med = median(p_s), 
+                   ci.lo = quantile(p_s,probs=0.025), 
+                   ci.hi = quantile(p_s,probs=0.975),
+                   ci.lo2 = quantile(p_s,probs=0.25), 
+                   ci.hi2 = quantile(p_s,probs=0.75)
+  ) %>% dplyr::mutate(year = as.factor(year))
+  
+summaryOG <- dataGroup %>%
+  dplyr::group_by(year) %>%
+  dplyr::summarise(mu=mean(fruitplNumber)/100)
+
+summaryBind<- summaryBayes %>% dplyr::left_join(summaryOG,by="year")
+
+plot(summaryBind$med,summaryBind$mu,xlim=c(0,1),ylim=c(0,1));
+segments(x0=summaryBind$med,y0=summaryBind$ci.lo,y1=summaryBind$ci.hi)
+abline(a=0,b=1)
+
+```
