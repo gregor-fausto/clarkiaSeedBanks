@@ -30,7 +30,50 @@ Siegmund, G.-F., and M. A. Geber.
 
 -----
 
+### Library Metadata
+
+The table below summarizes the data generated in this study (also
+available [as a pdf at this
+link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf))
+
+|                                        |                  |               |           |
+| :------------------------------------- | :--------------: | :-----------: | :-------: |
+| **Seed vital rates**                   |        —         |       —       |     —     |
+| Seed survival and germination          | Seed bag burial  | Y<sub>1</sub> | 2006-2009 |
+| Seed viability                         | Viability trials | Y<sub>2</sub> | 2006-2009 |
+| Seed survival and germination          |    Seed pots     | Y<sub>3</sub> | 2013-2019 |
+| **Seedling survival** -                |        –         |       —       |     —     |
+| Seedling survival to fruiting          |  Field surveys   | Y<sub>4</sub> | 2006-2019 |
+| **Fruits per plant**                   |        —         |       —       |     —     |
+| Total fruit equivalents per plant      |  Field surveys   | Y<sub>5</sub> | 2006-2012 |
+| Undamaged and damaged fruits per plant |  Field surveys   | Y<sub>6</sub> | 2013-2019 |
+| Total fruit equivalents per plant      |   Extra plots    | Y<sub>7</sub> | 2006-2012 |
+| Undamaged and damaged fruits per plant |   Extra plots    | Y<sub>8</sub> | 2013-2019 |
+| **Seeds per fruit**                    |        —         |       —       |     —     |
+| Seeds per undamaged fruit              |    Lab counts    | Y<sub>9</sub> | 2006-2019 |
+| Seeds per damaged fruit                |    Lab counts    | Y<sub>0</sub> | 2013-2019 |
+
+Links to all the datasets follow:
+
+  - [Seed bag
+    burial](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seed-bag-data)
+  - [Viability
+    trials](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#viability-trial-data)
+  - [Seed
+    pots](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seed-pot-data)
+    - needs to be updated
+  - [Field surveys for seedling survival to
+    fruiting](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seedlings-and-fruiting-plant-data)
+  - [Field surveys for total fruit equivalents per plant, and
+    undamaged/damaged fruits per
+    plant](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#fruits-per-plant-data-extra-plots)
+  - [Lab counts for seeds per fruit from undamaged and damaged
+    fruits](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seeds-per-fruit-data)
+
 ### Summary
+
+The table below summarizes the parameters and years for which I have
+estimates.
 
 | Parameter | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 |
 | :-------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -41,8 +84,6 @@ Siegmund, G.-F., and M. A. Geber.
 | sigma     | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    |
 | Fec       | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | N    | N    | N    | N    | N    | N    |
 | phi       | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | N    |
-
-### Library Metadata
 
 #### sigmaDF
 
