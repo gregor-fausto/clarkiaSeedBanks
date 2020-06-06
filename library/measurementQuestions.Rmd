@@ -8,7 +8,9 @@ Here, I document some questions about the Clarkia demography dataset. I am using
 
 - [Seedlings and fruiting plant data](#seedlings-and-fruiting-plant-data)
 - [Fruits per plant](#fruits-per-plant)
-- [Comparison of estimates for F](#comparison-of-estimates-for-f)
+- [Comparison of estimates for fruits per plant](#comparison-of-estimates-for-fruits-per-plant)
+- [Fruits per plant data exploration](#fruits-per-plant-data-exploration)
+- [Seedling estimates](#seedling-estimates)
 
 ### Load packages
 
@@ -72,6 +74,7 @@ ggplot(df) +
   theme_bw()
 
 ```
+
 Another approach would be to discard data from any plots where there are more fruiting plants than seedlings. Broadly, this has the effect of decreasing the estimated probability of survival for plots with higher proportions of undercounting. 
 
 ```{r, message=FALSE, warning=FALSE}
@@ -101,7 +104,9 @@ ggplot() +
   facet_wrap(~site)
 
 ```
+
 It also seems like there is variation by transect within populations and years. It seems like this might vary by plot along transect; at least for some populations. This makes sense since transects correspond to different parts of the populations. 
+
 ```{r, message=FALSE, warning=FALSE}
 summary<-censusSeedlingsFruitingPlants %>%
   dplyr::mutate(error = ifelse(fruitplNumber>seedlingNumber,1,0)) %>%
@@ -128,9 +133,97 @@ ggplot(df ) +
   geom_line(aes(transect,prop,group=interaction(year,site),color=as.factor(year))) +
   facet_wrap(~site) + ylab("Proportion of plots with undercounting")
 ```
+
 Another solution would be to estimate the true number of seedlings using a model for undercounting, and use that true number of seedlings in the model for survival.
 
-### Fruits per plant
+### Comparison of estimates for fruits per plant
+
+I compared the estimates for fruits per plant in the datasets I have to the ones published in the 2011 appendix and the file in the `data and scripts` folder in the Clarkia-LTREB dropbox that summarizes vital rates for a 2017 model. That file is `Clarkia-LTREB\data and scripts\clarkia estimated vital rates and lambdas feb17.xlsx`.
+
+First I calculated the mean fruits per plant in each year-population combination from 2006-2009. I then averaged these values to get a mean value for each population from 2006-2009. I did this because I assumed this is how the values in Table A2 of the appendix for the 2011 Am Nat paper were obtained. Here's the table:
+
+![Table from 2011 Am Nat appendix.](tablea2.png)
+I calculated mean fruits per plant using data from all plots, using data from just the permanent plots, and then added in the data from the table above. The figure below this code chunk compares these 3 estimates. The first column is the estimate from the paper. The second column is the estimate from all plants, the third column is the estimate from the permanent plots. 
+
+```{r}
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+
+summaryAllPlants<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year<2010) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
+  dplyr::group_by(site) %>%
+  dplyr::summarise(mean.F.allPlants = mean(mu))
+
+summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year<2010) %>%
+  dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
+  dplyr::group_by(site) %>%
+  dplyr::summarise(mean.F.permanentPlotPlants = mean(mu))
+
+sites = 
+c("LO","LCW",
+  "URS","LCE","CF","DEM","DLW","MC","OKRW","OKRE","FR","BG","BR","KYE","OSR","CP3","EC","S22","GCN","SM")
+est = c(9.69,9.09,9.64,9.21,5.24,7.7,6.54,6.96,4.39,4.17,6.29,3.92,3.46,3.78,4.79,5.78,3.4,4.15,4.67,4.09)
+
+app=data.frame(site=sites,mean.F.2011app=est)
+
+summary <- summaryAllPlants %>%
+  dplyr::left_join(summaryPermanentPlotPlants,by="site") %>%
+  dplyr::left_join(app,by="site")
+summary <- summary %>% dplyr::select(site , mean.F.2011app, mean.F.allPlants, mean.F.permanentPlotPlants)
+summary[,2:4]<-signif(summary[,2:4],digits=3)
+
+kable(arrange(summary,desc(mean.F.2011app)), caption="Summary table of fruits per plant")
+```
+
+Next, I compared the estimates for fruits per plant to the estimates for `F` in `Clarkia-LTREB\data and scripts\clarkia estimated vital rates and lambdas feb17.xlsx`, which has estimates for each vital rate for each year-population combination from 2006-2015. Here's the relevant part of that file:
+
+![Excel file snippet.](excel.png)
+
+I calculated mean fruits per plant using data from all plots, using data from just the permanent plots, and then added in the data from the Excel file. The figure below this code chunk compares these 3 estimates. The first column is the estimate from the excel file The second column is the estimate from all plants, the third column is the estimate from the permanent plots. 
+
+```{r}
+summaryAllPlants<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year<2016) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mean.F.allPlants = mean(countFruitNumberPerPlant))
+
+summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
+  dplyr::filter(year<2016) %>%
+  dplyr::filter(permanentPlot==1) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(mean.F.permanentPlotPlants = mean(countFruitNumberPerPlant)) 
+
+df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
+
+df<-janitor::clean_names(df,"lower_camel")
+
+df<-df %>%
+  dplyr::select(population,contains("f",ignore.case=FALSE)) %>%  tidyr::pivot_longer(cols=contains(c("f")),
+               names_to = "variable",
+               values_to = "estimate") %>%  
+  tidyr::separate(variable,into = c("variable", "year"), "(?<=[a-z])(?=[0-9])") %>%
+  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
+  dplyr::select(-variable) %>%
+  dplyr::rename(site=population) %>%
+  dplyr::filter(!is.na(estimate))
+
+df$year <- as.integer(df$year)
+
+summary <- summaryAllPlants %>%
+  dplyr::left_join(df,by=c("site","year")) %>%
+  dplyr::left_join(summaryPermanentPlotPlants,by=c("site","year"))
+
+summary <- summary %>% dplyr::select(site, year, estimate, mean.F.allPlants, mean.F.permanentPlotPlants)
+summary[,3:5]<-signif(summary[,3:5],digits=3)
+
+kable(arrange(summary), caption="Summary table of fruits per plant")
+```
+
+### Fruits per plant data exploration
 
 Do plants in permanent plots have more fruits than plants outside of permanent plots? I started thinking about this pattern because I wanted to understand seed rain into plots. Permanent plots may be more likely to be surveyed for all plants, while extra plants are counted ad hoc. This sampling method may bias the 'extra plants' towards plants that are larger, have more fruits, or are more visible. A bias in plant size could matter if seed rain is calculated by using the average number of fruits per plant to estimate plant size in a population-year combination. 
 
@@ -216,7 +309,7 @@ dev.off()
 
 #### Discrepancy all data vs. subset of data
 
-I looked at the data in a different way, plotting just the difference between the full and permanent plot data.
+I also looked at the data on fruits per plant in a different way, plotting just the difference between the full and permanent plot data.
 
 ```{r}
 
@@ -230,6 +323,7 @@ ggplot(data=jointDiscrepancy %>% dplyr::filter(year>2006)) +
   facet_wrap(~year,scale='free') +
   theme_bw()
 ```
+
 Next, I looked at whether plots with more plants in extra throw plots vs. permanent plots had a greater difference in plant size. This seems true in some years but not all.
 
 ```{r}
@@ -282,8 +376,8 @@ Here we see that generally when there are more extra plots the discrepancy betwe
 
 I evaluated the hypothesis that the difference would be greatest at sites where the permanent plots cover less of the population. This does not seem to be the case. Instead, there doesn't seem to be a relationship between proportion of the plot covered by permanent plots and the difference.
 
-
 First, I load in the site abiotic data and calculate the proportion of the site that is covered by the permanent plots. The area data is in hectares (1 ha = 10000 meters squared). There are 30 1$\times$0.5 meter plots at each site. 
+
 ```{r}
 siteAbioticData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/siteAbioticData.RDS")
 
@@ -324,6 +418,7 @@ ggplot(data=deltaSummary) +
   xlab("Proportion of site covered by permanent plots")+
   theme_bw()
 ```
+
 Here is the discrepancy plotted against easting
 
 ```{r}
@@ -333,6 +428,7 @@ ggplot(data=deltaSummary) +
   facet_wrap(~year,scale='free') +
   theme_bw()
 ```
+
 Next, I compared the difference in sample size between permanent and extra plots. I took the difference of the number of extra plots and permanent plots. Positive values indicate there were more extra plots. Negative values indicate there were more permanent plots.
 
 I hypothesized that site-year combinations with greater differences in sample size of permanent vs. extra plots might have greater differences in plant size. This doesn't seem to be uniformly true.
@@ -366,93 +462,7 @@ ggplot(data=comparison) +
   theme_bw()
 ```
 
-
-### Comparison of estimates for F
-
-I compared the estimates for fruits per plant in the datasets I have to the ones published in the 2011 appendix and the file in the `data and scripts` folder in the Clarkia-LTREB dropbox that summarizes vital rates for a 2017 model. That file is `Clarkia-LTREB\data and scripts\clarkia estimated vital rates and lambdas feb17.xlsx`.
-
-First I calculated the mean fruits per plant in each year-population combination from 2006-2009. I then averaged these values to get a mean value for each population from 2006-2009. I did this because I assumed this is how the values in Table A2 of the appendix for the 2011 Am Nat paper were obtained. Here's the table:
-
-![Table from 2011 Am Nat appendix.](tablea2.png)
-I calculated mean fruits per plant using data from all plots, using data from just the permanent plots, and then added in the data from the table above. The figure below this code chunk compares these 3 estimates. The first column is the estimate from the paper. The second column is the estimate from all plants, the third column is the estimate from the permanent plots. 
-
-```{r}
-summaryAllPlants<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(year<2010) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
-  dplyr::group_by(site) %>%
-  dplyr::summarise(mean.F.allPlants = mean(mu))
-
-summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(year<2010) %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
-  dplyr::group_by(site) %>%
-  dplyr::summarise(mean.F.permanentPlotPlants = mean(mu))
-
-sites = 
-c("LO","LCW",
-  "URS","LCE","CF","DEM","DLW","MC","OKRW","OKRE","FR","BG","BR","KYE","OSR","CP3","EC","S22","GCN","SM")
-est = c(9.69,9.09,9.64,9.21,5.24,7.7,6.54,6.96,4.39,4.17,6.29,3.92,3.46,3.78,4.79,5.78,3.4,4.15,4.67,4.09)
-
-app=data.frame(site=sites,mean.F.2011app=est)
-
-summary <- summaryAllPlants %>%
-  dplyr::left_join(summaryPermanentPlotPlants,by="site") %>%
-  dplyr::left_join(app,by="site")
-summary <- summary %>% dplyr::select(site , mean.F.2011app, mean.F.allPlants, mean.F.permanentPlotPlants)
-summary[,2:4]<-signif(summary[,2:4],digits=3)
-
-kable(arrange(summary,desc(mean.F.2011app)), caption="Summary table of fruits per plant")
-```
-
-Next, I compared the estimates for fruits per plant to the estimates for `F` in `Clarkia-LTREB\data and scripts\clarkia estimated vital rates and lambdas feb17.xlsx`, which has estimates for each vital rate for each year-population combination from 2006-2015. Here's the relevant part of that file:
-
-![Excel file snippet.](excel.png)
-
-I calculated mean fruits per plant using data from all plots, using data from just the permanent plots, and then added in the data from the Excel file. The figure below this code chunk compares these 3 estimates. The first column is the estimate from the excel file The second column is the estimate from all plants, the third column is the estimate from the permanent plots. 
-
-```{r}
-summaryAllPlants<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(year<2016) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mean.F.allPlants = mean(countFruitNumberPerPlant))
-
-summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
-  dplyr::filter(year<2016) %>%
-  dplyr::filter(permanentPlot==1) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(mean.F.permanentPlotPlants = mean(countFruitNumberPerPlant)) 
-
-df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
-
-df<-janitor::clean_names(df,"lower_camel")
-
-df<-df %>%
-  dplyr::select(population,contains("f",ignore.case=FALSE)) %>%  tidyr::pivot_longer(cols=contains(c("f")),
-               names_to = "variable",
-               values_to = "estimate") %>%  
-  tidyr::separate(variable,into = c("variable", "year"), "(?<=[a-z])(?=[0-9])") %>%
-  dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
-  dplyr::select(-variable) %>%
-  dplyr::rename(site=population) %>%
-  dplyr::filter(!is.na(estimate))
-
-df$year <- as.integer(df$year)
-
-summary <- summaryAllPlants %>%
-  dplyr::left_join(df,by=c("site","year")) %>%
-  dplyr::left_join(summaryPermanentPlotPlants,by=c("site","year"))
-
-summary <- summary %>% dplyr::select(site, year, estimate, mean.F.allPlants, mean.F.permanentPlotPlants)
-summary[,3:5]<-signif(summary[,3:5],digits=3)
-
-kable(arrange(summary), caption="Summary table of fruits per plant")
-```
-
-### Comparison 2
+### Seedling estimates
 
 ```{r}
 # g1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/g1Summary.RDS")

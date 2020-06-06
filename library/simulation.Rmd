@@ -245,8 +245,12 @@ inits = list(aList,aList,aList)
 # # Call to JAGS
 # 
 # # tuning (n.adapt)
-jm = jags.model(paste0(dir,"simulationJAGS.R"), data = dataForBayes, inits = inits,
-                n.chains = length(inits), n.adapt = n.adapt)
+# jm = jags.model(file = paste0(dir,"simulationJAGS.R"), data = dataForBayes, inits = inits,
+#                 n.chains = length(inits), n.adapt = n.adapt)
+
+ jm = jags.model(file = "~/Dropbox/clarkiaSeedBanks/library/simulation/fullModelScript.txt", data = dataForBayes, inits = inits,
+                 n.chains = length(inits), n.adapt = n.adapt)
+
 ```
 
 ```{r}
