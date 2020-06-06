@@ -40,35 +40,91 @@ library(MCMCvis)
 
 ### Table of datasets
 
-|                                                  |                  |                          |           |
-| :----------------------------------------------- | :--------------- | :----------------------: | :-------: |
-| <span class="smallcaps">Seed vital rates</span>  | —                |            —             |     —     |
-| Seed survival and germination                    | Seed bag burial  |  \(\bm{\mathrm{Y}}_1\)   | 2006-2009 |
-| Seed viability                                   | Viability trials |  \(\bm{\mathrm{Y}}_2\)   | 2006-2009 |
-| Seed survival and germination                    | Seed pots        |  \(\bm{\mathrm{Y}}_3\)   | 2013-2019 |
-| <span class="smallcaps">Seedling survival</span> | —                |            —             |     —     |
-| Seedling survival to fruiting                    | Field surveys    |  \(\bm{\mathrm{Y}}_4\)   | 2006-2019 |
-| <span class="smallcaps">Fruits per plant</span>  | —                |            —             |     —     |
-| Total fruit equivalents per plant                | Field surveys    |  \(\bm{\mathrm{Y}}_5\)   | 2006-2012 |
-| Undamaged and damaged fruits per plant           | Field surveys    |  \(\bm{\mathrm{Y}}_6\)   | 2013-2019 |
-| Total fruit equivalents per plant                | Extra plots      |  \(\bm{\mathrm{Y}}_7\)   | 2006-2012 |
-| Undamaged and damaged fruits per plant           | Extra plots      |  \(\bm{\mathrm{Y}}_8\)   | 2013-2019 |
-| <span class="smallcaps">Seeds per fruit</span>   | —                |            —             |     —     |
-| Seeds per undamaged fruit                        | Lab counts       |  \(\bm{\mathrm{Y}}_9\)   | 2006-2019 |
-| Seeds per damaged fruit                          | Lab counts       | \(\bm{\mathrm{Y}}_{10}\) | 2013-2019 |
+The table below summarizes the data generated in this study (also
+available [as a pdf at this
+link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf)).
+
+|                                        |                  |               |           |
+| :------------------------------------- | :--------------: | :-----------: | :-------: |
+| **Seed vital rates**                   |        —         |       —       |     —     |
+| Seed survival and germination          | Seed bag burial  | Y<sub>1</sub> | 2006-2009 |
+| Seed viability                         | Viability trials | Y<sub>2</sub> | 2006-2009 |
+| Seed survival and germination          |    Seed pots     | Y<sub>3</sub> | 2013-2019 |
+| **Seedling survival** -                |        –         |       —       |     —     |
+| Seedling survival to fruiting          |  Field surveys   | Y<sub>4</sub> | 2006-2019 |
+| **Fruits per plant**                   |        —         |       —       |     —     |
+| Total fruit equivalents per plant      |  Field surveys   | Y<sub>5</sub> | 2006-2012 |
+| Undamaged and damaged fruits per plant |  Field surveys   | Y<sub>6</sub> | 2013-2019 |
+| Total fruit equivalents per plant      |   Extra plots    | Y<sub>7</sub> | 2006-2012 |
+| Undamaged and damaged fruits per plant |   Extra plots    | Y<sub>8</sub> | 2013-2019 |
+| **Seeds per fruit**                    |        —         |       —       |     —     |
+| Seeds per undamaged fruit              |    Lab counts    | Y<sub>9</sub> | 2006-2019 |
+| Seeds per damaged fruit                |    Lab counts    | Y<sub>0</sub> | 2013-2019 |
+
+Links to all the datasets follow:
+
+  - [Seed bag
+    burial](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seed-bag-data)
+  - [Viability
+    trials](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#viability-trial-data)
+  - [Seed
+    pots](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seed-pot-data)
+    - needs to be updated
+  - [Field surveys for seedling survival to
+    fruiting](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seedlings-and-fruiting-plant-data)
+  - [Field surveys for total fruit equivalents per plant, and
+    undamaged/damaged fruits per
+    plant](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#fruits-per-plant-data-extra-plots)
+  - [Lab counts for seeds per fruit from undamaged and damaged
+    fruits](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seeds-per-fruit-data)
+
+### Analysis workflow
+
+  - Load data
+  - Rename variables for consistency
+  - Filter dataset (e.g. in seedling survival model) until I develop
+    measurement model
+  - Create data object (list) for analysis in JAGS using for
+    e.g. tidybayes \*\* this has its advantages but need to make sure
+    that variable designations are consistent
+  - Initialize chains \*\* currently this is done by hand but I think I
+    need to improve on it \*\* Rather than writing
+    list(list(…),list(…),list(…)) each with a set of parameters, I
+    want to write functions to generate the appropriate initial
+    conditions and then name the inits after they are in lists using a
+    function (or something similar)
+  - Set conditions for JAGS
+  - Set parameters to sample
+  - Initialize chains
+  - Update chains
+  - Sample chains
+  - Save samples, original data, and data object for JAGS
+
+Even just writing out these steps I think there is more organization to
+be done. For example, I think it’s possible to separate the data
+construction steps from the model fits. So, for example, I could use
+this file to process the data for analysis in JAGS using a consistent
+set of principles. I would then save the objects as data lists to a
+folder, which would then be loaded in the scripts with the model.
 
 ### Belowground vital rates
 
-Use \(Y_1\) and \(Y_2\) to estimate belowground vital rates. Refer to
-the [appendix on using conditional
+Use Y<sub>1</sub> and Y<sub>2</sub> to estimate belowground vital rates.
+Refer to the [appendix on using conditional
 probability](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/manuscript/appendix-x-conditional-probability.pdf).
 
+These data are processed and analyzed in
+`clarkiaSeedBanks/modelBuild/seedBurial/fullModelScripts.R`.
+
+The JAGS script for this data is in
+`clarkiaSeedBanks/modelBuild/jagsScriptsSeedBags/hierarchicalLogitCentered.R`.
+
 Basic process. Use the data from seed bag burial experiment, germination
-and viability trials to calculate \(\theta\). Each experiment is a trial
-with a binomial likelihood, priors and hyperpriors that are centered and
-logit transformed. I then take these probabilities use them to derive
-the logit-transformed probabilities, which I then transform into the
-probabilities of viability, survival, and germination.
+and viability trials to calculate the parameter theta. Each experiment
+is a trial with a binomial likelihood, priors and hyperpriors that are
+centered and logit transformed. I then take these probabilities use them
+to derive the logit-transformed probabilities, which I then transform
+into the probabilities of viability, survival, and germination.
 
     model { 
     
@@ -212,8 +268,14 @@ probabilities of viability, survival, and germination.
 
 ### Seedling survival to fruiting
 
-Use \(Y_4\) to estimate the probability of seedling survival to
+I use Y<sub>4</sub> to estimate the probability of seedling survival to
 fruiting.
+
+These data are processed and analyzed in
+`clarkiaSeedBanks/modelBuild/seedlingSurvival/fullModelScripts.R`.
+
+The JAGS script for this data is in
+`clarkiaSeedBanks/modelBuild/jagsScriptsSeedlingSurvival/hierarchicalLogitCentered.R`.
 
 Explore results using different ways of dealing with undercounting.
 
@@ -221,6 +283,8 @@ This is how I calculated the probability of survival to fruiting in fall
 2019. I think this data is amenable to the same approach as the one
 above. Rather than using hyperpriors at the site level, I will only get
 per-year estimates for all datasets.
+
+From `seedBurial/fullModelScripts`:
 
     model { 
     # hyperpriors
@@ -252,7 +316,14 @@ per-year estimates for all datasets.
 
 ### Fruits per plant
 
-Use \(Y_5\) and \(Y_7\) to estimate the number of fruits per plant.
+Use Y<sub>5</sub> and Y<sub>7</sub> to estimate the number of fruits per
+plant.
+
+These data are processed and analyzed in
+`clarkiaSeedBanks/modelBuild/fecundity/fitness_model.R`.
+
+The JAGS script for this data is in
+`clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/fecJags.R`.
 
 Explore how to combine data from permanent plots vs. all plots at the
 site. Perhaps for the fruits per plant estimate use data from all plots
@@ -291,7 +362,13 @@ undamaged/damaged fruit counts.
 
 ### Seeds per fruit
 
-Use \(Y_9\) to estimate seeds per fruit.
+Use Y<sub>9</sub> to estimate seeds per fruit.
+
+These data are processed and analyzed in
+`clarkiaSeedBanks/modelBuild/fecundity/seedsPerFruitModelScripts.R`.
+
+The JAGS script for this data is in
+`clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/seedsAllJags.R`.
 
     model { 
     # hyperpriors

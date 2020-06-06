@@ -34,7 +34,7 @@ Siegmund, G.-F., and M. A. Geber.
 
 The table below summarizes the data generated in this study (also
 available [as a pdf at this
-link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf))
+link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf)).
 
 |                                        |                  |               |           |
 | :------------------------------------- | :--------------: | :-----------: | :-------: |
@@ -73,7 +73,9 @@ Links to all the datasets follow:
 ### Summary
 
 The table below summarizes the parameters and years for which I have
-estimates.
+estimates. Comma seperated value files with the medians and 95% credible
+intervals for these estimates are located [in this
+folder](https://github.com/gregor-fausto/clarkiaSeedBanks/tree/master/products/dataFiles).
 
 | Parameter | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 |
 | :-------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -82,7 +84,7 @@ estimates.
 | g1        | Y    | Y    | Y    | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   |
 | s2        | Y    | Y    | Y    | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   | \-   |
 | sigma     | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    |
-| Fec       | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | N    | N    | N    | N    | N    | N    |
+| Fec       | Y    | Y    | Y    | Y    | Y    | Y    | Y    | N    | N    | N    | N    | N    | N    | N    |
 | phi       | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | Y    | N    |
 
 #### sigmaDF

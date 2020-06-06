@@ -35,7 +35,7 @@ Siegmund, G.-F., and M. A. Geber.
 
 ### Library Metadata
 
-The table below summarizes the data generated in this study (also available [as a pdf at this link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf))
+The table below summarizes the data generated in this study (also available [as a pdf at this link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf)).
 
   ---------------------------------------- ------------------ ------------------------ -----------
   **Seed vital rates**                      ---                          ---                ---
@@ -65,7 +65,7 @@ Links to  all the datasets follow:
 
 ### Summary
 
-The table below summarizes the parameters and years for which I have estimates. 
+The table below summarizes the parameters and years for which I have estimates. Comma seperated value files with the medians and 95% credible intervals for these estimates are located [in this folder](https://github.com/gregor-fausto/clarkiaSeedBanks/tree/master/products/dataFiles).
 
 ```{r, echo=FALSE}
 variables = c("Parameter",2006:2019)
@@ -75,7 +75,7 @@ s1 = c("s1", rep("Y",3),rep("-",11))
 g1 = c("g1", rep("Y",3),rep("-",11))
 s2 = c("s2", rep("Y",3),rep("-",11))
 sigma = c("sigma", rep("Y",14),rep("N",0))
-Fec = c("Fec", rep("Y",8),rep("N",6))
+Fec = c("Fec", rep("Y",7),rep("N",7))
 phi = c("phi", rep("Y",13),rep("N",1))
 
 dt = rbind(s0,s1,g1,s2,sigma,Fec,phi)
