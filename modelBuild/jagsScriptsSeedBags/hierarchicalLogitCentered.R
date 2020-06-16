@@ -8,12 +8,12 @@ model {
     
     # theta 1
     mu0_g[k] ~  dnorm(0, 0.001)
-    sigma0_g[k] ~ dnorm(0, 0.001) T(0,)
+    sigma0_g[k] ~ dnorm(0, 0.3) T(0,)
     tau0_g[k] <- 1/(sigma0_g[k]*sigma0_g[k])
     
     # theta 2
     mu0_v[k] ~  dnorm(0, 0.001)
-    sigma0_v[k] ~ dnorm(0, 0.001) T(0,)
+    sigma0_v[k] ~ dnorm(0, 0.3) T(0,)
     tau0_v[k] <- 1/(sigma0_v[k]*sigma0_v[k])
     
     for(i in 1:n_yearViab){
@@ -23,12 +23,12 @@ model {
 
       # theta 1
       mu_g[k,i] ~ dnorm(mu0_g[k], tau0_g[k])
-      sigma_g[k,i] ~ dnorm(0, 0.001) T(0,)
+      sigma_g[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_g[k,i] <- 1/(sigma_g[k,i]*sigma_g[k,i])
       
       # theta 2
       mu_v[k,i] ~ dnorm(mu0_v[k], tau0_v[k])
-      sigma_v[k,i] ~ dnorm(0, 0.001) T(0,)
+      sigma_v[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_v[k,i] <- 1/(sigma_v[k,i]*sigma_v[k,i])
     }
   }
@@ -41,17 +41,17 @@ model {
 
     # theta 1
     mu0_1[k] ~  dnorm(0, 0.001)
-    sigma0_1[k] ~ dnorm(0, 0.001) T(0,)
+    sigma0_1[k] ~ dnorm(0, 0.3) T(0,)
     tau0_1[k] <- 1/(sigma0_1[k]*sigma0_1[k])
     
     # theta 2
     mu0_2[k] ~  dnorm(0, 0.001)
-    sigma0_2[k] ~ dnorm(0, 0.001) T(0,)
+    sigma0_2[k] ~ dnorm(0, 0.3) T(0,)
     tau0_2[k] <- 1/(sigma0_2[k]*sigma0_2[k])
     
     # theta 3
     mu0_3[k] ~  dnorm(0, 0.001)
-    sigma0_3[k] ~ dnorm(0, 0.001) T(0,)
+    sigma0_3[k] ~ dnorm(0, 0.3) T(0,)
     tau0_3[k] <- 1/(sigma0_3[k]*sigma0_3[k])
     
     for(i in 1:n_yearBags){
@@ -60,17 +60,17 @@ model {
          
       # theta 1
       mu_1[k,i] ~ dnorm(mu0_1[k], tau0_1[k])
-      sigma_1[k,i] ~ dnorm(0, 0.001) T(0,)
+      sigma_1[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_1[k,i] <- 1/(sigma_1[k,i]*sigma_1[k,i])
       
       # theta 2
       mu_2[k,i] ~ dnorm(mu0_2[k], tau0_2[k])
-      sigma_2[k,i] ~ dnorm(0, 0.001) T(0,)
+      sigma_2[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_2[k,i] <- 1/(sigma_2[k,i]*sigma_2[k,i])
       
       # theta 3
       mu_3[k,i] ~ dnorm(mu0_3[k], tau0_3[k])
-      sigma_3[k,i] ~ dnorm(0, 0.001) T(0,)
+      sigma_3[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_3[k,i] <- 1/(sigma_3[k,i]*sigma_3[k,i])
     }
   }
