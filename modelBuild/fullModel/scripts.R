@@ -81,40 +81,6 @@ for(i in 1:n.chain){
                         paste(rep("sigma",5), c(1:3,"g","v"),sep="_"))
 }
 
-
-# inits = list(list(mu0_1 = rep(0,data$n_siteBags), sigma0_1 = rep(.5,data$n_siteBags),
-#                   sigma_1 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_2 = rep(0,data$n_siteBags), sigma0_2 = rep(.5,data$n_siteBags),
-#                   sigma_2 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_3 = rep(0,data$n_siteBags), sigma0_3 = rep(.5,data$n_siteBags),
-#                   sigma_3 = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_g = rep(0,data$n_siteBags), sigma0_g = rep(.5,data$n_siteBags),
-#                   sigma_g = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_v = rep(0,data$n_siteBags), sigma0_v = rep(.5,data$n_siteBags),
-#                   sigma_v = matrix(rep(.5,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags)),
-#              list(mu0_1 = rep(-1,data$n_siteBags), sigma0_1 = rep(1,data$n_siteBags),
-#                   sigma_1 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_2 = rep(-1,data$n_siteBags), sigma0_2 = rep(1,data$n_siteBags),
-#                   sigma_2 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_3 = rep(-1,data$n_siteBags), sigma0_3 = rep(1,data$n_siteBags),
-#                   sigma_3 = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_g = rep(-1,data$n_siteBags), sigma0_g = rep(1,data$n_siteBags),
-#                   sigma_g = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_v = rep(-1,data$n_siteBags), sigma0_v = rep(1,data$n_siteBags),
-#                   sigma_v = matrix(rep(1,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags)),
-#              list(mu0_1 = rep(1,data$n_siteBags), sigma0_1 = rep(1.25,data$n_siteBags),
-#                   sigma_1 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_2 = rep(1,data$n_siteBags), sigma0_2 = rep(1.25,data$n_siteBags),
-#                   sigma_2 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_3 = rep(1,data$n_siteBags), sigma0_3 = rep(1.25,data$n_siteBags),
-#                   sigma_3 = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_g = rep(1,data$n_siteBags), sigma0_g = rep(1.25,data$n_siteBags),
-#                   sigma_g = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags),
-#                   mu0_v = rep(1,data$n_siteBags), sigma0_v = rep(1.25,data$n_siteBags),
-#                   sigma_v = matrix(rep(1.25,data$n_siteBags*data$n_yearBags),nrow=data$n_siteBags,ncol=data$n_yearBags)))
-
-# # Call to JAGS
-# 
 # # tuning (n.adapt)
 jm = jags.model(paste0(dir,"hierarchicalLogitCentered.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
@@ -139,14 +105,9 @@ samples.rjags = coda.samples(jm,
                                                 parsToMonitor_deriv,parsToMonitor_deriv2), 
                              n.iter = n.iterations, thin = n.thin)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedBurial/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/samples/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
-# 
+
 saveRDS(samples.rjags,file=paste0(fileDirectory,"seedBurialSamples.rds"))
-saveRDS(data,file=paste0(fileDirectory,"data.rds"))
-saveRDS(seedBagsData,file=paste0(fileDirectory,"seedBagExperiment.rds"))
-saveRDS(viabilityRawData,file=paste0(fileDirectory,"viabilityExperiment.rds"))
 
-
-MCMCsummary(samples.rjags, params = c("s1","g1"))
-
+MCMCsummary(samples.rjags,params="sigma0_v")

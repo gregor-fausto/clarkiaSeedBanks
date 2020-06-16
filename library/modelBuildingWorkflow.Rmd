@@ -265,6 +265,10 @@ fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/data/")
 
 saveRDS(data,file=paste0(fileDirectory,"belowgroundData.rds"))
 
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/tidyData/")
+
+saveRDS(seedBagsData,file=paste0(fileDirectory,"seedBagExperiment.rds"))
+saveRDS(viabilityRawData,file=paste0(fileDirectory,"viabilityExperiment.rds"))
 ```
 
 Use Y<sub>1</sub> and Y<sub>2</sub> to estimate belowground vital rates. Refer to the [appendix on using conditional probability](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/manuscript/appendix-x-conditional-probability.pdf).
