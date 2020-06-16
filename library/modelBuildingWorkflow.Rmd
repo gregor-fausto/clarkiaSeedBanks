@@ -88,7 +88,7 @@ Even just writing out these steps I think there is more organization to be done.
 
 It would also be great to write R files that are read into here rather than copying over the JAGS code, which is liable to change. 
 
-# Belowground vital rates
+# Belowground vital rates: age 1
 
 ## Data organization
 
@@ -177,7 +177,7 @@ First, I filter the dataset to include only 1-year old seeds
 ```{r}
 filterData<-function(x) {
   x %>%
-    dplyr::filter(age==1) 
+    dplyr::filter(age==1)
 }
 
 seedBagsData<-filterData(seedBagsData)
@@ -228,19 +228,23 @@ I also summarize the viability trial dataset. Specifically, I sum each count (e.
 ```{r}
 
 seedBagsData = seedBagsData %>%
-  dplyr::mutate(year = as.factor(yearStart)) %>%
-  dplyr::select(site,year,totalJan,seedStart,seedlingJan,intactOct) %>%
+  dplyr::mutate(year = as.factor(yearStart),
+                age = as.factor(age)) %>%
+  dplyr::select(site,year,age,totalJan,seedStart,seedlingJan,intactOct) %>%
   dplyr::rename(siteBags = site,
-                yearBags = year)
+                yearBags = year,
+                ageBags = age)
 
 viabilityRawData = viabilityRawData %>%
-  dplyr::mutate(year = as.factor(round)) %>%
-  dplyr::select(site, year, germStart, germCount, viabStart, viabStain, idNo) %>%
+  dplyr::mutate(year = as.factor(round),
+                age = as.factor(age)) %>%
+  dplyr::select(site, year, age, germStart, germCount, viabStart, viabStain, idNo) %>%
   dplyr::rename(siteViab = site,
                 yearViab = year,
+                ageViab = age,
                 bag = idNo) %>%
   dplyr::mutate(bag = as.factor(bag)) %>%
-  dplyr::group_by(siteViab,yearViab,bag) %>%
+  dplyr::group_by(siteViab,yearViab, ageViab, bag) %>%
   # sum observations in each bag; this is ignoring some variation
   dplyr::summarise(germStart = sum(germStart),
                    germCount = sum(germCount),
