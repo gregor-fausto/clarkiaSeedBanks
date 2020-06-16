@@ -34,9 +34,7 @@ seedBagsData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/seedBagsData.r
 # -------------------------------------------------------------------
 # Clean and organize seed bag data
 # -------------------------------------------------------------------
-seedBagsData$seedStart<-100
-
-seedBagsData$seedStart <- as.integer(seedBagsData$seedStart)
+seedBagsData$seedStart<-as.double(100)
 
 ## FOR NOW REMOVE MISSING DATA AND PROBLEMS
 # `MC III 5 13 1 is a problem (91 intact, 17 seedlings)`

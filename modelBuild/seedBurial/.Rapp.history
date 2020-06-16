@@ -1,0 +1,17 @@
+seedBurial <- seedBagsData %>% dplyr::select(site,bagNo,round,age) %>%
+rm(list=ls(all=TRUE)) # clear R environment#
+options(stringsAsFactors = FALSE)#
+# -------------------------------------------------------------------#
+# Loading required packages#
+# -------------------------------------------------------------------#
+library(rjags) # jags interface#
+library(MCMCvis)#
+library(dplyr)#
+library(ggplot2)#
+library(reshape2)#
+library(tidyr)#
+library(HDInterval)#
+library(magrittr)#
+library(tidybayes)#
+#
+set.seed(10)
