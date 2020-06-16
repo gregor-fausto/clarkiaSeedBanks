@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-### Model development
+# Model development
 
 Here, I document progress developing models for the Clarkia demography project. 
 
@@ -17,7 +17,7 @@ I used pandoc to convert the latex file to a md file:
 
 `pandoc -s parameter-table.tex -o parameter-table.md`
 
-### Packages
+# Packages
 
 I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). 
 
@@ -37,7 +37,7 @@ library(tidybayes)
 library(MCMCvis)
 ```
 
-### Table of datasets
+# Table of datasets
 
 The table below summarizes the data generated in this study (also available [as a pdf at this link](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf)).
 
@@ -67,7 +67,7 @@ Links to  all the datasets follow:
 * [Field surveys for total fruit equivalents per plant, and undamaged/damaged fruits per plant](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#fruits-per-plant-data-extra-plots)
 * [Lab counts for seeds per fruit from undamaged and damaged fruits](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seeds-per-fruit-data)
 
-### Analysis workflow
+# Analysis workflow
 
 * Load data
 * Rename variables for consistency
@@ -88,7 +88,184 @@ Even just writing out these steps I think there is more organization to be done.
 
 It would also be great to write R files that are read into here rather than copying over the JAGS code, which is liable to change. 
 
-### Belowground vital rates
+# Belowground vital rates
+
+## Data organization
+
+### Seed bag data
+Begin by importing the seed bag data (Y<sub>1</sub>).
+
+```{r}
+seedBagsData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/seedBagsData.rds")
+```
+
+The next step is to clean and organize the datasets. Begin by working with the seed bag data.  
+
+* I exclude rows with missing data in January. Bags that were not recovered in January but were recovered in October; we have no way of getting an estimate of how many seeds were present halfway through the trial.
+* I exclude the row for ``MC III 5 13 1` which has 91 intact seeds and 17 seedlings (this should not be possible if 100 seeds started the trials).
+* I exclude rows with missing data in October.
+* I exclude rows where the number of intact seeds in January is less than the number of intact seeds in October.
+
+The filtering steps in the following code chunk remove 64 rows from the dataset. 
+
+```{r}
+datasetSize=nrow(seedBagsData)
+
+seedBagsData<-subset(seedBagsData,!is.na(seedBagsData$totalJan))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData <- seedBagsData %>%
+  dplyr::filter(totalJan<=100)
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData<-subset(seedBagsData,!is.na(seedBagsData$intactOct))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData<-subset(seedBagsData,!(seedBagsData$intactJan<seedBagsData$intactOct))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+```
+
+I then create a variable for the number of seeds that start the trial.
+
+```{r}
+# Create a variable for the number of seeds at the start of the trial
+seedBagsData$seedStart<-as.double(100)
+```
+
+### Viability trial data
+
+Import the viability trial data (Y<sub>2</sub>)
+
+```{r}
+viabilityRawData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/viabilityRawData.rds")
+```
+
+Remove summary variables from the dataset.
+
+```{r}
+viabilityRawData <- viabilityRawData %>% 
+  dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
+```
+
+Create the variable `bag` ()
+```{r}
+viabilityRawData$bag <-as.integer(as.numeric(viabilityRawData$bagNo))
+```
+One of the rows in the viability dataset is coded differently: the variable `viabStart` is `NA` instead of `0` as in the rest of the dataset. Correct this here by recoding that value.
+
+```{r}
+viabilityRawData[is.na(viabilityRawData$viabStart),]$viabStart = 0
+```
+
+Check the data. Are there any rows where there are more germinants and seeds that start the viability trials, than seeds that start the germination trials? The answer is yes; these rows need to be checked in the data binders. 
+
+```{r}
+viabilityRawData %>% dplyr::filter(germStart - germCount - viabStart<0) 
+
+```
+I exclude the rows with this issue from the analysis.
+
+```{r}
+viabilityRawData<-viabilityRawData %>% 
+  dplyr::filter(germStart - germCount - viabStart >= 0)
+```
+
+## Indexing for JAGS
+
+First, I filter the dataset to include only 1-year old seeds
+
+```{r}
+filterData<-function(x) {
+  x %>%
+    dplyr::filter(age==1) 
+}
+
+seedBagsData<-filterData(seedBagsData)
+viabilityRawData<-filterData(viabilityRawData)
+```
+
+I assign variables that combine the site, bag number, experimental round, and age. This creates a unique ID for each bag, for each dataset. That unique identifier links the bags across the seed bag and viability trial dataset.
+
+```{r}
+seedBagsData<-seedBagsData %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+
+viabilityRawData<-viabilityRawData %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+```
+
+I create a reference table that joins the seed bag and viability trial data via a unique identifier.
+
+```{r}
+referenceTable<-data.frame(id=union(seedBagsData$id, viabilityRawData$id)) %>%
+  dplyr::mutate(idNo = 1:length(id)) 
+```
+
+I then append the identifiers to each dataset.
+
+```{r}
+seedBagsData<-seedBagsData %>%
+  dplyr::left_join(referenceTable,by="id")
+
+viabilityRawData<-viabilityRawData %>%
+  dplyr::left_join(referenceTable,by="id")
+```
+
+## Data for JAGS
+
+Variable names need to be consistent in both datasets. I make the following changes:
+
+* Set the `year` variable (`yearStart` in seed bags, `round` in viability trials) to be a factor
+* Select variables used in the model fitting
+* Rename variables to uniquely refer to each dataset (e.g. `site` renamed as `siteBags` in seed bag dataset)
+
+I also summarize the viability trial dataset. Specifically, I sum each count (e.g. `germStart`) across all replicates from a bag.
+
+```{r}
+
+seedBagsData = seedBagsData %>%
+  dplyr::mutate(year = as.factor(yearStart)) %>%
+  dplyr::select(site,year,totalJan,seedStart,seedlingJan,intactOct) %>%
+  dplyr::rename(siteBags = site,
+                yearBags = year)
+
+viabilityRawData = viabilityRawData %>%
+  dplyr::mutate(year = as.factor(round)) %>%
+  dplyr::select(site, year, germStart, germCount, viabStart, viabStain, idNo) %>%
+  dplyr::rename(siteViab = site,
+                yearViab = year,
+                bag = idNo) %>%
+  dplyr::mutate(bag = as.factor(bag)) %>%
+  dplyr::group_by(siteViab,yearViab,bag) %>%
+  # sum observations in each bag; this is ignoring some variation
+  dplyr::summarise(germStart = sum(germStart),
+                   germCount = sum(germCount),
+                   viabStart = sum(viabStart),
+                   viabStain = sum(viabStain))
+
+```
+## Pass to JAGS
+
+I use `tiybayes::compose_data` to create a data list that I will pass to JAGS. I reset the number of samples `n` to match the dimension of the seed bag dataset.
+
+```{r}
+data <- tidybayes::compose_data(seedBagsData,viabilityRawData)
+
+data$n = dim(seedBagsData)[1]
+```
+
+## Save for JAGS
+
+```{r}
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/data/")
+
+saveRDS(data,file=paste0(fileDirectory,"belowgroundData.rds"))
+
+```
 
 Use Y<sub>1</sub> and Y<sub>2</sub> to estimate belowground vital rates. Refer to the [appendix on using conditional probability](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/manuscript/appendix-x-conditional-probability.pdf).
 
