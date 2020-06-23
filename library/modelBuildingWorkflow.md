@@ -1,5 +1,5 @@
 
-### Model development
+# Model development
 
 Here, I document progress developing models for the Clarkia demography
 project.
@@ -15,7 +15,7 @@ I used pandoc to convert the latex file to a md file:
 
 `pandoc -s parameter-table.tex -o parameter-table.md`
 
-### Packages
+# Packages
 
 I am using the packages `tidyverse` and `readxl` (documentation:
 <https://readxl.tidyverse.org/>).
@@ -38,7 +38,7 @@ library(tidybayes)
 library(MCMCvis)
 ```
 
-### Table of datasets
+# Table of datasets
 
 The table below summarizes the data generated in this study (also
 available [as a pdf at this
@@ -78,7 +78,7 @@ Links to all the datasets follow:
   - [Lab counts for seeds per fruit from undamaged and damaged
     fruits](https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/library/dataProcessingWorkflow.md#seeds-per-fruit-data)
 
-### Analysis workflow
+# Analysis workflow
 
   - Load data
   - Rename variables for consistency
@@ -107,7 +107,307 @@ this file to process the data for analysis in JAGS using a consistent
 set of principles. I would then save the objects as data lists to a
 folder, which would then be loaded in the scripts with the model.
 
-### Belowground vital rates
+It would also be great to write R files that are read into here rather
+than copying over the JAGS code, which is liable to change.
+
+# Belowground vital rates: age 1
+
+## Data organization
+
+### Seed bag data
+
+Begin by importing the seed bag data (Y<sub>1</sub>).
+
+``` r
+seedBagsData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/seedBagsData.rds")
+```
+
+The next step is to clean and organize the datasets. Begin by working
+with the seed bag data.
+
+  - I exclude rows with missing data in January. Bags that were not
+    recovered in January but were recovered in October; we have no way
+    of getting an estimate of how many seeds were present halfway
+    through the trial.
+  - I exclude the row for \``MC III 5 13 1` which has 91 intact seeds
+    and 17 seedlings (this should not be possible if 100 seeds started
+    the trials).
+  - I exclude rows with missing data in October.
+  - I exclude rows where the number of intact seeds in January is less
+    than the number of intact seeds in October.
+
+The filtering steps in the following code chunk remove 64 rows from the
+dataset.
+
+``` r
+datasetSize=nrow(seedBagsData)
+
+seedBagsData<-subset(seedBagsData,!is.na(seedBagsData$totalJan))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData <- seedBagsData %>%
+  dplyr::filter(totalJan<=100)
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData<-subset(seedBagsData,!is.na(seedBagsData$intactOct))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+
+seedBagsData<-subset(seedBagsData,!(seedBagsData$intactJan<seedBagsData$intactOct))
+datasetSize <- cbind(datasetSize,nrow(seedBagsData))
+```
+
+I then create a variable for the number of seeds that start the trial.
+
+``` r
+# Create a variable for the number of seeds at the start of the trial
+seedBagsData$seedStart<-as.double(100)
+```
+
+### Viability trial data
+
+Import the viability trial data (Y<sub>2</sub>)
+
+``` r
+viabilityRawData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/viabilityRawData.rds")
+```
+
+Remove summary variables from the dataset.
+
+``` r
+viabilityRawData <- viabilityRawData %>% 
+  dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
+```
+
+Create the variable `bag` ()
+
+``` r
+viabilityRawData$bag <-as.integer(as.numeric(viabilityRawData$bagNo))
+```
+
+One of the rows in the viability dataset is coded differently: the
+variable `viabStart` is `NA` instead of `0` as in the rest of the
+dataset. Correct this here by recoding that value.
+
+``` r
+viabilityRawData[is.na(viabilityRawData$viabStart),]$viabStart = 0
+```
+
+I also remove data with any NAs in the viability stain column.
+
+Check the data. Are there any rows where there are more germinants and
+seeds that start the viability trials, than seeds that start the
+germination trials? The answer is yes; these rows need to be checked in
+the data binders.
+
+``` r
+viabilityRawData %>% dplyr::filter(germStart - germCount - viabStart<0) 
+```
+
+    ## # A tibble: 23 x 11
+    ##    site  bagNo round   age block germStart germCount viabStart viabStain
+    ##    <chr> <dbl> <dbl> <dbl> <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
+    ##  1 CF        8     1     1     5        15         7         9         8
+    ##  2 CF        7     1     3    11         3         2         3         0
+    ##  3 DLW      29     1     1     5        15         6        10         9
+    ##  4 DLW      29     1     1    10        14         5        10         4
+    ##  5 FR        1     1     1     9        15        10         6         4
+    ##  6 FR       27     1     1    10        15         8         8         1
+    ##  7 FR        2     1     2     7        15         7        10         9
+    ##  8 GCN      11     1     2     5        15        11         9         8
+    ##  9 GCN      47     2     2     9        15         6        10         6
+    ## 10 KYE       3     1     1    13        15        10         6         5
+    ## # … with 13 more rows, and 2 more variables: viabTotal <dbl>, bag <int>
+
+I exclude the rows with this issue from the analysis.
+
+``` r
+viabilityRawData<-viabilityRawData %>% 
+  dplyr::filter(germStart - germCount - viabStart >= 0)
+```
+
+## Indexing for JAGS
+
+First, I filter the dataset to include only 1-year old seeds
+
+``` r
+filterData<-function(x, ageNumber) {
+  x %>%
+    dplyr::filter(age==ageNumber)
+}
+
+seedBagsData1<-filterData(seedBagsData,ageNumber=1)
+viabilityRawData1<-filterData(viabilityRawData,ageNumber=1)
+
+seedBagsData2<-filterData(seedBagsData,ageNumber=2)
+viabilityRawData2<-filterData(viabilityRawData,ageNumber=2)
+```
+
+I assign variables that combine the site, bag number, experimental
+round, and age. This creates a unique ID for each bag, for each dataset.
+That unique identifier links the bags across the seed bag and viability
+trial dataset.
+
+``` r
+seedBagsData1<-seedBagsData1 %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+
+viabilityRawData1<-viabilityRawData1 %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+```
+
+I create a reference table that joins the seed bag and viability trial
+data via a unique identifier.
+
+``` r
+referenceTable<-data.frame(id=union(seedBagsData1$id, viabilityRawData1$id)) %>%
+  dplyr::mutate(idNo = 1:length(id)) 
+```
+
+I then append the identifiers to each dataset.
+
+``` r
+seedBagsData1<-seedBagsData1 %>%
+  dplyr::left_join(referenceTable,by="id")
+
+viabilityRawData1<-viabilityRawData1 %>%
+  dplyr::left_join(referenceTable,by="id")
+```
+
+## Data for JAGS
+
+Variable names need to be consistent in both datasets. I make the
+following changes:
+
+  - Set the `year` variable (`yearStart` in seed bags, `round` in
+    viability trials) to be a factor
+  - Select variables used in the model fitting
+  - Rename variables to uniquely refer to each dataset (e.g. `site`
+    renamed as `siteBags` in seed bag dataset)
+
+I also summarize the viability trial dataset. Specifically, I sum each
+count (e.g. `germStart`) across all replicates from a bag.
+
+``` r
+seedBagsData1 = seedBagsData1 %>%
+  dplyr::mutate(year = as.factor(yearStart),
+                age = as.factor(age)) %>%
+  dplyr::select(site,year,age,totalJan,seedStart,seedlingJan,intactOct) %>%
+  dplyr::rename(siteBags = site,
+                yearBags = year,
+                ageBags = age)
+
+viabilityRawData1 = viabilityRawData1 %>%
+  dplyr::mutate(year = as.factor(round),
+                age = as.factor(age)) %>%
+  dplyr::select(site, year, age, germStart, germCount, viabStart, viabStain, idNo) %>%
+  dplyr::rename(siteViab = site,
+                yearViab = year,
+                ageViab = age,
+                bag = idNo) %>%
+ # dplyr::mutate(bag = as.factor(bag)) %>%
+  dplyr::mutate(germStart = ifelse(is.na(germCount), NA, germStart),
+                viabStart = ifelse(is.na(viabStain), NA, viabStart)) %>%
+  dplyr::group_by(siteViab,yearViab, ageViab, bag) %>%
+  # sum observations in each bag; this is ignoring some variation
+  dplyr::summarise(germStart = sum(germStart),
+                   germCount = sum(germCount),
+                   viabStart = sum(viabStart),
+                   viabStain = sum(viabStain))
+```
+
+    ## `summarise()` regrouping output by 'siteViab', 'yearViab', 'ageViab' (override with `.groups` argument)
+
+Repeat for age 2 data:
+
+``` r
+seedBagsData2<-seedBagsData2 %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+
+viabilityRawData2<-viabilityRawData2 %>%
+  tidyr::unite(col='id', c(site,bagNo,round,age), sep="-", remove=FALSE) %>%
+  tidyr::unite(col='siteBag', c(site,bagNo), sep="-", remove=FALSE) %>%
+  dplyr::mutate(siteBag = as.factor(siteBag)) 
+
+referenceTable<-data.frame(id=union(seedBagsData2$id, viabilityRawData2$id)) %>%
+  dplyr::mutate(idNo = 1:length(id)) 
+
+seedBagsData2<-seedBagsData2 %>%
+  dplyr::left_join(referenceTable,by="id")
+
+viabilityRawData2<-viabilityRawData2 %>%
+  dplyr::left_join(referenceTable,by="id")
+
+seedBagsData2 = seedBagsData2 %>%
+  dplyr::mutate(year = as.factor(yearStart),
+                age = as.factor(age)) %>%
+  dplyr::select(site,year,age,totalJan,seedStart,seedlingJan,intactOct) %>%
+  dplyr::rename(siteBags = site,
+                yearBags = year,
+                ageBags = age)
+
+viabilityRawData2 = viabilityRawData2 %>%
+  dplyr::mutate(year = as.factor(round),
+                age = as.factor(age)) %>%
+  dplyr::select(site, year, age, germStart, germCount, viabStart, viabStain, idNo) %>%
+  dplyr::rename(siteViab = site,
+                yearViab = year,
+                ageViab = age,
+                bag = idNo) %>%
+  #dplyr::mutate(bag = as.factor(bag)) %>%
+  dplyr::group_by(siteViab,yearViab, ageViab, bag) %>%
+    dplyr::mutate(germStart = ifelse(is.na(germCount), NA, germStart),
+                viabStart = ifelse(is.na(viabStain), NA, viabStart)) %>%
+  # sum observations in each bag; this is ignoring some variation
+  dplyr::summarise(germStart = sum(germStart),
+                   germCount = sum(germCount),
+                   viabStart = sum(viabStart),
+                   viabStain = sum(viabStain))
+```
+
+    ## `summarise()` regrouping output by 'siteViab', 'yearViab', 'ageViab' (override with `.groups` argument)
+
+``` r
+names(seedBagsData2)=paste(names(seedBagsData2),"2",sep="")
+names(viabilityRawData2)=paste(names(viabilityRawData2),"2",sep="")
+```
+
+## Pass to JAGS
+
+I use `tiybayes::compose_data` to create a data list that I will pass to
+JAGS. I reset the number of samples `n` to match the dimension of the
+seed bag dataset.
+
+Try to only use complete rows.
+
+``` r
+viabilityRawData1<-viabilityRawData1[complete.cases(viabilityRawData1),] %>% dplyr::mutate(bag = as.factor(bag))
+viabilityRawData2<-viabilityRawData2[complete.cases(viabilityRawData2),] %>% dplyr::mutate(bag2 = as.factor(bag2))
+
+data <- tidybayes::compose_data(seedBagsData1,viabilityRawData1,
+                                seedBagsData2,viabilityRawData2)
+
+data$n = dim(seedBagsData1)[1]
+data$n2 = dim(seedBagsData2)[1]
+```
+
+## Save for JAGS
+
+``` r
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/data/")
+
+saveRDS(data,file=paste0(fileDirectory,"belowgroundDataAgeOneTwo.rds"))
+
+# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/tidyData/")
+# 
+# saveRDS(seedBagsData,file=paste0(fileDirectory,"seedBagExperiment.rds"))
+# saveRDS(viabilityRawData,file=paste0(fileDirectory,"viabilityExperiment.rds"))
+```
 
 Use Y<sub>1</sub> and Y<sub>2</sub> to estimate belowground vital rates.
 Refer to the [appendix on using conditional

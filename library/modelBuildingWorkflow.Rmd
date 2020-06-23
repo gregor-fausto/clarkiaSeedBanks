@@ -106,7 +106,7 @@ The next step is to clean and organize the datasets. Begin by working with the s
 * I exclude rows with missing data in October.
 * I exclude rows where the number of intact seeds in January is less than the number of intact seeds in October.
 
-The filtering steps in the following code chunk remove 64 rows from the dataset. 
+The filtering steps in the following code chunk remove 64 rows from the dataset.
 
 ```{r}
 datasetSize=nrow(seedBagsData)
@@ -331,7 +331,7 @@ data$n2 = dim(seedBagsData2)[1]
 ```
 
 ## Save for JAGS
-
+ 
 ```{r}
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/data/")
 
