@@ -72,7 +72,12 @@ prob.s3.2 = function( n = intact, y =germinant, y.o = october.intact, y.j = janu
   
   p.vj = ifelse(p.v2 < p.v, p.v^(2/3)*p.v2^(1/3), p.v2^(1/3))
   
-  p = ((1-g)*(p.vj^(1/3))+g)*p.i*(1/(ps1*(1-pg1)*ps2))
+  ps3 = prob.s1.2( n = y.j, y = y.g2, p.v = p.vj, t = t)
+  pg2 = prob.germination2( n = y.j, y = y.g2, p.v = p.v2)
+  
+  #p = ((1-g)*(p.vj^(1/3))+g)*p.i*(1/(ps1*(1-pg1)*ps2))
+  p = ((1-pg2)*(p.vj^(1/3))+pg2)*ps3*(1/(ps1*(1-pg1)*ps2))
+  
   return(p)
 }
 
@@ -87,8 +92,8 @@ prob.s3(n = intact, y =germinant, y.o = october.intact, y.j = january.2.intact, 
 prob.s3.2(n = intact, y =germinant, y.o = october.intact, y.j = january.2.intact, y.g2 = january.2.germ, p.v = p , t = total)
 
 
-pdf(file="/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/appendix/comparison.pdf",
-    width=9,height=3)
+# pdf(file="/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/appendix/comparison.pdf",
+#     width=9,height=3)
 par(mfrow=c(1,4))
 p = seq(0,1,by=0.001)
 plot(p, prob.s1(n = intact, y = germinant, y.o = october.intact, p.v = p ),
@@ -152,7 +157,7 @@ p = seq(0,1,by=0.025)
 points(p, prob.s3.2(n = intact, y =germinant, y.o = october.intact, y.j = january.2.intact, y.g2 = january.2.germ, p.v = p , t = total),
        xlim=c(0,10), ylim=c(0,1),
        cex = .5, pch = 4,col='red')
-dev.off()
+#dev.off()
 
 
 
