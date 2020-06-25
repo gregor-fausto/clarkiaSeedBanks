@@ -261,5 +261,59 @@ model {
     }
   }
   
+  for(i in 1:n_siteBags2){
+    
+    p.i_g2[i] ~ dnorm(mu0_g2[i],tau0_g2[i])
+    logit(p_g2[i]) <- p.i_g2[i]
+    
+    p.i_v2[i] ~ dnorm(mu0_v2[i],tau0_v2[i])
+    logit(p_v2[i]) <- p.i_v2[i]
+    
+    nu_2[i] = p_g2[i] + p_v2[i]*(1-p_g2[i])
+    
+    p.i_4[i] ~ dnorm(mu0_4[i],tau0_4[i])
+    logit(p_4[i]) <- p.i_4[i]
+    
+    p.i_5[i] ~ dnorm(mu0_5[i],tau0_5[i])
+    logit(p_5[i]) <- p.i_5[i]
+    
+    p.i_6[i] ~ dnorm(mu0_6[i],tau0_6[i])
+    logit(p_6[i]) <- p.i_6[i]
+    
+    nu_2c[i] = (nu_1[i]^(2/3))*(nu_2[i]^(1/3))
+    
+    s3[i] = p_4[i]*(p_5[i] + (1-p_5[i])*(nu_2c[i]))
+    g2[i] = p_5[i]/(1-(1-(nu_2[i]^(1/3)))*(1-p_5[i]))
+    s4[i] = p_6[i]*(nu_2[i]^(2/3))
+    
+    
+    for(k in 1:n_yearBags2){
+      
+      p.i0_g2[i,k] ~ dnorm(mu_g2[i,k],tau_g2[i,k])
+      logit(p0_g2[i,k]) <- p.i0_g2[i,k]
+      
+      p.i0_v2[i,k] ~ dnorm(mu_v2[i,k],tau_v2[i,k])
+      logit(p0_v2[i,k]) <- p.i0_v2[i,k]
+      
+      nu0_2[i,k] = p0_g2[i,k] + p0_v2[i,k]*(1-p0_g2[i,k])
+      
+      p.i0_4[i,k] ~ dnorm(mu_4[i,k],tau_4[i,k])
+      logit(p0_4[i,k]) <- p.i0_4[i,k]
+      
+      p.i0_5[i,k] ~ dnorm(mu_5[i,k],tau_5[i,k])
+      logit(p0_5[i,k]) <- p.i0_5[i,k]
+      
+      p.i0_6[i,k] ~ dnorm(mu_6[i,k],tau_6[i,k])
+      logit(p0_6[i,k]) <- p.i0_6[i,k]
+
+      nu0_2c[i,k] = (nu0_1[i,k]^(2/3))*(nu0_2[i,k]^(1/3))
+            
+      s3.0[i,k] = p0_4[i,k]*(p0_5[i,k] + (1-p0_5[i,k])*(nu0_2c[i,k]))
+      g2.0[i,k] = p0_5[i,k]/(1-(1-(nu0_2[i,k]^(1/3)))*(1-p0_5[i,k]))
+      s4.0[i,k] = p0_6[i,k]*(nu0_2[i,k]^(2/3))
+      
+    }
+  }
+  
 } 
 

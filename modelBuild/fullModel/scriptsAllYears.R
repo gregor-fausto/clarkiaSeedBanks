@@ -47,7 +47,7 @@ n.chain = 3
 n.adapt = 3000
 n.update = 5000
 n.iterations = 10000
-n.thin = 10
+n.thin = 1
 
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsSeedBags/")
 
@@ -72,7 +72,7 @@ initsSigma <- function(rows = data$n_siteBags, cols = data$n_yearBags){
 
 # set inits for JAGS
 inits <- list()
-for(i in 1:1){
+for(i in 1:3){
   inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
                      initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
                      initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2))
@@ -99,7 +99,8 @@ parsToMonitor = c(paste(rep("mu0",5),c(1:3,"g","v"),sep="_"),
   paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
   paste(rep("sigma",5), c(1:3,"g","v"),sep="_"),
   paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"),
-  "s1","g1","s2")
+  "s1","g1","s2","s3","g2","s4",
+  "s1.0","s2.0","s3.0","s4.0","g1.0","g2.0")
 
 # parsToMonitor_1 = c("mu0_1","sigma0_1","mu_1","sigma_1")
 # parsToMonitor_2 = c("mu0_2","sigma0_2","mu_2","sigma_2")

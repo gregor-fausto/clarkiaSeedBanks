@@ -24,6 +24,11 @@ sigma0_4 <- MCMCchains(samples,params="sigma0_4")
 sigma0_5 <- MCMCchains(samples,params="sigma0_5")
 sigma0_6 <- MCMCchains(samples,params="sigma0_6")
 
+g1 <- MCMCchains(samples,params="g1")
+s1 <- MCMCchains(samples,params="s1")
+s2 <- MCMCchains(samples,params="s2")
+s3 <- MCMCchains(samples,params="s3")
+
 p_g1 = prob.inverse_g1 = matrix(NA, ncol=20,nrow=1000)
 p_v1 = prob.inverse_v1 = matrix(NA, ncol=20,nrow=1000)
 p_g2 = prob.inverse_g2 = matrix(NA, ncol=20,nrow=1000)
@@ -92,19 +97,12 @@ for(i in 1:20){
   p_6[,i] <-  boot::inv.logit(prob.inverse_6[,i])
 
   ## obtain population-level estimates 
-  s1[,i] = p_1[,i]*(p_2[,i] + (1-p_2[,i])*(nu_1[,i])^(1/3))
-  g1[,i] = p_2[,i]/(1-(1-(nu_1[,i]^(1/3)))*(1-p_2[,i]))
-  s2[,i] = p_3[,i]*(nu_1[,i]^(2/3))
+  #s1[,i] = p_1[,i]*(p_2[,i] + (1-p_2[,i])*(nu_1[,i])^(1/3))
+  #g1[,i] = p_2[,i]/(1-(1-(nu_1[,i]^(1/3)))*(1-p_2[,i]))
+  #s2[,i] = p_3[,i]*(nu_1[,i]^(2/3))
   
   # conditional interpolation of viability
   nu_2c[,i] = (nu_1[,i]^(2/3))*(nu_2[,i]^(1/3))
-  
-  s3a[,i] = p_4[,i]*(p_5[,i] + (1-p_5[,i])*(nu_2c[,i])^(1/3))
-  g2[,i] = p_5[,i]/(1-(1-(nu_2c[,i]^(1/3)))*(1-p_5[,i]))
-
-  ## obtain population-level estimates
-  s3[,i] = (s3a[,i])*(1/(s1[i,]*(1-g1[i,])*s2[,i]))
-
   
   #p = ((1-pg2)*(p.vj^(1/3))+pg2)*ps3*(1/(ps1*(1-pg1)*ps2))
   
@@ -117,7 +115,7 @@ for(i in 1:20){hist(s1[,i])}
 for(i in 1:20){hist(g1[,i])}
 for(i in 1:20){hist(s2[,i])}
 for(i in 1:20){hist(nu_2c[,i])}
-for(i in 1:20){hist(s3a[,i])}
+for(i in 1:20){hist(s3[,i])}
 for(i in 1:20){hist((s1[i,]*(1-g1[i,])*s2[,i]))}
 
 i = 1
