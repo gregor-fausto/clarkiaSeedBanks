@@ -74,17 +74,11 @@ initsSigma <- function(rows = data$n_siteBags, cols = data$n_yearBags){
 inits <- list()
 for(i in 1:1){
   inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
-                     initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
                      initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-                     initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-                     initsSigma(), initsSigma(), initsSigma(), initsSigma(), initsSigma(),
                      initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2))
 
-  names(inits[[i]]) = c(paste(rep("mu0",5),c(1:3,"g","v"),sep="_"),
-                        paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
-                        paste(rep("sigma0",5),c(1:3,"g","v"),sep="_"),
+  names(inits[[i]]) = c(paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
                         paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
-                        paste(rep("sigma",5), c(1:3,"g","v"),sep="_"),
                         paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"))
 }
 
@@ -104,7 +98,8 @@ parsToMonitor = c(paste(rep("mu0",5),c(1:3,"g","v"),sep="_"),
   paste(rep("sigma0",5),c(1:3,"g","v"),sep="_"),
   paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
   paste(rep("sigma",5), c(1:3,"g","v"),sep="_"),
-  paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"))
+  paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"),
+  "s1","g1","s2")
 
 # parsToMonitor_1 = c("mu0_1","sigma0_1","mu_1","sigma_1")
 # parsToMonitor_2 = c("mu0_2","sigma0_2","mu_2","sigma_2")
