@@ -84,15 +84,15 @@ model {
     sigma0_4[k] ~ dnorm(0, 0.3) T(0,)
     tau0_4[k] <- 1/(sigma0_4[k]*sigma0_4[k])
  
-    # theta 5
+    # # theta 5
     mu0_5[k] ~  dnorm(0, 0.001)
     sigma0_5[k] ~ dnorm(0, 0.3) T(0,)
     tau0_5[k] <- 1/(sigma0_5[k]*sigma0_5[k])
-    
-    # theta 6
-    mu0_6[k] ~  dnorm(0, 0.001)
-    sigma0_6[k] ~ dnorm(0, 0.3) T(0,)
-    tau0_6[k] <- 1/(sigma0_6[k]*sigma0_6[k])
+
+    # # theta 6
+    # mu0_6[k] ~  dnorm(0, 0.001)
+    # sigma0_6[k] ~ dnorm(0, 0.3) T(0,)
+    # tau0_6[k] <- 1/(sigma0_6[k]*sigma0_6[k])
     
     for(i in 1:n_yearBags){
    
@@ -121,15 +121,15 @@ model {
       sigma_4[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_4[k,i] <- 1/(sigma_4[k,i]*sigma_4[k,i])
       
-      # theta 5
+      # # theta 5
       mu_5[k,i] ~ dnorm(mu0_5[k], tau0_5[k])
       sigma_5[k,i] ~ dnorm(0, 0.3) T(0,)
       tau_5[k,i] <- 1/(sigma_5[k,i]*sigma_5[k,i])
-      
-      # theta 4
-      mu_6[k,i] ~ dnorm(mu0_6[k], tau0_6[k])
-      sigma_6[k,i] ~ dnorm(0, 0.3) T(0,)
-      tau_6[k,i] <- 1/(sigma_6[k,i]*sigma_6[k,i])
+      # 
+      # # theta 4
+      # mu_6[k,i] ~ dnorm(mu0_6[k], tau0_6[k])
+      # sigma_6[k,i] ~ dnorm(0, 0.3) T(0,)
+      # tau_6[k,i] <- 1/(sigma_6[k,i]*sigma_6[k,i])
     }
   }
   
@@ -193,18 +193,18 @@ model {
     # alpha
     alpha_4[i] ~ dnorm(mu_4[siteBags2[i],yearBags2[i]],tau_4[siteBags2[i],yearBags2[i]])
     alpha_5[i] ~ dnorm(mu_5[siteBags2[i],yearBags2[i]],tau_5[siteBags2[i],yearBags2[i]])
-    alpha_6[i] ~ dnorm(mu_6[siteBags2[i],yearBags2[i]],tau_6[siteBags2[i],yearBags2[i]])
+    # alpha_6[i] ~ dnorm(mu_6[siteBags2[i],yearBags2[i]],tau_6[siteBags2[i],yearBags2[i]])
     
     # logit 
     logit(theta_4[i]) <- alpha_4[i]
     logit(theta_5[i]) <- alpha_5[i]
-    logit(theta_6[i]) <- alpha_6[i]
-    
+    # logit(theta_6[i]) <- alpha_6[i]
+     
     # likelihood
-    totalJan2[i] ~ dbinom(theta_4[i]*(s1.0[siteBags[i],yearBags[i]]*(1-g1.0[siteBags[i],yearBags[i]])*s2.0[siteBags[i],yearBags[i]]), seedStart2[i])
+    totalJan2[i] ~ dbinom(theta_4[i]*(p0_1[siteBags[i],yearBags[i]]*(1-p0_2[siteBags[i],yearBags[i]])*p0_3[siteBags[i],yearBags[i]]), seedStart2[i])
     seedlingJan2[i] ~ dbinom(theta_5[i], totalJan2[i])
-    intactJan2[i] = totalJan2[i]-seedlingJan2[i]
-    intactOct2[i] ~ dbinom(theta_6[i], intactJan2[i])
+    # intactJan2[i] = totalJan2[i]-seedlingJan2[i]
+    # intactOct2[i] ~ dbinom(theta_6[i], intactJan2[i])
     
   }
   
@@ -276,15 +276,17 @@ model {
     
     p.i_5[i] ~ dnorm(mu0_5[i],tau0_5[i])
     logit(p_5[i]) <- p.i_5[i]
+
+    # p.i_6[i] ~ dnorm(mu0_6[i],tau0_6[i])
+    # logit(p_6[i]) <- p.i_6[i]
     
-    p.i_6[i] ~ dnorm(mu0_6[i],tau0_6[i])
-    logit(p_6[i]) <- p.i_6[i]
-    
-    nu_2c[i] = (nu_1[i]^(2/3))*(nu_2[i]^(1/3))
+    nu_2c[i] = ifelse(nu_2[i] < nu_1[i], 
+                      (nu_1[i]^(2/3))*(nu_2[i]^(1/3)),
+                      nu_2[i]^(1/3))
     
     s3[i] = p_4[i]*(p_5[i] + (1-p_5[i])*(nu_2c[i]))
-    g2[i] = p_5[i]/(1-(1-(nu_2[i]^(1/3)))*(1-p_5[i]))
-    s4[i] = p_6[i]*(nu_2[i]^(2/3))
+    #g2[i] = p_5[i]/(1-(1-(nu_2[i]^(1/3)))*(1-p_5[i]))
+    #s4[i] = p_6[i]*(nu_2[i]^(2/3))
     
     
     for(k in 1:n_yearBags2){
@@ -302,15 +304,17 @@ model {
       
       p.i0_5[i,k] ~ dnorm(mu_5[i,k],tau_5[i,k])
       logit(p0_5[i,k]) <- p.i0_5[i,k]
-      
-      p.i0_6[i,k] ~ dnorm(mu_6[i,k],tau_6[i,k])
-      logit(p0_6[i,k]) <- p.i0_6[i,k]
 
-      nu0_2c[i,k] = (nu0_1[i,k]^(2/3))*(nu0_2[i,k]^(1/3))
-            
+      # p.i0_6[i,k] ~ dnorm(mu_6[i,k],tau_6[i,k])
+      # logit(p0_6[i,k]) <- p.i0_6[i,k]
+
+      nu0_2c[i,k] = ifelse(nu0_2[i,k] < nu0_1[i,k],
+                           (nu0_1[i,k]^(2/3))*(nu0_2[i,k]^(1/3)),
+                           nu0_2[i,k]^(1/3))
+
       s3.0[i,k] = p0_4[i,k]*(p0_5[i,k] + (1-p0_5[i,k])*(nu0_2c[i,k]))
-      g2.0[i,k] = p0_5[i,k]/(1-(1-(nu0_2[i,k]^(1/3)))*(1-p0_5[i,k]))
-      s4.0[i,k] = p0_6[i,k]*(nu0_2[i,k]^(2/3))
+      #g2.0[i,k] = p0_5[i,k]/(1-(1-(nu0_2[i,k]^(1/3)))*(1-p0_5[i,k]))
+      #s4.0[i,k] = p0_6[i,k]*(nu0_2[i,k]^(2/3))
       
     }
   }
