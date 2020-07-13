@@ -1,0 +1,219 @@
+\documentclass[12pt, oneside, titlepage]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                     
+\usepackage{amsmath}                      
+\usepackage{amssymb}                       
+\usepackage{bm}   
+\usepackage{tabularx}   
+\usepackage{caption}          
+ \captionsetup[table]{labelfont=sc}
+
+\usepackage{booktabs}
+\usepackage{xfrac}
+\usepackage{graphicx}
+
+\usepackage{rotating}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PRIORS FOR HIGHEST-LEVEL PARAMETERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\footnotesize
+
+\begin{center}
+\captionof{table}{ Description of parameters for prior distributions at the highest level (hyperparameters). } \label{tab:title2} 
+ \begin{tabularx}{\linewidth}{l l l} 
+ \hline
+ \hline
+\multicolumn{1}{ l }{ Parameter } & 
+\multicolumn{1}{ c }{ Description } &
+\multicolumn{1}{ c }{ Distribution } \\
+ \hline
+ %%%% VIABILITY TRIALS
+ %% Population-level means
+\multicolumn{3}{ l }{ \sc{Viability trials }} \\
+
+ $\mu_0^g$   & Population mean germination, age 1 & normal(0, 1000) \\ 
+ $\mu_0^v$   & Population mean viability, age 1 & normal(0, 1000) \\ 
+ $\mu_0^{g_2}$   & Population mean germination, age 2 & normal(0, 1000) \\ 
+ $\mu_0^{v_2}$   & Population mean viability, age 2 & normal(0, 1000) \\ 
+ 
+ %% Population-level SDs
+ $\sigma_0^g$   & Population S.D. of germination, age 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^v$   & Population S.D. of viability, age 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^{g_2}$   & Population S.D. of germination, age 2 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^{v_2}$   & Population S.D. of viability, age 2 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+
+ %% Population and year-level SDs
+ $\sigma^g$   & Population and year S.D. of germination, age 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^v$   & Population and year S.D. of viability, age 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^{g_2}$   & Population and year S.D. of germination, age 2 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^{v_2}$   & Population and year S.D. of viability, age 2 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ 
+  %%%% SEED BURIALS
+   \multicolumn{3}{ l }{ \sc{Seed bag burial experiments}} \\
+
+ %% Population-level means
+ $\mu_0^1$   & Population mean intact to January 1 & normal(0, 1000) \\ 
+ $\mu_0^2$   & Population mean germination in January 1 & normal(0, 1000) \\ 
+ $\mu_0^3$   & Population mean intact to October 1 & normal(0, 1000) \\ 
+ $\mu_0^4$   & Population mean intact to January 2 & normal(0, 1000) \\ 
+ 
+ %% Population-level SDs
+ $\sigma_0^1$   & Population S.D. of intact to January 1  & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^2$   & Population S.D. of germination in January 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^3$   & Population S.D. of intact to October 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma_0^4$   & Population S.D. of intact to January 2 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+
+ %% Population and year-level SDs
+ $\sigma^1$   & Population and year S.D. of intact to January 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^2$   & Population and year S.D. of germination in January 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^3$   & Population and year S.D. of intact to October 1 & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ $\sigma^4$   & Population and year S.D. of intact to January 2  & half-normal(0, 3$\sfrac{1}{3}$)  \\ 
+ 
+ %%%% SEEDLING SURVIVAL TO FRUITING
+ \multicolumn{3}{ l }{ \sc{ Seedling survival to fruiting }} \\
+
+ %% Population-level means
+ $\mu_0^{\mathrm{survival}}$   & Population mean seedling survival & normal(0, 1000) \\ 
+ 
+ %% Population-level SDs
+ $\sigma_0^{\mathrm{survival}}$   & Population S.D. of seedling survival  & uniform(0, 1.5)  \\ 
+
+ %% Population and year-level SDs
+ $\sigma^{\mathrm{survival}}$   & Population and year S.D. of seedling survival & uniform(0, 1.5) \\ 
+
+ %%%% FRUITS PER PLANT
+  \multicolumn{3}{ l }{ \sc{ Fruits per plant }} \\
+
+ %% Population-level means
+ $\mu_0^{\mathrm{fruits}}$   & Population mean fruits per plant & normal(0, 1000) \\ 
+ 
+ %% Population-level SDs
+ $\sigma_0^{\mathrm{fruits}}$   & Population S.D. of fruits per plant & uniform(0, 1.5)  \\ 
+
+ %% Population and year-level SDs
+ $\kappa^{\mathrm{fruits}}$   & Population and year dispersion of fruits per plant & gamma(0.001, 0.001)   \\ 
+ 
+  %%%% SEEDS PER FRUIT
+    \multicolumn{3}{ l }{ \sc{ Seeds per fruit }} \\
+
+ %% Population-level means
+ $\mu_0^{\mathrm{seeds}}$   & Population mean fruits per plant & normal(0, 1000) \\ 
+ 
+ %% Population-level SDs
+ $\sigma_0^{\mathrm{seeds}}$   & Population S.D. of fruits per plant & uniform(0, 1.5)  \\ 
+
+ %% Population and year-level SDs
+ $\kappa^{\mathrm{seeds}}$   & Population and year dispersion of fruits per plant & gamma(0.001, 0.001)   \\ 
+
+  \hline
+\end{tabularx}
+\end{center}
+\newpage
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MARGINALIZED PARAMETERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\normalsize
+
+\begin{center}
+\captionof{table}{ Description of parameters (obtained by marginalizing over hyperparameters). } \label{tab:title2} 
+ \begin{tabularx}{\linewidth}{c X} 
+ \hline
+ \hline
+\multicolumn{1}{ c }{ Parameter } & 
+\multicolumn{1}{ c }{ Description } \\
+ \hline
+ %%%% VIABILITY TRIALS
+\multicolumn{2}{ l }{ \sc{Viability trials }} \\
+
+ $\nu_1^{g}$ & Probability that an intact seed germinates in germination tests in October of year $t+1$, for seeds produced in year $t$ \\
+ 
+  $\nu_1^{v}$ & Probability that an intact seed that did not germinate in tests is viable in October of year $t+1$, for seeds produced in year $t$ \\
+  
+   $\nu_2^{g}$ & Probability that an intact seed germinates in germination tests in October of year $t+2$, for seeds produced in year $t$ \\
+ 
+  $\nu_2^{v}$ & Probability that an intact seed that did not germinate in tests is viable in October of year $t+2$, for seeds produced in year $t$ \\
+
+% $\nu_1$ & Probability that a seed buried in October of year $t$ is viable in October of year $t+1$ conditional on being intact, for seeds produced in year $t$ \\
+ 
+% $\nu_2$ & Probability that a seed buried in October of year $t$ is viable in October of year $t+2$ conditional on being intact, for seeds produced in year $t$ \\
+ 
+  %%%% SEED BURIALS
+   \multicolumn{2}{ l }{ \sc{Seed bag burial experiments}} \\
+
+ $\theta_1$ & Probability that a seed buried in October of year $t$ is intact in January of $t+1$, for seeds produced in year $t$  \\ 
+
+ $\theta_2$ & Probability of emergence of seeds in January in year $t+1$ conditional on being intact in January in year $t+1$, for seeds produced in year $t$ \\
+ 
+ $\theta_3$ & Probability that a seed buried in October of year $t$ is intact in October of $t+1$ conditional on being intact in January of $t+1$, for seeds produced in year $t$  \\
+ 
+ $\theta_4$ & Probability that a seed buried in October of year $t$ is intact in January of $t+2$ conditional on being intact in October of $t+1$, for seeds produced in year $t$ \\
+  
+ %%%% SEEDLING SURVIVAL TO FRUITING
+   \multicolumn{2}{ l }{ \sc{Seedling survival to fruiting}} \\
+
+ $\sigma$ & Probability that a seedling survives to become a fruiting plant\\
+
+ %%%% FRUITS PER PLANT
+   \multicolumn{2}{ l }{ \sc{Fruits per plant}} \\
+
+ $F$ & Number of total fruit equivalents per plant \\
+ 
+  %%%% SEEDS PER FRUIT
+   \multicolumn{2}{ l }{ \sc{Seeds per fruit}} \\
+ 
+ $\phi$ & Number of seeds per undamaged fruit \\ 
+ 
+  \hline
+\end{tabularx}
+\end{center}
+
+\newpage
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DERIVED QUANTITIES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\normalsize
+
+\begin{center}
+\captionof{table}{ Description of derived quantities (obtained as functions of marginal posterior distributions). } \label{tab:title2} 
+ \begin{tabularx}{\linewidth}{c X} 
+ \hline
+ \hline
+\multicolumn{1}{ c }{ Derived quantity } & 
+\multicolumn{1}{ c }{ Description } \\
+ \hline
+
+ $\nu_1$ & Probability that a seed buried in October of year $t$ is viable in October of year $t+1$ conditional on being intact, for seeds produced in year $t$ \\
+ 
+ $\nu_2$ & Probability that a seed buried in October of year $t$ is viable in October of year $t+2$ conditional on being intact, for seeds produced in year $t$ \\
+
+ $s_1$ & Probability that a seed buried in October of year $t$ is intact and viable in January of $t+1$, for seeds produced in year $t$ \\
+ 
+  $g_1$ & Probability that a seed germinates in January in year $t+1$ conditional on being intact and viable in January in year $t+1$, for seeds produced in year $t$\\
+  
+   $s_2$ & Probability that a seed buried in October of year $t$ is intact and viable in October of $t+1$ conditional on being intact and viable in January of $t+1$, for seeds produced in year $t$  \\
+ 
+  $s_3$ & Probability that a seed buried in October of year $t$ is intact and viable in January of $t+2$ conditional on being intact and viable in October of $t+1$, for seeds produced in year $t$ \\
+ 
+   \hline
+\end{tabularx}
+\end{center}
+
+Note to self: I need to make sure that I am referring to these parameters correctly. I am highly certain that my description of Table 1 is correct (parameters for prior distributions at the highest level). I am least certain that my description of Table 2 is correct (parameters, obtained by marginalizing over hyperparameters). Specifically, I'm not sure whether or not the second clause is right. I am reasonably certain that my description of Table 3 is correct (functions of marginal posterior distributions). The last one could also be functions of parameters.
+
+
+\newpage
+\end{document}
