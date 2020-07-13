@@ -54,10 +54,11 @@ data <- tidybayes::compose_data(censusSeedlingsFruitingPlants)
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
+n.chain = 3
 n.adapt = 3000
 n.update = 5000
 n.iterations = 10000
-n.thin = 10
+n.thin = 1
 
 set.seed(10)
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsSeedlingSurvival/")
@@ -98,9 +99,6 @@ fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSu
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 saveRDS(samples.rjags,file=paste0(fileDirectory,"seedSurvivalSamples.rds"))
+saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/seedSurvivalSamples.rds"))
 saveRDS(data,file=paste0(fileDirectory,"data.rds"))
 saveRDS(censusSeedlingsFruitingPlants,file=paste0(fileDirectory,"censusSeedlingsFruitingPlants.rds"))
-
-
-MCMCsummary(samples.rjags, params = c("p0_1","p_1"))
-

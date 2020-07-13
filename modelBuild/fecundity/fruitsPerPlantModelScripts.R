@@ -27,20 +27,19 @@ library(tidybayes)
 # Import and organize data
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
 
-countSeedPerFruit <- countSeedPerFruit %>%
-  dplyr::filter(damaged==0) %>%
-  dplyr::filter(demography==1) %>%
-  dplyr::select(site,year,sdno)
+countFruitsPerPlantAllPlots <- countFruitsPerPlantAllPlots %>%
+  dplyr::rename(countFruitsPerPlant = countFruitNumberPerPlant) %>%
+  dplyr::select(site,year,countFruitsPerPlant)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Prepare data for analysis with JAGS
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-countSeedPerFruit$year <- as.character(countSeedPerFruit$year)
-data <- tidybayes::compose_data(countSeedPerFruit)
+countFruitsPerPlantAllPlots$year <- as.character(countFruitsPerPlantAllPlots$year)
+data <- tidybayes::compose_data(countFruitsPerPlantAllPlots)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -69,9 +68,9 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/
 
 inits = list(
   list( 
-    mu0 = rep(-1, data$n_site), 
-    sigma0 = rep(.5, data$n_site), 
-    r = matrix(10, nrow=data$n_site,ncol=data$n_year)),
+        mu0 = rep(-1, data$n_site), 
+        sigma0 = rep(.5, data$n_site), 
+        r = matrix(10, nrow=data$n_site,ncol=data$n_year)),
   list( 
     mu0 = rep(0, data$n_site), 
     sigma0 = rep(1, data$n_site), 
@@ -86,25 +85,25 @@ inits = list(
 # # Call to JAGS
 # 
 # # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedsJags.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"fecJags.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("mu0","sigma0","gamma","r","lambda","p0","p")
+parsToMonitor = c("mu0","sigma0","gamma","r","lambda","p","p0")
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
                              variable.names = c(parsToMonitor), 
                              n.iter = n.iterations, thin = n.thin)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedsPerFruit/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fruitsPerPlantAllPlots/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
-saveRDS(samples.rjags,file=paste0(fileDirectory,"seedsPerFruitSamples.rds"))
-saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/seedsPerFruitSamples.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"fruitsPerPlantSamples.rds"))
+saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fruitsPerPlantSamples.rds"))
 saveRDS(data,file=paste0(fileDirectory,"data.rds"))
-saveRDS(countSeedPerFruit,file=paste0(fileDirectory,"countSeedPerFruit.rds"))
+saveRDS(countFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countFruitsPerPlantAllPlots.rds"))
 
 
