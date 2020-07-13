@@ -15,7 +15,6 @@ library(tidyr)
 library(HDInterval)
 library(bayesplot)
 
-set.seed(10)
 # -------------------------------------------------------------------
 # Functions for use when analyzing data
 # -------------------------------------------------------------------
@@ -90,7 +89,7 @@ HPDI.reproductiveSuccess <- apply(reproductiveSuccess,2,FUN = function(x) hdi(x,
 g1PosteriorSummary<-data.frame(t(CI.g1))
 names(g1PosteriorSummary) <- c("lo.g1","med.g1","hi.g1")
 reproductiveSucessPosteriorSummary<-data.frame(t(CI.reproductiveSuccess))
-names(reproductiveSucessPosteriorSummary) <- c("lo.rs","med.rs","hi.rs") 
+names(reproductiveSucessPosteriorSummary) <- c("lo.rs","med.rs","hi.rs")
 
 # empty vector for the correlation
 posterior.correlation<-c()
@@ -99,7 +98,7 @@ n.iter = dim(postrior.g1)[1]
 # calculate correlation for each draw from the posterior
 for(i in 1:n.iter){
   posterior.correlation[i]<-cor(probability.g1[i,],probability.survival[i,])
-}  
+}
 
 # calculate the 95% credible interval and HPDI for the correlation
 CI.correlation <- quantile(posterior.correlation, c(.025, .5, .975))
@@ -114,21 +113,21 @@ pdf(
 plot(x = reproductiveSucessPosteriorSummary$med.rs,
      y = g1PosteriorSummary$med.g1,
      xlim=c(0,20),ylim=c(0,.3),
-     pch=16, 
-     ylab = "Mean germination probability", 
-     xlab = "Geometric SD of fitness", 
+     pch=16,
+     ylab = "Mean germination probability",
+     xlab = "Geometric SD of fitness",
      xaxt='n', cex.lab = 1.5, cex.axis = 1.5)
 # Now, define a custom axis
 axis(side = 1, at=c(0,2,4,6,8,10,12,14,16,18,20),cex.axis=1.5)
 
-segments(x0=reproductiveSucessPosteriorSummary$med.rs, 
-         y0=g1PosteriorSummary$lo.g1, 
+segments(x0=reproductiveSucessPosteriorSummary$med.rs,
+         y0=g1PosteriorSummary$lo.g1,
          y1=g1PosteriorSummary$hi.g1)
 text(x=15,y=.275,
      paste0("Pearson's r=",round(cor.BCI[2],2)),
      cex=1.5)
 
-hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1), 
+hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1),
      freq = FALSE, col = "azure1", cex.lab = 1.5,cex.axis=1.5)
 
 title(xlab="Correlation of germination and geometric SD of fitness \n (Pearson's r)", line=4, cex.lab=1.5)
@@ -137,4 +136,3 @@ abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
 abline(v=CI.correlation[2],lty='solid',lwd='2',col='red')
 
 dev.off()
-

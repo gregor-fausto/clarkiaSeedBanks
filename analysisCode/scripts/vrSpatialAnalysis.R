@@ -15,105 +15,104 @@ library(tidyr)
 library(HDInterval)
 library(bayesplot)
 
-set.seed(10)
 # -------------------------------------------------------------------
 # Functions for use when analyzing data
 # -------------------------------------------------------------------
 
-f<-function(x="alphaS1"){
+f<-function(x="alphaS1",ci=.95){
   chain<-MCMCchains(zc,params = x)
-  p<-boot::inv.logit(chain)
-  BCI <- t(apply(p,2,FUN = function(x) quantile(x, c(.025, .5, .975))))
+  qs = c(.5-ci/2,.5,.5+ci/2)
+  BCI <- t(apply(chain,2,FUN = function(x) quantile(x, qs)))
   return(BCI)
+}
+
+tidyCI <- function(par="g1",ci=.95){
+  ci <- position %>%
+    dplyr::bind_cols(data.frame(f(x=par,ci=ci)))
+  names(ci)[5:7] <- c("lo","med","hi")
+  return(ci)
 }
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-load("~/Dropbox/modelsF2019/output/seedbagfit")
+#load("~/Dropbox/modelsF2019/output/seedbagfit")
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/belowgroundSamplesAllYears.RDS")
 
 # Analysis of spatial pattern in vital rates
-setwd("~/Dropbox/projects/clarkiaScripts/data/reshapeData")
-position<-read.csv(file="siteAbiotic.csv",header=TRUE) %>% 
+#setwd("")
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>%
   dplyr::select(site,easting,northing,elevation) %>%
   dplyr::mutate(easting=easting/1000,northing=northing/1000)
 
 
-pdf(
-  "~/Dropbox/modelsF2019/figures/vr_spatial.pdf",
-  onefile=TRUE,
-  paper="USr",
-  height = 7.5, width = 10)
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/vr_spatial.pdf",
+ onefile=TRUE,
+ paper="USr",
+ height = 7.5, width = 10)
 
-# change par 
+# change par
 mar.default <- c(5,4,4,2) + 0.1
-par(mar = mar.default + c(0, 4, 0, 0)) 
+par(mar = mar.default + c(0, 4, 0, 0))
 
 # G1
-ci <- position %>% 
-  dplyr::bind_cols(data.frame(f(x="alphaG1")))
-names(ci)[5:7] <- c("lo","med","hi")
+ci <- tidyCI("g1",.95)
 
-plot(ci$easting,ci$med,ylim=c(0.05,.3),
+plot(ci$easting,ci$med,
+     ylim=c(0,1),
      ylab="Germination probability [P(G)]",
-     xlab="Easting (km)", 
+     xlab="Easting (km)",
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16)
 segments(x0=position$easting, y0=ci$lo, y1=ci$hi)
+
+ci <- tidyCI("g1",.5)
+segments(x0=position$easting, y0=ci$lo, y1=ci$hi,lwd=2)
 
 # s1
+ci <- tidyCI("s1",.95)
 
-ci <- position %>% 
-  dplyr::bind_cols(data.frame(f(x="alphaS1")))
-names(ci)[5:7] <- c("lo","med","hi")
-
-plot(ci$easting,ci$med,ylim=c(0.5,1),
+plot(ci$easting,ci$med,
+     ylim=c(0,1),
      ylab="Seed survival probability in first winter [P(S1)]",
-     xlab="Easting (km)", 
+     xlab="Easting (km)",
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16)
 segments(x0=position$easting, y0=ci$lo, y1=ci$hi)
+
+ci <- tidyCI("s1",.5)
+
+segments(x0=position$easting, y0=ci$lo, y1=ci$hi,lwd=2)
 
 # s2
 
-ci <- position %>% 
-  dplyr::bind_cols(data.frame(f(x="alphaS2")))
-names(ci)[5:7] <- c("lo","med","hi")
+ci <- tidyCI("s2",.95)
 
-plot(ci$easting,ci$med,ylim=c(0.5,1),
+plot(ci$easting,ci$med,
+     ylim=c(0,1),
      ylab="Seed survival probability in summer [P(S2)]",
-     xlab="Easting (km)", 
+     xlab="Easting (km)",
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16)
 segments(x0=position$easting, y0=ci$lo, y1=ci$hi)
+
+ci <- tidyCI("s2",.5)
+
+segments(x0=position$easting, y0=ci$lo, y1=ci$hi,lwd=2)
 
 # s3
+ci <- tidyCI("s3",.95)
 
-ci <- position %>% 
-  dplyr::bind_cols(data.frame(f(x="alphaS3")))
-names(ci)[5:7] <- c("lo","med","hi")
-
-plot(ci$easting,ci$med,ylim=c(.5,1),
+plot(ci$easting,ci$med,
+     ylim=c(0,1),
      ylab="Seed survival probability in second winter [P(S3)]",
-     xlab="Easting (km)", 
+     xlab="Easting (km)",
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16)
 segments(x0=position$easting, y0=ci$lo, y1=ci$hi)
 
-dev.off()
+ci <- tidyCI("s3",.5)
 
-# 
-# lm1<-lm(ci$med~ci$easting)
-# abline(a=coef(lm1)[1],b=coef(lm1)[2])
-# text(350,.275,paste0("y=",round(coef(lm1)[1],2),"+",round(coef(lm1)[2],3),"x"))
-# 
-# summary(lm(ci$med~ci$easting))
-# 
-# ci <- position[-probs,] %>% 
-#   dplyr::bind_cols(data.frame(t(rs.BCI)))
-# names(ci)[5:7] <- c("lo","med","hi")
-# plot(ci$easting,ci$med,
-#      ylab="Geometric SD of reproductive success",
-#      xlab="Easting (km)",ylim=c(0,16))
-# 
-# 
+segments(x0=position$easting, y0=ci$lo, y1=ci$hi,lwd=2)
+
+dev.off()

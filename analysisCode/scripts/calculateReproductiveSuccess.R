@@ -16,7 +16,6 @@ library(tidyr)
 library(HDInterval)
 library(bayesplot)
 
-set.seed(10)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Import and organize seed bag data
@@ -27,19 +26,19 @@ set.seed(10)
 # Seedling survival to fruiting
 # -------------------------------------------------------------------
 
-load("~/Dropbox/modelsF2019/output/sigmaFit")
+# load("~/Dropbox/modelsF2019/output/sigmaFit")
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedSurvivalSamples.RDS")
 
 # summary table
 # caterpillar plots
 par(mfrow=c(1,1))
 
-MCMCplot(zmP, params = c("alphaS"), horiz = FALSE,
+MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
-MCMCplot(zmP, params = c("betaS"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-15,15))
-MCMCplot(zmP, params = c("gammaS"), horiz = FALSE,
+MCMCplot(zc, params = c("p_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
 
+# COMMENT OUT BELOW
 a <- MCMCchains(zmP,params="alphaS")
 b <- MCMCchains(zmP,params="betaS")
 g <- MCMCchains(zmP,params="gammaS")
@@ -63,7 +62,7 @@ for(j in 1:nsite){
     alphaIndex <- j
     betaIndex <- k
     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-    
+
     sigma[,k] = boot::inv.logit(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
   }
   sigmaEstimates[[j]] <- sigma
@@ -73,19 +72,19 @@ for(j in 1:nsite){
 # Fruits per plant
 # -------------------------------------------------------------------
 
-load("~/Dropbox/modelsF2019/output/fecFit")
+# load("~/Dropbox/modelsF2019/output/sigmaFit")
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/fruitsPerPlantSamples.RDS")
 
 # summary table
 # caterpillar plots
 par(mfrow=c(1,1))
 
-MCMCplot(zmP, params = c("alphaF"), horiz = FALSE,
+MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
-MCMCplot(zmP, params = c("betaF"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-15,15))
-MCMCplot(zmP, params = c("gammaF"), horiz = FALSE,
+MCMCplot(zc, params = c("p_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
 
+# COMMENT BELOW
 a <- MCMCchains(zmP,params="alphaF")
 b <- MCMCchains(zmP,params="betaF")
 g <- MCMCchains(zmP,params="gammaF")
@@ -109,7 +108,7 @@ for(j in 1:nsite){
     alphaIndex <- j
     betaIndex <- k
     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-    
+
     fec[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
   }
   fecEstimates[[j]] <- fec
@@ -119,19 +118,19 @@ for(j in 1:nsite){
 # Seeds per fruit
 # -------------------------------------------------------------------
 
-load("~/Dropbox/modelsF2019/output/phiFit")
+# load("~/Dropbox/modelsF2019/output/sigmaFit")
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedsPerFruitSamples.RDS")
 
 # summary table
 # caterpillar plots
 par(mfrow=c(1,1))
 
-MCMCplot(zmP, params = c("alphaP"), horiz = FALSE,
+MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
-MCMCplot(zmP, params = c("betaP"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-15,15))
-MCMCplot(zmP, params = c("gammaP"), horiz = FALSE,
+MCMCplot(zc, params = c("p_1"), horiz = FALSE,
          sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
 
+# COMMENT BELOW
 a <- MCMCchains(zmP,params="alphaP")
 b <- MCMCchains(zmP,params="betaP")
 g <- MCMCchains(zmP,params="gammaP")
@@ -155,7 +154,7 @@ for(j in 1:nsite){
     alphaIndex <- j
     betaIndex <- k
     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-    
+
     phi[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
   }
   phiEstimates[[j]] <- phi
@@ -174,9 +173,9 @@ for(j in 1:nsite){
   s <- sigmaEstimates[[j]]
   f <- fecEstimates[[j]]
   p <- phiEstimates[[j]]
-  
+
   for(k in 1:nyear){
-    
+
     rs[,k]<-s[,k]*f[,k]*p[,k]
   }
   rsEstimates[[j]] <- rs
@@ -193,50 +192,48 @@ for(i in 1:(dim(missing_dat)[1])){
 # save estimates of RS with sites/years where there is missing data excluded
 save(rsEstimates,file="~/Dropbox/modelsF2019/output/rsVarPosterior")
 
-# 
-# 
+#
+#
 # temporal_variance <- function(x,fun=var){
 #   apply(x,1,fun)
 # }
-# 
+#
 # cols_fun <- function(x,fun=var){
 #   apply(x,2,fun)
 # }
-# 
+#
 # #lapply(rsEstimates,cols_fun,fun=median)
-# 
-# # # temporal_variance 
+#
+# # # temporal_variance
 # # d<-lapply(rsEstimates,temporal_variance,fun=var)
 # # d2<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-# # 
+# #
 # # BCI <- apply(d2,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
 # # HPDI <- apply(d2,2,FUN = function(x) hdi(x, .95))
-# 
+#
 # # geometric var
 # gsd <- function(x){
 #   y <- exp(sd(log(x)))
 #   return(y)
 # }
-# 
+#
 # d<-lapply(rsEstimates,temporal_variance,fun=gsd)
 # d2<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-# 
+#
 # BCI <- apply(d2,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
 # HPDI <- apply(d2,2,FUN = function(x) hdi(x, .95))
-# 
+#
 # plot(t(BCI)[,2],ylim=c(0,25))
-# 
+#
 # df<-data.frame(t(BCI))
 # names(df) <- c('lo','med','hi')
 # df<-cbind(df,siteNo=seq(1:20))
 # df %>% dplyr::filter(med>20)
-# 
+#
 # #probs <- c(4,9,11,12,13,16,18)
-# 
+#
 # probs <- c(9,11,18)
-# 
+#
 # lapply(sigmaEstimates[probs],cols_fun)
 # lapply(fecEstimates[probs],cols_fun)
 # lapply(phiEstimates[probs],cols_fun)
-
-
