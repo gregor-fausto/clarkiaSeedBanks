@@ -59,7 +59,7 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsSeedBags/"
 # -------------------------------------------------------------------
 
 initsMu0 <- function(samps = data$n_siteBags){
-  rnorm(n = samps, mean = 0, sd =1)
+  rnorm(n = samps, mean = 0, sd = 1)
 }
 
 initsSigma0 <- function(samps = data$n_siteBags){
@@ -74,14 +74,22 @@ initsSigma <- function(rows = data$n_siteBags, cols = data$n_yearBags){
 inits <- list()
 for(i in 1:3){
   inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
+                     initsMu0(), initsMu0(), initsMu0(), initsMu0(),
                      initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-                     initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2))
-
-  names(inits[[i]]) = c(paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
-                        paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
-                        paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"))
+                     initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
+                     initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags),
+                     initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2) )
+  
+  # uncomment if also estimating germination
+  # names(inits[[i]]) = c(paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
+  #                       paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
+  #                       paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"))
+  
+  names(inits[[i]]) = c(paste(rep("mu0",9),c(1:5,"g","v","g2","v2"),sep="_"),
+                        paste(rep("sigma0",9),c(1:5,"g","v","g2","v2"),sep="_"),
+                        paste(rep("sigma",9),c(1:3,"g","v",4:5,"g2","v2"),sep="_"))
+  
 }
-
 
 
 # # tuning (n.adapt)
@@ -92,35 +100,36 @@ jm = jags.model(paste0(dir,"hierarchicalLogitCenteredAgeOneTwo.R"), data = data,
 update(jm, n.iter = n.update)
 
 parsToMonitor = c(paste(rep("mu0",5),c(1:3,"g","v"),sep="_"),
-  paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
+  paste(rep("mu0",4),c(4:5,"g2","v2"),sep="_"),
   paste(rep("mu",5),c(1:3,"g","v"),sep="_"),
-  paste(rep("mu",5),c(4:6,"g2","v2"),sep="_"),
+  paste(rep("mu",4),c(4:5,"g2","v2"),sep="_"),
   paste(rep("sigma0",5),c(1:3,"g","v"),sep="_"),
-  paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
+  paste(rep("sigma0",4),c(4:5,"g2","v2"),sep="_"),
   paste(rep("sigma",5), c(1:3,"g","v"),sep="_"),
-  paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"),
-  "s1","g1","s2","s3","g2","s4",
-  "s1.0","s2.0","s3.0","s4.0","g1.0","g2.0")
+  paste(rep("sigma",4), c(4:5,"g2","v2"),sep="_"),
+  "p_g","p_v","p_g2","p_v2",
+  "nu_1","nu_2","nu_2c",
+  "p_1","p_2","p_3","p_4","p_5",
+  "s1","g1","s2","s3",
 
-# parsToMonitor_1 = c("mu0_1","sigma0_1","mu_1","sigma_1")
-# parsToMonitor_2 = c("mu0_2","sigma0_2","mu_2","sigma_2")
-# parsToMonitor_3 = c("mu0_3","sigma0_3","mu_3","sigma_3")
-# parsToMonitor_g = c("mu0_g","sigma0_g","mu_g","sigma_g")
-# parsToMonitor_v = c("mu0_v","sigma0_v","mu_v","sigma_v") 
-
-
+  "p0_g","p0_v","p0_g2","p0_v2",
+  "nu0_1","nu0_2","nu0_2c",
+  "p0_1","p0_2","p0_3","p0_4","p0_5",
+  "s1.0","s2.0","s3.0","g1.0")
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm,
                              variable.names = c(parsToMonitor),
                              n.iter = n.iterations, thin = n.thin)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/samples/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/posteriors/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 
 saveRDS(samples.rjags,file=paste0(fileDirectory,"belowgroundSamplesAllYears.RDS"))
 
 #MCMCsummary(samples.rjags,params="sigma0_v")
+
+#MCMCplot(samples.rjags,params="s2")
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
