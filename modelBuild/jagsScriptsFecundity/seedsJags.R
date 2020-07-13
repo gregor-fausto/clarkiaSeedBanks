@@ -17,18 +17,6 @@ model {
     }
   }
    
-  # for(j in 1:n_site){
-  #   
-  #   alpha[j] ~ dnorm(0, .001)
-  #   
-  #   for(k in 1:n_year){
-  #     
-  #     gamma[j,k] ~ dnorm(0, 0.001)
-  #     r[j,k] ~ dgamma(.001,.001)
-  # 
-  #   }
-  # }
-  
   # likelihoods
   for (i in 1:n){
     lambda[i] = exp(gamma[site[i],year[i]])
@@ -38,5 +26,16 @@ model {
   # y1.sim[i] ~ dnegbin(rF[siteFec[i],yearFec[i]]/(rF[siteFec[i],yearFec[i]]+lambdaF[i]),rF[siteFec[i],yearFec[i]])
   }
   
-  
+  # derived quantity
+  for(i in 1:n_site){
+    
+    p0.i[i] ~ dnorm(mu0[i],tau0[i])
+    p0[i] <- exp(p0.i[i])
+    
+    for(j in 1:n_year){
+      
+      p[i,j] = exp(gamma[i,j])
+      
+    }
+  }
 }
