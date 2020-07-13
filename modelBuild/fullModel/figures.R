@@ -18,11 +18,11 @@ library(tidyverse)
 library(magrittr)
 library(bayesplot)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/workflow/samples/"
+directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
-mcmcSamples <- readRDS(simFiles[[2]])
+mcmcSamples <- readRDS(simFiles[[1]])
 
 ################################################################################
 # Germination
@@ -61,7 +61,7 @@ g1Summary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/parameterSummary/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 saveRDS(g1Summary,file=paste0(fileDirectory,"g1Summary.RDS"))
 
@@ -77,11 +77,7 @@ plot(vr$easting,vr$med,ylim=c(0.0,1),
      xlab="Easting (km)", 
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16,type='n')
-# abline(h=.05,lwd=.5,col='gray')
-# abline(h=.1,lwd=.5,col='gray')
-# abline(h=.15,lwd=.5,col='gray')
-# abline(h=.2,lwd=.5,col='gray')
-# abline(h=.25,lwd=.5,col='gray')
+
 points(vr$easting,vr$med,ylim=c(0.0,1),
      pch=16)
 
@@ -173,7 +169,7 @@ s1Summary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/parameterSummary/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 saveRDS(s1Summary,file=paste0(fileDirectory,"s1Summary.RDS"))
 
@@ -288,7 +284,7 @@ s2Summary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/parameterSummary/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 saveRDS(s2Summary,file=paste0(fileDirectory,"s2Summary.RDS"))
 
@@ -400,7 +396,7 @@ s3Summary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/parameterSummary/")
+fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 saveRDS(s3Summary,file=paste0(fileDirectory,"s3Summary.RDS"))
 
