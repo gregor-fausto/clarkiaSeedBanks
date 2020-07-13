@@ -1,0 +1,112 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+It might be good to try showing how a two stage calculation might work. What I'll do is simulate data from an experiment like the seed bag trials. We'll start with one set of bags placed out in year 1, that we will then "collect" at the end of that year. We will use those bags to estimate the survival during this time period. We'll also place out a second set of bags in year 1 but not collect them until the end of year two. Let's compare what our estimates of survival during year 1 look like when we do/don't use the the joint probability.
+
+Here are the parameters we start the experiment with.
+
+```{r}
+# total number of bags placed out
+bagNumber = 10
+# number of seeds at start of experiment
+total = 100
+
+# probability of being intact to the end of year 1
+p1 = .5
+# probability of being intact from the end of year 1 to january in year 2
+p2 = .9
+
+# probability that an intact seed at the end of year 1 is viable (estimated w/o error)
+p.v1 = .5
+# probability that an intact seed at the end of year 2 is viable (estimated w/o error)
+p.v2 = .5
+```
+
+Let's simulate some data.
+
+```{r}
+# simulate the expected number of intact seeds at the end of year 1
+y1 <- rbinom(n = bagNumber, size = total, p = p1 )
+# simulate the expected number of intact seeds at the end of year 2
+y2 <- rbinom(n = bagNumber, size = total, p = p1*p2)
+```
+
+Our estimate of survival of the first year needs to account for seeds that remained intact and seed viability. 
+
+```{r}
+# estimate of probability of being intact at end of year 1
+p1.hat = sum(y1)/(total*bagNumber)
+# estimate of probability of being viable given intact
+# this is survival over the first year
+p1v1.hat = p1.hat*p.v1
+
+# estimate of probability of surviving from october year 1 to january year 2
+p2.hat = sum(y2)/(p1v1.hat*total*bagNumber)
+
+v2.true = ifelse(p.v2<p.v1,
+                 (p.v1^(2/3))*(p.v2^(1/3)),
+                 p.v2^(1/3))
+
+p2v2.hat = p2.hat*v2.true
+
+p1.hat;p2.hat
+p1v1.hat;p2v2.hat
+```
+
+The point is that if we are overly confident in our estimate of p1, then we bias p2. These should not be products but rather conditional outcomes.
+
+
+```{r}
+
+prob.s2 = function(p.v1 = p.v1, p.v2 = p.v2, y1 = y1, y2 = y2, total = total, bagNumber = bagNumber){
+  
+  p1.hat = sum(y1)/(total*bagNumber)
+  p1v1.hat = p1.hat*p.v1
+
+  p.vj = ifelse(p.v2 < p.v1, p.v1^(2/3)*p.v2^(1/3), p.v2^(1/3))
+  
+  p = (p.vj*sum(y2))/(100*(p1v1.hat)*bagNumber)
+  return(p)
+}
+
+prob.s2(p.v1 = p.v1, p.v2 = p.v2, y1 = y1, y2 = y2, total = total, bagNumber = bagNumber)
+p2v2.hat
+```
+
+```{r}
+
+p = seq(.01,1,by=0.01)
+z = outer(p, p, FUN = prob.s2, y1 = y1, y2 = y2, total = total, bagNumber = bagNumber)
+
+# filled.contour(list(x=p,y=p,z=z),nlevels = 60)
+# 
+# filled.contour(x=p,y=p,z,
+#    # key.title = title(main=expression("log"(lambda))),
+#     color.palette = topo.colors,
+#     plot.axes = {
+#         axis(1)
+#         axis(2)
+#         contour(p,p,z, level=0,add=T,lwd=3)             
+#     }
+# )
+```
+
+```{r}
+library(ggplot2)
+library(metR)
+
+dat<-expand.grid(x=p,y=p)
+tmp <- c()
+
+brks <- c(seq(0,1,by=0.1),2,4,6,8,10)
+
+for(i in 1:dim(z)[2]){ tmp <-c(tmp,z[,i])}
+volcano=data.frame(dat,z=tmp)
+ggplot(volcano, aes(x, y, z = z)) + 
+  geom_contour(color='gray',breaks=brks) +
+  geom_text_contour(breaks=brks) + theme_classic() +
+  xlab("Viability at end of year 1") + ylab("Viability at end of year 2")
+
+```
