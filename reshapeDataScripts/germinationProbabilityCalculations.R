@@ -32,7 +32,7 @@ prob.s3 = function( n = intact, y =germinant, y.o = october.intact, y.j = januar
   
   p.vj = ifelse(p.v2 < p.v, p.v^(2/3)*p.v2^(1/3), p.v2^(1/3))
   
-  p = ((p.vj^(1/3))*y.j+y.g2)/(y.o*p.v)
+  p = ((p.vj)*y.j+y.g2)/(y.o*p.v)
   return(p)
 }
  
@@ -71,15 +71,18 @@ prob.s3.2 = function( n = intact, y =germinant, y.o = october.intact, y.j = janu
   ps2=prob.s2.2(n = n, y = y, y.o = y.o, p.v = p.v)
   
   p.vj = ifelse(p.v2 < p.v, p.v^(2/3)*p.v2^(1/3), p.v2^(1/3))
+  #p.vj = p.v^(2/3)*p.v2^(1/3)
   
   ps3 = prob.s1.2( n = y.j, y = y.g2, p.v = p.vj, t = t)
   pg2 = prob.germination2( n = y.j, y = y.g2, p.v = p.v2)
   
   #p = ((1-g)*(p.vj^(1/3))+g)*p.i*(1/(ps1*(1-pg1)*ps2))
-  p = ((1-pg2)*(p.vj^(1/3))+pg2)*ps3*(1/(ps1*(1-pg1)*ps2))
+  p = ((1-pg2)*(p.vj)+pg2)*ps3*(1/(ps1*(1-pg1)*ps2))
   
   return(p)
 }
+
+prob.s1.2()
 
 # if PV2(p,r)<PV1(p,r)
 # PVjan=(PV1(p,r)^.66667)*(PV2(p,r)^.33333);
