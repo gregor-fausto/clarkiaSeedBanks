@@ -1,7 +1,6 @@
 model { 
 
-
-                            # priors
+    # priors
     for(k in 1:n_site){
 
         # theta 1
