@@ -131,6 +131,17 @@
        Gregor-Fausto Siegmund and Monica Geber
  
    	Last updated: \today
+	
+	\section*{To Do list}
+	
+	\begin{enumerate}
+	
+	\item Write paragraph about history of studies of bet hedging via seed bank, with emphasis on how this study addresses this question at an intraspecific level. Lower level of variation in intraspecific germination fraction. [INTRODUCTION]
+	\item Write models for belowground vital rates
+	\item Revise description for density-independent model for germination probability
+	\item Write and implement model checking process
+	
+	\end{enumerate}
  
    \end{center}
 \end{titlepage}
@@ -288,40 +299,30 @@ The probability that seeds from the start of the experiment remain intact in Jan
 
 % I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
 
-We use the viability trials to estimate the probability of viability ($\nu_1$) for a seed that is intact in October one year after the seed bags were buried. The viability trials are a two-stage process: seeds are subject to germination trials before some the majority of the remaining, ungerminated seeds are tested for viability. The probability that a seed germinates in the germination trial is $\theta_g$ and the probability that it is viable, conditional on not germinating in the germination trial, is $\theta_v$. I estimate the overall probability of viability, $\nu$, as $\theta_g + \theta_v (1-\theta_g)$. This weights the estimates relative to the probability of germination (eg. if no seeds germinate the estimate of viability will mostly come from the viability test).
+We use the viability trials to estimate the probability of viability ($\nu_1$) for a seed that is intact in October one year after the seed bags were buried. The viability trials are a two-stage process: seeds are subject to germination trials before a fraction of the remaining, ungerminated seeds are tested for viability. The probability that a seed germinates in the germination trial is $\theta_g$ and the probability that it is viable, conditional on not germinating in the germination trial, is $\theta_v$. I estimate the overall probability of viability, $\nu$, as $\theta_g + \theta_v (1-\theta_g)$. This weights the estimates relative to the probability of germination (eg. if no seeds germinate the estimate of viability will mostly come from the viability test).
 
 I make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the intact seeds in January are viable before germination ($\nu_1^{1/3}$), and some of those viable seeds germinate. 
 
 The seed burial experiments and viability trials provide information about the fate of seeds in the seed bank. We define $s_1$ as the probability of a seed being intact and viable from October in year $t$ to January in year $t+1$. We define $g_1$ as the probability of germination for a seed that is intact and viable. We define $s_2$ as the probability of survival from January to October in year $t$ for a seed that was intact and viable in January.  Mathematically, we write each of the transition probabilities as follows:
-%
+
     \begin{align}
 \begin{split}
 s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu_1^{1/3} ) \\
 g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu_1^{1/3} ) \times ( 1 - \theta_2 )} \\
 s_2 & = \theta_3 \times \nu_1^{2/3} \\
-s_3 & = \frac{\theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )}{s_1 \times (1-g_1) \times s_2 }
   \end{split}
 \end{align}
 %
+To estimate the survival of two-year old seeds from October to January ($s3$) requires some additional assumptions. First, we used a different set of bags for these estimates than for the estimates of first-year rates ($s_1, s_2, g_1$). We use the second set of bags to estimate the probability of viability ($\nu_2$) as described above, combining $\theta_g$ and $\theta_v$. We calculate the viability in the second January as the product of viability at the end of the first year ($\nu_1$) and the fraction of first year viability remaining in January ($ (\nu_2 \div \nu_1)^{1/3} $). For cases where $\nu_2 \geq \nu_1$, we assumed that all seeds in the bag were viable in October $t+1$ and calculated the fraction of first year viability remaining in January as $ (\nu_2 )^{1/3} $.
 
-To estimate the survival of two-year old seeds from October to January ($s3$) requires some additional assumptions. First, we used a different set of bags for these estimates than for the estimates of first-year rates ($s_1, s_2, g_2$). We use the second set of bags to estimate the probability of viability ($\nu_2$) as described above, combining $\theta_g$ and $\theta_v$. We calculate the viability in the second January as the product of viability at the end of the first year ($\nu_1$) and the fraction of first year viability remaining in January ($ (\nu_2 \div \nu_1)^{1/3} $). 
+When I estimate the probability of seedling survival from the second October to second January ($s3$), I incorporate the expected proportion of seeds that are expected to be intact at the end of the first year ($\theta_1(1-\theta_2) \theta_3$). I define $s_3$ as the probability of survival from October in year $t$ to January in year $t+1$ for a seed that was intact and viable in October. Mathematically, we write the transition probability as follows:
 
-When I estimate the probability of seedling survival from the second October to second January ($s3$), I incorporate the expected value of seeds surviving to the end of the first year ($s_1(1-g_1)s_2$)
-
-The proportoin of 
-
-
-We define $s_3$ as the probability of survival from October in year $t$ to January in year $t+1$ for a seed that was intact and viable in October.
-
-Mathematically, we write each of the transition probabilities as follows:
-%
     \begin{align}
 \begin{split}
-s_3 & = \frac{\theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )}{s_1 \times (1-g_1) \times s_2 }
+s_3 & = \theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )
   \end{split}
 \end{align}
 %
-
 \subsubsection*{Parameter estimates for aboveground transitions}
 
 To obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate fruits per plant (parameter) and seeds per fruit (parameter). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
@@ -350,12 +351,12 @@ The models below represent the joint likelihood for data from the seed bag exper
 %
 \begin{align}
   \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{total}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
+ [ \bm{\mu}, \bm{\sigma}, \bm{\alpha} | & \bm{n}, \bm{y_{\mathrm{total}}},  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
    \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
    \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
   \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
   \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
+  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 1000 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
   \end{split}
 \end{align}
 %
@@ -534,7 +535,22 @@ The negative binomial is parameterized with probability parameter $p$ and disper
   \end{split}
 \end{align}
 
+\subsection*{Model checking}
+
+\subsubsection*{Convergence}
+
+...
+
+\subsubsection*{Posterior predictive checks}
+
+...
+
 \subsection*{Analysis}
+
+\subsubsection*{Correlation between germination probability and seed survival}
+
+Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival, $s_2 s_3$; the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of estimates of correlation. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.07) and the 95\% credible interval overlaps 0.
+
 \subsubsection*{Correlation between germination probability and variance in per-capita reproductive success}
 
 Increased variance in per-capita reproductive success is predicted to decrease the optimal germination probability (\cite{cohen1966,ellner1985a}). I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}). Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated at the per year and per population level as follows:
@@ -555,30 +571,37 @@ where
   \end{split}
 \end{align}
 %
-To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I calculated the correlation between germination and variance in per-capita reproductive success with the posterior distribution for the geometric SD of per capita reproductive success and the posterior distribution of germination probability from model XX. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction.
-
-\subsubsection*{Correlation between germination probability and seed survival}
-
-Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival as $s_2 s_3$ as the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of correlation estimates. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction.
+To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I calculated the correlation between germination and variance in per-capita reproductive success with the posterior distribution for the geometric SD of per capita reproductive success and the posterior distribution of germination probability from model XX. Using this approach, I obtained a distribution of correlation estimates. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}.
 
 \subsubsection*{Density-independent model for germination probability}
 
-We used estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We use the following equation to describe \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
+We use estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We use the following equation to describe \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
 %
 \begin{align}
   \begin{split}
-\lambda_{j} = s_1 g_1 Y(t) s_0 + s_1 (1-g_1) s_2
+\lambda = g_1 Y(t) s_0 s_1  + (1-g_1) s_2 s_3
   \end{split}
 \end{align}
 %
-The parameters in this equation were fit in models corresponding to equations ~\eqref{eq:s1},~\eqref{eq:g1}, and ~\eqref{eq:s2}. Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit (equation~\eqref{eq:percapitars}). Variation is incorporated into the model by varying per-capita reproductive success, $Y(t)$, between years.
+The parameters in this equation were fit in models corresponding to equations ~\eqref{eq:s1},~\eqref{eq:g1}, and ~\eqref{eq:s2}. Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit (equation~\eqref{eq:percapitars}). Temporal variation is incorporated into the model by varying the per-capita reproductive success, $Y(t)$, between years.
 
-I numerically calculated the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly selected values 1000 from the posterior distribution for reproductive success. \hl{[note from SPE: The issue is that the posterior distribution samples parameter uncertainty. If the model includes temporal variability in certain ways, it may be sampling from the combined variance of parameter uncertainty and temporal variance. In any case, sampling the posterior does not get you a sample from the estimated distribution of temporal variability.
-To sample from the estimated temporal variability distribution, you estimate its parameters and sample from the fitted distribution. Between now and the committee meeting, think about how you could do that. Afterwards, to account for parameter uncertainty, you can repeat that with several different parameter sets sampled from the posterior.]} I used this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability is estimated as the value of G that maximized geometric mean of the population growth rate. I repeated the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions.  
+I numerically calculate the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly select values 1000 from the posterior distribution for reproductive success. \hl{[note from SPE: The issue is that the posterior distribution samples parameter uncertainty. If the model includes temporal variability in certain ways, it may be sampling from the combined variance of parameter uncertainty and temporal variance. In any case, sampling the posterior does not get you a sample from the estimated distribution of temporal variability. To sample from the estimated temporal variability distribution, you estimate its parameters and sample from the fitted distribution. Between now and the committee meeting, think about how you could do that. Afterwards, to account for parameter uncertainty, you can repeat that with several different parameter sets sampled from the posterior.]} I use this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability is estimated as the value of G that maximizes geometric mean of the population growth rate. I repeat the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions.  
 
 Models in which per-capita reproductive success is density-independent predict that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate a density-independent model for germination probability, I compared observed germination probability to predicted germination optima. I plot this comparison in Figure~\ref{fig:obs_pred}. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed.
 
 \section*{Results}
+
+\subsubsection*{Correlation between germination probability and seed survival}
+
+I examined the correlation between germination probability and seed survival in the seed bank. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.07) and the 95\% credible interval overlaps 0. There is no correlation between germination and seed survival.
+
+\subsubsection*{Correlation between germination probability and variance in reproductive success}
+
+...
+
+\subsubsection*{Optimal germination probability predicted by a density-independent model}
+
+...
 
 \newpage
 \section*{Figures} 
@@ -679,9 +702,25 @@ Models in which per-capita reproductive success is density-independent predict t
  \begin{figure}[h]
    \centering
        \includegraphics[page=1,width=1\textwidth]{../figures/spatial-g1.pdf}  
-    \caption{ ... }
+    \caption{ Germination probability plotted against easting (km). The plot shows the marginal posterior distribution for germination probability at each site. The points are the median of the posterior. The thinner line represents the 95\% credible interval and the thicker line represents the 50\% credible interval. }
  \label{fig:test}
 \end{figure}
+
+ \begin{figure}
+\centering
+\begin{subfigure}[h]{.65\textwidth}
+\centering
+       \includegraphics[page=1,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
+\end{subfigure}
+\begin{subfigure}[h]{.9\textwidth}
+\centering
+       \includegraphics[page=2,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
+\end{subfigure}
+ \caption{ The top panel shows the observed germination probability plotted against probability of seed survival. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.07) and the 95\% credible interval overlaps 0. }
+  \label{fig:germ_surv_correlation}
+ \end{figure}
+
+\iffalse
 
  \begin{figure}[h]
    \centering
@@ -718,7 +757,6 @@ Models in which per-capita reproductive success is density-independent predict t
  \label{fig:test}
 \end{figure}
 
-\iffalse
 \begin{figure}
 \centering
 \begin{subfigure}[h]{.65\textwidth}
@@ -734,19 +772,7 @@ Models in which per-capita reproductive success is density-independent predict t
  \end{figure}
 
  
- \begin{figure}
-\centering
-\begin{subfigure}[h]{.65\textwidth}
-\centering
-       \includegraphics[page=1,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
-\end{subfigure}
-\begin{subfigure}[h]{.9\textwidth}
-\centering
-       \includegraphics[page=2,width=1\textwidth]{../figures/germ_surv_correlation.pdf}  
-\end{subfigure}
- \caption{ The top panel shows the observed germination probability plotted against probability of seed survival. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.16) and the 95\% credible interval does not overlap 0. }
-  \label{fig:germ_surv_correlation}
- \end{figure}
+
  
  \begin{figure}[h]
    \centering
@@ -756,6 +782,57 @@ Models in which per-capita reproductive success is density-independent predict t
  \label{fig:obs_pred}
 \end{figure}
 \fi
+
+\clearpage
+
+  % BEGIN FIGURE 3
+   \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+        \node[state] (Y) [] {$y_{ijk}$};
+        \node[state] (N) [right of=Y] {$n_{ijk}$};
+       
+        \path[dashed,->] (N) edge node {} (Y);
+
+        % probability
+        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
+        %       
+        % \path[->] (T) edge node {} (Y);
+                  
+                  % hyperparameters
+         \node[state] (AB) [below of = Y] {$\alpha_{ijk}$};
+                
+         \path[->] (AB) edge node {} (Y);
+         
+          % hyperparameters
+        
+         \node[state] (MS) [below of = AB] {$\mu_{jk}$};
+         \node[state] (A) [below right of = AB] {$\sigma_{jk}$};
+         
+         \path[->] (A) edge node {} (AB);       
+         \path[->] (MS) edge node {} (AB);       
+         
+         \node[state] (H) [below of = MS] {$\mu_{j},\sigma_{j}$};
+         \path[->] (H) edge node {} (MS);       
+
+                 
+  \end{tikzpicture}
+
+\newpage
 
 \clearpage
 \bibliographystyle{/Users/gregor/Dropbox/bibliography/styleFiles/ecology} 

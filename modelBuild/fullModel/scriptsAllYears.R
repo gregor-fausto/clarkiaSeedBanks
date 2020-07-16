@@ -32,8 +32,11 @@ set.seed(10)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwo.RDS")
+#data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwo.RDS")
 
+data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwoTesting.RDS")
+
+data$intactOctDup = data$intactOct
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
@@ -74,20 +77,20 @@ initsSigma <- function(rows = data$n_siteBags, cols = data$n_yearBags){
 inits <- list()
 for(i in 1:3){
   inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
-                     initsMu0(), initsMu0(), initsMu0(), initsMu0(),
+                     initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
                      initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-                     initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-                     initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags),
-                     initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2) )
+                     initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),  initsSigma0(),
+                     initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags), initsSigma(cols=data$n_yearBags),initsSigma(cols=data$n_yearBags),
+                     initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2), initsSigma(cols=data$n_yearBags2) )
   
   # uncomment if also estimating germination
   # names(inits[[i]]) = c(paste(rep("mu0",5),c(4:6,"g2","v2"),sep="_"),
   #                       paste(rep("sigma0",5),c(4:6,"g2","v2"),sep="_"),
   #                       paste(rep("sigma",5), c(4:6,"g2","v2"),sep="_"))
   
-  names(inits[[i]]) = c(paste(rep("mu0",9),c(1:5,"g","v","g2","v2"),sep="_"),
-                        paste(rep("sigma0",9),c(1:5,"g","v","g2","v2"),sep="_"),
-                        paste(rep("sigma",9),c(1:3,"g","v",4:5,"g2","v2"),sep="_"))
+  names(inits[[i]]) = c(paste(rep("mu0",9),c(1:6,"g","v","g2","v2","e"),sep="_"),
+                        paste(rep("sigma0",9),c(1:6,"g","v","g2","v2","e"),sep="_"),
+                        paste(rep("sigma",9),c(1:3,"e","g","v",4:6,"g2","v2"),sep="_"))
   
 }
 
@@ -99,23 +102,25 @@ jm = jags.model(paste0(dir,"hierarchicalLogitCenteredAgeOneTwo.R"), data = data,
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c(paste(rep("mu0",5),c(1:3,"g","v"),sep="_"),
+parsToMonitor = c(paste(rep("mu0",5),c(1:3,"g","v","e"),sep="_"),
   paste(rep("mu0",4),c(4:5,"g2","v2"),sep="_"),
-  paste(rep("mu",5),c(1:3,"g","v"),sep="_"),
+  paste(rep("mu",5),c(1:3,"g","v","e"),sep="_"),
   paste(rep("mu",4),c(4:5,"g2","v2"),sep="_"),
-  paste(rep("sigma0",5),c(1:3,"g","v"),sep="_"),
+  paste(rep("sigma0",5),c(1:3,"g","v","e"),sep="_"),
   paste(rep("sigma0",4),c(4:5,"g2","v2"),sep="_"),
-  paste(rep("sigma",5), c(1:3,"g","v"),sep="_"),
+  paste(rep("sigma",5), c(1:3,"g","v","e"),sep="_"),
   paste(rep("sigma",4), c(4:5,"g2","v2"),sep="_"),
   "p_g","p_v","p_g2","p_v2",
   "nu_1","nu_2","nu_2c",
   "p_1","p_2","p_3","p_4","p_5",
-  "s1","g1","s2","s3",
+  "s1","g1","s2","s3","s4","g2",
 
-  "p0_g","p0_v","p0_g2","p0_v2",
+  "p0_g","p0_v","p0_g2","p0_v2","p0_e",
   "nu0_1","nu0_2","nu0_2c",
   "p0_1","p0_2","p0_3","p0_4","p0_5",
-  "s1.0","s2.0","s3.0","g1.0")
+  "s1.0","s2.0","s3.0","g1.0","g2.0","s4.0",
+  "y_total","y_seedling","y_october",
+  "y_total2","y_seedling2","y_october2")
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm,
@@ -125,7 +130,7 @@ samples.rjags = coda.samples(jm,
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/posteriors/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 
-saveRDS(samples.rjags,file=paste0(fileDirectory,"belowgroundSamplesAllYears.RDS"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"belowgroundSamplesTestYearOneTesting2.RDS"))
 
 #MCMCsummary(samples.rjags,params="sigma0_v")
 

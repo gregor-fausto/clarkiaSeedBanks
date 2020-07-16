@@ -114,3 +114,23 @@ abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
 abline(v=CI.correlation[2],lty='solid',lwd='2',col='red')
 
 dev.off()
+
+names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+  dplyr::select(site) 
+df <- data.frame(names,survivalPosteriorSummary,g1PosteriorSummary)
+
+
+library(ggrepel)
+
+g1 <- ggplot(df,aes(x=med.surv,y=med.g1,label=site)) +
+  geom_abline(intercept=0,slope=1,alpha=.5) +
+  geom_point() +
+  geom_text_repel(size=3,color="black") +
+  theme_bw() + xlim(c(0,1)) + ylim(c(0,1)) +
+  xlab("Probability of seed survival [P(S)]") +
+  ylab("Mean germination probability [P(G)]")
+
+ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation-labeled.pdf",
+       plot=g1,width=6,height=6)
+
+

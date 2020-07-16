@@ -20,9 +20,10 @@ library(bayesplot)
 
 directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
-dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
+#dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
-mcmcSamples <- readRDS(simFiles[[1]])
+mcmcSamples1 <- readRDS(simFiles[[2]])
+mcmcSamples2 <- readRDS(simFiles[[3]])
 
 ################################################################################
 # Germination
@@ -31,70 +32,106 @@ mcmcSamples <- readRDS(simFiles[[1]])
 directory = "/Users/Gregor/Dropbox/dataLibrary/workflow/tidyData/"
 simFiles <- paste0(directory,list.files(directory))
 
-data <- readRDS(simFiles[[1]])
-#seedBagExperiment <- readRDS(simFiles[[2]])
+data <- readRDS(simFiles[[1]]) %>% dplyr::filter(siteBags=="BG"|siteBags=="BR")
 siteNames = unique(data$siteBags)
 
-position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-  dplyr::select(site,easting,northing,elevation) %>%
-  dplyr::mutate(easting=easting/1000,northing=northing/1000)
-
 ################################################################################
-# Germination
+# Posterior predictive
 #################################################################################
 
-mcmcSummary<-mcmcSamples %>%
+iter<-dim(MCMCchains(mcmcSamples1,params="y_total"))[1]
+data<-data %>% dplyr::filter(ageBags=="1")
+
+y<-data$totalJan
+yrep<-as.matrix(MCMCchains(mcmcSamples1,params="y_total")[sample(iter,100), ])
+
+y<-data$seedlingJan
+yrep<-as.matrix(MCMCchains(mcmcSamples1,params="y_seedling")[sample(iter,100), ])
+
+y<-data$intactOct
+yrep<-as.matrix(MCMCchains(mcmcSamples1,params="y_october")[sample(iter,100), ])
+
+
+ppc_dens_overlay(y,yrep ) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants",
+  caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+group <- as.factor(data$siteBags)
+
+color_scheme_set("brightblue")
+
+ppc_stat_grouped(y, yrep,
+                   group=group,facet_args=list(nrow=2)) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model",
+       caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+ppc_stat_grouped(y, yrep, group=group,stat="var",facet_args=list(nrow=2)) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model",
+       caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+
+#
+
+
+iter<-dim(MCMCchains(mcmcSamples2,params="y_total"))[1]
+data<-data %>% dplyr::filter(ageBags=="1")
+
+y<-data$totalJan
+yrep<-as.matrix(MCMCchains(mcmcSamples2,params="y_total")[sample(iter,100), ])
+
+y<-data$seedlingJan
+yrep<-as.matrix(MCMCchains(mcmcSamples2,params="y_seedling")[sample(iter,100), ])
+
+y<-data$intactOct
+yrep<-as.matrix(MCMCchains(mcmcSamples2,params="y_october")[sample(iter,100), ])
+
+
+ppc_dens_overlay(y,yrep ) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants",
+       caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+group <-interaction( as.factor(data$siteBags),as.factor(data$yearBags) )
+
+color_scheme_set("brightblue")
+
+ppc_stat_grouped(y, yrep,
+                 group=group,facet_args=list(nrow=2)) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model",
+       caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+ppc_stat_grouped(y, yrep, group=group,stat="var",facet_args=list(nrow=2)) +
+  theme_bw() +
+  labs(title="Posterior predictive checks for number of fruiting plants; non-hierarchical model",
+       caption="Dark line is the density of observed data (y) and the lighter lines show the densities of Y_rep from 1000 draws of the posterior")
+
+
+################################################################################
+# Germination 1
+#################################################################################
+
+
+mcmcSummary1<-mcmcSamples1 %>%
   tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(g1[siteBags]) %>%
-  dplyr::group_by(siteBags) %>%
+  tidybayes::spread_draws(g1[siteNames]) %>%
   dplyr::summarise(med = median(g1), 
                    ci.lo = quantile(g1,probs=0.025), 
                    ci.hi = quantile(g1,probs=0.975),
                    ci.lo2 = quantile(g1,probs=0.25), 
                    ci.hi2 = quantile(g1,probs=0.75)
   )
-mcmcSummary<-cbind(mcmcSummary,site=siteNames)
+mcmcSummary1<-cbind(mcmcSummary1,site=siteNames)
 
-g1Summary <- mcmcSummary %>%
-  dplyr::rename(ci.lo95 = ci.lo,
-                ci.hi95 = ci.hi,
-                ci.lo50 = ci.lo2,
-                ci.hi50 = ci.hi2)
+vr.site = mcmcSummary1 %>% dplyr::select(site,med)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
-saveRDS(g1Summary,file=paste0(fileDirectory,"g1Summary.RDS"))
-
-
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
-
-vr.site = vr %>%
-  dplyr::select(site,med)
-
-pdf(paste0(dirFigures,"spatial-g1.pdf"), width=8, height=6)
-
-par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0.0,1),
-     ylab="Germination probability [P(G)]",
-     xlab="Easting (km)", 
-     cex.lab = 1.5, cex.axis = 1.5,
-     pch=16,type='n')
-
-points(vr$easting,vr$med,ylim=c(0.0,1),
-     pch=16)
-
-segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
-segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
-
-dev.off()
-
-g1<-MCMCchains(mcmcSamples,params="g1")
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:20)
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:2)
 yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
 
-mcmcSummary<-mcmcSamples %>%
+mcmcSummary1<-mcmcSamples1 %>%
   tidybayes::recover_types(data) %>%
   tidybayes::spread_draws(g1.0[siteBags,yearBags]) %>%
   dplyr::group_by(siteBags,yearBags) %>%
@@ -105,7 +142,7 @@ mcmcSummary<-mcmcSamples %>%
                    ci.hi2 = quantile(g1.0,probs=0.75)
   )
 
-mcmcSummary<-mcmcSummary %>%
+mcmcSummary1<-mcmcSummary1 %>%
   dplyr::mutate(yearBags = as.integer(yearBags)) %>%
   #dplyr::left_join(siteIndex,by="siteBags") %>%
   dplyr::left_join(yearIndex,by="yearBags") %>%
@@ -117,40 +154,11 @@ mcmcSummary<-mcmcSummary %>%
   dplyr::rename(year = yearIndex) %>%
   dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
 
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
 
-tmp <- vr %>% 
-  dplyr::select(site,year,med,ci.lo,ci.hi)
-
-g1Summary <- tmp
-write.csv(g1Summary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/g1Summary.csv",
-          row.names=FALSE)
-
-g1 <- ggplot(data=vr) +
-  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
-  geom_point(aes(x=easting,y=med)) +
-  facet_wrap(~year,nrow=1) +
-  theme_bw() +
-  ylab("Germination probability [P(G)]") +
-  xlab("Easting (km)") 
-
-g1
-
-ggsave(filename=paste0(dirFigures,"annual-g1.pdf"),
-       plot=g1,width=20,height=4)
-
-library(pdftools)
-pdf_combine(c(paste0(dirFigures,"spatial-g1.pdf"),
-              paste0(dirFigures,"annual-g1.pdf")), 
-            output = paste0(dirFigures,"summary-g1.pdf"))
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:2)
 yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
 
-interannualG1 <- mcmcSamples %>%
+interannualG1 <- mcmcSamples1 %>%
   tidybayes::recover_types(data) %>%
   tidybayes::spread_draws(g1.0[site,year]) %>%
   dplyr::group_by(site,year) %>%
@@ -186,345 +194,483 @@ interannualG1 <- mcmcSamples %>%
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank()) +
-  ylab("Probability of germination [P(G)]")
-
-ggsave(filename=paste0(dirFigures,"interannual-G1.pdf"),
-       plot=interannualG1,width=6,height=12)
+  ylab("Probability of germination [P(G)]") +
+  ylim(c(0,1))
 
 ################################################################################
+# Germination 1
+#################################################################################
+
+mcmcSummary2<-mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(g1[siteBags]) %>%
+  dplyr::group_by(siteBags) %>%
+  dplyr::summarise(med = median(g1), 
+                   ci.lo = quantile(g1,probs=0.025), 
+                   ci.hi = quantile(g1,probs=0.975),
+                   ci.lo2 = quantile(g1,probs=0.25), 
+                   ci.hi2 = quantile(g1,probs=0.75)
+  )
+mcmcSummary2<-cbind(mcmcSummary2,site=siteNames)
+
+vr.site = mcmcSummary2 %>% dplyr::select(site,med)
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary2<-mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(g1.0[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(g1.0), 
+                   ci.lo = quantile(g1.0,probs=0.025), 
+                   ci.hi = quantile(g1.0,probs=0.975),
+                   ci.lo2 = quantile(g1.0,probs=0.25), 
+                   ci.hi2 = quantile(g1.0,probs=0.75)
+  )
+
+mcmcSummary2<-mcmcSummary2 %>%
+  dplyr::mutate(yearBags = as.integer(yearBags)) %>%
+  #dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(yearBags)) %>%
+  #dplyr::select(-c(siteBags)) %>%
+  #dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(site = siteBags) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:2)
+yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
+
+interannualG1.2 <- mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(g1.0[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(lambda.med = median(g1.0), 
+                   ci.lo = quantile(g1.0,probs=0.27), 
+                   ci.hi = quantile(g1.0,probs=0.83),
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::select(-c(site,year)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+  dplyr::group_by(site) %>%
+  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+  dplyr::mutate(year=factor(year)) %>%
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id , y = lambda.med)) + 
+  geom_hline(aes(yintercept=med),linetype='dotted') +
+  
+  geom_point(aes(color=year)) +
+  
+  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  ylab("Probability of germination [P(G)]") +
+  ylim(c(0,1))
+
+gridExtra::grid.arrange(interannualG1,interannualG1.2)
+
+means<-data %>% 
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(mu=mean(seedlingJan/totalJan))
+
+ data %>%
+  dplyr::left_join(means,by=c("siteBags","yearBags")) %>%
+  dplyr::rename(site = siteBags) %>%
+  dplyr::rename(year = yearBags) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+ # dplyr::group_by(site) %>%
+ #dplyr::arrange(desc(lambda.med),.by_group = TRUE) +
+  ggplot(aes(x=year,y=seedlingJan/totalJan)) +
+  geom_point() +
+  geom_point(aes(x=year,y=mu),color='red') +
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(
+        axis.ticks.y=element_blank()) +
+  ylab("Probability of germination [P(G)]") +
+  ylim(c(0,1))
+
+ gridExtra::grid.arrange(interannualG1,interannualG1.2)
+ 
+ means<-data %>% 
+  # dplyr::left_join(ref,by=c("siteBags","yearBags")) %>%
+   dplyr::group_by(ageBags,siteBags,yearBags) %>%
+   dplyr::summarise(mu=mean(seedlingJan)) %>%
+   dplyr::filter(ageBags!="3")
+ 
+ ref<-data %>% dplyr::select(siteBags,yearBags,ageBags)
+ 
+out <- data %>%
+  dplyr::filter(ageBags!="3")
+
+  ggplot() +
+  geom_point(data=out,aes(x=ageBags,y=seedlingJan)) +
+  geom_point(data=means,aes(x=ageBags,y=mu),color='red') +
+  facet_wrap(yearBags~siteBags) +
+  theme_bw() 
+  
+  v1<-MCMCsummary(mcmcSamples1,params=c("s1.0","g1.0","s2.0"))$`50%`
+  v2<-MCMCsummary(mcmcSamples2,params=c("s1.0","g1.0","s2.0"))$`50%`
+  names <- rownames(MCMCsummary(mcmcSamples1,c("s1.0","g1.0","s2.0")))
+  d<-data.frame(names,v1,v2)
+  ggplot(d,aes(x=v1,y=v2,color=names)) + geom_abline(intercept=0,slope=1)+ geom_point()
+  
+  ################################################################################
 # Winter seed survival (s1)
 #################################################################################
-
-mcmcSummary<-mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s1[siteBags]) %>%
-  dplyr::group_by(siteBags) %>%
-  dplyr::summarise(med = median(s1), 
-                   ci.lo = quantile(s1,probs=0.025), 
-                   ci.hi = quantile(s1,probs=0.975),
-                   ci.lo2 = quantile(s1,probs=0.25), 
-                   ci.hi2 = quantile(s1,probs=0.75)
-  )
-mcmcSummary<-cbind(mcmcSummary,site=siteNames)
-
-
-s1Summary <- mcmcSummary %>%
-  dplyr::rename(ci.lo95 = ci.lo,
-                ci.hi95 = ci.hi,
-                ci.lo50 = ci.lo2,
-                ci.hi50 = ci.hi2)
-
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
-saveRDS(s1Summary,file=paste0(fileDirectory,"s1Summary.RDS"))
-
-
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
-
-vr.site = vr %>%
-  dplyr::select(site,med)
-
-pdf(paste0(dirFigures,"spatial-s1.pdf"), width=8, height=6)
-
-par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0.0,1),
-     ylab="Seed survival probability in first winter [P(S1)]",
-     xlab="Easting (km)", 
-     cex.lab = 1.5, cex.axis = 1.5,
-     pch=16,type='n')
-
-points(vr$easting,vr$med,ylim=c(0.0,1),
-       pch=16)
-
-segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
-segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
-
-dev.off()
-
-s1<-MCMCchains(mcmcSamples,params="s1")
-
-plot(density(s1),type='n',ylim=c(0,8))
-for(i in 1:20){
-  lines(density(s1[,i]),lwd=.5)
-}
-
-
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:20)
-yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
-
-mcmcSummary<-mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s1.0[siteBags,yearBags]) %>%
-  dplyr::group_by(siteBags,yearBags) %>%
-  dplyr::summarise(med = median(s1.0), 
-                   ci.lo = quantile(s1.0,probs=0.025), 
-                   ci.hi = quantile(s1.0,probs=0.975),
-                   ci.lo2 = quantile(s1.0,probs=0.25), 
-                   ci.hi2 = quantile(s1.0,probs=0.75)
-  )
-
-mcmcSummary<-mcmcSummary %>%
-  dplyr::mutate(yearBags = as.integer(yearBags)) %>%
-  #dplyr::left_join(siteIndex,by="siteBags") %>%
-  dplyr::left_join(yearIndex,by="yearBags") %>%
-  dplyr::ungroup() %>%
-  dplyr::select(-c(yearBags)) %>%
-  #dplyr::select(-c(siteBags)) %>%
-  #dplyr::rename(site = siteIndex) %>%
-  dplyr::rename(site = siteBags) %>%
-  dplyr::rename(year = yearIndex) %>%
-  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
-
-
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
-
-
-
-
-tmp <- vr %>% 
-  dplyr::select(site,year,med,ci.lo,ci.hi)
-
-s1Summary <- tmp
-write.csv(s1Summary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s1Summary.csv",
-          row.names=FALSE)
-
-g1 <- ggplot(data=vr) +
-  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
-  geom_point(aes(x=easting,y=med)) +
-  facet_wrap(~year,nrow=1) +
-  theme_bw() +
-  ylab("Seed survival probability in first winter [P(S1)]") +
-  xlab("Easting (km)") 
-
-
-ggsave(filename=paste0(dirFigures,"annual-s1.pdf"),
-       plot=g1,width=20,height=4)
-
-library(pdftools)
-pdf_combine(c(paste0(dirFigures,"spatial-s1.pdf"),
-              paste0(dirFigures,"annual-s1.pdf")), 
-            output = paste0(dirFigures,"summary-s1.pdf"))
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
-yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
-
-interannualS1 <- mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s1.0[site,year]) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(lambda.med = median(s1.0), 
-                   ci.lo = quantile(s1.0,probs=0.27), 
-                   ci.hi = quantile(s1.0,probs=0.83),
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::left_join(siteIndex,by="site") %>%
-  dplyr::left_join(yearIndex,by="year") %>%
-  dplyr::select(-c(site,year)) %>%
-  dplyr::rename(site = siteIndex) %>%
-  dplyr::rename(year = yearIndex) %>%
-  dplyr::left_join(vr.site, by="site") %>%
-  dplyr::arrange(med) %>% 
-  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
-  dplyr::group_by(site) %>%
-  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
-  dplyr::mutate(year=factor(year)) %>%
-  mutate(id = row_number()) %>% 
-  ggplot(aes(x = id , y = lambda.med)) + 
-  geom_hline(aes(yintercept=med),linetype='dotted') +
-  
-  geom_point(aes(color=year)) +
-  
-  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  
-  coord_flip() +
-  facet_grid(site ~ ., scales="free_x", space="free_x") +
-  theme_bw() +
-  theme(panel.spacing=unit(0,"pt"), 
-        panel.border=element_rect(colour="grey50", fill=NA)) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  ylab("Probability of winter seed survival [P(S1)]")
-
-ggsave(filename=paste0(dirFigures,"interannual-S1.pdf"),
-       plot=interannualS1,width=6,height=12)
-
-################################################################################
-# Summer seed survival (s2)
-#################################################################################
-
-mcmcSummary<-mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s2[siteBags]) %>%
-  dplyr::group_by(siteBags) %>%
-  dplyr::summarise(med = median(s2), 
-                   ci.lo = quantile(s2,probs=0.025), 
-                   ci.hi = quantile(s2,probs=0.975),
-                   ci.lo2 = quantile(s2,probs=0.25), 
-                   ci.hi2 = quantile(s2,probs=0.75)
-  )
-mcmcSummary<-cbind(mcmcSummary,site=siteNames)
-
-
-s2Summary <- mcmcSummary %>%
-  dplyr::rename(ci.lo95 = ci.lo,
-                ci.hi95 = ci.hi,
-                ci.lo50 = ci.lo2,
-                ci.hi50 = ci.hi2)
-
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
-saveRDS(s2Summary,file=paste0(fileDirectory,"s2Summary.RDS"))
-
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
-
-vr.site = vr %>%
-  dplyr::select(site,med)
-
-pdf(paste0(dirFigures,"spatial-s2.pdf"), width=8, height=6)
-
-par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0.0,1),
-     ylab="Seed survival probability in first summer [P(S2)]",
-     xlab="Easting (km)", 
-     cex.lab = 1.5, cex.axis = 1.5,
-     pch=16,type='n')
-
-points(vr$easting,vr$med,ylim=c(0.0,1),
-       pch=16)
-
-segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
-segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
-
-dev.off()
-
-s2<-MCMCchains(mcmcSamples,params="s2")
-
-plot(density(s2),type='n',ylim=c(0,8))
-for(i in 1:20){
-  lines(density(s2[,i]),lwd=.5)
-}
-
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:20)
-yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
-
-mcmcSummary<-mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s2.0[siteBags,yearBags]) %>%
-  dplyr::group_by(siteBags,yearBags) %>%
-  dplyr::summarise(med = median(s2.0), 
-                   ci.lo = quantile(s2.0,probs=0.025), 
-                   ci.hi = quantile(s2.0,probs=0.975),
-                   ci.lo2 = quantile(s2.0,probs=0.25), 
-                   ci.hi2 = quantile(s2.0,probs=0.75)
-  )
-
-mcmcSummary<-mcmcSummary %>%
-  dplyr::mutate(yearBags = as.integer(yearBags)) %>%
-  #dplyr::left_join(siteIndex,by="siteBags") %>%
-  dplyr::left_join(yearIndex,by="yearBags") %>%
-  dplyr::ungroup() %>%
-  dplyr::select(-c(yearBags)) %>%
-  #dplyr::select(-c(siteBags)) %>%
-  #dplyr::rename(site = siteIndex) %>%
-  dplyr::rename(site = siteBags) %>%
-  dplyr::rename(year = yearIndex) %>%
-  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
-
-
-vr = position %>% 
-  dplyr::left_join(mcmcSummary,by="site")
-
-
-tmp <- vr %>% 
-  dplyr::select(site,year,med,ci.lo,ci.hi)
-
-s2Summary <- tmp
-write.csv(s1Summary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s2Summary.csv",
-          row.names=FALSE)
-
-g1 <- ggplot(data=vr) +
-  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
-  geom_point(aes(x=easting,y=med)) +
-  facet_wrap(~year,nrow=1) +
-  theme_bw() +
-  ylab("Seed survival probability in first summer [P(S2)]") +
-  xlab("Easting (km)") 
-
-
-ggsave(filename=paste0(dirFigures,"annual-s2.pdf"),
-       plot=g1,width=20,height=4)
-
-library(pdftools)
-pdf_combine(c(paste0(dirFigures,"spatial-s2.pdf"),
-              paste0(dirFigures,"annual-s2.pdf")), 
-            output = paste0(dirFigures,"summary-s2.pdf"))
-
-siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
-yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
-
-interannualS2 <- mcmcSamples %>%
-  tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(s2.0[site,year]) %>%
-  dplyr::group_by(site,year) %>%
-  dplyr::summarise(lambda.med = median(s2.0), 
-                   ci.lo = quantile(s2.0,probs=0.27), 
-                   ci.hi = quantile(s2.0,probs=0.83),
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::left_join(siteIndex,by="site") %>%
-  dplyr::left_join(yearIndex,by="year") %>%
-  dplyr::select(-c(site,year)) %>%
-  dplyr::rename(site = siteIndex) %>%
-  dplyr::rename(year = yearIndex) %>%
-  dplyr::left_join(vr.site, by="site") %>%
-  dplyr::arrange(med) %>% 
-  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
-  dplyr::group_by(site) %>%
-  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
-  dplyr::mutate(year=factor(year)) %>%
-  mutate(id = row_number()) %>% 
-  ggplot(aes(x = id , y = lambda.med)) + 
-  geom_hline(aes(yintercept=med),linetype='dotted') +
-  
-  geom_point(aes(color=year)) +
-  
-  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  
-  coord_flip() +
-  facet_grid(site ~ ., scales="free_x", space="free_x") +
-  theme_bw() +
-  theme(panel.spacing=unit(0,"pt"), 
-        panel.border=element_rect(colour="grey50", fill=NA)) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  ylab("Probability of summmer seed survival [P(S2)]")
-
-ggsave(filename=paste0(dirFigures,"interannual-S2.pdf"),
-       plot=interannualS2,width=6,height=12)
-
-################################################################################
-# Winter seed survival, year 2 (s3)
-#################################################################################
-
-mcmcSummary<-mcmcSamples %>%
+# 
+# mcmcSummary<-mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s1[siteBags]) %>%
+#   dplyr::group_by(siteBags) %>%
+#   dplyr::summarise(med = median(s1), 
+#                    ci.lo = quantile(s1,probs=0.025), 
+#                    ci.hi = quantile(s1,probs=0.975),
+#                    ci.lo2 = quantile(s1,probs=0.25), 
+#                    ci.hi2 = quantile(s1,probs=0.75)
+#   )
+# mcmcSummary<-cbind(mcmcSummary,site=siteNames)
+# 
+# 
+# s1Summary <- mcmcSummary %>%
+#   dplyr::rename(ci.lo95 = ci.lo,
+#                 ci.hi95 = ci.hi,
+#                 ci.lo50 = ci.lo2,
+#                 ci.hi50 = ci.hi2)
+# 
+# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+# dir.create(file.path(fileDirectory), showWarnings = FALSE)
+# saveRDS(s1Summary,file=paste0(fileDirectory,"s1Summary.RDS"))
+# 
+# 
+# vr = position %>% 
+#   dplyr::left_join(mcmcSummary,by="site")
+# 
+# vr.site = vr %>%
+#   dplyr::select(site,med)
+# 
+# pdf(paste0(dirFigures,"spatial-s1.pdf"), width=8, height=6)
+# 
+# par(mfrow=c(1,1))
+# plot(vr$easting,vr$med,ylim=c(0.0,1),
+#      ylab="Seed survival probability in first winter [P(S1)]",
+#      xlab="Easting (km)", 
+#      cex.lab = 1.5, cex.axis = 1.5,
+#      pch=16,type='n')
+# 
+# points(vr$easting,vr$med,ylim=c(0.0,1),
+#        pch=16)
+# 
+# segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
+# segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
+# 
+# dev.off()
+# 
+# s1<-MCMCchains(mcmcSamples,params="s1")
+# 
+# plot(density(s1),type='n',ylim=c(0,8))
+# for(i in 1:20){
+#   lines(density(s1[,i]),lwd=.5)
+# }
+# 
+# 
+# 
+# siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:20)
+# yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+# 
+# mcmcSummary<-mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s1.0[siteBags,yearBags]) %>%
+#   dplyr::group_by(siteBags,yearBags) %>%
+#   dplyr::summarise(med = median(s1.0), 
+#                    ci.lo = quantile(s1.0,probs=0.025), 
+#                    ci.hi = quantile(s1.0,probs=0.975),
+#                    ci.lo2 = quantile(s1.0,probs=0.25), 
+#                    ci.hi2 = quantile(s1.0,probs=0.75)
+#   )
+# 
+# mcmcSummary<-mcmcSummary %>%
+#   dplyr::mutate(yearBags = as.integer(yearBags)) %>%
+#   #dplyr::left_join(siteIndex,by="siteBags") %>%
+#   dplyr::left_join(yearIndex,by="yearBags") %>%
+#   dplyr::ungroup() %>%
+#   dplyr::select(-c(yearBags)) %>%
+#   #dplyr::select(-c(siteBags)) %>%
+#   #dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(site = siteBags) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+# 
+# 
+# vr = position %>% 
+#   dplyr::left_join(mcmcSummary,by="site")
+# 
+# 
+# 
+# 
+# tmp <- vr %>% 
+#   dplyr::select(site,year,med,ci.lo,ci.hi)
+# 
+# s1Summary <- tmp
+# write.csv(s1Summary , 
+#           file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s1Summary.csv",
+#           row.names=FALSE)
+# 
+# g1 <- ggplot(data=vr) +
+#   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+#   geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+#   geom_point(aes(x=easting,y=med)) +
+#   facet_wrap(~year,nrow=1) +
+#   theme_bw() +
+#   ylab("Seed survival probability in first winter [P(S1)]") +
+#   xlab("Easting (km)") 
+# 
+# 
+# ggsave(filename=paste0(dirFigures,"annual-s1.pdf"),
+#        plot=g1,width=20,height=4)
+# 
+# library(pdftools)
+# pdf_combine(c(paste0(dirFigures,"spatial-s1.pdf"),
+#               paste0(dirFigures,"annual-s1.pdf")), 
+#             output = paste0(dirFigures,"summary-s1.pdf"))
+# 
+# siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
+# yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
+# 
+# interannualS1 <- mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s1.0[site,year]) %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(lambda.med = median(s1.0), 
+#                    ci.lo = quantile(s1.0,probs=0.27), 
+#                    ci.hi = quantile(s1.0,probs=0.83),
+#   ) %>%
+#   dplyr::ungroup() %>%
+#   dplyr::left_join(siteIndex,by="site") %>%
+#   dplyr::left_join(yearIndex,by="year") %>%
+#   dplyr::select(-c(site,year)) %>%
+#   dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::left_join(vr.site, by="site") %>%
+#   dplyr::arrange(med) %>% 
+#   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+#   dplyr::mutate(year=factor(year)) %>%
+#   mutate(id = row_number()) %>% 
+#   ggplot(aes(x = id , y = lambda.med)) + 
+#   geom_hline(aes(yintercept=med),linetype='dotted') +
+#   
+#   geom_point(aes(color=year)) +
+#   
+#   geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+#   
+#   coord_flip() +
+#   facet_grid(site ~ ., scales="free_x", space="free_x") +
+#   theme_bw() +
+#   theme(panel.spacing=unit(0,"pt"), 
+#         panel.border=element_rect(colour="grey50", fill=NA)) +
+#   theme(axis.title.y=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank()) +
+#   ylab("Probability of winter seed survival [P(S1)]")
+# 
+# ggsave(filename=paste0(dirFigures,"interannual-S1.pdf"),
+#        plot=interannualS1,width=6,height=12)
+# 
+# ################################################################################
+# # Summer seed survival (s2)
+# #################################################################################
+# 
+# mcmcSummary<-mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s2[siteBags]) %>%
+#   dplyr::group_by(siteBags) %>%
+#   dplyr::summarise(med = median(s2), 
+#                    ci.lo = quantile(s2,probs=0.025), 
+#                    ci.hi = quantile(s2,probs=0.975),
+#                    ci.lo2 = quantile(s2,probs=0.25), 
+#                    ci.hi2 = quantile(s2,probs=0.75)
+#   )
+# mcmcSummary<-cbind(mcmcSummary,site=siteNames)
+# 
+# 
+# s2Summary <- mcmcSummary %>%
+#   dplyr::rename(ci.lo95 = ci.lo,
+#                 ci.hi95 = ci.hi,
+#                 ci.lo50 = ci.lo2,
+#                 ci.hi50 = ci.hi2)
+# 
+# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+# dir.create(file.path(fileDirectory), showWarnings = FALSE)
+# saveRDS(s2Summary,file=paste0(fileDirectory,"s2Summary.RDS"))
+# 
+# vr = position %>% 
+#   dplyr::left_join(mcmcSummary,by="site")
+# 
+# vr.site = vr %>%
+#   dplyr::select(site,med)
+# 
+# pdf(paste0(dirFigures,"spatial-s2.pdf"), width=8, height=6)
+# 
+# par(mfrow=c(1,1))
+# plot(vr$easting,vr$med,ylim=c(0.0,1),
+#      ylab="Seed survival probability in first summer [P(S2)]",
+#      xlab="Easting (km)", 
+#      cex.lab = 1.5, cex.axis = 1.5,
+#      pch=16,type='n')
+# 
+# points(vr$easting,vr$med,ylim=c(0.0,1),
+#        pch=16)
+# 
+# segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
+# segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
+# 
+# dev.off()
+# 
+# s2<-MCMCchains(mcmcSamples,params="s2")
+# 
+# plot(density(s2),type='n',ylim=c(0,8))
+# for(i in 1:20){
+#   lines(density(s2[,i]),lwd=.5)
+# }
+# 
+# 
+# siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:20)
+# yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+# 
+# mcmcSummary<-mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s2.0[siteBags,yearBags]) %>%
+#   dplyr::group_by(siteBags,yearBags) %>%
+#   dplyr::summarise(med = median(s2.0), 
+#                    ci.lo = quantile(s2.0,probs=0.025), 
+#                    ci.hi = quantile(s2.0,probs=0.975),
+#                    ci.lo2 = quantile(s2.0,probs=0.25), 
+#                    ci.hi2 = quantile(s2.0,probs=0.75)
+#   )
+# 
+# mcmcSummary<-mcmcSummary %>%
+#   dplyr::mutate(yearBags = as.integer(yearBags)) %>%
+#   #dplyr::left_join(siteIndex,by="siteBags") %>%
+#   dplyr::left_join(yearIndex,by="yearBags") %>%
+#   dplyr::ungroup() %>%
+#   dplyr::select(-c(yearBags)) %>%
+#   #dplyr::select(-c(siteBags)) %>%
+#   #dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(site = siteBags) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+# 
+# 
+# vr = position %>% 
+#   dplyr::left_join(mcmcSummary,by="site")
+# 
+# 
+# tmp <- vr %>% 
+#   dplyr::select(site,year,med,ci.lo,ci.hi)
+# 
+# s2Summary <- tmp
+# write.csv(s1Summary , 
+#           file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s2Summary.csv",
+#           row.names=FALSE)
+# 
+# g1 <- ggplot(data=vr) +
+#   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+#   geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=1) +
+#   geom_point(aes(x=easting,y=med)) +
+#   facet_wrap(~year,nrow=1) +
+#   theme_bw() +
+#   ylab("Seed survival probability in first summer [P(S2)]") +
+#   xlab("Easting (km)") 
+# 
+# 
+# ggsave(filename=paste0(dirFigures,"annual-s2.pdf"),
+#        plot=g1,width=20,height=4)
+# 
+# library(pdftools)
+# pdf_combine(c(paste0(dirFigures,"spatial-s2.pdf"),
+#               paste0(dirFigures,"annual-s2.pdf")), 
+#             output = paste0(dirFigures,"summary-s2.pdf"))
+# 
+# siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
+# yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
+# 
+# interannualS2 <- mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(s2.0[site,year]) %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(lambda.med = median(s2.0), 
+#                    ci.lo = quantile(s2.0,probs=0.27), 
+#                    ci.hi = quantile(s2.0,probs=0.83),
+#   ) %>%
+#   dplyr::ungroup() %>%
+#   dplyr::left_join(siteIndex,by="site") %>%
+#   dplyr::left_join(yearIndex,by="year") %>%
+#   dplyr::select(-c(site,year)) %>%
+#   dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::left_join(vr.site, by="site") %>%
+#   dplyr::arrange(med) %>% 
+#   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+#   dplyr::mutate(year=factor(year)) %>%
+#   mutate(id = row_number()) %>% 
+#   ggplot(aes(x = id , y = lambda.med)) + 
+#   geom_hline(aes(yintercept=med),linetype='dotted') +
+#   
+#   geom_point(aes(color=year)) +
+#   
+#   geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+#   
+#   coord_flip() +
+#   facet_grid(site ~ ., scales="free_x", space="free_x") +
+#   theme_bw() +
+#   theme(panel.spacing=unit(0,"pt"), 
+#         panel.border=element_rect(colour="grey50", fill=NA)) +
+#   theme(axis.title.y=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank()) +
+#   ylab("Probability of summmer seed survival [P(S2)]")
+# 
+# ggsave(filename=paste0(dirFigures,"interannual-S2.pdf"),
+#        plot=interannualS2,width=6,height=12)
+# 
+# ################################################################################
+# # Winter seed survival, year 2 (s3)
+# #################################################################################
+
+mcmcSummary<-mcmcSamples2 %>%
   tidybayes::recover_types(data) %>%
   tidybayes::spread_draws(s3[siteBags]) %>%
   dplyr::group_by(siteBags) %>%
-  dplyr::summarise(med = median(s3), 
-                   ci.lo = quantile(s3,probs=0.025), 
+  dplyr::summarise(med = median(s3),
+                   ci.lo = quantile(s3,probs=0.025),
                    ci.hi = quantile(s3,probs=0.975),
-                   ci.lo2 = quantile(s3,probs=0.25), 
+                   ci.lo2 = quantile(s3,probs=0.25),
                    ci.hi2 = quantile(s3,probs=0.75)
   )
 mcmcSummary<-cbind(mcmcSummary,site=siteNames)
@@ -536,22 +682,22 @@ s3Summary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
-saveRDS(s3Summary,file=paste0(fileDirectory,"s3Summary.RDS"))
+# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+# dir.create(file.path(fileDirectory), showWarnings = FALSE)
+# saveRDS(s3Summary,file=paste0(fileDirectory,"s3Summary.RDS"))
 
-vr = position %>% 
+vr = position %>%
   dplyr::left_join(mcmcSummary,by="site")
 
 vr.site = vr %>%
   dplyr::select(site,med)
 
-pdf(paste0(dirFigures,"spatial-s3.pdf"), width=8, height=6)
+#pdf(paste0(dirFigures,"spatial-s3.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
 plot(vr$easting,vr$med,ylim=c(0.0,1),
      ylab="Seed survival probability in second winter [P(S3)]",
-     xlab="Easting (km)", 
+     xlab="Easting (km)",
      cex.lab = 1.5, cex.axis = 1.5,
      pch=16,type='n')
 
@@ -561,7 +707,7 @@ points(vr$easting,vr$med,ylim=c(0.0,1),
 segments(x0=vr$easting, y0=vr$ci.lo, y1=vr$ci.hi)
 segments(x0=vr$easting, y0=vr$ci.lo2, y1=vr$ci.hi2,lwd=2)
 
-dev.off()
+#dev.off()
 
 s3<-MCMCchains(mcmcSamples,params="s3")
 
@@ -578,10 +724,10 @@ mcmcSummary<-mcmcSamples %>%
   tidybayes::recover_types(data) %>%
   tidybayes::spread_draws(s3.0[siteBags,yearBags]) %>%
   dplyr::group_by(siteBags,yearBags) %>%
-  dplyr::summarise(med = median(s3.0), 
-                   ci.lo = quantile(s3.0,probs=0.025), 
+  dplyr::summarise(med = median(s3.0),
+                   ci.lo = quantile(s3.0,probs=0.025),
                    ci.hi = quantile(s3.0,probs=0.975),
-                   ci.lo2 = quantile(s3.0,probs=0.25), 
+                   ci.lo2 = quantile(s3.0,probs=0.25),
                    ci.hi2 = quantile(s3.0,probs=0.75)
   )
 
@@ -598,17 +744,17 @@ mcmcSummary<-mcmcSummary %>%
   dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
 
 
-vr = position %>% 
+vr = position %>%
   dplyr::left_join(mcmcSummary,by="site")
 
 
-tmp <- vr %>% 
+tmp <- vr %>%
   dplyr::select(site,year,med,ci.lo,ci.hi)
 
-s3Summary <- tmp
-write.csv(s1Summary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s3Summary.csv",
-          row.names=FALSE)
+# s3Summary <- tmp
+# write.csv(s1Summary ,
+#           file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/s3Summary.csv",
+#           row.names=FALSE)
 
 g1 <- ggplot(data=vr) +
   geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
@@ -617,15 +763,15 @@ g1 <- ggplot(data=vr) +
   facet_wrap(~year,nrow=1) +
   theme_bw() +
   ylab("Seed survival probability in second winter [P(S3)]") +
-  xlab("Easting (km)") 
+  xlab("Easting (km)")
 
 
-ggsave(filename=paste0(dirFigures,"annual-s3.pdf"),
-       plot=g1,width=20,height=4)
+# ggsave(filename=paste0(dirFigures,"annual-s3.pdf"),
+#        plot=g1,width=20,height=4)
 
 library(pdftools)
 pdf_combine(c(paste0(dirFigures,"spatial-s3.pdf"),
-              paste0(dirFigures,"annual-s3.pdf")), 
+              paste0(dirFigures,"annual-s3.pdf")),
             output = paste0(dirFigures,"summary-s3.pdf"))
 
 siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:20)
@@ -635,8 +781,8 @@ interannualS3 <- mcmcSamples %>%
   tidybayes::recover_types(data) %>%
   tidybayes::spread_draws(s3.0[site,year]) %>%
   dplyr::group_by(site,year) %>%
-  dplyr::summarise(lambda.med = median(s3.0), 
-                   ci.lo = quantile(s3.0,probs=0.27), 
+  dplyr::summarise(lambda.med = median(s3.0),
+                   ci.lo = quantile(s3.0,probs=0.27),
                    ci.hi = quantile(s3.0,probs=0.83),
   ) %>%
   dplyr::ungroup() %>%
@@ -646,31 +792,31 @@ interannualS3 <- mcmcSamples %>%
   dplyr::rename(site = siteIndex) %>%
   dplyr::rename(year = yearIndex) %>%
   dplyr::left_join(vr.site, by="site") %>%
-  dplyr::arrange(med) %>% 
+  dplyr::arrange(med) %>%
   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
   dplyr::group_by(site) %>%
   dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
   dplyr::mutate(year=factor(year)) %>%
-  mutate(id = row_number()) %>% 
-  ggplot(aes(x = id , y = lambda.med)) + 
+  mutate(id = row_number()) %>%
+  ggplot(aes(x = id , y = lambda.med)) +
   geom_hline(aes(yintercept=med),linetype='dotted') +
-  
+
   geom_point(aes(color=year)) +
-  
+
   geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  
+
   coord_flip() +
   facet_grid(site ~ ., scales="free_x", space="free_x") +
   theme_bw() +
-  theme(panel.spacing=unit(0,"pt"), 
+  theme(panel.spacing=unit(0,"pt"),
         panel.border=element_rect(colour="grey50", fill=NA)) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank()) +
   ylab("Probability of winter seed survival [P(S3)]")
-
-ggsave(filename=paste0(dirFigures,"interannual-S3.pdf"),
-       plot=interannualS3,width=6,height=12)
+# 
+# ggsave(filename=paste0(dirFigures,"interannual-S3.pdf"),
+#        plot=interannualS3,width=6,height=12)
 
 
 # ################################################################################
@@ -1895,3 +2041,223 @@ ggsave(filename=paste0(dirFigures,"interannual-S3.pdf"),
 #   dplyr::left_join(d,by="plot") %>% View
 # pdf(file=paste0(dirFigures,"appendix-x-mle_bayes.pdf"), width=8, height=4)
 # 
+
+
+mcmcSummary1<-mcmcSamples1 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p_1[siteNames]) %>%
+  dplyr::summarise(med = median(p_1), 
+                   ci.lo = quantile(p_1,probs=0.025), 
+                   ci.hi = quantile(p_1,probs=0.975),
+                   ci.lo2 = quantile(p_1,probs=0.25), 
+                   ci.hi2 = quantile(p_1,probs=0.75)
+  )
+mcmcSummary1<-cbind(mcmcSummary1,site=siteNames)
+
+vr.site = mcmcSummary1 %>% dplyr::select(site,med)
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1:2)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary1<-mcmcSamples1 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p0_1[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(p0_1), 
+                   ci.lo = quantile(p0_1,probs=0.025), 
+                   ci.hi = quantile(p0_1,probs=0.975),
+                   ci.lo2 = quantile(p0_1,probs=0.25), 
+                   ci.hi2 = quantile(p0_1,probs=0.75)
+  )
+
+mcmcSummary1<-mcmcSummary1 %>%
+  dplyr::mutate(yearBags = as.integer(yearBags)) %>%
+  #dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(yearBags)) %>%
+  #dplyr::select(-c(siteBags)) %>%
+  #dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(site = siteBags) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:2)
+yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
+
+interannualG1 <- mcmcSamples1 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p0_1[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(lambda.med = median(p0_1), 
+                   ci.lo = quantile(p0_1,probs=0.27), 
+                   ci.hi = quantile(p0_1,probs=0.83),
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::select(-c(site,year)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+  dplyr::group_by(site) %>%
+  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+  dplyr::mutate(year=factor(year)) %>%
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id , y = lambda.med)) + 
+  geom_hline(aes(yintercept=med),linetype='dotted') +
+  
+  geom_point(aes(color=year)) +
+  
+  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  ylab("Probability of germination [P(G)]") +
+  ylim(c(0,1))
+
+################################################################################
+# Germination 1
+#################################################################################
+
+mcmcSummary2<-mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p_1[siteBags]) %>%
+  dplyr::group_by(siteBags) %>%
+  dplyr::summarise(med = median(p_1), 
+                   ci.lo = quantile(p_1,probs=0.025), 
+                   ci.hi = quantile(p_1,probs=0.975),
+                   ci.lo2 = quantile(p_1,probs=0.25), 
+                   ci.hi2 = quantile(p_1,probs=0.75)
+  )
+mcmcSummary2<-cbind(mcmcSummary2,site=siteNames)
+
+vr.site = mcmcSummary2 %>% dplyr::select(site,med)
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),siteBags=1)
+yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+
+mcmcSummary2<-mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p0_1[siteBags,yearBags]) %>%
+  dplyr::group_by(siteBags,yearBags) %>%
+  dplyr::summarise(med = median(p0_1), 
+                   ci.lo = quantile(p0_1,probs=0.025), 
+                   ci.hi = quantile(p0_1,probs=0.975),
+                   ci.lo2 = quantile(p0_1,probs=0.25), 
+                   ci.hi2 = quantile(p0_1,probs=0.75)
+  )
+
+mcmcSummary2<-mcmcSummary2 %>%
+  dplyr::mutate(yearBags = as.integer(yearBags)) %>%
+  #dplyr::left_join(siteIndex,by="siteBags") %>%
+  dplyr::left_join(yearIndex,by="yearBags") %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-c(yearBags)) %>%
+  #dplyr::select(-c(siteBags)) %>%
+  #dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(site = siteBags) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
+
+
+siteIndex <- data.frame(siteIndex=unique(data$siteBags),site=1:2)
+yearIndex <- data.frame(year=1:3,yearIndex=2006:2008)
+
+interannualG1.2 <- mcmcSamples2 %>%
+  tidybayes::recover_types(data) %>%
+  tidybayes::spread_draws(p0_1[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(lambda.med = median(p0_1), 
+                   ci.lo = quantile(p0_1,probs=0.27), 
+                   ci.hi = quantile(p0_1,probs=0.83),
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::left_join(siteIndex,by="site") %>%
+  dplyr::left_join(yearIndex,by="year") %>%
+  dplyr::select(-c(site,year)) %>%
+  dplyr::rename(site = siteIndex) %>%
+  dplyr::rename(year = yearIndex) %>%
+  dplyr::left_join(vr.site, by="site") %>%
+  dplyr::arrange(med) %>% 
+  dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+  dplyr::group_by(site) %>%
+  dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+  dplyr::mutate(year=factor(year)) %>%
+  mutate(id = row_number()) %>% 
+  ggplot(aes(x = id , y = lambda.med)) + 
+  geom_hline(aes(yintercept=med),linetype='dotted') +
+  
+  geom_point(aes(color=year)) +
+  
+  geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  
+  coord_flip() +
+  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  theme_bw() +
+  theme(panel.spacing=unit(0,"pt"), 
+        panel.border=element_rect(colour="grey50", fill=NA)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  ylab("Probability of germination [P(G)]") +
+  ylim(c(0,1))
+
+gridExtra::grid.arrange(interannualG1,interannualG1.2)
+
+
+v1<-MCMCsummary(mcmcSamples1,params=c("s1.0"))$`50%`
+v2<-MCMCsummary(mcmcSamples2,params=c("s1.0"))$`50%`
+names <- rownames(MCMCsummary(mcmcSamples1,c("s1.0")))
+d<-data.frame(names,v1,v2)
+ggplot(d,aes(x=v1,y=v2,color=names)) + geom_abline(intercept=0,slope=1)+ geom_point() + xlim(c(0,1)) + ylim(c(0,1))
+
+
+denom<-MCMCchains(mcmcSamples2,params="p0_2")[,1]*MCMCchains(mcmcSamples2,params="p0_1")[,1]*(1-MCMCchains(mcmcSamples2,params="p0_2")[,1])
+
+num<-MCMCchains(mcmcSamples2,params="p0_3")[,1]
+a<-ifelse(num/denom>1,1,num/denom)
+hist(a)
+
+p1<-data %>% dplyr::filter(ageBags==1) %>% ggplot(aes(yearBags,intactOct/seedStart)) + geom_point() + facet_wrap(ageBags~siteBags) + ylim(c(0,1))
+p2<-data %>% dplyr::filter(ageBags==2) %>% ggplot(aes(yearBags,totalJan/seedStart)) + geom_point() + facet_wrap(~siteBags) + ylim(c(0,1))
+gridExtra::grid.arrange(p1,p2)
+
+ggplot(data) + geom_point(aes(ageBags,intactOct))
+
+d1<-data.frame(data %>% dplyr::filter(ageBags==1) %>% select(siteBags,yearBags,ageBags,intactOct))
+d2<-data.frame(data %>% dplyr::filter(ageBags==2) %>% select(siteBags,yearBags,ageBags,totalJan))
+d1<-d1 %>% dplyr::rename(y = intactOct)
+d2<-d2 %>% dplyr::rename(y = totalJan)
+d<-rbind(d1,d2)
+
+ggplot(d) + geom_point(aes(ageBags,y)) + facet_wrap(yearBags~siteBags)
+
+
+par(mfrow=(c(3,1)))
+MCMCchains(mcmcSamples2,params="p0_e")[,1] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="p0_4")[,1] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="s3.0")[,1] %>% hist(breaks=100)
+
+MCMCchains(mcmcSamples2,params="p0_e")[,2] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="p0_4")[,2] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="s3.0")[,2] %>% hist(breaks=100)
+
+MCMCchains(mcmcSamples2,params="p0_e")[,4] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="p0_4")[,3] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="s3.0")[,3] %>% hist(breaks=100)
+
+MCMCchains(mcmcSamples2,params="p0_e")[,5] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="p0_4")[,4] %>% hist(breaks=100)
+MCMCchains(mcmcSamples2,params="s3.0")[,4] %>% hist(breaks=100)
+
+

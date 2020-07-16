@@ -34,39 +34,49 @@ zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedSurvivalSamples.RDS")
 par(mfrow=c(1,1))
 
 MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,1))
 MCMCplot(zc, params = c("p_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,1))
+
+seedlingSurvivalSummary <-zc %>%
+  tidybayes::spread_draws(p_1[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(med = median(p_1), 
+                   ci.lo = quantile(p_1,probs=0.025), 
+                   ci.hi = quantile(p_1,probs=0.975),
+                   ci.lo2 = quantile(p_1,probs=0.25), 
+                   ci.hi2 = quantile(p_1,probs=0.75)
+  )
 
 # COMMENT OUT BELOW
-a <- MCMCchains(zmP,params="alphaS")
-b <- MCMCchains(zmP,params="betaS")
-g <- MCMCchains(zmP,params="gammaS")
-
-gamma_names <- dimnames(g)[[2]]
-
-library(stringr)
-vals<-str_extract_all(gamma_names, "[0-9]+")
-siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
-yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
-
-# site-by-year estimates for survival
-nsite <- dim(a)[2]
-nyear <- dim(b)[2]
-
-sigmaEstimates<-list()
-sigma<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
-
-for(j in 1:nsite){
-  for(k in 1:nyear){
-    alphaIndex <- j
-    betaIndex <- k
-    gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-
-    sigma[,k] = boot::inv.logit(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
-  }
-  sigmaEstimates[[j]] <- sigma
-}
+# a <- MCMCchains(zmP,params="alphaS")
+# b <- MCMCchains(zmP,params="betaS")
+# g <- MCMCchains(zmP,params="gammaS")
+# 
+# gamma_names <- dimnames(g)[[2]]
+# 
+# library(stringr)
+# vals<-str_extract_all(gamma_names, "[0-9]+")
+# siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
+# yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
+# 
+# # site-by-year estimates for survival
+# nsite <- dim(a)[2]
+# nyear <- dim(b)[2]
+# 
+# sigmaEstimates<-list()
+# sigma<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
+# 
+# for(j in 1:nsite){
+#   for(k in 1:nyear){
+#     alphaIndex <- j
+#     betaIndex <- k
+#     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
+# 
+#     sigma[,k] = boot::inv.logit(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
+#   }
+#   sigmaEstimates[[j]] <- sigma
+# }
 
 # -------------------------------------------------------------------
 # Fruits per plant
@@ -79,40 +89,51 @@ zc <- readRDS("~/Dropbox/dataLibrary/posteriors/fruitsPerPlantSamples.RDS")
 # caterpillar plots
 par(mfrow=c(1,1))
 
-MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
-MCMCplot(zc, params = c("p_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
+MCMCplot(zc, params = c("p0"), horiz = FALSE,
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,80))
+MCMCplot(zc, params = c("p"), horiz = FALSE,
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,50))
+
+fruitsPerPlantSummary<-zc %>%
+  tidybayes::spread_draws(p[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(med = median(p), 
+                   ci.lo = quantile(p,probs=0.025), 
+                   ci.hi = quantile(p,probs=0.975),
+                   ci.lo2 = quantile(p,probs=0.25), 
+                   ci.hi2 = quantile(p,probs=0.75)
+  )
+
 
 # COMMENT BELOW
-a <- MCMCchains(zmP,params="alphaF")
-b <- MCMCchains(zmP,params="betaF")
-g <- MCMCchains(zmP,params="gammaF")
-
-gamma_names <- dimnames(g)[[2]]
-
-library(stringr)
-vals<-str_extract_all(gamma_names, "[0-9]+")
-siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
-yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
-
-# site-by-year estimates for survival
-nsite <- dim(a)[2]
-nyear <- dim(b)[2]
-
-fecEstimates<-list()
-fec<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
-
-for(j in 1:nsite){
-  for(k in 1:nyear){
-    alphaIndex <- j
-    betaIndex <- k
-    gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-
-    fec[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
-  }
-  fecEstimates[[j]] <- fec
-}
+# a <- MCMCchains(zmP,params="alphaF")
+# b <- MCMCchains(zmP,params="betaF")
+# g <- MCMCchains(zmP,params="gammaF")
+# 
+# gamma_names <- dimnames(g)[[2]]
+# 
+# library(stringr)
+# vals<-str_extract_all(gamma_names, "[0-9]+")
+# siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
+# yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
+# 
+# # site-by-year estimates for survival
+# nsite <- dim(a)[2]
+# nyear <- dim(b)[2]
+# 
+# fecEstimates<-list()
+# fec<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
+# 
+# for(j in 1:nsite){
+#   for(k in 1:nyear){
+#     alphaIndex <- j
+#     betaIndex <- k
+#     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
+# 
+#     fec[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
+#   }
+#   fecEstimates[[j]] <- fec
+# }
 
 # -------------------------------------------------------------------
 # Seeds per fruit
@@ -125,40 +146,50 @@ zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedsPerFruitSamples.RDS")
 # caterpillar plots
 par(mfrow=c(1,1))
 
-MCMCplot(zc, params = c("p0_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,30))
-MCMCplot(zc, params = c("p_1"), horiz = FALSE,
-         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(-30,15))
+MCMCplot(zc, params = c("p0"), horiz = FALSE,
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,100))
+MCMCplot(zc, params = c("p"), horiz = FALSE,
+         sz_labels = .4, sz_med = .75, sz_thin=.7, sz_thick = 2,ylim=c(0,100))
+
+seedsPerFruitSummary<-zc %>%
+  tidybayes::spread_draws(p[site,year]) %>%
+  dplyr::group_by(site,year) %>%
+  dplyr::summarise(med = median(p), 
+                   ci.lo = quantile(p,probs=0.025), 
+                   ci.hi = quantile(p,probs=0.975),
+                   ci.lo2 = quantile(p,probs=0.25), 
+                   ci.hi2 = quantile(p,probs=0.75)
+  )
 
 # COMMENT BELOW
-a <- MCMCchains(zmP,params="alphaP")
-b <- MCMCchains(zmP,params="betaP")
-g <- MCMCchains(zmP,params="gammaP")
-
-gamma_names <- dimnames(g)[[2]]
-
-library(stringr)
-vals<-str_extract_all(gamma_names, "[0-9]+")
-siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
-yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
-
-# site-by-year estimates for survival
-nsite <- dim(a)[2]
-nyear <- dim(b)[2]
-
-phiEstimates<-list()
-phi<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
-
-for(j in 1:nsite){
-  for(k in 1:nyear){
-    alphaIndex <- j
-    betaIndex <- k
-    gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
-
-    phi[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
-  }
-  phiEstimates[[j]] <- phi
-}
+# a <- MCMCchains(zmP,params="alphaP")
+# b <- MCMCchains(zmP,params="betaP")
+# g <- MCMCchains(zmP,params="gammaP")
+# 
+# gamma_names <- dimnames(g)[[2]]
+# 
+# library(stringr)
+# vals<-str_extract_all(gamma_names, "[0-9]+")
+# siteGamma<-as.numeric(unlist(lapply(vals, `[[`, 1)))
+# yearGamma<-as.numeric(unlist(lapply(vals, `[[`, 2)))
+# 
+# # site-by-year estimates for survival
+# nsite <- dim(a)[2]
+# nyear <- dim(b)[2]
+# 
+# phiEstimates<-list()
+# phi<-matrix(NA,nrow=dim(a)[1],ncol=dim(b)[2])
+# 
+# for(j in 1:nsite){
+#   for(k in 1:nyear){
+#     alphaIndex <- j
+#     betaIndex <- k
+#     gammaIndex <- intersect(which(siteGamma %in% j), which(yearGamma %in% k))
+# 
+#     phi[,k] = exp(a[,alphaIndex] + b[,betaIndex] + g[,gammaIndex])
+#   }
+#   phiEstimates[[j]] <- phi
+# }
 
 # -------------------------------------------------------------------
 # Reproductive success
@@ -166,74 +197,135 @@ for(j in 1:nsite){
 nsite <- 20
 nyear <- 6
 
-rsEstimates<-list()
-rs<-matrix(NA,nrow=30000,ncol=nyear)
+sigmaSummary <- seedlingSurvivalSummary %>%
+  dplyr::select(site,year,med) %>%
+  dplyr::rename(sigma = med)
 
-for(j in 1:nsite){
-  s <- sigmaEstimates[[j]]
-  f <- fecEstimates[[j]]
-  p <- phiEstimates[[j]]
+fecSummary <- fruitsPerPlantSummary %>%
+  dplyr::select(site,year,med) %>%
+  dplyr::rename(fec = med)
 
-  for(k in 1:nyear){
+phiSummary <- seedsPerFruitSummary %>%
+  dplyr::select(site,year,med) %>%
+  dplyr::rename(phi = med)
 
-    rs[,k]<-s[,k]*f[,k]*p[,k]
-  }
-  rsEstimates[[j]] <- rs
-}
+abovegroundMedians <- sigmaSummary %>% 
+  dplyr::full_join(fecSummary,by=c("site","year")) %>%
+  dplyr::full_join(phiSummary,by=c("site","year"))
 
-# load file with index site*year oof missing data
-load("~/Dropbox/modelsF2019/output/missingness")
-
-for(i in 1:(dim(missing_dat)[1])){
-  v<-as.numeric(missing_dat[i,])
-  rsEstimates[[v[1]]]<-rsEstimates[[(v[1])]][,-(v[2])]
-}
+rsEstimates <- abovegroundMedians %>% dplyr::mutate(rs = sigma*fec*phi)
 
 # save estimates of RS with sites/years where there is missing data excluded
-save(rsEstimates,file="~/Dropbox/modelsF2019/output/rsVarPosterior")
+saveRDS(rsEstimates,file="~/Dropbox/clarkiaSeedBanks/products/dataFiles2/rsVarPosterior.RDS")
 
-#
-#
-# temporal_variance <- function(x,fun=var){
-#   apply(x,1,fun)
+
+## rsEstimates
+
+rm(list=ls(all=TRUE)) # clear R environment
+
+# recover p0_1 using tidybayes
+# write for loop filtering to site
+# write for loop filtering to year
+# for each site-year, multiply all draws/iterations
+# save to a 
+
+
+# load("~/Dropbox/modelsF2019/output/sigmaFit")
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedSurvivalSamples.RDS")
+
+mcmcSigma <-zc %>%
+  tidybayes::spread_draws(p_1[site,year]) 
+
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/fruitsPerPlantSamples.RDS")
+
+mcmcFec <-zc %>%
+  tidybayes::spread_draws(p[site,year])
+
+zc <- readRDS("~/Dropbox/dataLibrary/posteriors/seedsPerFruitSamples.RDS")
+
+mcmcPhi <-zc %>%
+  tidybayes::spread_draws(p[site,year])
+
+f<-function(chains=zc,site=i,year=j){
+  tmp <- chains %>% dplyr::filter(site==i&year==j)
+  return(tmp)
+}
+
+rsEstimates<-list()
+iter<-max(dim(mcmcSigma)[1],dim(mcmcFec)[1],dim(mcmcPhi)[1])
+rs<-matrix(NA,nrow=3000,ncol=7)
+
+# change if number of years changes
+for(i in 1:20){
+  for(j in 1:7){
+    rs[,j] <- f(chains=mcmcSigma,site=i,year=j)$p_1*f(chains=mcmcFec,site=i,year=j)$p*f(chains=mcmcPhi,site=i,year=j)$p
+  }
+  rsEstimates[[i]] <- rs
+}
+
+saveRDS(rsEstimates,file="~/Dropbox/clarkiaSeedBanks/products/dataFiles2/rsVarFullPosterior.RDS")
+
+
+# rsEstimates<-list()
+# rs<-matrix(NA,nrow=30000,ncol=nyear)
+# 
+# for(j in 1:nsite){
+#   s <- sigmaEstimates[[j]]
+#   f <- fecEstimates[[j]]
+#   p <- phiEstimates[[j]]
+# 
+#   for(k in 1:nyear){
+# 
+#     rs[,k]<-s[,k]*f[,k]*p[,k]
+#   }
+#   rsEstimates[[j]] <- rs
 # }
-#
-# cols_fun <- function(x,fun=var){
-#   apply(x,2,fun)
+
+# # load file with index site*year oof missing data
+# load("~/Dropbox/modelsF2019/output/missingness")
+# 
+# for(i in 1:(dim(missing_dat)[1])){
+#   v<-as.numeric(missing_dat[i,])
+#   rsEstimates[[v[1]]]<-rsEstimates[[(v[1])]][,-(v[2])]
 # }
-#
-# #lapply(rsEstimates,cols_fun,fun=median)
-#
-# # # temporal_variance
-# # d<-lapply(rsEstimates,temporal_variance,fun=var)
-# # d2<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-# #
-# # BCI <- apply(d2,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-# # HPDI <- apply(d2,2,FUN = function(x) hdi(x, .95))
-#
-# # geometric var
-# gsd <- function(x){
-#   y <- exp(sd(log(x)))
-#   return(y)
-# }
-#
-# d<-lapply(rsEstimates,temporal_variance,fun=gsd)
-# d2<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-#
-# BCI <- apply(d2,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-# HPDI <- apply(d2,2,FUN = function(x) hdi(x, .95))
-#
-# plot(t(BCI)[,2],ylim=c(0,25))
-#
-# df<-data.frame(t(BCI))
-# names(df) <- c('lo','med','hi')
-# df<-cbind(df,siteNo=seq(1:20))
-# df %>% dplyr::filter(med>20)
-#
-# #probs <- c(4,9,11,12,13,16,18)
-#
-# probs <- c(9,11,18)
-#
-# lapply(sigmaEstimates[probs],cols_fun)
-# lapply(fecEstimates[probs],cols_fun)
-# lapply(phiEstimates[probs],cols_fun)
+# 
+# g1 <- mcmcSamples %>%
+#   tidybayes::recover_types(data) %>%
+#   tidybayes::spread_draws(p[site,year]) %>%
+#   dplyr::group_by(site,year) %>%
+#   dplyr::summarise(lambda.med = median(p), 
+#                    ci.lo = quantile(p,probs=0.27), 
+#                    ci.hi = quantile(p,probs=0.83),
+#   ) %>%
+#   
+#   dplyr::ungroup() %>%
+#   dplyr::left_join(siteIndex,by="site") %>%
+#   dplyr::left_join(yearIndex,by="year") %>%
+#   dplyr::select(-c(site,year)) %>%
+#   dplyr::rename(site = siteIndex) %>%
+#   dplyr::rename(year = yearIndex) %>%
+#   dplyr::left_join(vr.site, by="site") %>%
+#   dplyr::arrange(med) %>% 
+#   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
+#   dplyr::mutate(year=factor(year)) %>%
+#   mutate(id = row_number()) %>% 
+#   ggplot(aes(x = id , y = lambda.med)) + 
+#   geom_hline(aes(yintercept=med),linetype='dotted') +
+#   
+#   geom_point(aes(color=year)) +
+#   
+#   geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
+#   
+#   coord_flip() +
+#   facet_grid(site ~ ., scales="free_x", space="free_x") +
+#   theme_bw() +
+#   theme(panel.spacing=unit(0,"pt"), 
+#         panel.border=element_rect(colour="grey50", fill=NA)) +
+#   theme(axis.title.y=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank())
+# 
+# ggsave(filename=paste0(dirFigures,"interannual-fruitsPerPlant.pdf"),
+#        plot=g1,width=6,height=12)

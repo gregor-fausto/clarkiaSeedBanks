@@ -55,7 +55,7 @@ n.chain = 3
 n.adapt = 3000
 n.update = 5000
 n.iterations = 10000
-n.thin = 1
+n.thin = 10
 
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/")
 

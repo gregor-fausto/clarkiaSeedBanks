@@ -20,7 +20,7 @@ library(tidybayes)
 library(tidyverse)
 library(magrittr)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedsPerFruit/"
+directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
@@ -30,7 +30,7 @@ mcmcSamples <- readRDS(simFiles[[3]])
 # Checks
 #################################################################################
 
-parsToMonitor = c("mu0","sigma0","gamma","r")
+# parsToMonitor = c("mu0","sigma0","gamma","r")
 
 # MCMCtrace(mcmcSamples,params="mu0")
 # MCMCtrace(mcmcSamples,params="sigma0")
@@ -40,6 +40,8 @@ library(bayesplot)
 ################################################################################
 # Data
 #################################################################################
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedsPerFruit/"
+simFiles <- paste0(directory,list.files(directory))
 
 data <- readRDS(simFiles[[2]])
 countSeedPerFruit <- readRDS(simFiles[[1]])
@@ -57,14 +59,14 @@ siteNames <- unique(countSeedPerFruit$site)
 mcmcSummary<-mcmcSamples %>%
 
   tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(mu0[site]) %>%
+  tidybayes::spread_draws(p0[site]) %>%
   dplyr::group_by(site) %>%
-  dplyr::mutate(mu0=exp(mu0)) %>%
-  dplyr::summarise(med = median(mu0), 
-                   ci.lo = quantile(mu0,probs=0.025), 
-                   ci.hi = quantile(mu0,probs=0.975),
-                   ci.lo2 = quantile(mu0,probs=0.25), 
-                   ci.hi2 = quantile(mu0,probs=0.75)
+  #dplyr::mutate(mu0=exp(mu0)) %>%
+  dplyr::summarise(med = median(p0), 
+                   ci.lo = quantile(p0,probs=0.025), 
+                   ci.hi = quantile(p0,probs=0.975),
+                   ci.lo2 = quantile(p0,probs=0.25), 
+                   ci.hi2 = quantile(p0,probs=0.75)
   )
 mcmcSummary<-cbind(mcmcSummary[,-1],site=siteNames)
 
@@ -74,7 +76,7 @@ vr = position %>%
 pdf(paste0(dirFigures,"spatial-seedsPerFruit.pdf"), width=8, height=6)
 
 par(mfrow=c(1,1))
-plot(vr$easting,vr$med,ylim=c(0,60),
+plot(vr$easting,vr$med,ylim=c(0,80),
      ylab="Seeds per fruit",
      xlab="Easting (km)", 
      cex.lab = 1.5, cex.axis = 1.5,
@@ -132,14 +134,14 @@ yearIndex <- data.frame(year=1:13,yearIndex=2006:2018)
 
 mcmcSummary<-mcmcSamples %>%
   tidybayes::recover_types(data) %>%
-  tidybayes::spread_draws(gamma[site,year]) %>%
-  dplyr::mutate(lambda = exp(gamma)) %>%
+  tidybayes::spread_draws(p[site,year]) %>%
+  #dplyr::mutate(lambda = exp(gamma)) %>%
   dplyr::group_by(site,year) %>%
-  dplyr::summarise(med = median(lambda), 
-                   ci.lo = quantile(lambda,probs=0.025), 
-                   ci.hi = quantile(lambda,probs=0.975),
-                   ci.lo2 = quantile(lambda,probs=0.25), 
-                   ci.hi2 = quantile(lambda,probs=0.75)
+  dplyr::summarise(med = median(p), 
+                   ci.lo = quantile(p,probs=0.025), 
+                   ci.hi = quantile(p,probs=0.975),
+                   ci.lo2 = quantile(p,probs=0.25), 
+                   ci.hi2 = quantile(p,probs=0.75)
   )
 mcmcSummary<-mcmcSummary %>%
   dplyr::left_join(siteIndex,by="site") %>%
@@ -186,7 +188,7 @@ tmp <- vr %>%
 
 seedsPerFruitSummary <- tmp
 write.csv(seedsPerFruitSummary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedsPerFruitSummary.csv",
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/seedsPerFruitSummary.csv",
           row.names=FALSE)
 
 # figure 
@@ -209,7 +211,7 @@ tmp <- vr %>%
 
 seedsPerFruitSummary <- tmp
 write.csv(seedsPerFruitSummary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedsPerFruitSummary.csv",
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/seedsPerFruitSummary.csv",
           row.names=FALSE)
 
  

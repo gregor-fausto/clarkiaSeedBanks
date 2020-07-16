@@ -17,18 +17,19 @@ library(tidybayes)
 library(tidyverse)
 library(magrittr)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
+
+directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 dirFigures = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/")
 
-mcmcSamples <- readRDS(simFiles[[3]])
+mcmcSamples <- readRDS(simFiles[[4]])
 
 ################################################################################
 # Checks
 #################################################################################
 
-parsToMonitor_1 = c("theta_1","mu0_1","sigma0_1","mu_1","sigma_1")
-parsToMonitor_deriv = c("p0_1","p_1")
+#parsToMonitor_1 = c("theta_1","mu0_1","sigma0_1","mu_1","sigma_1")
+#parsToMonitor_deriv = c("p0_1","p_1")
 
 # MCMCtrace(mcmcSamples,params="mu0_1")
 # MCMCtrace(mcmcSamples,params="sigma0_1")
@@ -39,6 +40,9 @@ library(bayesplot)
 ################################################################################
 # Data
 #################################################################################
+
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
+simFiles <- paste0(directory,list.files(directory))
 
 data <- readRDS(simFiles[[2]])
 censusSeedlingsFruitingPlants <- readRDS(simFiles[[1]])
@@ -144,10 +148,10 @@ seedlingSurvivalSummary <- mcmcSummary %>%
                 ci.lo50 = ci.lo2,
                 ci.hi50 = ci.hi2)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
-# 
-saveRDS(seedlingSurvivalSummary,file=paste0(fileDirectory,"seedlingSurvivalSummary.RDS"))
+# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/")
+# dir.create(file.path(fileDirectory), showWarnings = FALSE)
+# # 
+# saveRDS(seedlingSurvivalSummary,file=paste0(fileDirectory,"seedlingSurvivalSummary.RDS"))
 
 ## summary table
 
@@ -156,7 +160,7 @@ tmp <- seedlingSurvivalSummary %>%
 
 seedlingSurvivalSummary <- tmp
 write.csv(seedlingSurvivalSummary , 
-          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles/seedlingSurvivalSummary.csv",
+          file = "~/Dropbox/clarkiaSeedBanks/products/dataFiles2/seedlingSurvivalSummary.csv",
           row.names=FALSE)
 
 vr = position %>% 
