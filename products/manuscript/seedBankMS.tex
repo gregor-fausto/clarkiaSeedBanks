@@ -362,36 +362,6 @@ The models below represent the joint likelihood for data from the seed bag exper
 %
 I compared convergence diagnostics (R-hat, effective sample size) for centered and non-centered parameterizations of the model. Here, I use the centered parameterization because this led to improved convergence. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
 
-\iffalse
-To estimate $\theta_2$, I fit the following model for bag $i$ in year $j$ in population $k$. 
-%
-\begin{align}
-  \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
-   \mathrm{binomial} ( y^{\mathrm{germ}}_{ijk} | y^{\mathrm{total}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
-  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
-  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
-  \end{split}
-\end{align}
-%
-
-To estimate $\theta_3$, I fit the following model for bag $i$ in year $j$ in population $k$. 
-%
-\begin{align}
-  \begin{split}
- [ \bm{\mu}, \bm{\sigma}, \bm{\alpha}, \bm{\theta} | & \bm{n}, \bm{y_{\mathrm{germ}}},  ] \propto  \prod_{k=1}^{K} \prod_{j=1}^{J} \prod_{i=1}^{I} 
-   \mathrm{binomial} ( y^{\mathrm{oct}}_{ijk} | y^{\mathrm{total}}_{ijk}-y^{\mathrm{germ}}_{ijk}, \mathrm{logit}^{-1}( \alpha_{ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{ijk}  | \mu_{jk}, \sigma{_{jk} })
-  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu_{0,k}, \sigma{_{0,k} })
-  \\ & \times \mathrm{uniform} ( \sigma_{jk} | 0,100)
-  \\ & \times \mathrm{normal} ( \mu_{0,k} | 0 , 100 ) \mathrm{uniform} ( \sigma_{0,k} | 0,100).
-  \end{split}
-\end{align}
-%
-\fi
-
 \subsubsection*{Model for viability trial data}
 
 [need to add explanation for this]
@@ -785,56 +755,6 @@ I examined the correlation between germination probability and seed survival in 
 
 \clearpage
 
-  % BEGIN FIGURE 3
-   \begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 3cm, % distance between nodes
-            semithick % line style
-        ]
-
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]F
-
-
-	% data level
-        \node[state] (Y) [] {$y_{ijk}$};
-        \node[state] (N) [right of=Y] {$n_{ijk}$};
-       
-        \path[dashed,->] (N) edge node {} (Y);
-
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
-                  
-                  % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{ijk}$};
-                
-         \path[->] (AB) edge node {} (Y);
-         
-          % hyperparameters
-        
-         \node[state] (MS) [below of = AB] {$\mu_{jk}$};
-         \node[state] (A) [below right of = AB] {$\sigma_{jk}$};
-         
-         \path[->] (A) edge node {} (AB);       
-         \path[->] (MS) edge node {} (AB);       
-         
-         \node[state] (H) [below of = MS] {$\mu_{j},\sigma_{j}$};
-         \path[->] (H) edge node {} (MS);       
-
-                 
-  \end{tikzpicture}
-
-\newpage
-
-\clearpage
 \bibliographystyle{/Users/gregor/Dropbox/bibliography/styleFiles/ecology} 
 \bibliography{/Users/gregor/Dropbox/bibliography/seeds}
 
