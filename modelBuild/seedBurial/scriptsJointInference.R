@@ -32,9 +32,9 @@ set.seed(10)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-#data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwo.RDS")
+data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwo.RDS")
 
-data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwoTesting.RDS")
+#data = readRDS("~/Dropbox/dataLibrary/workflow/data/belowgroundDataAgeOneTwoTesting.RDS")
 
 data$intactOctDup = data$intactOct
 # -------------------------------------------------------------------
