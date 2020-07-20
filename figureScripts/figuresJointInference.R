@@ -24,6 +24,7 @@ directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 
 mcmcSamples <- readRDS(simFiles[[8]])
+dirFigures = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/"
 
 ################################################################################
 # Germination
@@ -452,4 +453,4 @@ spatialS3.j <- spatialS3 + theme(legend.position="none")
 spatialPlot <- gridExtra::grid.arrange(spatialS1.j,spatialG1.j,spatialS2.j,spatialS3.j,ncol=1)
 
 ggsave(filename=paste0(dirFigures,"spatialBelowground.pdf"),
-       plot=spatialPlot,width=20,height=10)
+       plot=spatialPlot,width=5,height=10)

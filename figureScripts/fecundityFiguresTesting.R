@@ -24,7 +24,7 @@ library(rethinking)
 directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 posteriorFiles <- paste0(directory,list.files(directory))
 
-mcmcSamples <- readRDS(posteriorFiles[[6]])
+mcmcSamples <- readRDS(posteriorFiles[[7]])
 
 ################################################################################
 # Read in raw data
@@ -35,9 +35,7 @@ simFiles <- paste0(directory,list.files(directory))
 
 data <- readRDS(simFiles[[5]])
 
-LCE =df %>% dplyr::filter(site2=="LCE") 
-ggplot(LCE,aes(x=year2,y=y_und)) +
-  geom_boxplot()
+
 # # # -------------------------------------------------------------------
 # # # -------------------------------------------------------------------
 # # # For testing
@@ -53,50 +51,50 @@ ggplot(LCE,aes(x=year2,y=y_und)) +
 ################################################################################
 # Posteriors
 #################################################################################
-
-MCMCsummary(mcmcSamples,params="mu_py")
-
-par(mfrow=c(1,1))
-hist(rgamma(1000,1,1),breaks=100)
-hist(MCMCchains(mcmcSamples,params="nu_und")[,4],breaks=100,add=TRUE,col='red')
-hist(MCMCchains(mcmcSamples,params="tau0_und")[,4],breaks=100)
-
-par(mfrow=c(2,3))
-for(i in 1:6){
-   hist(MCMCchains(mcmcSamples,params="mu_und")[,i],breaks=100)
-}
-
-for(i in 1:6){
-   hist(MCMCchains(mcmcSamples,params="tau_und")[,i],breaks=100)
-}
-
-par(mfrow=c(1,1))
-hist(MCMCchains(mcmcSamples,params="mu_p"),breaks=100)
-
-par(mfrow=c(2,3))
-for(i in c(1,18)){
-   hist(MCMCchains(mcmcSamples,params="mu_py")[,i],breaks=100)
-}
-
-par(mfrow=c(1,1))
-hist(MCMCchains(mcmcSamples,params="mean_p")[,1],breaks=100)
-abline(v=mean(data$y_und),col="red",lwd=2)
-
-
-par(mfrow=c(2,3))
-for(i in 1:6){
-   hist(MCMCchains(mcmcSamples,params="mean_py")[,i],breaks=100)
-   tmp <- data$y_und[data$year2==i]
-   abline(v=mean(tmp),col="red",lwd=2)
-}
-
-
-hist(data$y_und,breaks=100)
-par(mfrow=c(2,3))
-for(i in 1:6){
-   tmp <- data$y_und[data$year2==i]
-   hist(tmp,breaks=50)
-}
+# 
+# MCMCsummary(mcmcSamples,params="mu_py")
+# 
+# par(mfrow=c(1,1))
+# hist(rgamma(1000,1,1),breaks=100)
+# hist(MCMCchains(mcmcSamples,params="nu_und")[,2],breaks=100,add=TRUE,col='red')
+# hist(MCMCchains(mcmcSamples,params="tau0_und")[,4],breaks=100)
+# 
+# par(mfrow=c(2,3))
+# for(i in 1:6){
+#    hist(MCMCchains(mcmcSamples,params="mu_und")[,i],breaks=100)
+# }
+# 
+# for(i in 1:6){
+#    hist(MCMCchains(mcmcSamples,params="tau_und")[,i],breaks=100)
+# }
+# 
+# par(mfrow=c(1,1))
+# hist(MCMCchains(mcmcSamples,params="mu_p"),breaks=100)
+# 
+# par(mfrow=c(2,3))
+# for(i in c(1,18)){
+#    hist(MCMCchains(mcmcSamples,params="mu_py")[,i],breaks=100)
+# }
+# 
+# par(mfrow=c(1,1))
+# hist(MCMCchains(mcmcSamples,params="mean_p")[,1],breaks=100)
+# abline(v=mean(data$y_und),col="red",lwd=2)
+# 
+# 
+# par(mfrow=c(2,3))
+# for(i in 1:6){
+#    hist(MCMCchains(mcmcSamples,params="mean_py")[,i],breaks=100)
+#    tmp <- data$y_und[data$year2==i]
+#    abline(v=mean(tmp),col="red",lwd=2)
+# }
+# 
+# 
+# hist(data$y_und,breaks=100)
+# par(mfrow=c(2,3))
+# for(i in 1:6){
+#    tmp <- data$y_und[data$year2==i]
+#    hist(tmp,breaks=50)
+# }
 
 
 
@@ -112,7 +110,7 @@ position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/site
  # Posteriors for undamaged fruits (2013-)
  #################################################################################
  
- countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
 
 siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
  
@@ -134,16 +132,7 @@ siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
  
  ufSummaryPopDF <- cbind(ufSummaryPop,site=siteNames) %>%
    dplyr::left_join(position,by="site")
- 
- # ggplot(data=ufSummaryPopDF) +
- #   geom_point(aes(x=easting,y=med),size=1) +
- #  # geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.5) +
- #   geom_linerange(aes(x=easting,ymin=ci.lo2,ymax=ci.hi2),size=.5) +
- #   theme_bw() +
- #   xlab("Easting (km)") +
- #   ylab("Undamaged fruits per plant") +
- #   labs(title="Undamaged fruits per plant (2013-2018)") 
- 
+
  ufSummaryPopYear<-mcmcSamples %>%
    tidybayes::recover_types(data) %>%
    tidybayes::spread_draws(mu_py[site,year]) %>%
@@ -167,9 +156,9 @@ siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
    dplyr::select(site,year,med,ci.lo,ci.hi,ci.lo2,ci.hi2)
  
    # this needs to be fixed
- ufSummaryPopMed = ufSummaryPopYearDF %>%
-   dplyr::group_by(site) %>%
-   dplyr::summarise(med=mean(med)) %>%
+ ufSummaryPopMed = ufSummaryPopDF %>%
+   # dplyr::group_by(site) %>%
+   # dplyr::summarise(med=mean(med)) %>%
     dplyr::rename(lambda.med=med) %>%
     dplyr::select(site,lambda.med)
  
@@ -187,11 +176,6 @@ interannualUF <- mcmcSamples %>%
    dplyr::select(-c(site,year)) %>%
    dplyr::rename(site = siteIndex) %>%
    dplyr::rename(year = yearIndex) %>%
-    # dplyr::filter(site=="DLW"&year==2016)
-    # hist(test$mu_py,breaks=100)
-    # abline(v=    median(test$mu_py),col='red')
-    # abline(v=HPDI(test$mu_py,0),col='orange')
-    # abline(v=HPDI(test$mu_py,.95),col='blue')
     
    dplyr::left_join(ufSummaryPopMed, by="site") %>%
    dplyr::arrange(lambda.med) %>% 
@@ -201,7 +185,7 @@ interannualUF <- mcmcSamples %>%
    dplyr::mutate(year=factor(year)) %>%
    mutate(id = row_number()) %>% 
    ggplot(aes(x = id , y = med)) + 
-   #geom_hline(aes(yintercept=lambda.med),linetype='dotted') +
+   geom_hline(aes(yintercept=lambda.med),linetype='dotted') +
    geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +  
    
    geom_point(aes(color=year),size=1) +

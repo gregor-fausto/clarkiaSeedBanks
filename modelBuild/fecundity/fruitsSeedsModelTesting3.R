@@ -82,110 +82,99 @@ data$n = dim(countFruitsPerPlantAllPlots)[1]
 data$n2 = dim(countUndamagedDamagedFruitsPerPlantAllPlots)[1]
 data$n3 = dim(countSeedPerUndamagedFruit)[1]
 data$n4 = dim(countSeedPerDamagedFruit)[1]
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Function to create indexes
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+f<-function(dataset=countUndamagedDamagedFruitsPerPlantAllPlots,response="y_und"){
+  
+  columnNames = colnames(dataset)
+  siteCol<-grep("site",columnNames)
+  yearCol<-grep("year",columnNames)
+  
+  df <-dataset %>% 
+    dplyr::rename(site = columnNames[siteCol]) %>% 
+    dplyr::rename(year = columnNames[yearCol])
+  
+  siteLen<-length(unique(df$site))
+  yearLen<-length(unique(df$year))
+  
+  sites=data.frame(site=unique(df$site),siteIndex=1:siteLen)
+  years=data.frame(year=unique(df$year),yearIndex=1:yearLen)
+  
+  
+  d<-df %>%
+    dplyr::left_join(sites,by="site") %>%
+    dplyr::left_join(years,by="year") %>%
+    # see https://stackoverflow.com/questions/48219732/pass-a-string-as-variable-name-in-dplyrfilter
+    dplyr::filter(!is.na(get(response))) %>%
+    dplyr::select(site,year,siteIndex,yearIndex) %>%
+    unique %>%
+    dplyr::select(siteIndex,yearIndex) %>%
+    arrange(siteIndex) %>%
+    tidyr::pivot_wider(values_from=yearIndex,names_from=siteIndex)
+  
+  listIndices<-lapply(d, `[[`, 1)
+  
+  sparse<-as.vector(unlist(listIndices))
+  
+  count=df %>%
+    dplyr::left_join(sites,by="site") %>%
+    dplyr::left_join(years,by="year") %>%
+    dplyr::filter(!is.na(get(response))) %>%
+    dplyr::group_by(site,year) %>%
+    dplyr::summarise(count=n())
+  
+  counts=count$count
+  item=as.vector(rep(sparse,counts))
+  
+  ticker=df %>%
+    dplyr::left_join(sites,by="site") %>%
+    dplyr::left_join(years,by="year") %>%
+    dplyr::filter(!is.na(get(response))) %>%
+    dplyr::mutate(number=1) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(site,year) %>%
+    dplyr::summarise(ticker=cumsum(number))
+  
+  id = ticker[ticker$ticker==1,]
+  id = data.frame(site=id$site,id=1:length(id$site)) %>%
+    group_by(site) %>%
+    dplyr::mutate(
+      first = dplyr::first(id)
+    )
+  
+  id=c(unique(id$first),length(sparse)+1)
+  
+  list(sparse=sparse,item=item,id=id)
+  
+}
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# For testing
+# Set indexes
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-#  keep<-data$site2 %in% 12:13
-# data$site2<-data$site2[keep]-11
-# data$year2<-data$year2[keep]
-# data$y_und<-data$y_und[keep]
-# data$n2 = length(data$y_und)
-# data$n_site2 = length(unique(data$site2))
-# # data$index = c(unique(data$year2[!is.na(data$y_und)]))
+index_tfe <- f(dataset=countFruitsPerPlantAllPlots,response="y_tfe")
+data$sparse_tfe = index_tfe$sparse
+data$item_tfe = index_tfe$item
+data$id_tfe = index_tfe$id
 
-# index = 1:length(data$y_und)
-# #und_missing = countUndamagedDamagedFruitsPerPlantAllPlots$und_missing[keep]
-# present = index*und_missing
-# data$present2 = present[present>0]
+index_und <- f(dataset=countUndamagedDamagedFruitsPerPlantAllPlots,response="y_und")
+data$sparse_und = index_und$sparse
+data$item_und = index_und$item
+data$id_und = index_und$id
 
+index_seeds <- f(dataset=countSeedPerUndamagedFruit,response="sdno")
+data$sparse_seeds = index_seeds$sparse
+data$item_seeds = index_seeds$item
+data$id_seeds = index_seeds$id
 
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Reference table
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-
-sites=data.frame(site2=unique(countUndamagedDamagedFruitsPerPlantAllPlots$site2),siteIndex=1:20)
-years=data.frame(year2=unique(countUndamagedDamagedFruitsPerPlantAllPlots$year2),yearIndex=1:6)
-
-# ref <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
-#   dplyr::left_join(sites,by="site2") %>%
-#   dplyr::left_join(years,by="year2") %>%
-#   dplyr::filter(!is.na(y_und)) %>%
-#   dplyr::select(site2,year2,siteIndex,yearIndex) %>%
-#   unique %>%
-#   dplyr::arrange(siteIndex) %>%
-#   dplyr::group_by(siteIndex) %>%
-#   dplyr::summarise(index = length(yearIndex))
-
-d<-countUndamagedDamagedFruitsPerPlantAllPlots %>%
-  # dplyr::filter(site2=="LCW"|site2=="LO") %>%
-  dplyr::left_join(sites,by="site2") %>%
-  dplyr::left_join(years,by="year2") %>%
-  dplyr::filter(!is.na(y_und)) %>%
-  dplyr::select(site2,year2,siteIndex,yearIndex) %>%
-  unique %>%
-  dplyr::select(siteIndex,yearIndex) %>%
-  arrange(siteIndex) %>%
-  tidyr::pivot_wider(values_from=yearIndex,names_from=siteIndex)
-
-listIndices<-lapply(d, `[[`, 1)
-# tmp<-do.call(cbind, listIndices)
-# 
-# data$index <- matrix(tmp,ncol=20,nrow=6)
-# data$ref <- ref$index
-
-sparse<-as.vector(unlist(listIndices))
-
-#sparse2<-1:length(listIndices)
-
-count=countUndamagedDamagedFruitsPerPlantAllPlots %>%
-  # dplyr::filter(site2=="LCW"|site2=="LO") %>%
-  dplyr::left_join(sites,by="site2") %>%
-  dplyr::left_join(years,by="year2") %>%
-  dplyr::filter(!is.na(y_und)) %>%
-  #dplyr::select(site2,year2,siteIndex,yearIndex) %>%
-  dplyr::group_by(site2,year2) %>%
-  dplyr::summarise(count=n())
-
-counts=count$count
-item=as.vector(rep(sparse,counts))
-
-ticker=countUndamagedDamagedFruitsPerPlantAllPlots %>%
-  # dplyr::filter(site2=="LCW"|site2=="LO") %>%
-  dplyr::left_join(sites,by="site2") %>%
-  dplyr::left_join(years,by="year2") %>%
-  dplyr::filter(!is.na(y_und)) %>%
-  #dplyr::select(site2,year2,siteIndex,yearIndex) %>%
-  dplyr::mutate(number=1) %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(site2,year2) %>%
-  dplyr::summarise(ticker=cumsum(number))
-
-id = ticker[ticker$ticker==1,]
-id = data.frame(site2=id$site2,id=1:length(id$site2)) %>%
-  group_by(site2) %>%
-  dplyr::mutate(
-    first = dplyr::first(id)
-  )
-id=c(unique(id$first),length(sparse)+1)
-#
-# for (k in 1:length(item)) {
-#   sparse[id[item[k]]:(id[item[k]+1] - 1)]
-# }
-# 
-# years2[id[site_reps[k]]:(id[site_reps[k]+1] - 1)]
-
-data$sparse = sparse
-data$item = item
-data$id = id
-
-# https://sourceforge.net/p/mcmc-jags/discussion/610037/thread/fda4b39b/
-# names(listIndices) = paste0(rep("index",20),"_",1:20)
-# data<-append(data,listIndices)
+index_dam_seeds <- f(dataset=countSeedPerDamagedFruit,response="sdno_dam")
+data$sparse_dam_seeds = index_dam_seeds$sparse
+data$item_dam_seeds = index_dam_seeds$item
+data$id_dam_seeds = index_dam_seeds$id
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
@@ -198,7 +187,7 @@ data$id = id
 n.chain = 1
 n.adapt = 3000
 n.update = 5000
-n.iterations = 10000
+n.iterations = 1000
 n.thin = 10
 
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/")
@@ -249,25 +238,19 @@ for(i in 1:3){
 # # Call to JAGS
 # 
 # # tuning (n.adapt)
-jm = jags.model(paste0(dir,"seedsAllJagsTesting2.R"), data = data, inits = inits,
+jm = jags.model(paste0(dir,"seedsAllJagsTesting3.R"), data = data, inits = inits,
                 n.chains = length(inits), n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-
 parsToMonitor = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   paste(rep("tau0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("sigma0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  paste(rep("mu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   paste(rep("tau",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("sigma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("gamma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("lambda",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  "ratio","nu_und","g_und","mu_und",
-                  paste(rep("p0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("p",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  "tfe","p_und","p_dam","tfe_comp",
-                  "y_und_sim","mu_p","mu_py","beta_p","mean_p","beta_py","mean_py")
+                  paste(rep("mu_p",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  paste(rep("mu_py",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  "ratio","mu_py_tfe_comp")
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
@@ -278,7 +261,7 @@ samples.rjags = coda.samples(jm,
 # dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 #saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
-saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamplesTesting2.rds"))
+saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamplesTesting3.rds"))
 # saveRDS(data,file=paste0(fileDirectory,"data.rds"))
 
 # saveRDS(countFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countFruitsPerPlantAllPlots.rds"))

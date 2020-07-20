@@ -6,7 +6,7 @@ model {
   
     # UNDAMAGED FRUITS
 
-    nu_und[i] ~ dgamma(.01, .01)
+    nu_und[i] ~ dgamma(1, 1)
     g_und[i] = exp(nu_und[i])
     
     # page 76 https://nwfsc-timeseries.github.io/atsa-2017/Labs/Week%203%20intro%20to%20jags/intro-to-jags.pdf
