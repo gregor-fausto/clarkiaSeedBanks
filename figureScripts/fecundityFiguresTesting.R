@@ -31,9 +31,9 @@ mcmcSamples <- readRDS(posteriorFiles[[7]])
 #################################################################################
 
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness/"
-simFiles <- paste0(directory,list.files(directory))
+dataFiles <- paste0(directory,list.files(directory))
 
-data <- readRDS(simFiles[[5]])
+data <- readRDS(dataFiles[[5]])
 
 
 # # # -------------------------------------------------------------------
@@ -52,7 +52,12 @@ data <- readRDS(simFiles[[5]])
 # Posteriors
 #################################################################################
 # 
-# MCMCsummary(mcmcSamples,params="mu_py")
+#  MCMCsummary(mcmcSamples,params="nu_tfe")
+# MCMCsummary(mcmcSamples,params="nu_und")
+# MCMCsummary(mcmcSamples,params="nu_dam")
+# MCMCsummary(mcmcSamples,params="nu_seeds")
+# MCMCsummary(mcmcSamples,params="nu_dam_seeds")
+
 # 
 # par(mfrow=c(1,1))
 # hist(rgamma(1000,1,1),breaks=100)
@@ -118,16 +123,19 @@ siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
  siteIndex <- data.frame(siteIndex=unique(countUndamagedDamagedFruitsPerPlantAllPlots$site),site=1:20)
  yearIndex <- data.frame(year=1:6,yearIndex=unique(countUndamagedDamagedFruitsPerPlantAllPlots$year))
  
+ siteIndex <- data.frame(siteIndex=unique(data$site2),siteBags=1:20)
+ yearIndex <- data.frame(yearBags=1:3,yearIndex=2006:2008)
+ 
  # extract population level distributions for undamaged plants
  ufSummaryPop <- mcmcSamples %>%
    tidybayes::recover_types(data) %>%
-   tidybayes::spread_draws(mu_p[siteNames]) %>%
+   tidybayes::spread_draws(mu_p_und[siteNames]) %>%
     dplyr::group_by(siteNames) %>%
-   dplyr::summarise(med = median(mu_p,0), 
-                    ci.lo = HPDI(mu_p,0.95)[1], 
-                    ci.hi = HPDI(mu_p,0.95)[2],
-                    ci.lo2 = HPDI(mu_p,0.5)[1], 
-                    ci.hi2 = HPDI(mu_p,0.5)[2]
+   dplyr::summarise(med = median(mu_p_und,0), 
+                    ci.lo = HPDI(mu_p_und,0.95)[1], 
+                    ci.hi = HPDI(mu_p_und,0.95)[2],
+                    ci.lo2 = HPDI(mu_p_und,0.5)[1], 
+                    ci.hi2 = HPDI(mu_p_und,0.5)[2]
    )
  
  ufSummaryPopDF <- cbind(ufSummaryPop,site=siteNames) %>%
@@ -135,13 +143,13 @@ siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
 
  ufSummaryPopYear<-mcmcSamples %>%
    tidybayes::recover_types(data) %>%
-   tidybayes::spread_draws(mu_py[site,year]) %>%
+   tidybayes::spread_draws(mu_py_und[site,year]) %>%
    dplyr::group_by(site,year) %>%
-   dplyr::summarise(med = median(mu_py), 
-                    ci.lo = HPDI(mu_py,0.95)[1], 
-                    ci.hi = HPDI(mu_py,0.95)[2],
-                    ci.lo2 = HPDI(mu_py,0.5)[1], 
-                    ci.hi2 = HPDI(mu_py,0.5)[2]
+   dplyr::summarise(med = median(mu_py_und), 
+                    ci.lo = HPDI(mu_py_und,0.95)[1], 
+                    ci.hi = HPDI(mu_py_und,0.95)[2],
+                    ci.lo2 = HPDI(mu_py_und,0.5)[1], 
+                    ci.hi2 = HPDI(mu_py_und,0.5)[2]
    )
  
  ufSummaryPopYearDF <- ufSummaryPopYear %>%
@@ -157,18 +165,16 @@ siteNames = unique(countUndamagedDamagedFruitsPerPlantAllPlots$site)
  
    # this needs to be fixed
  ufSummaryPopMed = ufSummaryPopDF %>%
-   # dplyr::group_by(site) %>%
-   # dplyr::summarise(med=mean(med)) %>%
     dplyr::rename(lambda.med=med) %>%
     dplyr::select(site,lambda.med)
  
 interannualUF <- mcmcSamples %>%
    tidybayes::recover_types(data) %>%
-   tidybayes::spread_draws(mu_py[site,year]) %>%
+   tidybayes::spread_draws(mu_py_und[site,year]) %>%
    dplyr::group_by(site,year) %>%
-    dplyr::summarise(med = median(mu_py),
-                     ci.lo = HPDI(mu_py,0.89)[1],
-                     ci.hi = HPDI(mu_py,0.89)[2]
+    dplyr::summarise(med = median(mu_py_und),
+                     ci.lo = HPDI(mu_py_und,0.89)[1],
+                     ci.hi = HPDI(mu_py_und,0.89)[2]
     ) %>%
    dplyr::ungroup() %>%
    dplyr::left_join(siteIndex,by="site") %>%

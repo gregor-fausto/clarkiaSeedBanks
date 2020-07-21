@@ -178,7 +178,7 @@ for(i in 1:n_site){
   # calculate the fraction of seeds in a damaged versus undamaged fruit (only for 2013-2018)
   # RATIO -------------------------------------------------------------------
   #for(j in sparse_dam_seeds[id_dam_seeds[i]:(id_dam_seeds[i+1]-1)]){
-      ratio[i,j] = exp(mu_py_seeds[i,j] - mu_py_dam_seeds[i,j])
+      ratio[i,j] = mu_py_dam_seeds[i,j]/mu_py_seeds[i,j]
       # composite tfe
       # only DLW doesn't have data on seeds from damaged fruits but has damaged fruits
       mu_py_tfe_comp[i,j] = mu_py_und[i,j] + mu_py_dam[i,j]*ratio[i,j]

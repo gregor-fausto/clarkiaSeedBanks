@@ -184,11 +184,12 @@ data$id_dam_seeds = index_dam_seeds$id
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.chain = 1
+n.chain = 3
 n.adapt = 3000
 n.update = 5000
-n.iterations = 1000
-n.thin = 10
+n.iterations = 10000
+n.thin = 1
+
 
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsFecundity/")
 
@@ -257,12 +258,12 @@ samples.rjags = coda.samples(jm,
                              variable.names = c(parsToMonitor), 
                              n.iter = n.iterations, thin = n.thin)
 
-# fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness/")
-# dir.create(file.path(fileDirectory), showWarnings = FALSE)
+ fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness/")
+ dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 #saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
 saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamplesTesting3.rds"))
-# saveRDS(data,file=paste0(fileDirectory,"data.rds"))
+ saveRDS(data,file=paste0(fileDirectory,"data.rds")) 
 
 # saveRDS(countFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countFruitsPerPlantAllPlots.rds"))
 # saveRDS(countUndamagedDamagedFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countUndamagedDamagedFruitsPerPlantAllPlots.rds"))
