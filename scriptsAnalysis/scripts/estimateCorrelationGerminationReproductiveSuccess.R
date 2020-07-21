@@ -33,6 +33,14 @@ gsd <- function(x){
   return(y)
 }
 
+# sample based calculation of gsd
+gsd.am <- function(x){
+  n = length(x)
+  mu = exp(mean(log(x),na.rm=TRUE))
+  y <- exp(sqrt(sum((log(x/mu))^2,na.rm=TRUE)/n))
+  return(y)
+}
+
 f<-function(x="alphaS1"){
   chain<-MCMCchains(zc,params = x)
   BCI <- t(apply(p,2,FUN = function(x) quantile(x, c(.025, .5, .975))))
@@ -44,8 +52,8 @@ f<-function(x="alphaS1"){
 
 # read in samples from posterior distributions
 
-belowground <- readRDS("~/Dropbox/dataLibrary/posteriors/jointInferenceSamples.RDS")
-aboveground <- readRDS("~/Dropbox/clarkiaSeedBanks/products/dataFiles/rsVarFullPosterior.RDS")
+# belowground <- readRDS("~/Dropbox/dataLibrary/posteriors/jointInferenceSamples.RDS")
+# aboveground <- readRDS("~/Dropbox/clarkiaSeedBanks/products/dataFiles/rsVarFullPosterior.RDS")
 
 g1Summary<-read.csv("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/parameterSummary/g1Summary.csv")[,-1]
 rsMedians<-readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/dataFiles/rsMedianEstimates.RDS")
@@ -55,16 +63,16 @@ gsdSummary <- rsMedians %>%
   dplyr::filter(!is.na(rs)) %>%
   dplyr::select(site,year,rs) %>%
   dplyr::group_by(site) %>%
-  dplyr::summarise(var.rs=gsd(rs))
+  dplyr::summarise(var.rs=gsd.am(rs))
 
 CI.correlation<-cor(g1Summary$med,gsdSummary$var.rs)
 
 
-pdf(
-  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation.pdf",
-  onefile=TRUE,
-  paper="USr",
-  height = 7.5, width = 10)
+# pdf(
+#   "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation.pdf",
+#   onefile=TRUE,
+#   paper="USr",
+#   height = 7.5, width = 10)
 
 plot(x = gsdSummary$var.rs,
      y = g1Summary$med,
@@ -83,7 +91,7 @@ text(x=2,y=.45,
      paste0("Pearson's r=",round(CI.correlation[1],2)),
      cex=1.5)
 
-dev.off()
+#dev.off()
 
 
 df <- g1Summary %>% dplyr::left_join(gsdSummary,by="site")
@@ -97,8 +105,8 @@ g1 <- ggplot(df,aes(x=var.rs,y=med,label=site)) +
   xlab("Geometric SD of fitness") +
   ylab("Mean germination probability [P(G)]") 
 
-ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
-       plot=g1,width=4,height=4)
+# ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
+#        plot=g1,width=4,height=4)
 
 # # Germination
 # # extract parameters for analysis
