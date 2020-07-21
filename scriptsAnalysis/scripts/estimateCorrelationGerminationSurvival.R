@@ -25,8 +25,7 @@ cols_fun <- function(x,fun=var){
 # -------------------------------------------------------------------
 
 # read in samples from posterior distributions
-# load("~/Dropbox/modelsF2019/output/seedbagfit")
-zc <- readRDS("~/Dropbox/dataLibrary/posteriors/belowgroundSamplesAllYears.RDS")
+zc <- readRDS("/Users/Gregor/Dropbox/dataLibrary/posteriors/jointInferenceSamples.RDS")
 
 # extract parameters for analysis
 posterior.g1<-MCMCchains(zc,params = "g1")
@@ -89,7 +88,7 @@ par(mar = mar.default + c(0, 4, 0, 0))
 # plot median of g1 vs. median of survival with CIs
 plot(x = survivalPosteriorSummary$med.surv,
      y = g1PosteriorSummary$med.g1,
-     xlim=c(0,1),ylim=c(0,1),
+     xlim=c(0,.75),ylim=c(0,.75),
      pch=16, cex = 0.5,
      xlab = "Probability of seed survival [P(S)]",
      ylab = "Mean germination probability [P(G)]",
@@ -99,10 +98,10 @@ segments(x0=survivalPosteriorSummary$lo.surv,x1=survivalPosteriorSummary$hi.surv
          y0=g1PosteriorSummary$med.g1, y1=g1PosteriorSummary$med.g1)
 segments(x0=survivalPosteriorSummary$med.surv,x1=survivalPosteriorSummary$med.surv,
          y0=g1PosteriorSummary$lo.g1, y1=g1PosteriorSummary$hi.g1)
-text(x=.175,y=.95,
+text(x=.1,y=.65,
      paste0("Pearson's r=",round(CI.correlation[2],2)),
      cex=1)
-abline(a=0,b=1)
+#abline(a=0,b=1)
 
 # plot posterior of correlation coefficient
 hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1),
@@ -123,10 +122,9 @@ df <- data.frame(names,survivalPosteriorSummary,g1PosteriorSummary)
 library(ggrepel)
 
 g1 <- ggplot(df,aes(x=med.surv,y=med.g1,label=site)) +
-  geom_abline(intercept=0,slope=1,alpha=.5) +
   geom_point() +
   geom_text_repel(size=3,color="black") +
-  theme_bw() + xlim(c(0,1)) + ylim(c(0,1)) +
+  theme_bw() + xlim(c(0,.75)) + ylim(c(0,.4)) +
   xlab("Probability of seed survival [P(S)]") +
   ylab("Mean germination probability [P(G)]")
 

@@ -596,6 +596,10 @@ reference$year <- as.integer(reference$year)
 tfeCompDF$year<-as.integer(tfeCompDF$year)
 
 # undamaged
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/fitness/countUndamagedDamagedFruitsPerPlantAllPlots.rds")
+siteIndex <- data.frame(siteIndex=unique(countFruitsPerPlantAllPlots$site),site=unique(data$site))
+yearIndex <- data.frame(yearIndex=unique(countFruitsPerPlantAllPlots$year),
+                        year=unique(data$year)) 
 ufDF<-mcmcSamples %>%
    tidybayes::recover_types(data) %>%
    tidybayes::spread_draws(mu_py_und[site,year]) %>%

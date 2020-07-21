@@ -14,6 +14,7 @@ library(reshape2)
 library(tidyr)
 library(HDInterval)
 library(bayesplot)
+library(rethinking)
 
 # -------------------------------------------------------------------
 # Functions for use when analyzing data
@@ -34,7 +35,6 @@ gsd <- function(x){
 
 f<-function(x="alphaS1"){
   chain<-MCMCchains(zc,params = x)
-  #p<-boot::inv.logit(chain)
   BCI <- t(apply(p,2,FUN = function(x) quantile(x, c(.025, .5, .975))))
   return(BCI)
 }
@@ -43,71 +43,22 @@ f<-function(x="alphaS1"){
 # -------------------------------------------------------------------
 
 # read in samples from posterior distributions
-belowground <- readRDS("~/Dropbox/dataLibrary/posteriors/belowgroundSamplesAllYears.RDS")
-aboveground <- readRDS("~/Dropbox/clarkiaSeedBanks/products/dataFiles2/rsVarFullPosterior.RDS")
 
-# gsdSummary <- aboveground %>%
-#   dplyr::filter(!is.na(rs)) %>%
-#   dplyr::select(site,year,rs) %>%
-#   dplyr::group_by(site) %>%
-#   dplyr::summarise(gsd(rs))
+belowground <- readRDS("~/Dropbox/dataLibrary/posteriors/jointInferenceSamples.RDS")
+aboveground <- readRDS("~/Dropbox/clarkiaSeedBanks/products/dataFiles/rsVarFullPosterior.RDS")
 
-## Note no sites meet this criteria anymore
-# need to fix this part?
-# Exclude sites with very high temporal variance (orders of magnitude higher)
-# d<-lapply(rsEstimates,temporal_variance,fun=gsd)
-# d2<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-# 
-# BCI <- apply(d2,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-# HPDI <- apply(d2,2,FUN = function(x) hdi(x, .95))
-# 
-# df<-data.frame(t(BCI))
-# names(df) <- c('lo','med','hi')
-# df<-cbind(df,siteNo=seq(1:20))
-# df.exclude<-df %>% dplyr::filter(med>20)
-# 
-# # problem sites index
-# probs <- df.exclude$siteNo
+g1Summary<-read.csv("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/parameterSummary/g1Summary.csv")[,-1]
+rsMedians<-readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/dataFiles/rsMedianEstimates.RDS")
 
-# work with g1
-# extract parameters for analysis
-posterior.g1<-MCMCchains(belowground,params = "g1")
 
-## exclude problem sites
-# g1<-g1[,-probs]
+gsdSummary <- rsMedians %>%
+  dplyr::filter(!is.na(rs)) %>%
+  dplyr::select(site,year,rs) %>%
+  dplyr::group_by(site) %>%
+  dplyr::summarise(var.rs=gsd(rs))
 
-# calculate the 95% credible interval and HPDI for g1
-CI.g1 <- apply(posterior.g1,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-HPDI.g1 <- apply(posterior.g1,2,FUN = function(x) hdi(x, .95))
+CI.correlation<-cor(g1Summary$med,gsdSummary$var.rs)
 
-## RS
-d<-lapply(aboveground,temporal_variance,fun=gsd)
-reproductiveSuccess<-matrix(unlist(d), ncol = 20, byrow = FALSE)
-# # exclude problem sites
-# reproductiveSuccess<-reproductiveSuccess[,-probs]
-
-# don't currently have the full distribution?
-CI.reproductiveSuccess <- apply(reproductiveSuccess,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-HPDI.reproductiveSuccess <- apply(reproductiveSuccess,2,FUN = function(x) hdi(x, .95))
-
-g1PosteriorSummary<-data.frame(t(CI.g1))
-names(g1PosteriorSummary) <- c("lo.g1","med.g1","hi.g1")
-
-## need to finish this section
-reproductiveSuccessPosteriorSummary<-data.frame(t(CI.reproductiveSuccess))
-names(reproductiveSuccessPosteriorSummary) <- c("lo.rs","med.rs","hi.rs")
-
-# calculate correlation for each draw from the posterior
-n.iter=3000
-posterior.correlation<-c()
-
-for(i in 1:n.iter){
-  posterior.correlation[i]<-cor(posterior.g1[i,],reproductiveSuccess[i,])
-}
-
-# calculate the 95% credible interval and HPDI for the correlation
-CI.correlation <- quantile(posterior.correlation, c(.025, .5, .975))
-HPDI.correlation <- hdi(posterior.correlation, .95)
 
 pdf(
   "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation.pdf",
@@ -115,49 +66,91 @@ pdf(
   paper="USr",
   height = 7.5, width = 10)
 
-plot(x = reproductiveSuccessPosteriorSummary$med.rs,
-     y = g1PosteriorSummary$med.g1,
-     xlim=c(0,20),ylim=c(0,1),
+plot(x = gsdSummary$var.rs,
+     y = g1Summary$med,
+     xlim=c(0,8),ylim=c(0,.5),
      pch=16,
      ylab = "Mean germination probability",
      xlab = "Geometric SD of fitness",
      xaxt='n', cex.lab = 1.5, cex.axis = 1.5)
 # Now, define a custom axis
-axis(side = 1, at=c(0,2,4,6,8,10,12,14,16,18,20),cex.axis=1.5)
+axis(side = 1, at=c(0,2,4,6,8),cex.axis=1.5)
 
-segments(x0=reproductiveSuccessPosteriorSummary$med.rs,
-         y0=g1PosteriorSummary$lo.g1,
-         y1=g1PosteriorSummary$hi.g1)
-text(x=15,y=.275,
-     paste0("Pearson's r=",round(CI.correlation[2],2)),
+# segments(x0=gsdSummary$var.rs,
+#          y0=g1Summary$ci.lo95,
+#          y1=g1Summary$ci.hi95)
+text(x=2,y=.45,
+     paste0("Pearson's r=",round(CI.correlation[1],2)),
      cex=1.5)
-
-hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1),
-     freq = FALSE, col = "azure1", cex.lab = 1.5,cex.axis=1.5)
-
-title(xlab="Correlation of germination and geometric SD of fitness \n (Pearson's r)", line=4, cex.lab=1.5)
-
-abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
-abline(v=CI.correlation[2],lty='solid',lwd='2',col='red')
 
 dev.off()
 
-names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-  dplyr::select(site) 
-df <- data.frame(names,reproductiveSuccessPosteriorSummary,g1PosteriorSummary)
 
+df <- g1Summary %>% dplyr::left_join(gsdSummary,by="site")
 
 library(ggrepel)
 
-g1 <- ggplot(df,aes(x=med.rs,y=med.g1,label=site)) +
- # geom_abline(intercept=0,slope=1,alpha=.5) +
+g1 <- ggplot(df,aes(x=var.rs,y=med,label=site)) +
   geom_point() +
   geom_text_repel(size=3,color="black") +
-  theme_bw() + xlim(c(0,20)) + ylim(c(0,1)) +
+  theme_bw() + xlim(c(0,8)) + ylim(c(0,.5)) +
   xlab("Geometric SD of fitness") +
-  ylab("Mean germination probability [P(G)]") +
-  
+  ylab("Mean germination probability [P(G)]") 
 
-ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
-       plot=g1,width=6,height=6)
+ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
+       plot=g1,width=4,height=4)
 
+# # Germination
+# # extract parameters for analysis
+#  posterior.g1<-MCMCchains(belowground,params = "g1")
+# 
+# # calculate the 95% credible interval and HPDI for g1
+# CI.g1 <- apply(posterior.g1,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
+# HPDI.g1 <- apply(posterior.g1,2,FUN = function(x) rethinking::HPDI(x, .95))
+# 
+# ## Reproductive success
+# lapply(aboveground,)
+# 
+# d<-lapply(aboveground,temporal_variance,fun=gsd)
+# reproductiveSuccess<-matrix(unlist(d), ncol = 20, byrow = FALSE)
+# # # exclude problem sites
+# # reproductiveSuccess<-reproductiveSuccess[,-probs]
+# 
+# # don't currently have the full distribution?
+# CI.reproductiveSuccess <- apply(reproductiveSuccess,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
+# HPDI.reproductiveSuccess <- apply(reproductiveSuccess,2,FUN = function(x) hdi(x, .95))
+# 
+# g1PosteriorSummary<-data.frame(t(CI.g1))
+# names(g1PosteriorSummary) <- c("lo.g1","med.g1","hi.g1")
+# 
+# ## need to finish this section
+# reproductiveSuccessPosteriorSummary<-data.frame(t(CI.reproductiveSuccess))
+# names(reproductiveSuccessPosteriorSummary) <- c("lo.rs","med.rs","hi.rs")
+# 
+# # calculate correlation for each draw from the posterior
+# n.iter=3000
+# posterior.correlation<-c()
+# 
+# for(i in 1:n.iter){
+#   posterior.correlation[i]<-cor(posterior.g1[i,],reproductiveSuccess[i,])
+# }
+# 
+# # calculate the 95% credible interval and HPDI for the correlation
+# CI.correlation <- quantile(posterior.correlation, c(.025, .5, .975))
+# HPDI.correlation <- hdi(posterior.correlation, .95)
+# 
+# 
+#   
+# 
+# ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
+#        plot=g1,width=6,height=6)
+# 
+# 
+# 
+# hist(posterior.correlation,breaks = 50, main = "", xlab = "", xlim = c(-1, 1),
+#      freq = FALSE, col = "azure1", cex.lab = 1.5,cex.axis=1.5)
+# 
+# title(xlab="Correlation of germination and geometric SD of fitness \n (Pearson's r)", line=4, cex.lab=1.5)
+# 
+# abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
+# abline(v=CI.correlation[2],lty='solid',lwd='2',col='red')
