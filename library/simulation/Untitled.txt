@@ -1,0 +1,11 @@
+many thanks @Gregor Siegmund  what do you knwo about the predators of these seeds?
+
+Rob, thanks for your question! We know that grasshoppers herbivorize the fruits, and I believe there is a wasp species that lays eggs in the fruits as well. But I'm not sure about post-dispersal seed predators! 
+
+@Gregor Siegmund Do you think there is age-structured survival in the seed bank? What patterns would would this produce?
+
+Thanks! I also ignore any age structure in some other work I do with annual plants, but always worry about the consequences. Great talk!
+
+Will, thanks for your question! Yeah, I think this is a good question. 
+
+@Gregor Siegmund There would also perhaps be interesting things going on with the seasonal survival, growth, and flowering during the growing season, which you could get at with a periodic structured model. It looks nice.

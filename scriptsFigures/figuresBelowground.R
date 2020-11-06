@@ -23,7 +23,7 @@ library(rethinking)
 directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 
-mcmcSamples <- readRDS(simFiles[[8]])
+mcmcSamples <- readRDS(simFiles[[9]])
 dirFigures = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/"
 
 ################################################################################
@@ -126,18 +126,31 @@ interannualG1<-mcmcSamples %>%
   ylab("Probability of germination [P(G)]") +
   ylim(c(0,1))
 
-spatialG1 <-g1_p %>%
+
+
+# your data
+df<-g1_p %>%
   dplyr::left_join(position,by="site") %>%
-  ggplot(aes(x = easting , y = med)) + 
+  dplyr::mutate(offset=ifelse(site=="EC",-.15,
+                              ifelse(site=="CP3",.15,0)))
+
+spatialG1 <-df%>%
+  ggplot(aes(x = easting+offset , y = med)) + 
   geom_point() +
-  geom_linerange(aes(x=easting,ymin=ci.lo,ymax=ci.hi),size=.25) +
+  geom_linerange(aes(x=easting+offset,ymin=ci.lo,ymax=ci.hi),size=.5) +
   theme_bw() +
   theme(panel.spacing=unit(0,"pt"), 
         panel.border=element_rect(colour="grey50", fill=NA)) +
-  ylab("[P(G)]") +
+  ylab("Germination probability [P(G)]") +
   xlab("Easting (km)") +
-  ylim(c(0,1))
+ # ylim(c(0,1)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_y_continuous(limits = c(0,.61), expand = c(0, 0),
+                     breaks = c(0,.1,.2,.3,.4,.5,.6)) 
 
+
+ggsave(filename=paste0(dirFigures,"spatial-g1.pdf"),
+       plot=spatialG1,width=8,height=4)
 
 ################################################################################
 # Winter seed survival (s1)
@@ -313,7 +326,7 @@ interannualS2<-mcmcSamples %>%
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank()) +
-  ylab("Probability of seed survival in first winter [P(S2)]") +
+  ylab("Probability of seed survival in first summer [P(S2)]") +
   ylim(c(0,1))
 
 spatialS2 <-s2_p %>%

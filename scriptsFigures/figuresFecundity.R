@@ -619,7 +619,7 @@ ufDF$year<-as.integer(ufDF$year)
 
 referenceUF<-ufDF %>% dplyr::select(site,year) %>% unique()
 
-ufOnly<-setdiff(referenceUF,reference) %>%
+ufOnly<-dplyr::setdiff(data.frame(referenceUF),data.frame(reference)) %>%
    dplyr::mutate(site.year=paste0(site,year))
 
 # countUndamagedDamagedFruitsPerPlantAllPlots %>%
@@ -628,7 +628,7 @@ ufOnly<-setdiff(referenceUF,reference) %>%
 
 ufDF_missing<-ufDF %>%
    dplyr::mutate(site.year=paste0(site,year)) %>%
-   dplyr::filter(site.year %in%ufOnly$site.year) %>%
+   dplyr::filter(site.year %in%ufOnly$site.year) %>% 
    dplyr::select(-site.year)
 
 # bind all datasets
@@ -692,27 +692,27 @@ spatialTFEFull <-   ggplot(tfeFullDFsorted,aes(x = easting , y = med)) +
       labs(color="Year")
      
 ## Save Figures
-ggsave(filename=paste0(dirFigures,"interannualUF.pdf"),
-       plot=interannualUF,width=6,height=16)
-ggsave(filename=paste0(dirFigures,"interannualDF.pdf"),
-       plot=interannualDF,width=6,height=12)
-ggsave(filename=paste0(dirFigures,"interannualTFE.pdf"),
-       plot=interannualTFE,width=6,height=12)
-ggsave(filename=paste0(dirFigures,"interannualTFEcomp.pdf"),
-       plot=interannualTFEcomp,width=6,height=12)
-ggsave(filename=paste0(dirFigures,"interannualTFEFull.pdf"),
-       plot=interannualTFEfull,width=6,height=12)
-
-ggsave(filename=paste0(dirFigures,"spatialUF.pdf"),
-       plot=spatialUF,width=4,height=4)
-ggsave(filename=paste0(dirFigures,"spatialDF.pdf"),
-       plot=spatialDF,width=4,height=4)
-ggsave(filename=paste0(dirFigures,"spatialTFE.pdf"),
-       plot=spatialTFE,width=4,height=4)
+# ggsave(filename=paste0(dirFigures,"interannualUF.pdf"),
+#        plot=interannualUF,width=6,height=16)
+# ggsave(filename=paste0(dirFigures,"interannualDF.pdf"),
+#        plot=interannualDF,width=6,height=12)
+# ggsave(filename=paste0(dirFigures,"interannualTFE.pdf"),
+#        plot=interannualTFE,width=6,height=12)
 # ggsave(filename=paste0(dirFigures,"interannualTFEcomp.pdf"),
 #        plot=interannualTFEcomp,width=6,height=12)
-ggsave(filename=paste0(dirFigures,"spatialTFEFull.pdf"),
-       plot=spatialTFEFull,width=12,height=6)
-
-ggsave(filename=paste0(dirFigures,"ribbonTFEfull.pdf"),
-       plot=ribbonTFEfull,width=12,height=6)
+# ggsave(filename=paste0(dirFigures,"interannualTFEFull.pdf"),
+#        plot=interannualTFEfull,width=6,height=12)
+# 
+# ggsave(filename=paste0(dirFigures,"spatialUF.pdf"),
+#        plot=spatialUF,width=4,height=4)
+# ggsave(filename=paste0(dirFigures,"spatialDF.pdf"),
+#        plot=spatialDF,width=4,height=4)
+# ggsave(filename=paste0(dirFigures,"spatialTFE.pdf"),
+#        plot=spatialTFE,width=4,height=4)
+# # ggsave(filename=paste0(dirFigures,"interannualTFEcomp.pdf"),
+# #        plot=interannualTFEcomp,width=6,height=12)
+# ggsave(filename=paste0(dirFigures,"spatialTFEFull.pdf"),
+#        plot=spatialTFEFull,width=12,height=6)
+# 
+# ggsave(filename=paste0(dirFigures,"ribbonTFEfull.pdf"),
+#        plot=ribbonTFEfull,width=12,height=6)

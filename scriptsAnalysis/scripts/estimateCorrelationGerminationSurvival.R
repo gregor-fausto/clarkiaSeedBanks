@@ -117,18 +117,58 @@ dev.off()
 names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
   dplyr::select(site) 
 df <- data.frame(names,survivalPosteriorSummary,g1PosteriorSummary)
+ciPosteriorSummary <- data.frame(t(CI.correlation))
 
 
 library(ggrepel)
 
 g1 <- ggplot(df,aes(x=med.surv,y=med.g1,label=site)) +
   geom_point() +
-  geom_text_repel(size=3,color="black") +
-  theme_bw() + xlim(c(0,.75)) + ylim(c(0,.4)) +
+#  geom_text_repel(size=3,color="black") +
+  theme_bw()+
   xlab("Probability of seed survival [P(S)]") +
-  ylab("Mean germination probability [P(G)]")
+  ylab("Mean germination probability [P(G)]") +
+  annotate("text", label =  paste0("Pearson's r=",round(CI.correlation[2],2)), x = .15, y = .29, size = 4) +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(0,.75), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
-ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation-labeled.pdf",
-       plot=g1,width=6,height=6)
 
 
+ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation.pdf",
+       plot=g1,width=4,height=4)
+
+
+c0<-sim(rho=-.75,nsites=20)
+
+df.sim <- data.frame(df$site,c0)
+g1.hypothesis<-ggplot(df.sim,aes(x=X,y=V2)) +
+  geom_point(color='gray') +
+  #geom_text_repel(size=3,color="black") +
+  theme_bw()+
+  xlab("Probability of seed survival [P(S)]") +
+  ylab("Mean germination probability [P(G)]") +
+  annotate("text", label =  paste0("Pearson's r=-.75"), x = .6, y = .29, size = 4,color='gray') +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(0,.75), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation-hypothesis.pdf",
+       plot=g1.hypothesis,width=4,height=4)
+
+g1.blank<-ggplot(df.sim,aes(x=X,y=V2)) +
+  #geom_point(color='gray') +
+  #geom_text_repel(size=3,color="black") +
+  theme_bw()+
+  xlab("Probability of seed survival [P(S)]") +
+  ylab("Mean germination probability [P(G)]") +
+  annotate("text", label =  paste0("Pearson's r=-.75"), x = .6, y = .29, size = 4,color='gray') +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(0,.75), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/germ_surv_correlation-blank.pdf",
+       plot=g1.blank,width=4,height=4)

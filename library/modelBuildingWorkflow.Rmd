@@ -322,6 +322,12 @@ Try to only use complete rows.
 viabilityRawData1<-viabilityRawData1[complete.cases(viabilityRawData1),] %>% dplyr::mutate(bag = as.factor(bag))
 viabilityRawData2<-viabilityRawData2[complete.cases(viabilityRawData2),] %>% dplyr::mutate(bag2 = as.factor(bag2))
 
+## Filter to one site - testing
+seedBagsData1 <- seedBagsData1 %>% dplyr::filter(siteBags=="S22")
+seedBagsData2 <- seedBagsData2 %>% dplyr::filter(siteBags2=="S22")
+viabilityRawData1 <- viabilityRawData1 %>% dplyr::filter(siteViab=="S22") 
+viabilityRawData2 <- viabilityRawData2 %>% dplyr::filter(siteViab2=="S22")
+
 data <- tidybayes::compose_data(seedBagsData1,viabilityRawData1,
                                 seedBagsData2,viabilityRawData2)
 
@@ -335,7 +341,7 @@ data$n2 = dim(seedBagsData2)[1]
 ```{r}
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/data/")
 
-saveRDS(data,file=paste0(fileDirectory,"belowgroundDataAgeOneTwo.rds"))
+saveRDS(data,file=paste0(fileDirectory,"belowgroundDataAgeOneTwo-S22.rds"))
 
 # fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/workflow/tidyData/")
 # 

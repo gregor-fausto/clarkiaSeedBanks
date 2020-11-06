@@ -762,7 +762,149 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
 
 	% data level
 	\node[state] (Y) [] {$y^{\mathrm{UF}}_{ijk}$};
-	\node[state] (Y2) [left =2cm of Y] {$y^{\mathrm{TFE}}_{ijk}$};
+	\node[state] (Y2) [left =2cm of Y] {$y^{\mathrm{TF}}_{ijk}$};
+       	\node[state] (Y3) [right  =2cm of Y] {$y^{\mathrm{DF}}_{ijk}$};
+         \node[state] (Y4) [right  =2cm of Y3] {$y^{\mathrm{US}}_{ijk}$};
+         \node[state] (Y5) [right  =2cm of Y4] {$y^{\mathrm{DS}}_{ijk}$};
+    
+
+        
+        % parameters
+         \node[state] (A) [below of = Y] {$z_{\mathrm{UF},ijk}$};          
+         \path[->] (A) edge node {} (Y);
+         
+          \node[state] (MU) [below of = A] {$\mu_{\mathrm{UF},jk}$};
+         \node[state] (SIG) [below left of = A] {$\sigma_{\mathrm{UF},jk}^2$};
+         
+         \path[->] (SIG) edge node {} (A);       
+         \path[->] (MU) edge node {} (A);       
+         
+         \node[state] (H) [below of = MU] {$\nu_{\mathrm{UF},j},(\sigma^\mathrm{pop}_{\mathrm{UF},j})^2$};
+         \path[->] (H) edge node {} (MU);       
+         
+         
+         % parameters
+         \node[state] (A2) [below of = Y2] {$z_{\mathrm{TF},ijk}$};          
+         \path[->] (A2) edge node {} (Y2);
+         
+          \node[state] (MU2) [below of = A2] {$\mu_{\mathrm{TF},jk}$};
+         \node[state] (SIG2) [below left of = A2] {$\sigma_{\mathrm{TF},jk}^2$};
+         
+         \path[->] (SIG2) edge node {} (A2);       
+         \path[->] (MU2) edge node {} (A2);       
+         
+         \node[state] (H2) [below of = MU2] {$\nu_{\mathrm{TF},j},(\sigma^\mathrm{pop}_{\mathrm{TF},j})^2$};
+         \path[->] (H2) edge node {} (MU2);       
+
+         % parameters
+         \node[state] (A3) [below of = Y3] {$z_{\mathrm{DF},ijk}$};          
+         \path[->] (A3) edge node {} (Y3);
+         
+          \node[state] (MU3) [below of = A3] {$\mu_{\mathrm{DF},jk}$};
+         \node[state] (SIG3) [below left of = A3] {$\sigma_{\mathrm{DF},jk}^3$};
+         
+         \path[->] (SIG3) edge node {} (A3);       
+         \path[->] (MU3) edge node {} (A3);       
+         
+         \node[state] (H3) [below of = MU3] {$\nu_{\mathrm{DF},j},(\sigma^\mathrm{pop}_{\mathrm{DF},j})^3$};
+         \path[->] (H3) edge node {} (MU3);      
+
+                   % parameters
+         \node[state] (A4) [below of = Y4] {$z_{\mathrm{US},ijk}$};          
+         \path[->] (A4) edge node {} (Y4);
+         
+          \node[state] (MU4) [below of = A4] {$\mu_{\mathrm{US},jk}$};
+         \node[state] (SIG4) [below left of = A4] {$\sigma_{\mathrm{US},jk}^4$};
+         
+         \path[->] (SIG4) edge node {} (A4);       
+         \path[->] (MU4) edge node {} (A4);       
+         
+         \node[state] (H4) [below of = MU4] {$\nu_{\mathrm{US},j},(\sigma^\mathrm{pop}_{\mathrm{US},j})^4$};
+         \path[->] (H4) edge node {} (MU4);      
+         
+                  % parameters
+         \node[state] (A5) [below of = Y5] {$z_{\mathrm{DS},ijk}$};          
+         \path[->] (A5) edge node {} (Y5);
+         
+          \node[state] (MU5) [below of = A5] {$\mu_{\mathrm{DS},jk}$};
+         \node[state] (SIG5) [below left of = A5] {$\sigma_{\mathrm{DS},jk}^5$};
+         
+         \path[->] (SIG5) edge node {} (A5);       
+         \path[->] (MU5) edge node {} (A5);       
+         
+         \node[state] (H5) [below of = MU5] {$\nu_{\mathrm{DS},j},(\sigma^\mathrm{pop}_{\mathrm{DS},j})^5$};
+         \path[->] (H5) edge node {} (MU5);      
+                                           
+          \begin{scope}[on background layer]
+   \node [fit=(SIG2) (Y) (H5), fill= gray!30, rounded corners, inner sep=.2cm] {};
+ \end{scope}
+                                 
+  \end{tikzpicture}
+\subcaption{Directed acyclic graphs for the hierarchical models fruits per plant and seeds per fruit. Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
+\end{subfigure}
+\end{figure}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% POSTERIOR AND JOINT DISTRIBUTIONS FOR FECUNDITY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% QUESTIONS
+% do I need to include \bm{n} on the RHS of the conditional statement for the posterior?
+
+\begin{align}
+  \begin{split}
+  [ &  \bm{z_{\mathrm{TF}}} ,  \bm{z_{\mathrm{UF}}},  \bm{z_{\mathrm{DF}}},  \bm{z_{\mathrm{US}}},  \bm{z_{\mathrm{DS}}},  \bm{\mu_{\mathrm{TF}}} ,  \bm{\mu_{\mathrm{UF}}},  \bm{\mu_{\mathrm{DF}}},  \bm{\mu_{\mathrm{US}}},  \bm{\mu_{\mathrm{DS}}},   \bm{\sigma_{\mathrm{TF}}}^2 ,  \bm{\sigma_{\mathrm{UF}}}^2,  \bm{\sigma_{\mathrm{DF}}}^2,  \bm{\sigma_{\mathrm{US}}}^2,  \bm{\sigma_{\mathrm{DS}}}^2, \\ & ( \bm{\sigma^\mathrm{pop}_{\mathrm{TF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{UF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{US}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DS}}})^2,  \bm{\nu_{\mathrm{TF}}} ,  \bm{\nu_{\mathrm{UF}}},  \bm{\nu_{\mathrm{DF}}},  \bm{\nu_{\mathrm{US}}},  \bm{\nu_{\mathrm{DS}}}, |  \bm{y^{\mathrm{TF}}} , \bm{y^{\mathrm{UF}}} , \bm{y^{\mathrm{DF}}} , \bm{y^{\mathrm{US}}} , \bm{y^{\mathrm{DS}}} ]  \propto  \\  
+ 	     & \prod_{j=1}^{J}  \Big\{ \prod_{i=1}^{N_1}  \prod_{k=1}^{K_1}  \mathrm{Poisson} ( y^\mathrm{TF}_{ijk} | z_{\mathrm{TF},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{TF},ijk} | \mathrm{log}(\mu_{\mathrm{TF},jk}), \sigma^2_{\mathrm{TF},jk} )  \\
+	     & \times \mathrm{lognormal} ( \mu_{\mathrm{TF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{TF},j}), (\sigma^\mathrm{pop}_{\mathrm{TF},j} )^2)  \\
+	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{TF},jk}  | 0.001, 0.001 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{TF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{TF},j} )^2 | 0.001, 0.001 ) \Big\}  \\
+  \times &  \Big\{ \prod_{i=1}^{N_2}  \prod_{k=1}^{K_2}  \mathrm{Poisson} ( y^\mathrm{UF}_{ijk} | z_{\mathrm{UF},ijk} )\  \mathrm{Poisson} ( y^\mathrm{DF}_{ijk} | z_{\mathrm{DF},ijk} ) \\
+  & \times  \mathrm{lognormal} ( z_{\mathrm{UF},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{UF},jk} )\ \mathrm{lognormal} ( z_{\mathrm{DF},ijk} | \mathrm{log}(\mu_{\mathrm{DF},jk}), \sigma^2_{\mathrm{DF},jk} )    \\
+	     & \times \mathrm{lognormal} ( \mu_{\mathrm{UF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{UF},j}), (\sigma^\mathrm{pop}_{\mathrm{UF},j} )^2 )\  \mathrm{lognormal} ( \mu_{\mathrm{DF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{DF},j}), (\sigma^\mathrm{pop}_{\mathrm{DF},j} )^2 )   \\
+	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{UF},jk}  | 0.001, 0.001 )\ \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{DF},jk}  | 0.001, 0.001 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{UF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{UF},j} )^2  | 0.001, 0.001 ) \\
+	     & \times  \mathrm{gamma} (\nu_{\mathrm{DF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{DF},j} )^2  | 0.001, 0.001 ) \Big\}  \\
+	      & \times \Big\{  \prod_{i=1}^{N_3}  \prod_{k=1}^{K_3}  \mathrm{Poisson} ( y^\mathrm{US}_{ijk} | z_{\mathrm{US},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{US},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{US},jk} )  \\
+	     & \times \mathrm{lognormal} ( \mu_{\mathrm{US},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{US},j}), (\sigma^\mathrm{pop}_{\mathrm{US},j} )^2 )  \\
+	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{US},jk}  | 0.001, 0.001 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{US},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{US},j} )^2  | 0.001, 0.001 ) \Big\}   \\
+	     & \times \Big\{  \prod_{i=1}^{N_4}  \prod_{k=1}^{K_4}  \mathrm{Poisson} ( y^\mathrm{DS}_{ijk} | z_{\mathrm{DS},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{DS},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{DS},jk} )  \\
+	     & \times \mathrm{lognormal} ( \mu_{\mathrm{DS},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{DS},j}), (\sigma^\mathrm{pop}_{\mathrm{DS},j} )^2 )  \\
+	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{DS},jk}  | 0.001, 0.001 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{DS},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{DS},j} )^2 | 0.001, 0.001 ) \Big\}.
+  \end{split}
+\end{align}
+
+
+
+
+\iffalse
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DIRECTED ACYCLIC GRAPHS FOR FECUNDITY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[h]%
+\begin{subfigure}[c]{\textwidth}
+\centering
+   \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.5cm, % distance between nodes
+            semithick % line style
+            ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]F
+
+
+	% data level
+	\node[state] (Y) [] {$y^{\mathrm{UF}}_{ijk}$};
+	\node[state] (Y2) [left =2cm of Y] {$y^{\mathrm{TF}}_{ijk}$};
        	\node[state] (Y3) [right  =2cm of Y] {$y^{\mathrm{DF}}_{ijk}$};
          \node[state] (Y4) [right  =2cm of Y3] {$y^{\mathrm{US}}_{ijk}$};
          \node[state] (Y5) [right  =2cm of Y4] {$y^{\mathrm{DS}}_{ijk}$};
@@ -774,9 +916,9 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
          \node[state] (B) [left = 0cm of A] {$r_{\mathrm{UF},jk}$};  
          \path[->] (B) edge node {} (Y);
                
-         \node[state] (A2) [below of = Y2] {$\gamma_{\mathrm{TFE},ijk}$};
+         \node[state] (A2) [below of = Y2] {$\gamma_{\mathrm{TF},ijk}$};
          \path[->] (A2) edge node {} (Y2);
-         \node[state] (B2) [left = 0cm of A2] {$r_{\mathrm{TFE},jk}$};  
+         \node[state] (B2) [left = 0cm of A2] {$r_{\mathrm{TF},jk}$};  
          \path[->] (B2) edge node {} (Y2);
                   
          \node[state] (A3) [below of = Y3] {$\gamma_{\mathrm{DF},ijk}$};
@@ -798,7 +940,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
          \node[state] (C) [below of = A] {$\mu^\mathrm{pop}_{\mathrm{UF},j},\sigma^\mathrm{pop}_{\mathrm{UF},j}$};
          \path[->] (C) edge node {} (A);           
          
-                  \node[state] (C2) [below of = A2] {$\mu^\mathrm{pop}_{\mathrm{TFE},j},\sigma^\mathrm{pop}_{\mathrm{TFE},j}$};
+                  \node[state] (C2) [below of = A2] {$\mu^\mathrm{pop}_{\mathrm{TF},j},\sigma^\mathrm{pop}_{\mathrm{TF},j}$};
          \path[->] (C2) edge node {} (A2);         
          
                   \node[state] (C3) [below of = A3] {$\mu^\mathrm{pop}_{\mathrm{DF},j},\sigma^\mathrm{pop}_{\mathrm{DF},j}$};
@@ -841,5 +983,6 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
   \end{split}
 \end{align}
 
+\fi
 
 \end{document}

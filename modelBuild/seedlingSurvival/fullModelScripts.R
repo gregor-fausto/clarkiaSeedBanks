@@ -70,13 +70,35 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/modelBuild/jagsScriptsSeedlingSu
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
+
+initsMu0 <- function(samps = data$n_site){
+  rnorm(n = samps, mean = 0, sd = 1)
+}
+
+initsSigma0 <- function(samps = data$n_site){
+  extraDistr::rhnorm(n = samps, sigma = 1)
+}
+
+initsSigma <- function(rows = data$n_site, cols = data$n_year){
+  matrix(extraDistr::rhnorm(n = rows*cols, sigma = 1), rows, cols)
+}
+
 # set inits for JAGS
-inits = list(list(mu0_1 = rep(0,data$n_site), sigma0_1 = rep(.5,data$n_site),
-                  sigma_1 = matrix(rep(.5,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)),
-             list(mu0_1 = rep(-1,data$n_site), sigma0_1 = rep(1,data$n_site),
-                  sigma_1 = matrix(rep(1,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)),
-             list(mu0_1 = rep(1,data$n_site), sigma0_1 = rep(1.25,data$n_site),
-                  sigma_1 = matrix(rep(1.25,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)))
+inits <- list()
+for(i in 1:3){
+  inits[[i]] <- list(initsMu0(), initsSigma0(), initsSigma() )
+  
+  names(inits[[i]]) = c("mu0_1","sigma0_1","sigma_1")
+  
+}
+
+# set inits for JAGS
+# inits = list(list(mu0_1 = rep(0,data$n_site), sigma0_1 = rep(.5,data$n_site),
+#                   sigma_1 = matrix(rep(.5,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)),
+#              list(mu0_1 = rep(-1,data$n_site), sigma0_1 = rep(1,data$n_site),
+#                   sigma_1 = matrix(rep(1,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)),
+#              list(mu0_1 = rep(1,data$n_site), sigma0_1 = rep(1.25,data$n_site),
+#                   sigma_1 = matrix(rep(1.25,data$n_site*data$n_year),nrow=data$n_site,ncol=data$n_year)))
 
 # # Call to JAGS
 # 
@@ -89,10 +111,10 @@ update(jm, n.iter = n.update)
 
 parsToMonitor_1 = c("theta_1","mu0_1","sigma0_1","mu_1","sigma_1")
 parsToMonitor_deriv = c("p0_1","p_1")
-
+parsToMonitor_fit = c("fruitplNumber.sim","p.value.mean","p.value.sd")
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
-                             variable.names = c(parsToMonitor_1, parsToMonitor_deriv), 
+                             variable.names = c(parsToMonitor_1, parsToMonitor_deriv, parsToMonitor_fit), 
                              n.iter = n.iterations, thin = n.thin)
 
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/")

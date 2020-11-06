@@ -35,9 +35,9 @@ gsd <- function(x){
 
 # sample based calculation of gsd
 gsd.am <- function(x){
-  n = length(x)
+  n = length(x[!is.na(x)])
   mu = exp(mean(log(x),na.rm=TRUE))
-  y <- exp(sqrt(sum((log(x/mu))^2,na.rm=TRUE)/n))
+  y <- exp(sqrt(sum((log(x/mu))^2,na.rm=TRUE)/(n-1)))
   return(y)
 }
 
@@ -100,13 +100,162 @@ library(ggrepel)
 
 g1 <- ggplot(df,aes(x=var.rs,y=med,label=site)) +
   geom_point() +
-  geom_text_repel(size=3,color="black") +
-  theme_bw() + xlim(c(0,8)) + ylim(c(0,.5)) +
-  xlab("Geometric SD of fitness") +
-  ylab("Mean germination probability [P(G)]") 
+ # geom_text_repel(size=3,color="black") +
+  annotate("text", label =  paste0("Pearson's r=",round(CI.correlation[1],2)), x = 2.5, y = .29, size = 4) +
+ theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  xlab("Geometric SD of reproductive success") +
+  ylab("Mean germination probability [P(G)]") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
-# ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
-#        plot=g1,width=4,height=4)
+ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-labeled.pdf",
+       plot=g1,width=4,height=4)
+
+g1.blank <- ggplot(df,aes(x=var.rs,y=med,label=site)) +
+ # geom_point() +
+  # geom_text_repel(size=3,color="black") +
+ # annotate("text", label =  paste0("Pearson's r=",round(CI.correlation[1],2)), x = 1.5, y = .29, size = 4) +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  xlab("Geometric SD of reproductive success") +
+  ylab("Mean germination probability [P(G)]") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-blank.pdf",
+       plot=g1.blank,width=4,height=4)
+
+
+# g1.point <- ggplot(df %>% dplyr::filter(site=="BG"),aes(x=var.rs,y=med,label=site)) +
+#    geom_point() +
+#   # geom_text_repel(size=3,color="black") +
+#   theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+#   scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+#   scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+#   xlab("Geometric SD of reproductive success") +
+#   ylab("Mean germination probability [P(G)]") +
+#   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+# 
+# ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-point.pdf",
+#        plot=g1.point,width=4,height=4)
+
+matplot(c0[,2],c0[,3:12],
+        xlab="Mean site germination probability",
+        ylab="Annual mean fitness",
+        main=expression(paste("cor(",sigma,",P(G))=-.75")),
+        pch=16,col='gray')
+plot(c0[1:nsites,1],c0[1:nsites,2],xlab="Variance in Fitness",ylab="Probability of Germination")
+
+set.seed(11)
+
+# COPULA
+
+library(MASS)
+
+nsites = 20
+nyears = 10
+
+mu = mu = rnorm(n=nsites,mean=25,sd=0)
+
+sim <- function(rho=0,nsites=20){
+  # Defines the  sequence for stochastic trials.
+  reps=1000
+  
+  # a and b are hyperparameters of the gamma distribution 
+  # that define both the expected value and variance.   
+  a = 6
+  b = 1.75
+  
+  # alpha and beta are hyperparameters of the beta distribution that define both the expected value and
+  # variance.  
+  alpha =  1
+  beta =  1
+  
+  # Defines the temporal correlation between the two parameters.
+  rho = rho
+  
+  # Generates standard multivariate normal data with correlation structure defined by rho.
+  Z <- mvrnorm(n=reps,mu=c(0,0), 
+               matrix(data=c(1,rho,rho,1),
+                      nrow=2,ncol=2))
+  
+  # Apply the Normal CDF function to Z to obtain data that is uniform on the interval [0,1], but still correlated.
+  U = pnorm(Z)
+  
+  # x is gamma distributed
+  X = qgamma(U[,1],shape=a,rate=b) 
+ # X = qunif(U[,1],0,.75) 
+  
+  # y is beta distributed
+  #X <- cbind(X,qbeta(U[,2],shape1=alpha,shape2=beta) )
+  X <- cbind(X,qunif(U[,2],0,.3) )
+  
+  # gamma marginal of multivariate X.
+  # hist(X[,1])
+  # beta marginal of multivariate X
+  # hist(X[,2])
+  
+  # plot(X[,1],X[,2])
+  
+  nsites = nsites
+  nyears = 10
+  X[1:nsites,1:2]
+  
+  # generate samples for each site with a different variance
+  d<-lapply(X[1:nsites,1],rnorm,n=nyears,mean=rnorm(n=nsites,mean=mu,sd=0))
+  # check that the variances are appropriately sampled
+  cbind(unlist(lapply(d, sd)),X[1:nsites,1])
+  
+  d<-data.frame(d)
+  names(d) <- 1:20
+  
+  # check variances again
+  cbind(apply(d,2, sd),X[1:nsites,1])
+  
+  dim(d)
+  
+  dt<-cbind(X[1:nsites,1:2],t(d))
+  return(dt)
+}
+
+
+
+c0<-sim(rho=-.75,nsites=20)
+
+df.sim <- data.frame(df$site,c0)
+g1.hypothesis<-ggplot(df.sim,aes(x=X,y=V2)) +
+  geom_point(color='gray') +
+  # geom_text_repel(size=3,color="black") +
+   annotate("text", label =  paste0("Pearson's r=",-.75), x = 6, y = .29, size = 4,color='gray') +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  xlab("Geometric SD of reproductive success") +
+  ylab("Mean germination probability [P(G)]") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-hypothesis.pdf",
+       plot=g1.hypothesis,width=4,height=4)
+
+
+g1.point<-ggplot(df.sim[1,],aes(x=X,y=V2)) +
+  geom_segment(aes(x=X,y=0,xend=X,yend=V2),color='#E69F00') +
+  geom_segment(aes(x=1,y=V2,xend=X,yend=V2),color='#CC79A7') +
+  
+  geom_point(color='gray',size=5) +
+  # geom_text_repel(size=3,color="black") +
+ # annotate("text", label =  paste0("Pearson's r=",-.75), x = 6, y = .29, size = 4,color='gray') +
+  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+  scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+  scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+  xlab("Geometric SD of reproductive success") +
+  ylab("Mean germination probability [P(G)]") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/germ_rs_correlation-point.pdf",
+       plot=g1.point,width=4,height=4)
+
 
 # # Germination
 # # extract parameters for analysis
