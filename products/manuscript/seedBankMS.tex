@@ -20,6 +20,12 @@
 \usepackage{soul}
 
 \usepackage[breaklinks=true]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=orange,      
+    urlcolor=red,
+}
 
 \usepackage[superscript,noadjust]{cite} % puts dash in citations to abbreviate
 \usepackage [autostyle, english = american]{csquotes} % sets US-style quotes
@@ -136,7 +142,7 @@
 	
 	\begin{enumerate}
 	
-	\item Write paragraph about history of studies of bet hedging via seed bank, with emphasis on how this study addresses this question at an intraspecific level. Lower level of variation in intraspecific germination fraction. [INTRODUCTION]
+	\item Write paragraph about history of studies of bet hedging via seed bank, with emphasis on how this study addresses this question at an intraspecific level. Lower level of variation in intraspecific germination fraction. (\hyperlink{bet-hedging-history}{link})
 	\item Write models for belowground vital rates
 	\item Revise description for density-independent model for germination probability
 	\item Write and implement model checking process
@@ -158,6 +164,8 @@ What drives the evolution of delayed germination? The theory developed by \cite{
 %Several studies have examined intraspecific variation in seed dormancy \cite{hacker1984,hacker1989,philippi1993a,clauss2000}. The main set of papers I've included are ones that look at variation in germination among Sonoran Desert annuals (\cite{venable2007,gremer2014,gremer2016}). The table lists predictions made by different models. I think examining the following relationships would be good starting points: The correlation between variance in fitness (seeds/seedling) and germination fraction should be negative -- this is true under the density-independent and -dependent model. The correlation between seed survivorship and germination fraction should be negative under both a density-independent and -dependent model but the limit as survivorship approaches 1 differs. Finally, the correlation between mean seed yield and germination fraction will be positive if fitness is density-independent but is not necessarily positive if fitness is density-dependent.
 
 %[intraspecific variation, range dynamics]
+
+\hypertarget{bet-hedging-history}{\hl{Paragraph about the history of bet hedging studies.}}
 
 Population vital rates are known to vary across \textit{Clarkia xantiana}'s geographic range. Population growth rates determine species abundance and distribution, and are ultimately what limit persistence beyond range edges. Geographic patterns to vital rates have so far been studied to help understand the demography of geography. Seed banks are a strategy that annual plants may use to buffer against environmental variation and may be part of population persistence. I will begin by characterizing geographic variation in belowground vital rates. [What is the geographic pattern to variation in germination or seed survival?] [I think this question could be expanded to make clear predictions and/or address another aspect such as variation in time.]
 
@@ -341,7 +349,7 @@ We use the number of seeds per undamaged fruit to calculate per-seed fitness.
 
 \subsection*{Models}
 
-Across all datasets, we have data from multiple years and populations. The goal is to get model-based estimates of vital rates. We use the models to separate variability in parameters between temporal variability and variability due to sampling (\hl{e.g. Gould and Nichols 1998}). This is particularly important for our estimates of per capita reproductive success because we calculate annual estimates to get a sense of the interannual variation. Failing to account for sampling variation can upwardly bias estimates of temporal variation. 
+Across all datasets, we have data from multiple years and populations. The goal is to obtain model-based estimates of vital rates. We use the models to separate variability in parameters between temporal variability and variability due to sampling (\hl{e.g. Gould and Nichols 1998}). This is particularly important for our estimates of per capita reproductive success because we calculate annual estimates to quantify interannual variation. Failing to account for sampling variation can inflate estimates of temporal variation. 
 
 Sample sizes for parameters vary both within years across populations, as well as across populations. Accounting for sampling variability is important for making conclusions about differences among populations. 
  
@@ -427,25 +435,70 @@ Alternatively, I calculate fitness in two different ways for the different sets 
 
 \hl{To assess what probability distribution to use when fitting this model,} I fit a power model with an intercept to the mean and variance using the \verb|nls| function in R, which returned an exponent of 1.38. The fit is greater than linear but less than quadratic which means that neither a Poisson nor negative binomial are likely to be entirely appropriate distributions for the data (\cite{linden2011}). I might try the parameterization in that reference but for now I am using the negative binomial because the data are overdispersed. We estimated seeds per fruit across all populations taking into account both temporal and between-population variability with the following model. Here, I used data from undamaged fruits from the years 2006-2012. I estimated seeds per fruit as:
 
-\subsection*{Model checking}
+\subsection*{Model implementation and checking}
 
+\hl{Steps from Gelman et al. (Bayesian Workflow 2020)
 
-\subsubsection*{Convergence}
-...
+1. Prior predictive checks (plots and summaries)
+
+Computation
+1. Initial values
+2. Adaptation/warmup phase
+3. Iterations
+4. Fake-data checks
+
+Evaluating and using a fitted model
+1. posterior predictive checking
+2. cross-validation
+3. influence of prior
+
+Checklist from Hobbs and Hooten (273-276):
+
+1. describe algorithm
+2. check for convergence
+3. model checks (posterior predictive)
+
+Hobbs et al. 2015 (Brucellosis state-space model)
+
+Posterior predictive checks
+
+Conn et al. 2018 (Guide to bayesian model 
+
+A. Prior predictive checks
+B. Posterior predictive checks
+C. Posterior P values
+D. Pivotal discrepancy measures
+E. Cross-validation
+F. Residual tests
+G. Graphical techniques}
+
+\subsubsection*{Model Convergence}
+
+\hl{Describe number of MCMC chains, number of iterations in (1) burn-in, (2) adaptation, and (3) sampling phase. Describe runtime and computational architecture. Visually inspect trace plots and density plots to assess mixing. Look at Gelman-Rubin statistics (R-hat) and effective sample size). Tables in Appendix provide summary statistics for each parameter: median, sdev, 2.5 and 97.5\%, neff. (Rosenbaum)
+
+Include parameter symbols in table (Czachura and Miller 2020)
+
+Prior sensitivity analysis (Elderd et al. 2013, Elderd and Miller 2015); p. 90-105 in Hobbs and Hooten
+
+Describe thinning/not (Elderd and Miller 2015)
+
+MCMC convergence diagnostics: Brooks-Gelman-Rubin statistics (R-hat), Heidelberger-Welch diagnostic (stationarity), visual inspection (Elderd and Miller 2015)}
 
 \subsubsection*{Posterior predictive checks}
 
-...
+\hl{Assess overall model fit to data. Visual or Bayesian p-value (Elderd and Miller 2015)}
 
 \subsection*{Analysis}
 
 \subsubsection*{Correlation between germination probability and seed survival}
 
-Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival, $s_2 s_3$; the product of these vital rates is the probability that seeds which do not germinate in January remain in the seed bank until the following January. I used the posteriors of $g_1$ and $s_2 s_3$ to calculate the correlation between germination and seed survival. Using this approach, I obtained a distribution of estimates of correlation. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction. The bottom panel shows the posterior distribution of correlation between observed germination probability and the probability of seed survival; the median correlation is negative (-0.07) and the 95\% credible interval overlaps 0.
+Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I assessed whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated seed survival, $s_2 s_3$, the probability that seeds which do not germinate in January remain in the seed bank until the following January. I obtained the posterior distribution for the correlation between germination and seed survival by calculating the correlation of $g_1$ and $s_2 s_3$ across sites at each iteration of the MCMC output \hl{Hobbs and Hooten 2015, p 194-5}. \hl{Calculating the sample correlation in draws from the posterior. (quote Stan list-serv)}. Results of this analysis are shown in Figure~\ref{fig:germ_surv_correlation}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction. The bottom panel shows the posterior distribution of correlation between the probability of germination and seed survival. \hl{The median correlation is negative (-0.07) and the 95\% credible interval overlaps 0.}
+
+Ref: https://discourse.mc-stan.org/t/computing-correlations-from-the-posterior/2633
 
 \subsubsection*{Correlation between germination probability and variance in per-capita reproductive success}
 
-Increased variance in per-capita reproductive success is predicted to decrease the optimal germination probability (\cite{cohen1966,ellner1985a}). I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}). Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated at the per year and per population level as follows:
+Increased variance in per-capita reproductive success is predicted to decrease the optimal germination probability (\cite{cohen1966,ellner1985a}). I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}). Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated as:
 %
 \begin{align}
   \begin{split}
@@ -463,21 +516,24 @@ where
   \end{split}
 \end{align}
 %
-To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. For each population, I calculated the correlation between germination and variance in per-capita reproductive success with the posterior distribution for the geometric SD of per capita reproductive success and the posterior distribution of germination probability from model XX. Using this approach, I obtained a distribution of correlation estimates. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}.
+To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric SD of per capita reproductive success. I obtained the posterior distribution for the correlation between germination and geometric SD of per capita reproductive success at each iteration of the MCMC output \hl{Hobbs and Hooten 2015, p 194-5}. \hl{Calculating the sample correlation in draws from the posterior. (quote Stan list-serv)}. Using this approach, I obtained a distribution of correlation estimates. Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction. Results of this analysis are shown in Figure~\ref{fig:germ_rs_correlation}.
 
 \subsubsection*{Density-independent model for germination probability}
 
-We use estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We use the following equation to describe \textit{Clarkia xantiana}'s life cycle and calculate population growth rate:
+We use estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. We describe \textit{Clarkia xantiana}'s life cycle and calculate population growth rate with the equation:
 %
 \begin{align}
   \begin{split}
-\lambda = g_1 Y(t) s_0 s_1  + (1-g_1) s_2 s_3
+\lambda = g_1 Y(t) s_0 s_1  + (1-g_1) s_2 s_3  \label{eq:di-equation}
   \end{split}
 \end{align}
 %
 The parameters in this equation were fit in models corresponding to equations ~\eqref{eq:s1},~\eqref{eq:g1}, and ~\eqref{eq:s2}. Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit (equation~\eqref{eq:percapitars}). Temporal variation is incorporated into the model by varying the per-capita reproductive success, $Y(t)$, between years.
 
-I numerically calculate the optimal germination probability for the observed level of variation in reproductive success and seed survival in each population. For each population, I randomly select values 1000 from the posterior distribution for reproductive success. \hl{[note from SPE: The issue is that the posterior distribution samples parameter uncertainty. If the model includes temporal variability in certain ways, it may be sampling from the combined variance of parameter uncertainty and temporal variance. In any case, sampling the posterior does not get you a sample from the estimated distribution of temporal variability. To sample from the estimated temporal variability distribution, you estimate its parameters and sample from the fitted distribution. Between now and the committee meeting, think about how you could do that. Afterwards, to account for parameter uncertainty, you can repeat that with several different parameter sets sampled from the posterior.]} I use this same sequence of $Y(t)$ and the observed seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities (G) between 0 and 1. The optimal germination probability is estimated as the value of G that maximizes geometric mean of the population growth rate. I repeat the simulations 50 times for each population, resampling from the posterior distribution for reproductive success each time. I calculated the mean of the optimal germination fractions.  
+For each population, I numerically calculate the optimal germination probability for the observed variation in reproductive success and seed survival. In each case, I sampled parameters in the equation for density-independent growth (equation~\eqref{eq:di-equation}) from the fitted vital rate distributions. I resampled the fitted values of per-capita reproductive success ($Y(t)$) to obtain a sequence of 1000 years. I used this same sequence of $Y(t)$ and the fitted seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities ($G$) between 0 and 1. The optimal germination probability is estimated as the value of $G$ that maximizes the geometric mean of the population growth rate. I repeat the simulations 50 times for each population, resampling the sequence of per-capita reproductive success, $Y(t)$, each time. I then calculated the mean of the optimal germination fractions.  
+
+%% NOTE: I think I addressed Steve's comment in the paragraph above. 
+% \hl{[note from SPE: The issue is that the posterior distribution samples parameter uncertainty. If the model includes temporal variability in certain ways, it may be sampling from the combined variance of parameter uncertainty and temporal variance. In any case, sampling the posterior does not get you a sample from the estimated distribution of temporal variability. To sample from the estimated temporal variability distribution, you estimate its parameters and sample from the fitted distribution. Between now and the committee meeting, think about how you could do that. Afterwards, to account for parameter uncertainty, you can repeat that with several different parameter sets sampled from the posterior.]} 
 
 Models in which per-capita reproductive success is density-independent predict that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate a density-independent model for germination probability, I compared observed germination probability to predicted germination optima. I plot this comparison in Figure~\ref{fig:obs_pred}. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed.
 
@@ -498,7 +554,6 @@ I examined the correlation between germination probability and seed survival in 
 \newpage
 \section*{Figures} 
 
- 
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}[

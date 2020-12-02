@@ -1,0 +1,195 @@
+\documentclass[12pt, oneside, titlepage]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+
+\usepackage{graphicx}
+\graphicspath{ {\string} }
+\usepackage{subcaption}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% set up packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{geometry}                
+\usepackage{textcomp}                
+\usepackage{amsmath}                
+\usepackage{graphicx}                
+\usepackage{amssymb}                
+\usepackage{fancyhdr}                
+\usepackage{subcaption}                
+\usepackage{bm}                
+\usepackage{lineno}
+\usepackage{pdfpages}
+
+\usepackage[superscript,noadjust]{cite} % puts dash in citations to abbreviate
+\usepackage [autostyle, english = american]{csquotes} % sets US-style quotes
+
+\usepackage{etoolbox} % block quotes
+
+\usepackage{float}
+\usepackage{color}
+\usepackage{soul}
+
+\usepackage{pgf}
+\usepackage{tikz}
+%\usepackage{eqnarray}
+
+\usepackage{listings} % code blocks
+\usepackage{setspace}
+
+\usepackage{lscape}
+
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% call packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\geometry{letterpaper, marginparwidth=60pt} % sets up geometry              		
+\linenumbers % adds line numbers 
+\MakeOuterQuote{"} % sets quote style
+\doublespacing % setspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% patches with etoolbox 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+% block quotes
+\AtBeginEnvironment{quote}{\small}
+
+% linenumbers
+\makeatletter
+\patchcmd{\@startsection}{\@ifstar}{\nolinenumbers\@ifstar}{}{}
+\patchcmd{\@xsect}{\ignorespaces}{\linenumbers\ignorespaces}{}{}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tikzlibrary modifications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{automata}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% page formatting; exact 1 in margins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}                                                     
+
+\setlength{\textwidth}{6.5in}    
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{8.5in}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\footskip}{.5in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% defining code blocks using listings package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+ % keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  otherkeywords={0,1,2,3,4,5,6,7,8,9},
+  deletekeywords={data,frame,length,as,character,dunif,ps},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\bibliographystyle{plainnat} 
+
+Last updated: \today
+
+\section*{General references and motivation}
+
+Hobbs and Hooten (2015), McElreath (2016), Kruschke (20XX)
+
+Gelman et al. (2020 - Bayesian Workflow)
+
+\section*{Inference/theory}
+
+How does one make inferences from a model built in a Bayesian statistical framework?
+
+Hobbs and Hilborn (2006), Buckland et al. (2007), Mangel and Hilborn (1998)
+
+\section*{Visualization}
+
+What is the role of visualization in Bayesian analysis? 
+
+Gabry et al. (2019): general
+
+Gelman et al. (2000): posterior predictive checks
+
+\section*{Priors}
+
+How are priors constructed? How can we evaluate the influence of a prior?
+
+Banner et al. (20XX)
+
+\section*{Model checking}
+
+For a single model, how can we tell whether our model is a good fit to the data?
+
+Conn et al. (2018)
+
+\section*{Model selection}
+
+How can we make comparisons among competing models?
+
+Hooten and Hobbs (2015)
+
+\section*{Error propagation}
+
+How does error propagation work in a Bayesian context?
+
+Clark et al. (2003, 2005)
+
+\section*{Hierarchical models}
+
+What is a hierarchical model? Why is it *not* synonymous with a Bayesian model?
+
+McMahon and Diez (2007), Diez (2007), Cressie et al (2009)
+
+\section*{Combining data}
+
+What are some examples of combining data using Bayesian approaches?
+
+Fabre et al. (2010), Spor et al. (2010), Wilson et al. (2015)
+
+\section*{Plant demography applications}
+
+What are existing examples of Bayesian analysis applied to plant demography data?
+
+Evans et al. (2010), Elderd and Miller (2015)
+
+\section*{Interesting ecological applications}
+
+What are some general interesting ecological applications of Bayesian analysis?
+
+Link et al. (2002), Cam et al. (2002), Lavine et al. (2002), Clark et al. (2004), Metcalf et al. (2009), Ketz et al. (2016), Ibanez et al. (2007)
+
+\clearpage
+\bibliography{/Users/gregor/Dropbox/bibliography/seeds}
+
+\end{document}

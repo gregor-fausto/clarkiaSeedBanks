@@ -25,6 +25,7 @@
 
 \usepackage{float}
 \usepackage{color}
+\usepackage{soul}
 
 \usepackage{pgf}
 \usepackage{tikz}
@@ -118,15 +119,17 @@
 
 \bibliographystyle{plainnat} 
 
+Last updated: \today
+
 \section*{Appendix 1}
 
 % I will use this appendix to compare different models for a success/trial dataset to demonstrate shrinkage due to partial pooling. One of the goals of this appendix is to outline my reasoning for using Bayesian methods to make inferences about vital rates.  
 
-In this appendix, I explain why we use models that are hierarchical and Bayesian. To illustrate the approach I use in the main text, I build a series of models to estimate the probability that seedlings survive to become fruiting plants and fit them to a small dataset. First, I compare estimates from maximum likelihood and Bayesian approaches by fitting (1) a non-hierarchical model with a binomial likelihood and no prior and (2) a non-hierarchical model with a binomial likelihood with a beta prior. Second, I compare estimates from non-hierarchical and hierarchical approaches by developing (3) a hierarchical model with a binomial likelihood and year-level parameters on a beta distribution and (4) a hierarchical model with a binomial likelihood and year- and population-level parameters on a beta distribution. Finally, I compare four parameterizations for hierarchical models with a binomial likelihood in order to improve computational efficiency. 
+In this appendix, I explain why we use models that are hierarchical and Bayesian. To illustrate the approach I use in the main text, I focus on fitting models to a subset of one type of demographic data. I build a series of models to estimate the probability that seedlings survive to become fruiting plants. First, I compare estimates from maximum likelihood and Bayesian approaches by fitting (1) a non-hierarchical model with a binomial likelihood and no prior and (2) a non-hierarchical model with a binomial likelihood with a beta prior. Second, I compare estimates from non-hierarchical and hierarchical approaches by developing (3) a hierarchical model with a binomial likelihood and year-level parameters on a beta distribution and (4) a hierarchical model with a binomial likelihood and year- and population-level parameters on a beta distribution. Finally, I compare four parameterizations for hierarchical models with a binomial likelihood. This last comparison illustrates the range of possible parameterizations and helps assess the computational efficiency of the model. 
 
-Reasons to use hierarchical, Bayesian models. (1) Demographic data is collected in a hierarchical structure, consisting of individuals tracked across multiple years, with plot- and site-level variation \cite{elderd2016}. This means that there is "process error" in addition to "observation error". Examples of models that use maximum-likelihood models for hierarchical data include Crone and Williams 2006, Rees and Ellner 2009. (2) A second advantage is the ability to combine multiple data sets and experiments \cite{elderd2016}. For example, this means it would be possible to fit multiple vital rates in a single framework. (3) One of the benefits of the Bayesian approach is making it possible to quantify and propagate uncertainty. For example, it makes it possible to properly propagate uncertainty into the estimates of population growth rate, which is a key part of calculating population viability as well as for this analysis. This is related to the idea that Bayesian analysis treats all unobserved quantities as random variables - which is relevant to this study because we are interested in the correlation between vital rates. (4) Incorporate prior information about vital rates. (5) 
+Reasons to use hierarchical, Bayesian models. (1) Demographic data is collected in a hierarchical structure, consisting of individuals tracked across multiple years, with plot- and site-level variation \cite{elderd2016}. This means that there is "process error" in addition to "observation error". Examples of models that use maximum-likelihood models for hierarchical data include \hl{Crone and Williams 2006, Rees and Ellner 2009}. (2) A second advantage is the ability to combine multiple data sets and experiments \cite{elderd2016} [e.g. integrated population modeling: \hl{Besbeas 2003, Goodman 2004, more recent: Zipkin}, combining experiment, observation: \hl{Wilson 2015}]. For example, this means it would be possible to fit multiple vital rates in a single framework. (3) One of the benefits of the Bayesian approach is making it possible to quantify and propagate uncertainty. For example, it makes it possible to properly propagate uncertainty into the estimates of population growth rate, which is a key part of calculating population viability as well as for this analysis. This is related to the idea that Bayesian analysis treats all unobserved quantities as random variables - which is relevant to this study because we are interested in the correlation between vital rates. (4) Incorporate prior information about vital rates. 
 
-Examples of papers that use hierarchical Bayesian models for demographic analysis: \cite{clark2003,evans2010}
+Examples of papers that use hierarchical Bayesian models for demographic analysis [\hl{Clark 2003}]: \cite{evans2010}
 
 \subsection*{Maximum likelihood and Bayesian estimates}
 \subsubsection*{Maximum likelihood estimate}
@@ -386,7 +389,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mle_bayes}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-mle_bayes}  
     \caption{ (A) This panel plots the median of the posterior from the beta-binomial with complete pooling per population against the maximum likelihood estimate. (B) This panel compares the full posterior distribution from the beta-binomial parameterization with the maximum likelihood estimate. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.  }
  \label{fig:mle_bayes}
 \end{figure}
@@ -394,7 +397,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
 \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-figure54-2}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-figure54-2}  
     \caption{ Posterior median and 95\% credible intervals for a randomly selected year, based on simulations from the joint posterior distribution plotted against the unpooled estimates. The 1:1 line corresponds to unpooled estimates $\theta_i = y_i/n_i$. The horizontal, dashed line corresponds to the year-level maximum likelihood estimate. (A) Estimates from the complete pooling model. (B) Estimates from the hierarchical model with year-level parameters. (C) Estimates from the hierarchical model with year- and population-level parameters. } 
  \label{fig:hierarchical_shrinking1}
 \end{figure}
@@ -402,7 +405,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
 \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-figure54}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-figure54}  
     \caption{ (A) Posterior median and 95\% credible intervals for a randomly selected year, based on simulations from the joint posterior distribution plotted against the unpooled estimates. The 1:1 line corresponds to unpooled estimates $\theta_i = y_i/n_i$. The horizontal, dashed lines corresponds to the year-level maximum likelihood estimates. } 
  \label{fig:hierarchical_shrinking2}
 \end{figure}
@@ -411,7 +414,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyear}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-hierarchyPosteriors_nh_hyear}  
     \caption{ (A) Comparison of and nonhierarchical (blue) and year-level parameter hierarchical (red) model. The curves are posterior density distributions for the probability of survivorship $p_{jk}$ (blue) and $\phi$ (red). } 
  \label{fig:hierarchyPosteriors_nh_hyear}
 \end{figure}
@@ -419,7 +422,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
 \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriors_nh_hyearpop}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-hierarchyPosteriors_nh_hyearpop}  
     \caption{ (A) Comparison of and nonhierarchical and year- and population-level parameter hierarchical model.  The curves are posterior density distributions for the probability of survivorship $p_{jk}$ (blue), $\phi_j$ (red), and $\phi_0$ (black).  }
  \label{fig:hierarchyPosteriors_nh_hyearpop}
 \end{figure}
@@ -428,15 +431,15 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-hierarchyPosteriorsSummary}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-hierarchyPosteriorsSummary}  
     \caption{ (A) Comparison of median and 95\% confidence intervals for models with three levels of structure, fit to the same dataset.   }
  \label{fig:hierarchyPosteriorsSummary}
 \end{figure}
 
 \clearpage
 
-\includepdf[pages={2,3,4},fitpaper=true]{../figures/appendix-x-ppc.pdf}
-\includepdf[pages={5,6,7},fitpaper=true]{../figures/appendix-x-ppc.pdf}
+\includepdf[pages={2,3,4},fitpaper=true]{../../figures/appendix-x-ppc.pdf}
+\includepdf[pages={5,6,7},fitpaper=true]{../../figures/appendix-x-ppc.pdf}
 
 
 
@@ -444,7 +447,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-bayescomp_bayeshier}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-bayescomp_bayeshier}  
     \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the beta-binomial parameterization with partial pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.  }
  \label{fig:complete_vs_partial}
 \end{figure}
@@ -453,7 +456,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-match}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-match}  
     \caption{ (A) This plot shows the posterior distribution of the beta-binomial parameterization with complete pooling (solid line) against the posterior distribution of the beta-binomial parameterization with partial pooling (dotted line). The medians are given by vertical lines. These are 8 population- and year- combinations that have 30 data points each. These correspond to points on the right side of Figure~\ref{fig:complete_vs_partial}. }
  \label{fig:match}
 \end{figure}
@@ -461,7 +464,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mismatch}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-mismatch}  
     \caption{ (A) This plot shows the posterior distribution of the beta-binomial parameterization with complete pooling (solid line) against the posterior distribution of the beta-binomial parameterization with partial pooling (dotted line). The medians are given by vertical lines. The red lines are the population-level modes $\omega$. These are 8 population- and year- combinations that have only 1 data point each. These correspond to points on the left side of Figure~\ref{fig:complete_vs_partial}. }
  \label{fig:mismatch}
 \end{figure}
@@ -469,7 +472,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-mle_bayeslogit}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-mle_bayeslogit}  
     \caption{ (A) This panel plots the median of the posterior from the logit parameterization with complete pooling per population against the maximum likelihood estimate. (B) This panel compares the full posterior distribution from the logit parameterization with the maximum likelihood estimate. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate. }
  \label{fig:logit}
 \end{figure}
@@ -477,7 +480,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix-x-bayescomp_bayeslogit}  
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix-x-bayescomp_bayeslogit}  
     \caption{ (A) This plot compares the full posterior distribution of the beta-binomial parameterization with complete pooling against the logit parameterization with compmlete pooling. The plot shows the median of the difference (with 95\% CIs) against the sample size in the year-population combination for that estimate.   }
  \label{fig:complete_vs_logit}
 \end{figure}
@@ -639,8 +642,8 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.75\textwidth]{../figures/appendix/appendix-1/hyperparameterCorrelations}  
-        \includegraphics[page=1,width=.75\textwidth]{../figures/appendix/appendix-1/funnelCheck}  
+       \includegraphics[page=1,width=.75\textwidth]{../../figures/appendix/appendix-1/hyperparameterCorrelations}  
+        \includegraphics[page=1,width=.75\textwidth]{../../figures/appendix/appendix-1/funnelCheck}  
     \caption{   }
  \label{fig:...}
 \end{figure}
@@ -649,7 +652,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.9\textwidth]{../figures/appendix/appendix-1/neff}              
+       \includegraphics[page=1,width=.9\textwidth]{../../figures/appendix/appendix-1/neff}              
     \caption{   }
  \label{fig:...}
 \end{figure}
@@ -657,7 +660,7 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-       \includegraphics[page=1,width=.75\textwidth]{../figures/appendix/appendix-1/shrinkageSamplesize}              
+       \includegraphics[page=1,width=.75\textwidth]{../../figures/appendix/appendix-1/shrinkageSamplesize}              
     \caption{   }
  \label{fig:...}
 \end{figure}
@@ -665,8 +668,8 @@ Finally, we want to explore the effect of adding hierarchical structure on how a
  \begin{figure}[h]
    \centering
   %#\begin{tabular}{@{}c@{\hspace{.5cm}}c@{}}
-         \includegraphics[page=1,width=.75\textwidth]{../figures/appendix/appendix-1/shrinkage}              
-       \includegraphics[page=1,width=.75\textwidth]{../figures/appendix/appendix-1/posteriorProbability}              
+         \includegraphics[page=1,width=.75\textwidth]{../../figures/appendix/appendix-1/shrinkage}              
+       \includegraphics[page=1,width=.75\textwidth]{../../figures/appendix/appendix-1/posteriorProbability}              
     \caption{   }
  \label{fig:...}
 \end{figure}

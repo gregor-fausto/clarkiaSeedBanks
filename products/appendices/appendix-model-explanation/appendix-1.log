@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  19 MAR 2020 10:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  2 DEC 2020 09:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -386,13 +386,25 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks26
 \@floatcapt=\box32
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/soul/soul.sty
+Package: soul 2003/11/17 v2.4 letterspacing/underlining (mf)
+\SOUL@word=\toks27
+\SOUL@lasttoken=\toks28
+\SOUL@cmds=\toks29
+\SOUL@buffer=\toks30
+\SOUL@token=\toks31
+\SOUL@spaceskip=\skip58
+\SOUL@ttwidth=\dimen138
+\SOUL@uldp=\dimen139
+\SOUL@ulht=\dimen140
+)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/local/texlive/2016/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
 x
-\pgfutil@everybye=\toks27
-\pgfutil@tempdima=\dimen138
-\pgfutil@tempdimb=\dimen139
+\pgfutil@everybye=\toks32
+\pgfutil@tempdima=\dimen141
+\pgfutil@tempdimb=\dimen142
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
 sts.tex))
@@ -410,30 +422,30 @@ Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks28
-\pgfkeys@temptoks=\toks29
+\pgfkeys@pathtoks=\toks33
+\pgfkeys@temptoks=\toks34
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
 ode.tex
-\pgfkeys@tmptoks=\toks30
+\pgfkeys@tmptoks=\toks35
 ))
-\pgf@x=\dimen140
-\pgf@y=\dimen141
-\pgf@xa=\dimen142
-\pgf@ya=\dimen143
-\pgf@xb=\dimen144
-\pgf@yb=\dimen145
-\pgf@xc=\dimen146
-\pgf@yc=\dimen147
+\pgf@x=\dimen143
+\pgf@y=\dimen144
+\pgf@xa=\dimen145
+\pgf@ya=\dimen146
+\pgf@xb=\dimen147
+\pgf@yb=\dimen148
+\pgf@xc=\dimen149
+\pgf@yc=\dimen150
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
 \c@pgf@counta=\count125
 \c@pgf@countb=\count126
 \c@pgf@countc=\count127
 \c@pgf@countd=\count128
-\t@pgf@toka=\toks31
-\t@pgf@tokb=\toks32
-\t@pgf@tokc=\toks33
+\t@pgf@toka=\toks36
+\t@pgf@tokb=\toks37
+\t@pgf@tokc=\toks38
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
@@ -464,12 +476,12 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen148
+\pgfmath@dimen=\dimen151
 \pgfmath@count=\count131
 \pgfmath@box=\box34
-\pgfmath@toks=\toks34
-\pgfmath@stack@operand=\toks35
-\pgfmath@stack@operation=\toks36
+\pgfmath@toks=\toks39
+\pgfmath@stack@operand=\toks40
+\pgfmath@stack@operation=\toks41
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
 tex
@@ -495,32 +507,32 @@ erarithmetics.code.tex)))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
 de.tex
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
-\pgf@picminx=\dimen149
-\pgf@picmaxx=\dimen150
-\pgf@picminy=\dimen151
-\pgf@picmaxy=\dimen152
-\pgf@pathminx=\dimen153
-\pgf@pathmaxx=\dimen154
-\pgf@pathminy=\dimen155
-\pgf@pathmaxy=\dimen156
-\pgf@xx=\dimen157
-\pgf@xy=\dimen158
-\pgf@yx=\dimen159
-\pgf@yy=\dimen160
-\pgf@zx=\dimen161
-\pgf@zy=\dimen162
+\pgf@picminx=\dimen152
+\pgf@picmaxx=\dimen153
+\pgf@picminy=\dimen154
+\pgf@picmaxy=\dimen155
+\pgf@pathminx=\dimen156
+\pgf@pathmaxx=\dimen157
+\pgf@pathminy=\dimen158
+\pgf@pathmaxy=\dimen159
+\pgf@xx=\dimen160
+\pgf@xy=\dimen161
+\pgf@yx=\dimen162
+\pgf@yy=\dimen163
+\pgf@zx=\dimen164
+\pgf@zy=\dimen165
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconst
 ruct.code.tex
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
-\pgf@path@lastx=\dimen163
-\pgf@path@lasty=\dimen164
+\pgf@path@lastx=\dimen166
+\pgf@path@lasty=\dimen167
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage
 .code.tex
 File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
-\pgf@shorten@end@additional=\dimen165
-\pgf@shorten@start@additional=\dimen166
+\pgf@shorten@end@additional=\dimen168
+\pgf@shorten@start@additional=\dimen169
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.co
 de.tex
@@ -533,14 +545,14 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
 ate.code.tex
 File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
-\pgflinewidth=\dimen167
+\pgflinewidth=\dimen170
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransform
 ations.code.tex
 File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
-\pgf@pt@x=\dimen168
-\pgf@pt@y=\dimen169
-\pgf@pt@temp=\dimen170
+\pgf@pt@x=\dimen171
+\pgf@pt@y=\dimen172
+\pgf@pt@temp=\dimen173
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.cod
 e.tex
@@ -557,12 +569,12 @@ File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.co
 de.tex
 File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
-\pgfarrowsep=\dimen171
+\pgfarrowsep=\dimen174
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.cod
 e.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
-\pgf@max=\dimen172
+\pgf@max=\dimen175
 \pgf@sys@shading@range@num=\count134
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
@@ -598,8 +610,8 @@ File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version
 -0-65.sty
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen173
-\pgf@nodesepend=\dimen174
+\pgf@nodesepstart=\dimen176
+\pgf@nodesepend=\dimen177
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version
 -1-18.sty
@@ -615,10 +627,10 @@ Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
 Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen175
-\pgffor@skip=\dimen176
-\pgffor@stack=\toks37
-\pgffor@toks=\toks38
+\pgffor@iter=\dimen178
+\pgffor@skip=\dimen179
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.cod
 e.tex
@@ -628,14 +640,14 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 dlers.code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
 \pgf@plot@mark@count=\count135
-\pgfplotmarksize=\dimen177
+\pgfplotmarksize=\dimen180
 )
-\tikz@lastx=\dimen178
-\tikz@lasty=\dimen179
-\tikz@lastxsaved=\dimen180
-\tikz@lastysaved=\dimen181
-\tikzleveldistance=\dimen182
-\tikzsiblingdistance=\dimen183
+\tikz@lastx=\dimen181
+\tikz@lasty=\dimen182
+\tikz@lastxsaved=\dimen183
+\tikz@lastysaved=\dimen184
+\tikzleveldistance=\dimen185
+\tikzsiblingdistance=\dimen186
 \tikz@figbox=\box40
 \tikz@figbox@bg=\box41
 \tikz@tempbox=\box42
@@ -661,16 +673,16 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count144
 \lst@gtempboxa=\box44
-\lst@token=\toks39
+\lst@token=\toks44
 \lst@length=\count145
-\lst@currlwidth=\dimen184
+\lst@currlwidth=\dimen187
 \lst@column=\count146
 \lst@pos=\count147
-\lst@lostspace=\dimen185
-\lst@width=\dimen186
+\lst@lostspace=\dimen188
+\lst@width=\dimen189
 \lst@newlines=\count148
 \lst@lineno=\count149
-\lst@maxwidth=\dimen187
+\lst@maxwidth=\dimen190
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
@@ -696,8 +708,8 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 Package natbib Warning: The `cite' package should not be used
 (natbib)                with natbib. Use option `sort' instead.
 
-\bibhang=\skip58
-\bibsep=\skip59
+\bibhang=\skip59
+\bibsep=\skip60
 LaTeX Info: Redefining \cite on input line 694.
 LaTeX Info: Redefining \citenum on input line 708.
 \c@NAT@ctr=\count152
@@ -719,7 +731,7 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 code.tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen188
+\arrowsize=\dimen191
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryautomata.code.tex
@@ -769,43 +781,54 @@ Package csquotes Info: ... none found.
 
 
 Package csquotes Warning: No multilingual support.
-(csquotes)                Cannot enable multilingual quotes on input line 117.
+(csquotes)                Cannot enable multilingual quotes on input line 118.
 
-(./appendix-1.aux)
+(./appendix-1.aux
+
+LaTeX Warning: Label `fig:...' multiply defined.
+
+
+LaTeX Warning: Label `fig:...' multiply defined.
+
+
+LaTeX Warning: Label `fig:...' multiply defined.
+
+)
 \openout1 = `appendix-1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 117.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 118.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 117.
- (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    ... okay on input line 118.
+
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count153
-\scratchdimen=\dimen189
+\scratchdimen=\dimen192
 \scratchbox=\box66
 \nofMPsegments=\count154
 \nofMParguments=\count155
-\everyMPshowfont=\toks40
+\everyMPshowfont=\toks45
 \MPscratchCnt=\count156
-\MPscratchDim=\dimen190
+\MPscratchDim=\dimen193
 \MPnumerator=\count157
 \makeMPintoPDFobject=\count158
-\everyMPtoPDFconversion=\toks41
+\everyMPtoPDFconversion=\toks46
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -894,455 +917,398 @@ Package caption Info: End \AtBeginDocument code.
 Package: pdflscape 2016/05/14 v0.11 Display of landscape pages in PDF (HO)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-Package csquotes Info: Making character " active on input line 117.
+Package csquotes Info: Making character " active on input line 118.
 
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count159
-LaTeX Font Info:    Try loading font information for U+msa on input line 130.
+ [1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 137.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 130.
+LaTeX Font Info:    Try loading font information for U+msb on input line 137.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+) [2] [3]
+[4] [5] [6] [7] [8] [9] [10] [11] [12]
+<../../figures/appendix-x-mle_bayes.pdf, id=55, page=1, 578.16pt x 289.08pt>
+File: ../../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
- [4] [5]
-[6] [7]
-
-LaTeX Warning: Reference `eq:frequentistMLE' on page 8 undefined on input line 
-349.
-
-
-LaTeX Warning: Reference `eq:bayesianNH' on page 8 undefined on input line 349.
-
-
-
-LaTeX Warning: Reference `fig:mle_bayes' on page 8 undefined on input line 349.
-
-
-
-LaTeX Warning: Reference `fig:mle_bayes' on page 8 undefined on input line 349.
-
-
-[8]
-
-LaTeX Warning: Reference `eq:bayesianNH' on page 9 undefined on input line 353.
-
-
-
-LaTeX Warning: Reference `eq:bayesianHyear' on page 9 undefined on input line 3
-53.
-
-
-LaTeX Warning: Reference `eq:bayesianHyearpop' on page 9 undefined on input lin
-e 353.
-
-
-LaTeX Warning: Reference `fig:hierarchical_shrinking1' on page 9 undefined on i
-nput line 355.
-
-
-LaTeX Warning: Reference `fig:hierarchical_shrinking2' on page 9 undefined on i
-nput line 355.
-
-
-LaTeX Warning: Reference `eq:bayesianNH' on page 9 undefined on input line 357.
-
-
-
-LaTeX Warning: Reference `eq:bayesianHyear' on page 9 undefined on input line 3
-57.
-
-
-LaTeX Warning: Reference `eq:bayesianHyearpop' on page 9 undefined on input lin
-e 357.
-
-
-LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyear' on page 9 undefined
- on input line 357.
-
-
-LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyearpop' on page 9 undefi
-ned on input line 357.
-
-
-LaTeX Warning: Reference `fig:hierarchyPosteriors_nh_hyearpop' on page 9 undefi
-ned on input line 357.
-
-[9]
-
-LaTeX Warning: Reference `fig:hierarchyPosteriorsSummary' on page 10 undefined 
-on input line 359.
-
-[10] [11]
-<../figures/appendix-x-mle_bayes.pdf, id=52, page=1, 578.16pt x 289.08pt>
-File: ../figures/appendix-x-mle_bayes.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-mle_bayes.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-mle_bayes.pdf, page1 used on inp
-ut line 385.
+<use ../../figures/appendix-x-mle_bayes.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-mle_bayes.pdf, page1 used on 
+input line 392.
 (pdftex.def)             Requested size: 422.77661pt x 211.38834pt.
 
-<../figures/appendix-x-figure54-2.pdf, id=53, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-figure54-2.pdf Graphic file (type pdf)
+<../../figures/appendix-x-figure54-2.pdf, id=56, page=1, 578.16pt x 433.62pt>
+File: ../../figures/appendix-x-figure54-2.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-figure54-2.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-figure54-2.pdf, page1 used on in
-put line 393.
+<use ../../figures/appendix-x-figure54-2.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-figure54-2.pdf, page1 used on
+ input line 400.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/appendix-x-figure54.pdf, id=54, page=1, 578.16pt x 433.62pt>
-File: ../figures/appendix-x-figure54.pdf Graphic file (type pdf)
+<../../figures/appendix-x-figure54.pdf, id=57, page=1, 578.16pt x 433.62pt>
+File: ../../figures/appendix-x-figure54.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-figure54.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-figure54.pdf, page1 used on inpu
-t line 401.
-(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-<../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, id=55, page=1, 578.16p
-t x 433.62pt>
-File: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf Graphic file (type
- pdf)
-
-<use ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf
-, page1 used on input line 410.
+<use ../../figures/appendix-x-figure54.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-figure54.pdf, page1 used on i
+nput line 408.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-<../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, id=56, page=1, 578.
+<../../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, id=58, page=1, 578.
 16pt x 433.62pt>
-File: ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf Graphic file (t
+File: ../../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf Graphic file (t
 ype pdf)
 
-<use ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.
-pdf, page1 used on input line 418.
+<use ../../figures/appendix-x-hierarchyPosteriors_nh_hyear.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-hierarchyPosteriors_nh_hyear.
+pdf, page1 used on input line 417.
 (pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-<../figures/appendix-x-hierarchyPosteriorsSummary.pdf, id=57, page=1, 289.08pt 
-x 289.08pt>
-File: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf Graphic file (type p
-df)
- <use ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix-x-hierarchyPosteriorsSummary.pdf, 
-page1 used on input line 427.
+<../../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, id=59, page=1, 5
+78.16pt x 433.62pt>
+File: ../../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf Graphic file
+ (type pdf)
+
+<use ../../figures/appendix-x-hierarchyPosteriors_nh_hyearpop.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-hierarchyPosteriors_nh_hyearp
+op.pdf, page1 used on input line 425.
+(pdftex.def)             Requested size: 422.77661pt x 317.08252pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+<../../figures/appendix-x-hierarchyPosteriorsSummary.pdf, id=60, page=1, 289.08
+pt x 289.08pt>
+File: ../../figures/appendix-x-hierarchyPosteriorsSummary.pdf Graphic file (typ
+e pdf)
+
+<use ../../figures/appendix-x-hierarchyPosteriorsSummary.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix-x-hierarchyPosteriorsSummary.pd
+f, page1 used on input line 434.
 (pdftex.def)             Requested size: 422.77661pt x 422.79874pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12
+[13
 
- <../figures/appendix-x-mle_bayes.pdf>] [13 <../figures/appendix-x-figure54-2.p
-df>] [14 <../figures/appendix-x-figure54.pdf>] [15 <../figures/appendix-x-hiera
-rchyPosteriors_nh_hyear.pdf>] [16 <../figures/appendix-x-hierarchyPosteriors_nh
-_hyearpop.pdf>] [17 <../figures/appendix-x-hierarchyPosteriorsSummary.pdf>]
-<../figures/appendix-x-ppc.pdf, id=127, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <../../figures/appendix-x-mle_bayes.pdf>] [14 <../../figures/appendix-x-figure
+54-2.pdf>] [15 <../../figures/appendix-x-figure54.pdf>] [16 <../../figures/appe
+ndix-x-hierarchyPosteriors_nh_hyear.pdf>] [17 <../../figures/appendix-x-hierarc
+hyPosteriors_nh_hyearpop.pdf>] [18 <../../figures/appendix-x-hierarchyPosterior
+sSummary.pdf>]
+<../../figures/appendix-x-ppc.pdf, id=130, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
+<use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+1.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+1.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
+<use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+1.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 434.
-(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-
-<../figures/appendix-x-ppc.pdf, id=132, page=2, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 2>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 434.
-(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 2>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 2>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 2>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 2>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page2 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [18
-
- <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=143, page=
-3, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 3>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 3>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 3>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page3 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [19 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=148, p
-age=4, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 4>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 4>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf, page 4>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page4 used on input lin
-e 434.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [20 <../figures/appendix-x-ppc.pdf>]
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
-(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
-(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
-
-<use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
-(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
- <use ../figures/appendix-x-ppc.pdf>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf used on input line 435.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+1.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
 
-<../figures/appendix-x-ppc.pdf, id=156, page=5, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+<../../figures/appendix-x-ppc.pdf, id=135, page=2, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 5>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 2>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page2 used on input 
+line 441.
 (pdftex.def)             Requested size: 534.99744pt x 512.915pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 5>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 2>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page2 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 5>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 2>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page2 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 5>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 2>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page2 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 5>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page5 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 2>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page2 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [21 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=160, p
-age=6, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ [19
 
-<use ../figures/appendix-x-ppc.pdf, page 6>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 435.
-(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <../../figures/appendix-x-ppc.pdf>]
+<../../figures/appendix-x-ppc.pdf, id=147, page=3, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 6>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 3>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page3 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 6>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page6 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 3>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page3 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [22 <../figures/appendix-x-ppc.pdf>] <../figures/appendix-x-ppc.pdf, id=164, p
-age=7, 534.99875pt x 512.91624pt>
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 7>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 3>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page3 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ [20 <../../figures/appendix-x-ppc.pdf>]
+<../../figures/appendix-x-ppc.pdf, id=151, page=4, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 7>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 4>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page4 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
-File: ../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
 
-<use ../figures/appendix-x-ppc.pdf, page 7>
-Package pdftex.def Info: ../figures/appendix-x-ppc.pdf, page7 used on input lin
-e 435.
+<use ../../figures/appendix-x-ppc.pdf, page 4>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page4 used on input 
+line 441.
 (pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
- [23 <../figures/appendix-x-ppc.pdf>]
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 4>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page4 used on input 
+line 441.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+ [21 <../../figures/appendix-x-ppc.pdf>]
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+2.
+(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+2.
+(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+ <use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+2.
+(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf used on input line 44
+2.
+(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
+
+<../../figures/appendix-x-ppc.pdf, id=159, page=5, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 5>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page5 used on input 
+line 442.
+(pdftex.def)             Requested size: 534.99744pt x 512.915pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 5>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page5 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 5>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page5 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 5>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page5 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 5>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page5 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+ [22 <../../figures/appendix-x-ppc.pdf>]
+<../../figures/appendix-x-ppc.pdf, id=163, page=6, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 6>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page6 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 6>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page6 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 6>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page6 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+ [23 <../../figures/appendix-x-ppc.pdf>]
+<../../figures/appendix-x-ppc.pdf, id=167, page=7, 534.99875pt x 512.91624pt>
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 7>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page7 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 7>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page7 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+File: ../../figures/appendix-x-ppc.pdf Graphic file (type pdf)
+
+<use ../../figures/appendix-x-ppc.pdf, page 7>
+Package pdftex.def Info: ../../figures/appendix-x-ppc.pdf, page7 used on input 
+line 442.
+(pdftex.def)             Requested size: 535.95255pt x 513.83069pt.
+ [24 <../../figures/appendix-x-ppc.pdf>]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 
-<../figures/appendix/appendix-1/hyperparameterCorrelations.pdf, id=168, page=1,
- 578.16pt x 433.62pt>
-File: ../figures/appendix/appendix-1/hyperparameterCorrelations.pdf Graphic fil
-e (type pdf)
+<../../figures/appendix/appendix-1/hyperparameterCorrelations.pdf, id=171, page
+=1, 578.16pt x 433.62pt>
+File: ../../figures/appendix/appendix-1/hyperparameterCorrelations.pdf Graphic 
+file (type pdf)
 
-<use ../figures/appendix/appendix-1/hyperparameterCorrelations.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/hyperparameterCorrelati
-ons.pdf, page1 used on input line 638.
+<use ../../figures/appendix/appendix-1/hyperparameterCorrelations.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/hyperparameterCorrel
+ations.pdf, page1 used on input line 645.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
-<../figures/appendix/appendix-1/funnelCheck.pdf, id=169, page=1, 578.16pt x 433
-.62pt>
-File: ../figures/appendix/appendix-1/funnelCheck.pdf Graphic file (type pdf)
- <use ../figures/appendix/appendix-1/funnelCheck.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/funnelCheck.pdf, page1 
-used on input line 639.
+<../../figures/appendix/appendix-1/funnelCheck.pdf, id=172, page=1, 578.16pt x 
+433.62pt>
+File: ../../figures/appendix/appendix-1/funnelCheck.pdf Graphic file (type pdf)
+
+ <use ../../figures/appendix/appendix-1/funnelCheck.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/funnelCheck.pdf, pag
+e1 used on input line 646.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-<../figures/appendix/appendix-1/neff.pdf, id=170, page=1, 433.62pt x 433.62pt>
-File: ../figures/appendix/appendix-1/neff.pdf Graphic file (type pdf)
-
-<use ../figures/appendix/appendix-1/neff.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/neff.pdf, page1 used on
- input line 648.
+<../../figures/appendix/appendix-1/neff.pdf, id=173, page=1, 433.62pt x 433.62p
+t>
+File: ../../figures/appendix/appendix-1/neff.pdf Graphic file (type pdf)
+ <use ../../figures/appendix/appendix-1/neff.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/neff.pdf, page1 used
+ on input line 655.
 (pdftex.def)             Requested size: 422.77661pt x 422.80096pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-<../figures/appendix/appendix-1/shrinkageSamplesize.pdf, id=171, page=1, 578.16
-pt x 433.62pt>
-File: ../figures/appendix/appendix-1/shrinkageSamplesize.pdf Graphic file (type
- pdf)
+<../../figures/appendix/appendix-1/shrinkageSamplesize.pdf, id=174, page=1, 578
+.16pt x 433.62pt>
+File: ../../figures/appendix/appendix-1/shrinkageSamplesize.pdf Graphic file (t
+ype pdf)
 
-<use ../figures/appendix/appendix-1/shrinkageSamplesize.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/shrinkageSamplesize.pdf
-, page1 used on input line 656.
+<use ../../figures/appendix/appendix-1/shrinkageSamplesize.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/shrinkageSamplesize.
+pdf, page1 used on input line 663.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-<../figures/appendix/appendix-1/shrinkage.pdf, id=172, page=1, 578.16pt x 433.6
-2pt>
-File: ../figures/appendix/appendix-1/shrinkage.pdf Graphic file (type pdf)
- <use ../figures/appendix/appendix-1/shrinkage.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/shrinkage.pdf, page1 us
-ed on input line 664.
+<../../figures/appendix/appendix-1/shrinkage.pdf, id=175, page=1, 578.16pt x 43
+3.62pt>
+File: ../../figures/appendix/appendix-1/shrinkage.pdf Graphic file (type pdf)
+ <use ../../figures/appendix/appendix-1/shrinkage.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/shrinkage.pdf, page1
+ used on input line 671.
 (pdftex.def)             Requested size: 352.31624pt x 264.23654pt.
 
-<../figures/appendix/appendix-1/posteriorProbability.pdf, id=173, page=1, 433.6
-2pt x 433.62pt>
-File: ../figures/appendix/appendix-1/posteriorProbability.pdf Graphic file (typ
-e pdf)
+<../../figures/appendix/appendix-1/posteriorProbability.pdf, id=176, page=1, 43
+3.62pt x 433.62pt>
+File: ../../figures/appendix/appendix-1/posteriorProbability.pdf Graphic file (
+type pdf)
 
-<use ../figures/appendix/appendix-1/posteriorProbability.pdf, page 1>
-Package pdftex.def Info: ../figures/appendix/appendix-1/posteriorProbability.pd
-f, page1 used on input line 665.
+<use ../../figures/appendix/appendix-1/posteriorProbability.pdf, page 1>
+Package pdftex.def Info: ../../figures/appendix/appendix-1/posteriorProbability
+.pdf, page1 used on input line 672.
 (pdftex.def)             Requested size: 352.31624pt x 352.33524pt.
 
 
-LaTeX Warning: Float too large for page by 27.77676pt on input line 668.
+LaTeX Warning: Float too large for page by 27.77676pt on input line 675.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[24] [25 <../figures/appendix/appendix-1/hyperparameterCorrelations.pdf> <../fi
-gures/appendix/appendix-1/funnelCheck.pdf>] [26 <../figures/appendix/appendix-1
-/neff.pdf>] [27 <../figures/appendix/appendix-1/shrinkageSamplesize.pdf>]
-[28 <../figures/appendix/appendix-1/shrinkage.pdf> <../figures/appendix/appendi
-x-1/posteriorProbability.pdf>]
-No file appendix-1.bbl.
+[25] [26 <../../figures/appendix/appendix-1/hyperparameterCorrelations.pdf> <..
+/../figures/appendix/appendix-1/funnelCheck.pdf>] [27 <../../figures/appendix/a
+ppendix-1/neff.pdf>] [28 <../../figures/appendix/appendix-1/shrinkageSamplesize
+.pdf>] [29 <../../figures/appendix/appendix-1/shrinkage.pdf> <../../figures/app
+endix/appendix-1/posteriorProbability.pdf>] (./appendix-1.bbl)
 
 Package caption Warning: Unused \captionsetup[sub] on input line 17.
 See the caption package documentation for explanation.
 
-(./appendix-1.aux)
+[30
 
-LaTeX Warning: There were undefined references.
+] (./appendix-1.aux)
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 19468 strings out of 493014
- 376033 string characters out of 6133351
- 468874 words of memory out of 5000000
- 22600 multiletter control sequences out of 15000+600000
- 12912 words of font info for 47 fonts, out of 8000000 for 9000
+ 19650 strings out of 493014
+ 378525 string characters out of 6133351
+ 473348 words of memory out of 5000000
+ 22774 multiletter control sequences out of 15000+600000
+ 13394 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,18n,76p,1362b,754s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,18n,76p,1381b,754s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -1354,11 +1320,12 @@ ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
 l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on appendix-1.pdf (28 pages, 443509 bytes).
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on appendix-1.pdf (30 pages, 454672 bytes).
 PDF statistics:
- 266 PDF objects out of 1000 (max. 8388607)
- 182 compressed objects within 2 object streams
+ 276 PDF objects out of 1000 (max. 8388607)
+ 189 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  148 words of extra memory for PDF output out of 10000 (max. 10000000)
 

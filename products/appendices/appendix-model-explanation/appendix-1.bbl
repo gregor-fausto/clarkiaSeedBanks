@@ -1,0 +1,26 @@
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Elderd and Miller(2016)]{elderd2016}
+B.~D. Elderd and T.~E. Miller.
+\newblock Quantifying demographic uncertainty: {Bayesian} methods for integral
+  projection models.
+\newblock \emph{Ecological Monographs}, 86\penalty0 (1):\penalty0 125--144,
+  2016.
+\newblock ISSN 15577015.
+
+\bibitem[Evans et~al.(2010)Evans, Holsinger, and Menges]{evans2010}
+M.~E.~K. Evans, K.~E. Holsinger, and E.~S. Menges.
+\newblock Fire, vital rates, and population viability: a hierarchical
+  {Bayesian} analysis of the endangered {Florida} scrub mint.
+\newblock \emph{Ecological Monographs}, 80\penalty0 (4):\penalty0 627--649,
+  Nov. 2010.
+\newblock ISSN 0012-9615.
+\newblock \doi{10.1890/09-1758.1}.
+\newblock URL \url{http://doi.wiley.com/10.1890/09-1758.1}.
+
+\end{thebibliography}
