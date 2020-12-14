@@ -66,6 +66,7 @@ rs<-split(rs,rs$site)
 
 fitness <- function(g=g1,s0=s0,s1=s1,s2=s2,s3=s3,rs=rs){
   p1 = g*rs*s1*s0
+  #p2 = (1-g)*(s2*s3)
   p2 = (1-g)*(s2*s3)
   return(as.numeric(p1+p2))
 }
@@ -98,11 +99,30 @@ for( k in 1:20){
   yt = sample(rs[[k]]$rs,1000,replace=TRUE)
     for( i in 1:length(g)){
         fit<-fitness(g=g[i],s0[k],s1[k],s2[k],s3[k],rs=yt)
-      #logfit[i]<-log(fit)
-      g.mat[,i] <- fit
+        logfit<-log(fit)
+        g.mat[,i] <- fit
+        #g.mat[,i] <- logfit
     }
   g.sites[[k]] <- g.mat
 }
+
+par(mfrow=c(1,1))
+plot(seq(0,1,by=0.01),apply(g.mat,2,gm_mean))
+
+par(mfrow=c(4,5))
+for(k in 1:20){
+  plot(seq(0,1,by=0.01),apply(g.sites[[k]],2,gm_mean),type='l')
+  lines(seq(0,1,by=0.01),apply(g.sites[[k]],2,mean,na.rm=TRUE),type='l',lty='dotted')
+}
+
+par(mfrow=c(1,1))
+plot(seq(0,1,by=0.01),apply(g.sites[[1]],2,gm_mean),type='n',ylim=c(0,20))
+for(k in 1){
+  lines(seq(0,1,by=0.01),apply(g.sites[[k]],2,gm_mean),type='l')
+  lines(seq(0,1,by=0.01),apply(g.sites[[k]],2,mean),type='l',lty='dotted')
+}
+
+
 
 plot(seq(0,1,by=0.01),apply(g.mat,2,gm_mean))
 
@@ -112,11 +132,11 @@ site.optima<-lapply(g.sites,gmean)
 maxfun <- function(x){g[which(x %in% max(x))]}
 optima<-unlist(lapply(site.optima,maxfun))
 
-pdf(
-  "~/Dropbox/clarkiaSeedBanks/products/figures/obs_pred_germ.pdf",
-  onefile=TRUE,
-  paper="USr",
-  height = 7.5, width = 10)
+# pdf(
+#   "~/Dropbox/clarkiaSeedBanks/products/figures/obs_pred_germ.pdf",
+#   onefile=TRUE,
+#   paper="USr",
+#   height = 7.5, width = 10)
 
 plot(optima,g1,xlim=c(0,1),ylim=c(0,1),pch=16,
       cex.lab = 1.5, cex.axis = 1.5,
@@ -126,22 +146,24 @@ plot(optima,g1,xlim=c(0,1),ylim=c(0,1),pch=16,
 abline(a=0,b=1,lty='dashed')
 ## Cohen 1966
 
-dev.off()
+#dev.off()
 # 
 # 
-# names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-#   dplyr::select(site) 
-# df <- data.frame(names,optima,g1)
-# 
-# library(ggrepel)
-# 
-# g1 <- ggplot(df,aes(x=optima,y=g1,label=site)) +
-#   geom_abline(intercept=0,slope=1,alpha=.5) +
-#   geom_point() +
-#   geom_text_repel(size=3,color="black") +
-#   theme_bw() + xlim(c(0,1)) + ylim(c(0,1)) +
-#   xlab("Predicted germination fraction") +
-#   ylab("Observed germination fraction")
+names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>%
+  dplyr::select(site)
+df <- data.frame(names,optima,g1)
+
+library(ggrepel)
+
+g1 <- ggplot(df,aes(x=optima,y=g1,label=site)) +
+  geom_abline(intercept=0,slope=1,alpha=.5) +
+  geom_point() +
+  geom_text_repel(size=3,color="black") +
+  theme_bw() + xlim(c(0,1)) + ylim(c(0,1)) +
+  xlab("Predicted germination fraction") +
+  ylab("Observed germination fraction")
+
+g1
 # 
 # ggsave(filename="~/Dropbox/clarkiaSeedBanks/products/figures/obs_pred_germ-labeled.pdf",
 #        plot=g1,width=6,height=6)

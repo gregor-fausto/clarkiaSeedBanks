@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{20}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
@@ -8,6 +8,13 @@
 Cohen, D. 1966.
 \newblock Optimizing reproduction in a randomly varying environment.
 \newblock Journal of Theoretical Biology, {\bf 12}:119--129.
+
+\bibitem[{Cohen(1967)}]{cohen1967}
+Cohen, D. 1967.
+\newblock Optimizing {Reproduction} in a {Randoruly} {Varying} {Environment}
+  when a {Correlation} {May} {Exist} between the {Conditions} at the {Time} a
+  {Choice} has to be {Made} and the {Subsequent} {Outcome}.
+\newblock Journal of Theoretical Biology, {\bf 16}:1--14.
 
 \bibitem[{Cohen(1968)}]{cohen1968}
 Cohen, D. 1968.
@@ -21,6 +28,12 @@ Eager, E.~A., R.~Rebarber, and B.~Tenhumberg. 2014.
   {Integral} {Projection} {Model} for a {Disturbance} {Specialist} {Plant} and
   {Its} {Seed} {Bank}.
 \newblock Bulletin of Mathematical Biology, {\bf 76}:1809--1834.
+
+\bibitem[{Easterling and Ellner(2000)}]{easterling2000}
+Easterling, M.~R. and S.~P. Ellner. 2000.
+\newblock Dormancy strategies in a random environment: {Comparing} structured
+  and unstructured models.
+\newblock Evolutionary Ecology Research, {\bf 2}:387--407.
 
 \bibitem[{Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
   Moeller}]{eckhart2011}
@@ -48,6 +61,12 @@ Evans, M. E.~K. and J.~J. Dennehy. 2005.
 \newblock Germ {Banking}: {Bet}‐{Hedging} and {Variable} {Release} {From}
   {Egg} and {Seed} {Dormancy}.
 \newblock The Quarterly Review of Biology, {\bf 80}:431--451.
+
+\bibitem[{Gremer et~al.(2016)Gremer, Kimball, and Venable}]{gremer2016}
+Gremer, J.~R., S.~Kimball, and D.~L. Venable. 2016.
+\newblock Within-and among-year germination in {Sonoran} {Desert} winter
+  annuals: bet hedging and predictive germination in a variable environment.
+\newblock Ecology Letters, {\bf 19}:1209--1218.
 
 \bibitem[{Gremer and Venable(2014)}]{gremer2014}
 Gremer, J.~R. and D.~L. Venable. 2014.

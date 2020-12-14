@@ -53,9 +53,6 @@ rsMedianEstimates <- abovegroundMedians %>%
 # save estimates of RS with sites/years where there is missing data excluded
 saveRDS(rsMedianEstimates,file="~/Dropbox/clarkiaSeedBanks/products/dataFiles/rsMedianEstimates.RDS")
 
-
-
-
 # -------------------------------------------------------------------
 # Reproductive success: full posterior
 # -------------------------------------------------------------------
