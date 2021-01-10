@@ -1,1 +1,0 @@
-jobname="tex-figurs"
