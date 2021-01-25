@@ -1,0 +1,72 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Cohen(1966)}]{cohen1966}
+Cohen, D. 1966.
+\newblock Optimizing reproduction in a randomly varying environment.
+\newblock Journal of Theoretical Biology, {\bf 12}:119--129.
+
+\bibitem[{Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
+  Moeller}]{eckhart2011}
+Eckhart, V.~M., M.~A. Geber, W.~F. Morris, E.~S. Fabio, P.~Tiffin, and D.~A.
+  Moeller. 2011.
+\newblock The {Geography} of {Demography}: {Long}-{Term} {Demographic}
+  {Studies} and {Species} {Distribution} {Models} {Reveal} a {Species} {Border}
+  {Limited} by {Adaptation}.
+\newblock The American Naturalist, {\bf 178}:S26--S43.
+
+\bibitem[{Ellner(1985)}]{ellner1985a}
+Ellner, S. 1985.
+\newblock {ESS} germination strategies in randomly varying environments. {I}.
+  {Logistic}-type models.
+\newblock Theoretical Population Biology, {\bf 28}:50--79.
+
+\bibitem[{Gelman et~al.(2020)Gelman, Vehtari, Simpson, Margossian, Carpenter,
+  Yao, Kennedy, Gabry, Bürkner, and Modrák}]{gelman2020}
+Gelman, A., A.~Vehtari, D.~Simpson, C.~C. Margossian, B.~Carpenter, Y.~Yao,
+  L.~Kennedy, J.~Gabry, P.-C. Bürkner, and M.~Modrák. 2020.
+\newblock Bayesian {Workflow}.
+\newblock arXiv:2011.01808 [stat].
+\newblock ArXiv: 2011.01808.
+
+\bibitem[{Gould and Nichols(1998)}]{gould1998}
+Gould, W.~R. and J.~D. Nichols. 1998.
+\newblock Estimation of {Temporal} {Variability} of {Survival} in {Animal}
+  {Populations}.
+\newblock page~9.
+
+\bibitem[{Gremer and Venable(2014)}]{gremer2014}
+Gremer, J.~R. and D.~L. Venable. 2014.
+\newblock Bet hedging in desert winter annual plants: optimal germination
+  strategies in a variable environment.
+\newblock Ecology Letters, {\bf 17}:380--387.
+
+\bibitem[{Hobbs and Hooten(2015)}]{hobbs2015b}
+Hobbs, N.~T. and M.~B. Hooten. 2015.
+\newblock Bayesian models: a statistical primer for ecologists.
+\newblock Princeton University Press, Princeton, New Jersey.
+\newblock Http://newcatalog.library.cornell.edu/catalog/9201001.
+
+\bibitem[{Lindén and Mäntyniemi(2011)}]{linden2011}
+Lindén, A. and S.~Mäntyniemi. 2011.
+\newblock Using the negative binomial distribution to model overdispersion in
+  ecological count data.
+\newblock Ecology, {\bf 92}:1414--1421.
+
+\bibitem[{Pironon et~al.(2018)Pironon, Villellas, Thuiller, Eckhart, Geber,
+  Moeller, and García}]{pironon2018}
+Pironon, S., J.~Villellas, W.~Thuiller, V.~M. Eckhart, M.~A. Geber, D.~A.
+  Moeller, and M.~B. García. 2018.
+\newblock The ‘{Hutchinsonian} niche’ as an assemblage of demographic
+  niches: implications for species geographic ranges.
+\newblock Ecography, {\bf 41}:1103--1113.
+
+\bibitem[{Venable(2007)}]{venable2007}
+Venable, D.~L. 2007.
+\newblock Bet hedging in a guild of desert annuals.
+\newblock Ecology, {\bf 88}:1086--1090.
+
+\end{thebibliography}

@@ -1,0 +1,64 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,fillbetween}
+\usepackage{animate}
+
+\usepackage{pgf}
+\usepackage{tikz}
+
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{automata}
+
+\begin{document}
+
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.75cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+
+        \node[state] (Y1a) [] {$y^{\mathrm{tot}}_{ijt}$};
+        \node[state] (Y1b) [right of=Y1a] {$y^{\mathrm{intact}}_{ijt}$};
+        \node[state] (N) [left of=Y1a] {$n_{ijt}$};
+        \node[state] (Y2) [right of=Y1b] {$y^{\mathrm{oct}}_{ijt}$};
+        \node[state] (G) [below of=Y1b] {$y^{\mathrm{germ}}_{ijt}$};
+     
+        \node[draw] (O1) [above of=N] {$\mathrm{October}_{t-1}$};
+        \node[draw,dotted] (J1) [above of=Y1a, align=center] {$\mathrm{January}_{t}$ \\ pre-germ};
+        \node[draw,dotted] (J2) [above of=Y1b, align=center] {$\mathrm{January}_{t}$ \\ post-germ};
+        \node[draw,fit=(J1) (J2)] {};
+        \node[draw] (O2) [above of=Y2] {$\mathrm{October}_{t}$};
+
+        \path[->] (N) edge node {$\theta_1$} (Y1a);
+        \path[->,dotted] (Y1a) edge node {$$} (Y1b);
+   	\path[->] (Y1b) edge node {$\theta_3$} (Y2);
+       	\path[->] (Y1a) edge[bend right] node {$\theta_2$} (G);
+
+        \node[state] (T1) [below right of=G] {$n^{\mathrm{gt}}_{ijt}$};
+   	\path[dotted, ->] (Y2) edge node {} (T1);
+        \node[state] (TG) [right of=T1] {$y^{\mathrm{gt}}_{ijt}$};
+   	\path[->] (T1) edge node {$\theta_g$} (TG);
+        \node[state] (T2) [below of=T1] {$n^{\mathrm{vt}}_{ijt}$};
+   	\path[dotted, ->] (TG) edge node {} (T2);
+        \node[state] (VG) [right of=T2] {$y^{\mathrm{vt}}_{ijt}$};
+   	\path[->] (T2) edge node {$\theta_v$} (VG);
+	
+	\node[draw,fit=(N) (Y1a) (Y1b) (Y2) (G) , label={[label distance=0cm, align = right]left:{Seed bag \\ experiment}}] {};
+	
+	\node[draw,fit=(T1) (T2) (TG) (VG), label={[label distance=0cm, align = right]left:{Viability \\ trials}}] {};
+
+
+  \end{tikzpicture}
+  
+  \end{document}

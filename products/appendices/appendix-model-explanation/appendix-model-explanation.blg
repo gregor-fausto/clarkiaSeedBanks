@@ -1,16 +1,15 @@
-This is BibTeX, Version 0.99d (TeX Live 2016)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: appendix-1.aux
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: appendix-model-explanation.aux
 The style file: abbrvnat.bst
-Illegal, another \bibstyle command---line 3 of file appendix-1.aux
+Illegal, another \bibstyle command---line 3 of file appendix-model-explanation.aux
  : \bibstyle
  :          {plainnat}
 I'm skipping whatever remains of this command
 Database file #1: /Users/gregor/Dropbox/bibliography/seeds.bib
-Warning--I didn't find a database entry for "clark2003"
 You've used 2 entries,
             2773 wiz_defined-function locations,
-            610 strings with 5041 characters,
+            609 strings with 5064 characters,
 and the built_in function-call counts, 1051 in all, are:
 = -- 102
 > -- 51
