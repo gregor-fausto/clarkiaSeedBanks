@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  18 JAN 2021 10:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  9 FEB 2021 15:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -969,40 +969,42 @@ Overfull \hbox (1.43251pt too wide) in alignment at lines 312--312
 [][][][][] 
  []
 
-[6] [7] [8]
+[6] [7] [8] [9
+
+] [10] [11]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
- [9
+ [12
 
 ]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--587
+Underfull \hbox (badness 10000) in paragraph at lines 615--663
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--587
+Underfull \hbox (badness 10000) in paragraph at lines 615--663
 
  []
 
-[10
+[13
 
-] [11]
+] [14]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--716
+Underfull \hbox (badness 10000) in paragraph at lines 747--792
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--716
+Underfull \hbox (badness 10000) in paragraph at lines 747--792
 
  []
 
-[12
+[15
 
 ] (./appendix-seed-identifiability.aux)
 Package rerunfilecheck Info: File `appendix-seed-identifiability.out' has not c
@@ -1019,28 +1021,29 @@ LaTeX Warning: There were multiply-defined labels.
 ### semi simple group (level 1) entered at line 168 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23149 strings out of 479383
- 437273 string characters out of 5869387
+ 23157 strings out of 479383
+ 437356 string characters out of 5869387
  941054 words of memory out of 5000000
  39778 multiletter control sequences out of 15000+600000
  412362 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,16n,74p,866b,1285s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,19n,74p,866b,1291s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mib10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
-fb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on appendix-seed-identifiability.pdf (12 pages, 138316 bytes).
+/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+ib10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
+.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
+b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on appendix-seed-identifiability.pdf (15 pages, 151647 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
+ 164 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
+ 46 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
