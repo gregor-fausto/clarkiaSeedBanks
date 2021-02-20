@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  9 FEB 2021 15:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  17 FEB 2021 13:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -837,6 +837,9 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 
 LaTeX Warning: Label `tab:title2' multiply defined.
 
+
+LaTeX Warning: Label `tab:title2' multiply defined.
+
 )
 \openout1 = `appendix-seed-identifiability.aux'.
 
@@ -940,12 +943,12 @@ LaTeX Info: Redefining \nameref on input line 126.
 
 Package csquotes Info: Making character " active on input line 126.
 \c@lstlisting=\count335
-LaTeX Font Info:    Trying to load font information for U+msa on input line 133
+LaTeX Font Info:    Trying to load font information for U+msa on input line 138
 .
  (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 133
+LaTeX Font Info:    Trying to load font information for U+msb on input line 138
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -955,95 +958,101 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 146.
-See the caption package documentation for explanation.
-
-[2] [3] [4] [5]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 286.
+(caption)                particular \caption on input line 149.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (1.43251pt too wide) in alignment at lines 312--312
+Overfull \hbox (1.43251pt too wide) in alignment at lines 175--175
 [][][][][] 
  []
 
-[6] [7] [8] [9
 
-] [10] [11]
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 186.
+See the caption package documentation for explanation.
+
+
+Underfull \hbox (badness 10000) in alignment at lines 221--221
+[][][][] 
+ []
+
+[2] [3] [4] [5] [6] [7] [8
+
+] [9
+
+]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 361.
+See the caption package documentation for explanation.
+
+[10] [11] [12] [13] [14] [15
+
+] [16] [17]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
- [12
+ [18
 
 ]
 Missing character: There is no F in font nullfont!
 Missing character: There is no F in font nullfont!
 
-Underfull \hbox (badness 10000) in paragraph at lines 615--663
+Underfull \hbox (badness 10000) in paragraph at lines 786--834
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 615--663
+Underfull \hbox (badness 10000) in paragraph at lines 786--834
 
  []
 
-[13
+[19
 
-] [14]
+] [20]
 Missing character: There is no F in font nullfont!
-Missing character: There is no F in font nullfont!
-
-Underfull \hbox (badness 10000) in paragraph at lines 747--792
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 747--792
-
- []
-
-[15
+ [21
 
 ] (./appendix-seed-identifiability.aux)
 Package rerunfilecheck Info: File `appendix-seed-identifiability.out' has not c
 hanged.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+(rerunfilecheck)             Checksum: 72605D09579955FD3CEC1462A59BF1B6;168.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
  )
-(\end occurred inside a group at level 2)
+(\end occurred inside a group at level 4)
 
-### semi simple group (level 2) entered at line 315 (\begingroup)
-### semi simple group (level 1) entered at line 168 (\begingroup)
+### semi simple group (level 4) entered at line 494 (\begingroup)
+### semi simple group (level 3) entered at line 383 (\begingroup)
+### semi simple group (level 2) entered at line 224 (\begingroup)
+### semi simple group (level 1) entered at line 178 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23157 strings out of 479383
- 437356 string characters out of 5869387
+ 23210 strings out of 479383
+ 437986 string characters out of 5869387
  941054 words of memory out of 5000000
- 39778 multiletter control sequences out of 15000+600000
- 412362 words of font info for 59 fonts, out of 8000000 for 9000
+ 39813 multiletter control sequences out of 15000+600000
+ 412968 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,19n,74p,866b,1291s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,19n,74p,995b,1416s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-ib10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
-.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
-b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on appendix-seed-identifiability.pdf (15 pages, 151647 bytes).
+mmi6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib
+10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on appendix-seed-identifiability.pdf (21 pages, 178215 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
- 46 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 217 PDF objects out of 1000 (max. 8388607)
+ 179 compressed objects within 2 object streams
+ 63 named destinations out of 1000 (max. 500000)
+ 37 words of extra memory for PDF output out of 10000 (max. 10000000)
 

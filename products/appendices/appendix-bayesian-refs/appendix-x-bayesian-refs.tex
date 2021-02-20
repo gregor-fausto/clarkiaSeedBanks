@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \graphicspath{ {\string} }
 \usepackage{subcaption}
+\usepackage{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % set up packages
@@ -123,51 +124,23 @@ Last updated: \today
 
 \section*{General references and motivation}
 
-Hobbs and Hooten (2015), McElreath (2016), Kruschke (20XX)
+I relied on various excellent sources as I developed the Bayesian models for this analysis. \hl{Hobbs and Hooten 2015} and \hl{McElreath 2016} were both indispensable references and introductions to Bayesian modeling and philosophy. \hl{Kruschke 20xx} was really helpful for building hierarchical models with a binomial likelihood (see the example in Chapter 9). Other texts that I am aware of but did not use (for reasons of time or convenience) include \hl{Clark 2007}, \hl{Gelman BDA}, \hl{Gelman and Hill}.
 
-Gelman et al. (2020 - Bayesian Workflow)
+The JAGS and STAN user manuals and forums were crucial for practical matters and trouble-shooting. Most importantly, they helped me recognize that I was not a bad modeler for facing a particular issue - someone else had probably had the issue as well. \hl{Gelman et al. 2020 - Bayesian Workflow} gives a general flavor of the kind of advice and issues these venues helped with.
 
-\section*{Inference/theory}
+What are some general interesting ecological applications of Bayesian analysis?
 
-How does one make inferences from a model built in a Bayesian statistical framework?
+Link et al. (2002), Cam et al. (2002), Lavine et al. (2002), Clark et al. (2004), Metcalf et al. (2009), Ketz et al. (2016), Ibanez et al. (2007)
 
-Hobbs and Hilborn (2006), Buckland et al. (2007), Mangel and Hilborn (1998)
+What are existing examples of Bayesian analysis applied to plant demography data?
 
-\section*{Visualization}
-
-What is the role of visualization in Bayesian analysis? 
-
-Gabry et al. (2019): general
-
-Gelman et al. (2000): posterior predictive checks
-
-\section*{Priors}
-
-How are priors constructed? How can we evaluate the influence of a prior?
-
-Banner et al. (20XX)
-
-\section*{Model checking}
-
-For a single model, how can we tell whether our model is a good fit to the data?
-
-Conn et al. (2018)
-
-\section*{Model selection}
-
-How can we make comparisons among competing models?
-
-Hooten and Hobbs (2015)
-
-\section*{Error propagation}
-
-How does error propagation work in a Bayesian context?
-
-Clark et al. (2003, 2005)
+Evans et al. (2010), Elderd and Miller (2015)
 
 \section*{Hierarchical models}
 
 What is a hierarchical model? Why is it *not* synonymous with a Bayesian model?
+
+Although hierarchical models are often fit using Bayesian methods, the two are separate. \hl{Clark 2003} is a compelling example that describes a hierarchical model for northern spotted owl populations, and fits it using both frequentist and Bayesian frameworks. 
 
 McMahon and Diez (2007), Diez (2007), Cressie et al (2009)
 
@@ -177,17 +150,69 @@ What are some examples of combining data using Bayesian approaches?
 
 Fabre et al. (2010), Spor et al. (2010), Wilson et al. (2015)
 
-\section*{Plant demography applications}
 
-What are existing examples of Bayesian analysis applied to plant demography data?
+\section*{Inference/theory}
 
-Evans et al. (2010), Elderd and Miller (2015)
+\textit{How does one make inferences from a model built in a Bayesian statistical framework?}
 
-\section*{Interesting ecological applications}
+Most textbooks on Bayesian models that I used also provide an introduction to some of the philosophical issues associated with Bayesian statistics \hl{Hobbs and Hooten 2015, McElreath 2016, Kruschke 20xx}. Several key references helped me understand the use of Bayesian statistics in ecology. \hl{Mangel and Hilborn 1998} mostly presents modeling in a frequentist framework but has an introduction to Bayesian analysis [Chapter 9]. \hl{Hobbs and Hilborn 2006}, how models (maximum likelihood and Bayesian) fit into a statistical approach that doesn't solely rely on strong inference and null hypotheses. \hl{Buckland et al. 2007} describe an approach to building population models that extends ideas from \hl{Caswell 2001} and \hl{Morris and Doak 2002} to Bayesian inference. 
 
-What are some general interesting ecological applications of Bayesian analysis?
+\section*{Visualization}
 
-Link et al. (2002), Cam et al. (2002), Lavine et al. (2002), Clark et al. (2004), Metcalf et al. (2009), Ketz et al. (2016), Ibanez et al. (2007)
+What is the role of visualization in Bayesian analysis? 
+
+One of the major reasons that Bayesian analysis has become more popular (\hl{REF}) is the increasing tractability of fitting models due to a rise in computational speed. In parallel with this increase in computational speed, there has been an increase in the range and recognition of techniques used to visualize data. Visualizations are an important part of the Bayesian modeling workflow, from model formulation to diagnostics to summarizing model outputs. 
+
+\hl{Gabry et al. 2019} provide a recent review of some visualization practices. Some of the ones I've used in my work include prior predictive checks \hl{Hobbs and Hooten 2015}, posterior predictive checks \hl{Gelman et al. 2000}, and diagnostics such as trace plots \hl{REF}.
+
+\section*{Priors}
+
+How are priors constructed? How can we evaluate the influence of a prior?
+
+I found it particularly helpful to understand that the amount of information encoded by prior can only be understood in the context of the likelihood. \hl{Seaman et al. 2012} and \hl{Gelman et al. 2017} provide a formulation of this point, and examples include \hl{Hobbs and Hooten 2015, p. 95-97}, \hl{Wesner and Pomeranz 2020, bioRxiv}, \hl{Gelman et al. 2020 - workflow}, \hl{Gabry et al. 2019. p. 393-394}, \hl{Northrup and Gerber 2018}, \hl{Gelman et al. 2006}, \hl{Gelman et al. 2008}, \hl{Lemoine 2019, A1.2}, \href{https://discourse.mc-stan.org/t/choosing-weakly-informative-priors-for-population-level-effects-in-a-poisson-glmm/18008/5}{STAN discourse discussion}, \href{https://statmodeling.stat.columbia.edu/2018/09/12/against-arianism-2-arianism-grande/}{Simpson post}, \href{https://www.flutterbys.com.au/stats/tut/tut10.6b.html#h4_47}{NB model}
+
+The 'default' flat priors recommended for linear models are not always noninformative for models with different likelihood functions. For likelihood functions that are not normal (binomial, negative binomial), I identified priors that were relatively noninformative in the context of the joint likelihood for each model. References for these priors include the following: \hl{Hindle et al. 2019, Table S1}, \hl{Rosenbaum et al. 2019, Table 1}, \hl{Hobbs et al. 2015, Table 3}, \hl{Hindle et al. 2018}, \hl{Smits 2015}. I also followed the guidance in \hl{Lemoine 2019} to use positive, unbounded priors on variances, and to use Cauchy priors for the random-intercepts. 
+
+Priors were assessed by simulating prior predictive distributions \hl{Gabry et al. 2019, p. 393-394}, \hl{Conn et al. 2018, p. 529-530}, \hl{Hobbs and Hooten 2015, p. 85}. This step helped confirm that the chosen joint likelihood (deterministic model, stochastic model) generated data within the observed range. This is similar in logic to the approach taken by \hl{Evans et al. 2010, Methods: Estimating vital rates from demographic data: Priors} except in that case the authors compared their observed means to those generated by their priors.
+
+Commentary on the use of priors specifically in ecology includes \hl{Banner et al. 2020}, \hl{Lemoine 2019}, \hl{Wesner and Pomeranz 2020}, \hl{Lele 2020}, \hl{Ogle and Barber 2020}, \hl{Northrup and Gerber 2018}
+
+\section*{Model checking}
+
+For a single model, how can we tell whether our model is a good fit to the data?
+
+See Chapter 8 in \hl{Hobbs and Hooten 2015} for a discussion. \hl{Conn et al. (2018)} is a paper that expands on this. Key bits in that paper: posterior predictive checks, posterior P values, pivotal discrepancy measures, cross-validation tests, residual tests, and graphical techniques.
+
+Graphical posterior predictive checks allow visualization of the data and the simulated posterior.
+
+\hl{Gelman et al. 2000} for recommendations for discrete data regressions. Recommendations are: structured graphical displays of the entire dataset (Figure 1), problem-specific plots (Figure 12, 13). Plots visualizing latent residuals were not useful (too noisy). Models of binned realized residuals *were* useful (Figure 4, 15, 16, 17).
+
+\hl{Nater et al. 2020, S4} implement some of the recommendations in \hl{Conn et al. 2018}. They use both Bayesian p-values and graphical checks in the model checking process. They also perform model checks for the entire model (all data pooled; Table S4.1) as well as subsets (Figure S4.1).
+
+Because we were interested in whether the model accurately represented the age-specific and year-specific parameter means (this is the variation over time and age that is incorporated in a Leslie matrix representation of the system), we summarized the mean and median rate for each parameter. We also examined the standard deviation/coefficient of variation to diagnose whether the model represents variation about the mean. This is useful to help assess whether the confidence intervals placed on population growth rate are likely to be accurate. These are relatively generic summary statistics and the literature on posterior predictive checks identifies other kinds of statistics that could be used. However, these statistics correspond to key quantities that are used in subsequent steps beyond model fitting. 
+
+Figure S4.1: summarize distribution of parameter specific p-values for mean, median, and CV
+Figure S4.2: show summary distribution for different parameters vs. mean of parameter
+Figure S4.3: for parameters (sigma, phi, F), show p-value plotted against observation year to diagnose the years in which the model may under/overestimate demographic parameters
+
+\section*{Model selection}
+
+How can we make comparisons among competing models?
+
+\hl{Hobbs and Hooten 2015} cautiously advocate that constructing a well-informed model can be (when appropriate) complemented by formal model selection procedures. They also cite \hl{Ver Hoef 2015}. 
+
+See Chapter 9 in \hl{Hobbs and Hooten 2015} for a discussion. 
+
+\section*{Error propagation}
+
+How does error propagation work in a Bayesian context?
+
+\hl{Dietze 2018} has chapters on uncertainty and propagation.
+
+\hl{Clark et al. 2003, 2005} both discuss uncertainty, both with a focus on hierarchical structure.
+
+\section*{Identifiability}
+
 
 \clearpage
 \bibliography{/Users/gregor/Dropbox/bibliography/seeds}
