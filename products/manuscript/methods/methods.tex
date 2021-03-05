@@ -114,6 +114,56 @@ Starting in 2006, Monica Geber and collaborators have collected 12+ years of ann
 
 %\hl{To compare the data to Lewis 1963, we examine the presence/absence trajectories of permanent plots and population-level data. Both individual plot and abundance data suggest that locations within a population can not have any fruiting plants for several years and later recover in abundance. The most drastic example perhaps comes from Lucas Creek East, where there is a 4 year gap in which there are no plants in any of the permanent plots before abundance increases again. We take this as motivation to study the role of seed banks in maintaining populations through time.}
 
+\section{Demographic modeling framework}
+
+We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We model population-specific estimates for belowground vital rates, and model year- and population-specific estimates for aboveground vital rates. We use these parameter estimates to analyze correlations between germination probability and variance in per-capita reproductive success, correlation between germination probability and seed survival, and to compare the observed germination fraction to the optimal germination fraction from a density-independent model. 
+
+\subsection{Belowground transitions}
+
+To estimate population-specific estimates for belowground vital rates, I use data from seed burial experiments in the field and seed viability trials in the lab. I combine these data to infer germination and seed survival. Briefly, I estimate probabilities of success using data from seed burial experiments and viability trials ($\theta_1, \theta_2, \theta_3, \theta_4, \theta_5, \theta_g, \theta_v$). I use these probabilities to compose transition probabilities that correspond to the life history of \textit{Clarkia xantiana}($s_1, s_2, s_3, g_1$). I describe this approach in detail in the \textbf{Appendix on Conditional Probability}. Figure~\ref{fig:seedBagDiagram} illustrates the relationship between the data and the estimated probability of success. 
+ 
+The probability that seeds from the start of the experiment remain intact in January is represented as $\theta_1$. In January, all seeds are intact (this includes viable and non-viable seeds). I estimate the probability of a seedling emerging, conditional on being intact as $\theta_2$. I assume that there is no decay or loss of viability during germination. The number of intact seeds before germination is equal to the sum of the number of seeds and seedlings after germination. At this point, seeds transition into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and remained dormant. All (3) other intact seeds are non-viable because (4) seeds that were not viable could not have germinated. Finally, we represent the probability of a seed being intact in October, conditional on being intact in January as $\theta_3$.
+
+% I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
+
+We use the viability trials to estimate the probability of viability ($\nu_1$) for a seed that is intact in October one year after the seed bags were buried. The viability trials are a two-stage process: seeds are subject to germination trials before a fraction of the remaining, ungerminated seeds are tested for viability. The probability that a seed germinates in the germination trial is $\theta_g$ and the probability that it is viable, conditional on not germinating in the germination trial, is $\theta_v$. I estimate the overall probability of viability, $\nu$, as $\theta_g + \theta_v (1-\theta_g)$. This weights the estimates relative to the probability of germination (eg. if no seeds germinate the estimate of viability will mostly come from the viability test).
+
+I make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the intact seeds in January are viable before germination ($\nu_1^{1/3}$), and some of those viable seeds germinate. 
+
+The seed burial experiments and viability trials provide information about the fate of seeds in the seed bank. We define $s_1$ as the probability of a seed being intact and viable from October in year $t$ to January in year $t+1$. We define $g_1$ as the probability of germination for a seed that is intact and viable. We define $s_2$ as the probability of survival from January to October in year $t$ for a seed that was intact and viable in January.  Mathematically, we write each of the transition probabilities as follows:
+%
+    \begin{align}
+\begin{split}
+s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu_1^{1/3} ) \\
+g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu_1^{1/3} ) \times ( 1 - \theta_2 )} \\
+s_2 & = \theta_3 \times \nu_1^{2/3} \\
+  \end{split}
+\end{align}
+%
+To estimate the survival of two-year old seeds from October to January ($s_3$) requires some additional assumptions. First, we used a different set of bags for these estimates than for the estimates of first-year rates ($s_1, s_2, g_1$). We use the second set of bags to estimate the probability of viability ($\nu_2$) as described above, combining $\theta_g$ and $\theta_v$. We calculate the viability in the second January as the product of viability at the end of the first year ($\nu_1$) and the fraction of first year viability remaining in January ($ (\nu_2 \div \nu_1)^{1/3} $). For cases where $\nu_2 \geq \nu_1$, we assumed that all seeds in the bag were viable in October $t+1$ and calculated the fraction of first year viability remaining in January as $ (\nu_2 )^{1/3} $.
+
+When I estimate the probability of seedling survival from the second October to second January ($s_3$), I incorporate the expected proportion of seeds that are expected to be intact at the end of the first year ($\theta_1(1-\theta_2) \theta_3$). I define $s_3$ as the probability of survival from October in year $t$ to January in year $t+1$ for a seed that was intact and viable in October. Mathematically, we write the transition probability as follows:
+%
+    \begin{align}
+\begin{split}
+s_3 & = \theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )
+  \end{split}
+\end{align}
+%
+\subsection{Aboveground transitions}
+
+To obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate total fruit equivalents per plant ($F$) and seeds per fruit ($\phi$). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
+
+From 2006--2012, we counted total fruit equivalents in the field, and estimated the number of seeds in undamaged fruits in the lab. Starting in 2013, we began to count undamaged and damaged fruits in the field, and estimate the number of seeds in both undamaged and damaged fruits in the lab. To compare these components of fitness across all years of the study, we converted the number of undamaged and damaged fruits to total fruit equivalents with the following relationship:
+%
+    \begin{align}
+\begin{split}
+\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} 
+  \end{split}
+\end{align}
+%
+In these calculations, we use the marginalized, posterior distributions from the models for fruits per plant and seeds per fruit. We use the number of seeds per undamaged fruit to calculate per-fruit seed production. While using a single measure for counts of fruits per plant might be ideal, such a metric is not available to us. We instead combine several sources of data to constrain our estimate while propagating uncertainty from those estimates. 
+
 \section{Data}
 
 \subsection{Seed survival and germination}
@@ -197,7 +247,7 @@ We seek to estimate the number of seeds per undamaged fruit. Define:
 	\item $\lambda_{jk}$ = true, unobserved mean number of seeds per undamaged fruit from the $j^{th}$ population, from the $k^{th}$ year
 \end{itemize}
 
-\section{Models}
+\section{Models for parameter estimates}
 
 Across all datasets, we have data from multiple years and populations. The goal is to obtain model-based estimates of vital rates. We use the models to separate variability in parameters between temporal variability and variability due to sampling (e.g. \cite{gould1998}). This is particularly important for our estimates of per capita reproductive success because we calculate annual estimates to quantify interannual variation. Failing to account for sampling variation can inflate estimates of temporal variation. Sample sizes for parameters vary both within years across populations, as well as across populations. Accounting for sampling variability is important for making conclusions about differences among populations. 
  
@@ -399,56 +449,6 @@ Identify which parameters need convergence diagnostics
 
 \hl{Assess overall model fit to data. Visual or Bayesian p-value (Elderd and Miller 2015)}
 \fi
-
-\section{Demographic modeling framework}
-
-We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We model population-specific estimates for belowground vital rates, and model year- and population-specific estimates for aboveground vital rates. We use these parameter estimates to analyze correlations between germination probability and variance in per-capita reproductive success, correlation between germination probability and seed survival, and to compare the observed germination fraction to the optimal germination fraction from a density-independent model. 
-
-\subsection{Parameters for belowground transitions}
-
-To estimate population-specific estimates for belowground vital rates, I use data from seed burial experiments in the field and seed viability trials in the lab. I combine these data to infer germination and seed survival. Briefly, I estimate probabilities of success using data from seed burial experiments and viability trials ($\theta_1, \theta_2, \theta_3, \theta_4, \theta_5, \theta_g, \theta_v$). I use these probabilities to compose transition probabilities that correspond to the life history of \textit{Clarkia xantiana}($s_1, s_2, s_3, g_1$). I describe this approach in detail in the \textbf{Appendix on Conditional Probability}. Figure~\ref{fig:seedBagDiagram} illustrates the relationship between the data and the estimated probability of success. 
- 
-The probability that seeds from the start of the experiment remain intact in January is represented as $\theta_1$. In January, all seeds are intact (this includes viable and non-viable seeds). I estimate the probability of a seedling emerging, conditional on being intact as $\theta_2$. I assume that there is no decay or loss of viability during germination. The number of intact seeds before germination is equal to the sum of the number of seeds and seedlings after germination. At this point, seeds transition into one of four possible states. Intact and viable seeds may have (1) germinated or (2) not germinated and remained dormant. All (3) other intact seeds are non-viable because (4) seeds that were not viable could not have germinated. Finally, we represent the probability of a seed being intact in October, conditional on being intact in January as $\theta_3$.
-
-% I represent two transitions between pre-germination seeds in January and post-germination seeds and seedlings in January. The first is for seeds that are viable and germinate; these become seedlings. The second is for seeds that do not germinate; these remain seeds and include both viable and non-viable seeds. For the purposes of parameter estimation, I only represent the number of seedlings\textemdash viability is estimated separately. 
-
-We use the viability trials to estimate the probability of viability ($\nu_1$) for a seed that is intact in October one year after the seed bags were buried. The viability trials are a two-stage process: seeds are subject to germination trials before a fraction of the remaining, ungerminated seeds are tested for viability. The probability that a seed germinates in the germination trial is $\theta_g$ and the probability that it is viable, conditional on not germinating in the germination trial, is $\theta_v$. I estimate the overall probability of viability, $\nu$, as $\theta_g + \theta_v (1-\theta_g)$. This weights the estimates relative to the probability of germination (eg. if no seeds germinate the estimate of viability will mostly come from the viability test).
-
-I make some assumptions in order to incorporate the loss of viability into the model. I assume that viability is lost at a constant rate, and that germination removes some number of seeds from the pool of viable seeds but does not change the rate of decay. Some fraction of the intact seeds in January are viable before germination ($\nu_1^{1/3}$), and some of those viable seeds germinate. 
-
-The seed burial experiments and viability trials provide information about the fate of seeds in the seed bank. We define $s_1$ as the probability of a seed being intact and viable from October in year $t$ to January in year $t+1$. We define $g_1$ as the probability of germination for a seed that is intact and viable. We define $s_2$ as the probability of survival from January to October in year $t$ for a seed that was intact and viable in January.  Mathematically, we write each of the transition probabilities as follows:
-%
-    \begin{align}
-\begin{split}
-s_1 & = \theta_1 \times (\theta_2 + ( 1- \theta_2 ) \times \nu_1^{1/3} ) \\
-g_1 & = \frac{\theta_2 }{1 - ( 1-  \nu_1^{1/3} ) \times ( 1 - \theta_2 )} \\
-s_2 & = \theta_3 \times \nu_1^{2/3} \\
-  \end{split}
-\end{align}
-%
-To estimate the survival of two-year old seeds from October to January ($s_3$) requires some additional assumptions. First, we used a different set of bags for these estimates than for the estimates of first-year rates ($s_1, s_2, g_1$). We use the second set of bags to estimate the probability of viability ($\nu_2$) as described above, combining $\theta_g$ and $\theta_v$. We calculate the viability in the second January as the product of viability at the end of the first year ($\nu_1$) and the fraction of first year viability remaining in January ($ (\nu_2 \div \nu_1)^{1/3} $). For cases where $\nu_2 \geq \nu_1$, we assumed that all seeds in the bag were viable in October $t+1$ and calculated the fraction of first year viability remaining in January as $ (\nu_2 )^{1/3} $.
-
-When I estimate the probability of seedling survival from the second October to second January ($s_3$), I incorporate the expected proportion of seeds that are expected to be intact at the end of the first year ($\theta_1(1-\theta_2) \theta_3$). I define $s_3$ as the probability of survival from October in year $t$ to January in year $t+1$ for a seed that was intact and viable in October. Mathematically, we write the transition probability as follows:
-%
-    \begin{align}
-\begin{split}
-s_3 & = \theta_4 \times (\theta_5 + ( 1- \theta_5 ) \times \nu_2^{1/3} )
-  \end{split}
-\end{align}
-%
-\subsection{Parameters for aboveground transitions}
-
-To obtain year- and population-specific estimates for aboveground vital rates, we use data from annual observational surveys of 20 \textit{Clarkia xantiana} populations. We use data from surveys of plots to estimate seedling survival to fruiting ($\phi$). We also estimate total fruit equivalents per plant ($F$) and seeds per fruit ($\phi$). We combine these data to obtain annual estimates of per-capita reproductive reproductive success.
-
-From 2006--2012, we counted total fruit equivalents in the field, and estimated the number of seeds in undamaged fruits in the lab. Starting in 2013, we began to count undamaged and damaged fruits in the field, and estimate the number of seeds in both undamaged and damaged fruits in the lab. To compare these components of fitness across all years of the study, we converted the number of undamaged and damaged fruits to total fruit equivalents with the following relationship:
-%
-    \begin{align}
-\begin{split}
-\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} 
-  \end{split}
-\end{align}
-%
-In these calculations, we use the marginalized, posterior distributions from the models for fruits per plant and seeds per fruit. We use the number of seeds per undamaged fruit to calculate per-fruit seed production. While using a single measure for counts of fruits per plant might be ideal, such a metric is not available to us. We instead combine several sources of data to constrain our estimate while propagating uncertainty from those estimates. 
 
 \section{Analysis}
 

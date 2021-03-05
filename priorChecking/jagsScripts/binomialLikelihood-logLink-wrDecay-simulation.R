@@ -58,12 +58,12 @@ model {
        # tau_s[i,j] <- 1/(sigma_s[i,j]*sigma_s[i,j])
     }
 
-   # 2nd term of the beta distribution
-   #  for(j in 1:6){
-   # #beta[i,j] ~ dt(0,1/2.5^2,1) I(0,)
-   # beta[i,j] ~ dnorm(0,.001) T(0,)
-   # # beta[i,j] ~ dgamma(.001,0.001)
-   #   }
+   #2nd term of the beta distribution
+   # for(j in 1:6){
+   #beta[i,j] ~ dt(0,1/2.5^2,1) I(0,)
+   #beta[i,j] ~ dnorm(0,1) T(0,)
+   # beta[i,j] ~ dgamma(.001,0.001)
+   #  }
 
     # population*year parameter, hierarchical logit
     for(k in 1:3){
@@ -115,6 +115,22 @@ model {
       # logit(theta_g1[i,yearRefGerm[j],indexRefGerm[j]]) <- alpha_g1[i,yearRefGerm[j],indexRefGerm[j]]
 
     }
+   
+   mu0_s0[i] ~ dnorm(0,1)
+   
+   # WEAKLY INFORMATIVE
+   sigma0_s0[i] ~ dnorm(0,1) T(0,)
+   tau0_s0[i] <- 1/(sigma0_s0[i]*sigma0_s0[i])
+   
+   for(j in 1:3){
+     
+     mu_s0[i,j] ~ dnorm(mu0_s0[i],tau0_s0[i])
+     
+     # WEAKLY INFORMATIVE
+     sigma_s0[i,j] ~ dnorm(0,1) T(0,)
+     tau_s0[i,j] <- 1/(sigma_s0[i,j]*sigma_s0[i,j])
+     
+   }
 
     # theta_c[i,1] = 1                   # jan - year/round 1 - age 1
     # theta_c[i,2] = (1-theta_g1[i,1,1]) # oct - year/round 1 - age 1
@@ -133,28 +149,28 @@ model {
   # likelihood (seed bags) --------------------------------------------------------------
 
   for(i in 1:n1){
-    
+
     # POPULATION*YEAR MARGINAL GERMINATION RATES FOR SURVIVAL
     alpha_g1[i,1,1] ~ dnorm(mu_g[siteSurvival[i],1,1],tau_g[siteSurvival[i],1,1])
     logit(theta_g1[i,1,1]) <- alpha_g1[i,1,1]
-    
+
     alpha_g1[i,1,2] ~ dnorm(mu_g[siteSurvival[i],1,2],tau_g[siteSurvival[i],1,2])
     logit(theta_g1[i,1,2]) <- alpha_g1[i,1,2]
-    
+
     alpha_g1[i,1,3] ~ dnorm(mu_g[siteSurvival[i],1,3],tau_g[siteSurvival[i],1,3])
     logit(theta_g1[i,1,3]) <- alpha_g1[i,1,3]
-    
-    
+
+
     # alpha_g1[i,2,1] ~ dnorm(mu_g[siteSurvival[i],2,1],tau_g[siteSurvival[i],2,1])
     # logit(theta_g1[i,2,1]) <- alpha_g1[i,2,1]
-    # 
+    #
     # alpha_g1[i,2,2] ~ dnorm(mu_g[siteSurvival[i],2,2],tau_g[siteSurvival[i],2,2])
     # logit(theta_g1[i,2,2]) <- alpha_g1[i,2,2]
-    # 
-    # 
+    #
+    #
     # alpha_g1[i,3,1] ~ dnorm(mu_g[siteSurvival[i],3,1],tau_g[siteSurvival[i],3,1])
     # logit(theta_g1[i,3,1]) <- alpha_g1[i,3,1]
-    
+
     theta_c[i,1] = 1                   # jan - year/round 1 - age 1
     theta_c[i,2] = (1-theta_g1[i,1,1]) # oct - year/round 1 - age 1
     theta_c[i,3] = (1-theta_g1[i,1,1]) # jan - year/round 1 - age 2
@@ -187,31 +203,31 @@ model {
     # mu[i] <- (((1-theta_g1[i])^(g_1[i]))*((1-theta_g2[i])^(g_2[i]))*((1-theta_g3[i])^(g_3[i])))*exp(-b[i]*months[i])
     # mu[i] <- (((1-theta_g1[i])^(g_1[i]))*((1-theta_g2[i])^(g_2[i]))*((1-theta_g3[i])^(g_3[i])))*exp(-(months[i]/b[i])^a[siteSurvival[i]])
 
-    # beta is the 2nd term of beta dist.
-    # beta_mod[i] <- beta[siteSurvival[i],betaIndex[i]] +.01
-    # # # use the beta term to write 1st term of beta dist.
-    # alpha_s[i] <- (mu[i]*beta_mod[i])/(1-mu[i])
-    # theta_s[i] ~ dbeta(alpha_s[i]+.01,beta_mod[i]) #T(0.001,0.999)
+    # # beta is the 2nd term of beta dist.
+    #  beta_mod[i] <- beta[siteSurvival[i],betaIndex[i]] +.01
+    # # # # use the beta term to write 1st term of beta dist.
+    #  alpha_s[i] <- (mu[i]*beta_mod[i])/(1-mu[i])
+    #  theta_s[i] ~ dbeta(alpha_s[i]+.01,beta_mod[i]) #T(0.001,0.999)
 
   #   ## LIKELIHOOD
-   #  y[i] ~ dbinom(theta_s[i], seedStart[i])
      y[i] ~ dbinom(mu[i], seedStart[i])
-     
+   #  y[i] ~ dbinom(mu[i], seedStart[i])
+
   #   ## POSTERIOR PREDICTIVE
-      y_sim[i] ~ dbinom(mu[i], seedStart[i])
-      
-      chi2.yobs[i] <- pow((y[i]- mu[i]*seedStart[i]),2) / (mu[i]*seedStart[i]+.001)         # obs.
-      chi2.ysim[i] <- pow((y_sim[i]- mu[i]*seedStart[i]),2) / (mu[i]*seedStart[i]+.001)         # obs.
-      
-      
-      
-  # 
+      y_sim[i] ~ dbinom( mu[i], seedStart[i])
+
+      # chi2.yobs[i] <- pow((y[i]- mu[i]*seedStart[i]),2) / (mu[i]*seedStart[i]+.001)         # obs.
+      # chi2.ysim[i] <- pow((y_sim[i]- mu[i]*seedStart[i]),2) / (mu[i]*seedStart[i]+.001)         # obs.
+
+
+
+  #
   #   ## LOG-LIKELIHOOD
       logLik_y[i] <- logdensity.bin(y[i],mu[i],seedStart[i])
-  #   
+  #
   #   # PRIOR PREDICTIVE
   }
-  
+
   # for(i in 1:n_pred){
   #     eta[i] ~ dnorm(mu_s[siteSurvival_pred[i],yearSurvival_pred[i]],tau_s[siteSurvival_pred[i],yearSurvival_pred[i]])
   #     i.b[i] <- exp(-(eta[i])/(a[siteSurvival_pred[i]]))
@@ -236,10 +252,10 @@ model {
     # POSTERIOR PREDICTIVE
      seedlingJan_sim[i] ~ dbinom(g[i], totalJan[i])
 
-     chi2.obs[i] <- pow((seedlingJan[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
-     chi2.sim[i] <- pow((seedlingJan_sim[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
-     
-     
+     # chi2.obs[i] <- pow((seedlingJan[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
+     # chi2.sim[i] <- pow((seedlingJan_sim[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
+
+
     ## LOG-LIKELIHOOD
     # logLik_g[i] <- logdensity.bin(seedlingJan[i],g[i] ,totalJan[i])
 
@@ -247,32 +263,71 @@ model {
     # alpha_pred[i] ~ dnorm(mu_pred[siteGermination[i],yearGermination[i],gIndex[i]],tau_pred[siteGermination[i],yearGermination[i],gIndex[i]])
     # logit(g_pred[i]) <- alpha_pred[i]
     # #seedlingJan2[i] ~ dbinom(g_pred[i], totalJan[i])
-    # 
+    #
     # y_pred[i] ~ dbinom(g_pred[i], totalJan[i])
 
 
   }
 
+  for(i in 1:n3){
+
+    alpha_s0[i] ~ dnorm(mu_s0[sitePlot[i],yearPlot[i]],tau_s0[sitePlot[i],yearPlot[i]])
+    logit(s0[i]) <- alpha_s0[i]
+
+    g_marg[i] ~ dnorm(mu_g[sitePlot[i],yearPlot[i],1],tau_g[sitePlot[i],yearPlot[i],1])
+    logit(g_plot[i]) <- g_marg[i]
+
+    # WEIBULL MODEL
+    eta_plot[i] ~ dnorm(mu_s[sitePlot[i],yearPlot[i]],tau_s[sitePlot[i],yearPlot[i]])
+    inv.b_plot[i] <- exp(-(eta_plot[i])/(a[sitePlot[i]]+.01))
+    # model without germination pieces
+    #mu_plot[i] <-
+    mu_plot[i] <- g_plot[i]*exp(-((3/36)/inv.b_plot[i])^a[sitePlot[i]])*s0[i]
+
+    # # LIKELIHOOD
+    plotSeedlings[i] ~ dbinom(mu_plot[i], fec[i])
+
+    # POSTERIOR PREDICTIVE
+    plotSeedlings_sim[i] ~ dbinom(mu_plot[i], fec[i])
+
+    # chi2.obs[i] <- pow((seedlingJan[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
+    # chi2.sim[i] <- pow((seedlingJan_sim[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)         # obs.
+    #
+
+    ## LOG-LIKELIHOOD
+    # logLik_g[i] <- logdensity.bin(seedlingJan[i],g[i] ,totalJan[i])
+
+    # PRIOR PREDICTIVE
+    # alpha_pred[i] ~ dnorm(mu_pred[siteGermination[i],yearGermination[i],gIndex[i]],tau_pred[siteGermination[i],yearGermination[i],gIndex[i]])
+    # logit(g_pred[i]) <- alpha_pred[i]
+    # #seedlingJan2[i] ~ dbinom(g_pred[i], totalJan[i])
+    #
+    # y_pred[i] ~ dbinom(g_pred[i], totalJan[i])
+    }
+
+
+  
+
 
   # Predictive checks --------------------------------------------------------------
 
   # Add up discrepancy measures for entire data set
-  fit.obs <- sum(chi2.obs[])                     # Omnibus test statistic actual data
-  fit.sim <- sum(chi2.sim[])             # Omnibus test statistic replicate data
-  c.hat <- fit.obs/fit.sim
-  p.chi2 <- step(fit.sim - fit.obs)
-  
-  sd.data <- sd(seedlingJan)
-  sd.sim <- sd(seedlingJan_sim)
-  p.sd <- step(sd.sim - sd.data)
-  
-  mean.data <- mean(seedlingJan)
-  mean.sim  <- mean(seedlingJan_sim)
-  p.mean <- step(mean.sim - mean.data)
-  
-  cv.data <- sd.data/mean.data
-  cv.sim <- sd.sim/mean.sim
-  p.cv <- step(cv.sim - cv.data)
+  # fit.obs <- sum(chi2.obs[])                     # Omnibus test statistic actual data
+  # fit.sim <- sum(chi2.sim[])             # Omnibus test statistic replicate data
+  # c.hat <- fit.obs/fit.sim
+  # p.chi2 <- step(fit.sim - fit.obs)
+  # 
+  # sd.data <- sd(seedlingJan)
+  # sd.sim <- sd(seedlingJan_sim)
+  # p.sd <- step(sd.sim - sd.data)
+  # 
+  # mean.data <- mean(seedlingJan)
+  # mean.sim  <- mean(seedlingJan_sim)
+  # p.mean <- step(mean.sim - mean.data)
+  # 
+  # cv.data <- sd.data/mean.data
+  # cv.sim <- sd.sim/mean.sim
+  # p.cv <- step(cv.sim - cv.data)
   
 
 }

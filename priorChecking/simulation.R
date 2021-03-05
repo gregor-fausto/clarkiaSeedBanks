@@ -1,5 +1,5 @@
 n = 100
-lambda = 1.25
+lambda = 1
 t = seq(0,1,by=.01)
 # conditional probability of survival (all intact seeds have x% germination probability)
 g = c(.25,.25,.25)
@@ -11,7 +11,7 @@ par(mfrow=c(1,2))
 # }
 
 beta=1/lambda
-alpha=.75
+alpha=1
 
 f.exp = function(t,lam=lambda){
   return(exp(-(t/beta)^alpha))
@@ -117,18 +117,32 @@ points(c(1,2,3),g.uncond,xlim=c(0,1),ylim=c(0,1),
        col='red',cex=.5)
 
 
+fruits = 3
+seeds = 20
+fec = fruits*seeds
+s0 = .9
+
+obs.seedlings=Jangerm_1*f.exp(t=t.sample[2])*s0*fec
+
+
+
+
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Simulate experiment
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
+
 nBags = 100
 
-seedStart = rep(nBags,times=10)
+seedStart = rep(nBags,times=6)
 
 t.sample = c(3,12,15,24,27,36)/36
 
+# -------------------------------------------------------------------
+# Simulate survival data
+# -------------------------------------------------------------------
 l.x.trials=l.x[c(2,4,5,7,8,10)]
 
 bags<-replicate(nBags,rbinom(n=6,size=100,l.x.trials))
@@ -140,6 +154,7 @@ for(i in 1:nBags){
  df.list[[i]]<-data.frame(siteSurvival=as.character("S1"),
                                 yearSurvival=as.character("2006"),
                                 ageBags=c(1,1,2,2,3,3),
+                                betaIndex=c(1,2,3,4,5,6),
                                 y=y,
                                 seedStart=rep(100,length(y)),
                                 months=t.sample,
@@ -158,6 +173,9 @@ for(i in 1:nBags){
 
 c(l.x[2],l.x[5],l.x[8])
 
+# -------------------------------------------------------------------
+# Simulate germination data
+# -------------------------------------------------------------------
 germinants=bags[c(1,3,5),]
 
 for(i in 1:nBags){
@@ -187,6 +205,20 @@ for(i in 1:nBags){
 #discrete.histogram(y, xlab = "y", main = "Simulated data")
 
 # -------------------------------------------------------------------
+# Simulate plot data
+# -------------------------------------------------------------------
+
+
+fruits = 5
+seeds = 20
+fec = rep(fruits*seeds,100)
+s0 = .75
+
+compound_survival = Jangerm_1*f.exp(t=t.sample[1])*s0
+plot_seedlings = rbinom(100,fec,compound_survival)
+plot(fec,plot_seedlings)
+
+# -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Fit data
 # -------------------------------------------------------------------
@@ -205,6 +237,12 @@ refDf<-data.frame(year=data$yearGermination,gIndex=data$gIndex) %>%
 data$yearRefGerm = refDf$year
 data$indexRefGerm = refDf$gIndex
 data$refGerm = refDf$germinationReference
+
+data$fec = fec#sum(fec)
+data$plotSeedlings = plot_seedlings#sum(plot_seedlings)
+data$n3 = length(plot_seedlings)
+data$sitePlot = rep(1,length(plot_seedlings))
+data$yearPlot = rep(1,length(plot_seedlings))
 
 # -------------------------------------------------------------------
 # Loading required packages
@@ -236,7 +274,7 @@ set.seed(10)
 n.chain = 3
 n.adapt = 3000
 n.update = 5000
-n.iterations = 10000
+n.iterations = 1000
 n.thin = 1
 
 dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/priorChecking/jagsScripts/")
@@ -284,7 +322,7 @@ inits <- list()
 # -------------------------------------------------------------------
 
 jmWbAg = jags.model(paste0(dir,"binomialLikelihood-logLink-wrDecay-simulation.R"), data = data, n.adapt = n.adapt,
-                    n.chains=3)
+                    n.chains=n.chain)
 
 # burn-in (n.update)
 update(jmWbAg, n.iter = n.update)
@@ -303,19 +341,133 @@ samples.rjags.jmWbAg = coda.samples(jmWbAg,
                                  "sigma0_s","sigma_s",
                                  "beta","beta_mod","alpha_s","theta_s",
                                  "mu","a",
+                                 # PLOT DATA
+                                 "mu0_s0","mu_s0","sigma0_s0","sigma_s0",
                                  # POSTERIOR PREDICTIVE
-                                 "y_sim","seedlingJan_sim",
+                                 "y_sim","seedlingJan_sim","plotSeedlings_sim",
                                  "p.chi2","chi2.obs","chi2.sim",
                                  "chi2.yobs","chi2.ysim",
                                  "sd.data","sd.sim","p.sd",
                                  "p.mean","p.cv"),
                              n.iter = n.iterations, thin = n.thin)
 
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Priors
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+par(mfrow=c(1,3))
 
+for(i in 1:3){
+  hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu0_g"))[,i], breaks = 100, 
+       freq = FALSE, main = "Simulated and real data for germination", 
+       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+ # seedlingJan_sim=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==i]
+ # lines(density(seedlingJan_sim,adjust=5), col = "red")
+}
+
+par(mfrow=c(1,3))
+
+for(i in 1:3){
+  hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu_g"))[,i], breaks = 100, 
+       freq = FALSE, main = "Simulated and real data for germination", 
+       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+  # seedlingJan_sim=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==i]
+  # lines(density(seedlingJan_sim,adjust=5), col = "red")
+}
+
+par(mfrow=c(1,3))
+
+for(i in 1:3){
+  hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"sigma0_g"))[,i], breaks = 100, 
+       freq = FALSE, main = "Simulated and real data for germination", 
+       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+  # seedlingJan_sim=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==i]
+  # lines(density(seedlingJan_sim,adjust=5), col = "red")
+}
+
+par(mfrow=c(1,3))
+
+for(i in 1:3){
+  hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"sigma_g"))[,i], breaks = 10, 
+       freq = FALSE, main = "Simulated and real data for germination", 
+       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+  # seedlingJan_sim=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==i]
+  # lines(density(seedlingJan_sim,adjust=5), col = "red")
+}
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Convergence
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 MCMCsummary(samples.rjags.jmWbAg, 
             params = c("mu0_g", "sigma0_g", "sigma_g",
                        "mu0_s","sigma0_s", "sigma_s",
+                       "mu0_s0","sigma0_s0","sigma_s0",
                        "a"))
+
+MCMCsummary(samples.rjags.jmWbAg, 
+            params = c("mu0_s0","sigma0_s0","sigma_s0"))
+
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Checking s0
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+s0_est=(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu_s0"))[,1])
+s0;mean(s0_est)
+
+
+g1 = boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu_g"))[,1]
+hist(g1);abline(v=.25,col='red')
+hist(MCMCchains(samples.rjags.jmWbAg,"mu0_s")[,1])
+eta=MCMCchains(samples.rjags.jmWbAg,"mu0_s")[,1]
+alpha.sample=MCMCchains(samples.rjags.jmWbAg,"a")[,1]
+inv.b = exp(-eta/alpha.sample)
+mu_survival = exp(-((3/36)/inv.b)^alpha.sample)
+hist(mu_survival,breaks=100)
+
+par(mfrow=c(2,3))
+
+hist(s0_est,breaks=100)
+abline(v=s0,col='red')
+
+hist(mu_survival,breaks=100)
+abline(v=f.exp(t=t.sample[1]),col='red')
+
+hist(g1,breaks=100)
+abline(v=Jangerm_1,col='red')
+
+hist(g1*mu_survival*s0_est,breaks=100)
+abline(v=Jangerm_1*f.exp(t=t.sample[1])*s0,col='red')
+
+
+f.exp = function(t,lam=lambda){
+  return(exp(-(t/beta)^alpha))
+}
+
+Jangerm_1*f.exp(t=t.sample[2])*s0_est
+
+
+compound_survival = Jangerm_1*f.exp(t=t.sample[2])*s0_est
+plot_seedlings = rbinom(1,fec,compound_survival)
+plot(fec,plot_seedlings)
+
+sum(plot_seedlings)/sum(fec)
+
+hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu0_s0")))
+abline(v=.5)
+
+hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu_s0")))
+abline(v=.75)
+
+
+hist(boot::inv.logit(MCMCchains(samples.rjags.jmWbAg,"mu0_g")[,3]))
+abline(v=.25)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -329,23 +481,14 @@ MCMCsummary(samples.rjags.jmWbAg,
 # -------------------------------------------------------------------
 par(mfrow=c(1,3))
 
-hist(data$seedlingJan[data$gIndex==1], breaks = 10, 
-     freq = FALSE, main = "Simulated and real data for germination", 
-     xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-g1=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==1]
-lines(density(g1,adjust=5), col = "red")
+for(i in 1:3){
+  hist(data$seedlingJan[data$gIndex==i], breaks = 10, 
+       freq = FALSE, main = "Simulated and real data for germination", 
+       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+  seedlingJan_sim=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==i]
+  lines(density(seedlingJan_sim,adjust=5), col = "red")
+}
 
-hist(data$seedlingJan[data$gIndex==2], breaks = 10, 
-     freq = FALSE, main = "Simulated and real data for germination", 
-     xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-g2=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==2]
-lines(density(g2,adjust=5), col = "red")
-
-hist(data$seedlingJan[data$gIndex==3], breaks = 10, 
-     freq = FALSE, main = "Simulated and real data for germination", 
-     xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-g3=MCMCchains(samples.rjags.jmWbAg, params = "seedlingJan_sim")[,data$gIndex==3]
-lines(density(g3,adjust=5), col = "red")
 
 # -------------------------------------------------------------------
 # Intact seed counts

@@ -1,21 +1,21 @@
 \BOOKMARK [1][-]{section.1}{Background on study system}{}% 1
-\BOOKMARK [1][-]{section.2}{Data}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Seed survival and germination}{section.2}% 3
-\BOOKMARK [3][-]{subsubsection.2.1.1}{Seed bag burial experiments}{subsection.2.1}% 4
-\BOOKMARK [3][-]{subsubsection.2.1.2}{Viability trials}{subsection.2.1}% 5
-\BOOKMARK [2][-]{subsection.2.2}{Seedling survival to fruiting}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.3}{Fruits per plant}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.4}{Seeds per fruit}{section.2}% 8
-\BOOKMARK [1][-]{section.3}{Models}{}% 9
-\BOOKMARK [2][-]{subsection.3.1}{Seed survival and germination}{section.3}% 10
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Model for seed burial experiment data}{subsection.3.1}% 11
-\BOOKMARK [3][-]{subsubsection.3.1.2}{Model for viability trial data}{subsection.3.1}% 12
-\BOOKMARK [2][-]{subsection.3.2}{Seedling survival to fruiting}{section.3}% 13
-\BOOKMARK [2][-]{subsection.3.3}{Fruits per plant}{section.3}% 14
-\BOOKMARK [2][-]{subsection.3.4}{Seeds per fruit}{section.3}% 15
-\BOOKMARK [1][-]{section.4}{Demographic modeling framework}{}% 16
-\BOOKMARK [2][-]{subsection.4.1}{Parameters for belowground transitions}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.2}{Parameters for aboveground transitions}{section.4}% 18
+\BOOKMARK [1][-]{section.2}{Demographic modeling framework}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Parameters for belowground transitions}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Parameters for aboveground transitions}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Data}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Seed survival and germination}{section.3}% 6
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Seed bag burial experiments}{subsection.3.1}% 7
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Viability trials}{subsection.3.1}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Seedling survival to fruiting}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Fruits per plant}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Seeds per fruit}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Models}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{Seed survival and germination}{section.4}% 13
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Model for seed burial experiment data}{subsection.4.1}% 14
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Model for viability trial data}{subsection.4.1}% 15
+\BOOKMARK [2][-]{subsection.4.2}{Seedling survival to fruiting}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.3}{Fruits per plant}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.4}{Seeds per fruit}{section.4}% 18
 \BOOKMARK [1][-]{section.5}{Analysis}{}% 19
 \BOOKMARK [2][-]{subsection.5.1}{Correlation between germination probability and seed survival}{section.5}% 20
 \BOOKMARK [2][-]{subsection.5.2}{Correlation between germination probability and variance in per-capita reproductive success}{section.5}% 21
