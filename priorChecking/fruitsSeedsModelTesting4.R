@@ -199,42 +199,38 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/priorChecking/jagsScripts/")
 # Partial pooling of seed burial experiment (site level)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# initsMu0 <- function(samps = data$n_site2){
-#   #rnorm(n = samps, mean = 0, sd = 1)
-#   #truncdist::rtrunc(n = samps,"gamma",a=.001,shape=0.01,rate=0.01)
-#   rgamma(n = samps, shape = 1, rate = 1)
-# }
+initsMu0 <- function(samps = data$n_site2){
+  #rnorm(n = samps, mean = 0, sd = 1)
+  #truncdist::rtrunc(n = samps,"gamma",a=.001,shape=0.01,rate=0.01)
+  rgamma(n = samps, shape = 1, rate = 1)
+}
 
-# initsSigma0 <- function(samps = data$n_site2){
-#   #extraDistr::rhnorm(n = samps, sigma = 1)
-#   truncdist::rtrunc(n = samps,"gamma",a=.001,shape=0.001,rate=0.001)
-#   # rgamma(n = samps, shape = .001, rate = .001)
-#   
-# }
-# 
-# initsR <- function(rows = data$n_site2, cols = data$n_year2){
-#   samps = rows*cols
-#   #matrix(truncdist::rtrunc(n = samps,"gamma",a=.001,shape=0.001,rate=0.001), rows, cols)
-#   #matrix(runif(n = samps,0,1), rows, cols)
-#   matrix(truncdist::rtrunc(n = samps,"gamma",a=.001,shape=0.001,rate=0.001), rows, cols)
-# }
-# 
+initsSigma0 <- function(samps = data$n_site){
+  extraDistr::rhnorm(n = samps, sigma = 1)
+  # runif(n = samps, min = 0, max = 1)
+}
+
+initsSigma <- function(rows = data$n_site, cols = data$n_year){
+  matrix(extraDistr::rhnorm(n = rows*cols, sigma = 1), rows, cols)
+  # matrix(runif(n=rows*cols, min = 0, max = 1), rows, cols)
+}
+
 # # set inits for JAGS
-# inits <- list()
-# for(i in 1:3){
-#   inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
-#                      initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
-#                      initsR(rows = data$n_site2,cols=data$n_year), 
-#                      initsR(rows = data$n_site2,cols=data$n_year2), 
-#                      initsR(rows = data$n_site2,cols=data$n_year2), 
-#                      initsR(rows = data$n_site2,cols=data$n_year3), 
-#                      initsR(rows = data$n_site2,cols=data$n_year4) )
-#   
-#   names(inits[[i]]) = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-#                         paste(rep("tau0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-#                         paste(rep("tau",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"))
-#   
-# }
+ inits <- list()
+for(i in 1:3){
+  inits[[i]] <- list(initsMu0(), initsMu0(), initsMu0(), initsMu0(), initsMu0(),
+                     initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(), initsSigma0(),
+                     initsSigma(rows = data$n_site2,cols=data$n_year),
+                     initsSigma(rows = data$n_site2,cols=data$n_year2),
+                     initsSigma(rows = data$n_site2,cols=data$n_year2),
+                     initsSigma(rows = data$n_site2,cols=data$n_year3),
+                     initsSigma(rows = data$n_site2,cols=data$n_year4) )
+
+  names(inits[[i]]) = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                        paste(rep("sigma0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                        paste(rep("sigma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"))
+
+}
 
 # # Call to JAGS
 # 
@@ -246,9 +242,9 @@ jm = jags.model(paste0(dir,"nbLikelihood-lognormalLink-normalHierarchical-5.R"),
 update(jm, n.iter = n.update)
 
 parsToMonitor = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("tau0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  paste(rep("sigma0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   paste(rep("mu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("tau",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  paste(rep("sigma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   paste(rep("mu_p",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   paste(rep("mu_py",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
                   "ratio","mu_py_tfe_comp")
@@ -261,8 +257,8 @@ samples.rjags = coda.samples(jm,
  fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness-weakly-informative/")
  dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
-#saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
-saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamplesTesting3.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
+#saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamples.rds"))
  saveRDS(data,file=paste0(fileDirectory,"data.rds")) 
 
 # saveRDS(countFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countFruitsPerPlantAllPlots.rds"))
@@ -271,3 +267,9 @@ saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/
 # saveRDS(countSeedPerDamagedFruit,file=paste0(fileDirectory,"countSeedPerDamagedFruit.rds"))
 
 
+ hist(MCMCsummary(samples.rjags,"mu_dam")$Rhat)
+ hist(MCMCsummary(samples.rjags,"mu_tfe")$Rhat)
+ hist(MCMCsummary(samples.rjags,"mu_und")$Rhat)
+ hist(MCMCsummary(samples.rjags,"mu_seeds")$Rhat)
+ hist(MCMCsummary(samples.rjags,"mu_dam_seeds")$Rhat)
+ 

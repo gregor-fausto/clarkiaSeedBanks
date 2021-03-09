@@ -8,50 +8,26 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
 modelFittingFiles <- paste0(directory,list.files(directory))
 
-mcmcSamples <- readRDS(modelFittingFiles[[2]])
-data <- readRDS(modelFittingFiles[[1]])
+mcmcSamples <- readRDS(modelFittingFiles[[grep("seedSurvivalSamplesChecks.rds",modelFittingFiles)]])
+data <- readRDS(modelFittingFiles[[grep("data.rds",modelFittingFiles)]])
 
+
+censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+
+siteNames = unique(censusSeedlingsFruitingPlants$site)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Convergence diagnostics
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-MCMCsummary(mcmcSamples, params = c("mu0_g"))
-MCMCsummary(mcmcSamples, params = c("sigma0_g"))
-MCMCsummary(mcmcSamples, params = c("sigma_g"))
+# MCMCsummary(mcmcSamples, params = c("mu0"))
+# MCMCsummary(mcmcSamples, params = c("sigma0"))
+# MCMCsummary(mcmcSamples, params = c("sigma"))
 
-MCMCsummary(mcmcSamples, params = c("mu0_s"))
-MCMCsummary(mcmcSamples, params = c("sigma0_s"))
-MCMCsummary(mcmcSamples, params = c("sigma_s"))
-
-MCMCsummary(mcmcSamples, params = c("a"))
-
-alpha<-MCMCchains(mcmcSamples, params = c("a"))
-alpha.sum<-apply(alpha,2,quantile,c(.025,.5,.975))
-
-par(mfrow=c(1,1))
-
-plot(NA,NA,type='n',xlim=c(0,2),ylim=c(0,20))
-for(i in 1:20){
-  tmp<-alpha.sum[,i]
-  segments(x0=tmp[1],x1=tmp[3],y0=i)
-  points(x=tmp[2],y=i,pch=19)
-}
-
-for(i in 1:20){
-  hist(MCMCchains(mcmcSamples,params="a")[,i],
-       breaks=100,freq=FALSE,xlim=c(0,2));
-  abline(v=1,col='red')
-}
-
-diag.obj = gelman.diag(mcmcSamples)
-plot(diag.obj$psrf[,1]);abline(v=c(21,61,81,101))
-names(diag.obj$psrf[,1])
-(diag.obj$psrf[,1])[order(diag.obj$psrf[,1])]
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Graphical Posterior Predictive Checks
@@ -60,31 +36,30 @@ names(diag.obj$psrf[,1])
 
 
 # -------------------------------------------------------------------
-# Germination
+# Fruiting plants
 # -------------------------------------------------------------------
-par(mfrow=c(1,3))
-
-for(i in 1:3){
-  hist(data$seedlingJan[data$siteGermination==1&data$gIndex==i], breaks = 10, 
-       freq = FALSE, main = "Simulated and real data for germination", 
-       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-  seedlingJan_sim=MCMCchains(mcmcSamples, params = "seedlingJan_sim")[,data$siteGermination==1&data$gIndex==i]
-  lines(density(seedlingJan_sim,adjust=5), col = "red")
-}
-
-
-# -------------------------------------------------------------------
-# Intact seed counts
-# -------------------------------------------------------------------
-par(mfrow=c(2,3))
-
-for(i in 1:6){
-  hist(data$y[data$siteSurvival==1&data$compIndex==i], breaks = 10, 
-       freq = FALSE, main = "Simulated and real data for germination", 
-       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-  y_sim=MCMCchains(mcmcSamples, params = "y_sim")[,data$siteSurvival==1&data$compIndex==i]
-  lines(density(y_sim,adjust=5), col = "red")
-}
+# par(mfrow=c(1,3))
+# 
+# for(i in 1:20){
+# 
+#   hist(data$fruitplNumber[data$site==1], breaks = 100,
+#        freq = FALSE, main = "Simulated and real data for germination",
+#        xlab = expression(paste("germinant count")), cex.lab = 1.2)
+#   fruitplNumber_sim=MCMCchains(mcmcSamples, params = "fruitplNumber_sim")[,data$site==1]
+#   lines(density(fruitplNumber_sim,adjust=10), col = "red")
+# }
+# 
+# par(mfrow = c(4,5),
+#     oma = c(5,4,0,0) + 0.1,
+#     mar = c(0,0,1,1) + 0.1)
+# for(i in 1:20){
+#   
+#   hist(data$fruitplNumber[data$site==i], breaks = 100,
+#        freq = FALSE, main = "Simulated and real data for germination",
+#        xlab = expression(paste("germinant count")), cex.lab = 1.2)
+#   fruitplNumber_sim=MCMCchains(mcmcSamples, params = "fruitplNumber_sim")[,data$site==i]
+#   lines(density(fruitplNumber_sim,adjust=10), col = "red")
+# }
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -98,22 +73,28 @@ for(i in 1:6){
 # https://discourse.mc-stan.org/t/posterior-prediction-from-logit-regression/12217
 # -------------------------------------------------------------------
 # 
-# sims <- MCMCchains(mcmcSamples, params = "y_sim")
-# sims.subset=sims[sample(dim(sims)[1],10000),]
+# sims <- MCMCchains(mcmcSamples, params = "fruitplNumber_sim")
+# #sims.subset=sims[sample(dim(sims)[1],10000),]
 # 
-# sims <- MCMCchains(mcmcSamples, params = "seedlingJan_sim")
+# #sims <- MCMCchains(mcmcSamples, params = "seedlingJan_sim")
 # 
-# for(i in 1:6){
-#   
-#   par(mfrow=c(2,3))
-#   bayesplot::ppc_error_binned(data$seedlingJan[data$gIndex==3], 
-#                               sims[1:6,data$gIndex==3])
-#   
+# 
+# par(mfrow=c(2,3))
+# bayesplot::ppc_error_binned(data$fruitplNumber[data$site==1],
+#                             sims[1:6,data$site==1])
+# bayesplot::ppc_error_binned(data$fruitplNumber[data$site==2],
+#                             sims[1:6,data$site==2])
+# 
+# par(mfrow=c(3,5))
+# 
+# for(i in 1:14){
+# hist(apply(sims[,data$site==1&data$year==i],2,mean)/data$seedlingNumber[data$site==1&data$year==i],breaks=100,main='')
+# abline(v=mean(data$fruitplNumber[data$site==1&data$year==i]/data$seedlingNumber[data$site==1&data$year==i],na.rm=TRUE),col='red',lwd=2)
 # }
 
 # -------------------------------------------------------------------
-# Bayesian p-values: omnibus Chi-squared for germination counts
-# entire dataset, age-specific
+# Bayesian p-values: omnibus Chi-squared for counts of fruiting plants
+# entire dataset, population-level
 # -------------------------------------------------------------------
 chi2.obs=MCMCchains(mcmcSamples,params=c("chi2.obs"))
 chi2.sim=MCMCchains(mcmcSamples,params=c("chi2.sim"))
@@ -123,108 +104,220 @@ fit.sim=apply(chi2.sim,1,sum)
 p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
 mean(p.chi2.calc)
 
-#MCMCsummary(mcmcSamples, params = c("p.chi2"))
-# hist(MCMCchains(mcmcSamples, params = c("p.chi2")))
-# hist(p.chi2.calc)
-
-p.age = matrix(NA,nrow=dim(chi2.obs)[1],ncol=3)
-for(i in 1:3){
-  chi2.obs=MCMCchains(mcmcSamples,params=c("chi2.obs"))[,data$gIndex==i]
-  chi2.sim=MCMCchains(mcmcSamples,params=c("chi2.sim"))[,data$gIndex==i]
-  fit.obs=apply(chi2.obs,1,sum)
-  fit.sim=apply(chi2.sim,1,sum)
+p.pop = matrix(NA,nrow=dim(chi2.obs)[1],ncol=20)
+for(i in 1:20){
+  tmp.chi2.obs=chi2.obs[,data$site==i]
+  tmp.chi2.sim=chi2.sim[,data$site==i]
+  fit.obs=apply(tmp.chi2.obs,1,sum)
+  fit.sim=apply(tmp.chi2.sim,1,sum)
   p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
-  p.age[,i] = p.chi2.calc
+  p.pop[,i] = p.chi2.calc
 }
-apply(p.age,2,mean)
+apply(p.pop,2,mean)
 
 par(mfrow=c(1,1))
-time.sample = 1:3
-plot(time.sample,apply(p.age,2,mean),
+pop.sample = 1:20
+plot(pop.sample,apply(p.pop,2,mean),
      ylim=c(0,1),pch=16,
-     xlab="Months",ylab="p-Value",
-     main="Germinant counts")
+     xlab="Population",ylab="p-Value",
+     main="Fruiting plant counts",    
+     axes=FALSE,frame=FALSE,xaxt='n',yaxt='n')
 abline(h=c(.1,.9),lty='dotted')
 
-# note that for particular parameter combinations the counts
-# are very low in year 3, making it challenging to obtain reasonable
-# estimates of conditional germination rates
-# see this by reducing lambda and comparing
-# but I think this might trade off with ability to estimate survival
+axis(1, (1:20),
+     labels = siteNames, las = 1, 
+     col = NA, col.ticks = 1, cex.axis = .5)
+axis(2,  seq(0,1,by=.2), col.ticks = 1)
 
-# -------------------------------------------------------------------
-# Bayesian p-values: omnibus Chi-squared for seed counts
-# entire dataset, age-specific
-# -------------------------------------------------------------------
-chi2.yobs=MCMCchains(mcmcSamples,params=c("chi2.yobs"))
-chi2.ysim=MCMCchains(mcmcSamples,params=c("chi2.ysim"))
-# calculations are rowwise
-fit.obs=apply(chi2.yobs,1,sum)
-fit.sim=apply(chi2.ysim,1,sum)
-p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
-mean(p.chi2.calc)
+# population-wide, this seems to pass checks okay
 
-# hist(MCMCchains(mcmcSamples, params = c("p.chi2")))
-# hist(p.chi2.calc)
+n.iter = dim(chi2.obs)[1]
 
-p.index = matrix(NA,nrow=dim(chi2.obs)[1],ncol=6)
-for(i in 1:6){
-  chi2.yobs.index=chi2.yobs[,data$compIndex==i]
-  chi2.ysim.index=chi2.ysim[,data$compIndex==i]
-  fit.obs=apply(chi2.yobs.index,1,sum)
-  fit.sim=apply(chi2.ysim.index,1,sum)
-  p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
-  p.index[,i] = p.chi2.calc
+p.chi.list = list()
+p.pop = matrix(NA,nrow=n.iter,ncol=14)
+for(j in 1:20){
+  for(i in 1:14){
+    tmp.chi2.obs=chi2.obs[,data$site==j& data$year==i]
+    tmp.chi2.sim=chi2.sim[,data$site==j& data$year==i]
+    fit.obs=apply(tmp.chi2.obs,1,sum)
+    fit.sim=apply(tmp.chi2.sim,1,sum)
+    p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
+    p.pop[,i] = p.chi2.calc
+  }
+  p.chi.list[[j]] = apply(p.pop,2,mean)
 }
-apply(p.index,2,mean)
+p.chi.mat=do.call(rbind,p.chi.list)
+
 
 par(mfrow=c(1,1))
-time.sample = c(3,12,15,24,27,36)
-plot(time.sample,apply(p.index,2,mean),
-     ylim=c(0,1),pch=16,
+time.sample = 1:14+2005
+plot(time.sample,p.chi.mat[1,],
+     ylim=c(0,1),pch=16,xlim=c(2006,2019),
      xlab="Months",ylab="p-Value",
-     main="Seed counts")
+     main="Germinant counts",type='n')
+for(i in 1:20){
+  points(time.sample+rnorm(1,0,sd=.05),
+         p.chi.mat[i,],pch=1,cex=.5)
+}
 abline(h=c(.1,.9),lty='dotted')
+
+# per year*population shows some values that are not well modeled this way
+
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+
+time.sample = 1:14+2005
+for(i in 1:20){
+  plot(NA,NA,
+       ylim=c(0,1),pch=16,xlim=c(2006,2019),
+       ylab='',xlab='',xaxt='n',yaxt='n')
+  points(time.sample+rnorm(1,0,sd=.05),
+         p.chi.mat[i,],pch=19,cex=1,
+         col=ifelse(p.chi.mat[i,]>.9|p.chi.mat[i,]<.1,"purple","black"))
+  
+  abline(h=c(.1,.9),lty='dotted')
+  
+  text(x=2005.5,y=.04,siteNames[i],pos=4)
+  ifelse(i%in%c(16:20),axis(1L),NA)
+  ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+  ifelse(i%in%c(5), legend(x = 15, y = 1,
+                           col = c('gray','orange'),
+                           lty = c(1,1),
+                           legend = c("Persistence only","Persistence & viability"),
+                           cex=.55,
+                           box.lty=0), NA)
+}
+mtext("Year", side = 1, outer = TRUE, line = 2.2)
+mtext("Bayesian p-value (chi-2)", side = 2, outer = TRUE, line = 2.2)
+mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+
+
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1,
+    mgp=c(3,0,0))
+
+for(i in 1:20){
+
+  tot.fruitpl=c()
+  for(j in 1:14){
+    tot.fruitpl[j]=sum(data$fruitplNumber[data$site==i&data$year==j],na.rm=TRUE)
+  }
+  
+  plot(NA,NA,
+       ylim=c(0,1),pch=16,xlim=c(0,max(tot.seeds)),
+       ylab='',xlab='',yaxt='n',xaxt='n')
+  points(tot.fruitpl,
+         p.chi.mat[i,],pch=19,cex=1,
+         col=ifelse(p.chi.mat[i,]>.9|p.chi.mat[i,]<.1,"purple","black"))
+  
+  abline(h=c(.1,.9),lty='dotted')
+  
+  text(x=5,y=.04,siteNames[i],pos=4)
+  axis(1,cex.axis=.75,tick=FALSE)
+  ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+}
+mtext("Total number of fruiting plants", side = 1, outer = TRUE, line = 2.2)
+mtext("Bayesian p-value (chi-2)", side = 2, outer = TRUE, line = 2.2)
+mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+
+
+
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1,
+    mgp=c(3,0,0))
+
+for(i in 1:20){
+  
+  tot.seeds=c()
+  for(j in 1:14){
+    tot.seeds[j]=sum(data$seedlingNumber[data$site==i&data$year==j],na.rm=TRUE)
+  }
+  
+  plot(NA,NA,
+       ylim=c(0,1),pch=16,xlim=c(0,max(tot.seeds)),
+       ylab='',xlab='',yaxt='n',xaxt='n')
+  points(tot.seeds,
+         p.chi.mat[i,],pch=19,cex=1,
+         col=ifelse(p.chi.mat[i,]>.9|p.chi.mat[i,]<.1,"purple","black"))
+  
+  abline(h=c(.1,.9),lty='dotted')
+  
+  text(x=5,y=.04,siteNames[i],pos=4)
+  axis(1,cex.axis=.75,tick=FALSE)
+  ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+}
+mtext("Total number of seedlings", side = 1, outer = TRUE, line = 2.2)
+mtext("Bayesian p-value (chi-2)", side = 2, outer = TRUE, line = 2.2)
+mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+
+# years with low number of seedlings (trials) and fruiting plants (successes)
+# pull the mean towards the population-level average
+# due to pooling
+
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1,
+    mgp=c(3,0,0))
+
+for(i in 1:20){
+  
+  var.fruitpl=c()
+  for(j in 1:14){
+    var.fruitpl[j]=var(data$fruitplNumber[data$site==i&data$year==j],na.rm=TRUE)
+  }
+  
+  plot(NA,NA,
+       ylim=c(0,1),pch=16,xlim=c(0,max(var.fruitpl)),
+       ylab='',xlab='',yaxt='n',xaxt='n')
+  points(var.fruitpl,
+         p.chi.mat[i,],pch=19,cex=1,
+         col=ifelse(p.chi.mat[i,]>.9|p.chi.mat[i,]<.1,"purple","black"))
+  
+  abline(h=c(.1,.9),lty='dotted')
+  
+  text(x=5,y=.04,siteNames[i],pos=4)
+  axis(1,cex.axis=.75,tick=FALSE)
+  ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+}
+mtext("Variance in fruiting plant number", side = 1, outer = TRUE, line = 2.2)
+mtext("Bayesian p-value (chi-2)", side = 2, outer = TRUE, line = 2.2)
+mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+
+# Years in which almost no plants survived, this model does not capture that
 
 # -------------------------------------------------------------------
 # Bayesian p-values: additional
 # entire dataset, age-specific
 # -------------------------------------------------------------------
 
-
-sd.data=sd(data[data$siteGermination==1]$seedlingJan)
-#sd.sim=MCMCchains(mcmcSamples,params=c("sd.sim"))
-# plot(apply(MCMCchains(mcmcSamples,params=c("seedlingJan_sim")),1,sd),
-#      sd.sim);abline(a=0,b=1)
-sd.sim=apply(MCMCchains(mcmcSamples,params=c("seedlingJan_sim"))[,data$siteGermination==1],1,sd)
+sd.data=sd(data$fruitplNumber)
+sd.sim=apply(MCMCchains(mcmcSamples,params=c("fruitplNumber_sim")),1,sd)
 p.sd = ifelse(sd.sim-sd.data>=0,1,0)
 mean(p.sd)
 
-n.iter=dim(MCMCchains(mcmcSamples,params=c("seedlingJan_sim")))[1]
-
 p.sd.list = list()
-p.sd.age = matrix(NA,nrow=n.iter,ncol=3)
+p.sd.year = matrix(NA,nrow=n.iter,ncol=20)
 for(h in 1:20){
-  for(i in 1:3){
-    sd.data=sd(data$seedlingJan[data$siteGermination==h & data$gIndex==i])
-    y_samples=MCMCchains(mcmcSamples,params=c("seedlingJan_sim"))[,data$siteGermination==h & data$gIndex==i]
+    sd.data=sd(data$fruitplNumber[data$site==h])
+    y_samples=MCMCchains(mcmcSamples,params=c("fruitplNumber_sim"))[,data$site==h]
     sd.sim=apply(y_samples,1,sd)
     p.sd = ifelse(sd.sim-sd.data>=0,1,0)
-    p.sd.age[,i] = p.sd
-  }
-  p.sd.list[[h]] = apply(p.sd.age,2,sd)
+    p.sd.year[,i] = p.sd
 }
 p.sd.mat=do.call(rbind,p.sd.list)
 
 
 par(mfrow=c(1,1))
-time.sample = 1:3
-plot(time.sample,p.sd.mat[1,],
+pop.sample = 1:20
+plot(pop.sample,p.sd.mat[1,],
      ylim=c(0,1),pch=16,xlim=c(0,4),
      xlab="Months",ylab="p-Value",
      main="Germinant counts",type='n')
 for(i in 1:20){
-  points(time.sample+rnorm(1,0,sd=.05),
+  points(pop.sample+rnorm(1,0,sd=.05),
          p.sd.mat[i,],pch=1,cex=.5)
 }
 abline(h=c(.1,.9),lty='dotted')

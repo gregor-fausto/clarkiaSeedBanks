@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  2 MAR 2021 13:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  7 MAR 2021 17:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -293,46 +293,23 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count284
 \l__pdf_internal_box=\box54
 )
-(./figures-all.aux
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-
-LaTeX Warning: Label `fig:viability-estimates-population' multiply defined.
-
-)
+No file figures-all.aux.
 \openout1 = `figures-all.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -404,15 +381,15 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 <seed-bag-figure.pdf, id=1, page=1, 401.67163pt x 228.6161pt>
 File: seed-bag-figure.pdf Graphic file (type pdf)
 <use seed-bag-figure.pdf, page 1>
-Package pdftex.def Info: seed-bag-figure.pdf , page1 used on input line 28.
+Package pdftex.def Info: seed-bag-figure.pdf , page1 used on input line 31.
 (pdftex.def)             Requested size: 430.00462pt x 244.74936pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 29.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 29.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -421,19 +398,19 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./seed-
 bag-figure.pdf>]
-<../../figures/viability-estimates-population.pdf, id=46, page=1, 578.16pt x 43
-3.62pt>
-File: ../../figures/viability-estimates-population.pdf Graphic file (type pdf)
-<use ../../figures/viability-estimates-population.pdf, page 1>
-Package pdftex.def Info: ../../figures/viability-estimates-population.pdf , pag
-e1 used on input line 38.
+<../../figures/survival-function-population.pdf, id=46, page=2, 578.16pt x 433.
+62pt>
+File: ../../figures/survival-function-population.pdf Graphic file (type pdf)
+<use ../../figures/survival-function-population.pdf, page 2>
+Package pdftex.def Info: ../../figures/survival-function-population.pdf , page2
+ used on input line 52.
 (pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
-<../../figures/viability-estimates-population.pdf, id=47, page=2, 578.16pt x 43
-3.62pt>
-File: ../../figures/viability-estimates-population.pdf Graphic file (type pdf)
-<use ../../figures/viability-estimates-population.pdf, page 2>
-Package pdftex.def Info: ../../figures/viability-estimates-population.pdf , pag
-e2 used on input line 45.
+<../../figures/survival-function-population.pdf, id=47, page=1, 578.16pt x 433.
+62pt>
+File: ../../figures/survival-function-population.pdf Graphic file (type pdf)
+<use ../../figures/survival-function-population.pdf, page 1>
+Package pdftex.def Info: ../../figures/survival-function-population.pdf , page1
+ used on input line 59.
 (pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
 
 
@@ -445,57 +422,22 @@ File: ../../figures/survival-function-parms-population.pdf Graphic file (type p
 df)
 <use ../../figures/survival-function-parms-population.pdf, page 1>
 Package pdftex.def Info: ../../figures/survival-function-parms-population.pdf ,
- page1 used on input line 52.
+ page1 used on input line 66.
 (pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../../figures/survival-function-population.pdf, id=49, page=1, 578.16pt x 433.
-62pt>
-File: ../../figures/survival-function-population.pdf Graphic file (type pdf)
-<use ../../figures/survival-function-population.pdf, page 1>
-Package pdftex.def Info: ../../figures/survival-function-population.pdf , page1
- used on input line 59.
-(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<../../figures/survival-function-population.pdf, id=50, page=2, 578.16pt x 433.
-62pt>
-File: ../../figures/survival-function-population.pdf Graphic file (type pdf)
-<use ../../figures/survival-function-population.pdf, page 2>
-Package pdftex.def Info: ../../figures/survival-function-population.pdf , page2
- used on input line 66.
-(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<../../figures/germination-population.pdf, id=51, page=1, 578.16pt x 289.08pt>
-File: ../../figures/germination-population.pdf Graphic file (type pdf)
-<use ../../figures/germination-population.pdf, page 1>
-Package pdftex.def Info: ../../figures/germination-population.pdf , page1 used 
-on input line 73.
-(pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
-<../../figures/germination-population.pdf, id=52, page=2, 578.16pt x 289.08pt>
-File: ../../figures/germination-population.pdf Graphic file (type pdf)
-<use ../../figures/germination-population.pdf, page 2>
-Package pdftex.def Info: ../../figures/germination-population.pdf , page2 used 
-on input line 74.
-(pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<../../figures/survival-function-discrete.pdf, id=53, page=1, 578.16pt x 433.62
+<../../figures/survival-function-discrete.pdf, id=49, page=1, 578.16pt x 433.62
 pt>
 File: ../../figures/survival-function-discrete.pdf Graphic file (type pdf)
 <use ../../figures/survival-function-discrete.pdf, page 1>
 Package pdftex.def Info: ../../figures/survival-function-discrete.pdf , page1 u
-sed on input line 81.
+sed on input line 77.
 (pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../../figures/survival-function-compound.pdf, id=54, page=1, 578.16pt x 433.62
+<../../figures/survival-function-compound.pdf, id=50, page=1, 578.16pt x 433.62
 pt>
 File: ../../figures/survival-function-compound.pdf Graphic file (type pdf)
 <use ../../figures/survival-function-compound.pdf, page 1>
@@ -505,47 +447,302 @@ sed on input line 88.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../../figures/survival-function-summary.pdf, id=55, page=1, 578.16pt x 289.08p
-t>
-File: ../../figures/survival-function-summary.pdf Graphic file (type pdf)
-<use ../../figures/survival-function-summary.pdf, page 1>
-Package pdftex.def Info: ../../figures/survival-function-summary.pdf , page1 us
-ed on input line 95.
+<../../figures/viability-estimates-population.pdf, id=51, page=1, 578.16pt x 43
+3.62pt>
+File: ../../figures/viability-estimates-population.pdf Graphic file (type pdf)
+<use ../../figures/viability-estimates-population.pdf, page 1>
+Package pdftex.def Info: ../../figures/viability-estimates-population.pdf , pag
+e1 used on input line 98.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/viability-estimates-population.pdf, id=52, page=2, 578.16pt x 43
+3.62pt>
+File: ../../figures/viability-estimates-population.pdf Graphic file (type pdf)
+<use ../../figures/viability-estimates-population.pdf, page 2>
+Package pdftex.def Info: ../../figures/viability-estimates-population.pdf , pag
+e2 used on input line 105.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/survival-function-persistence-viability.pdf, id=53, page=1, 578.
+16pt x 433.62pt>
+File: ../../figures/survival-function-persistence-viability.pdf Graphic file (t
+ype pdf)
+<use ../../figures/survival-function-persistence-viability.pdf, page 1>
+Package pdftex.def Info: ../../figures/survival-function-persistence-viability.
+pdf , page1 used on input line 116.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/survival-function-persistence-viability.pdf, id=54, page=3, 578.
+16pt x 433.62pt>
+File: ../../figures/survival-function-persistence-viability.pdf Graphic file (t
+ype pdf)
+<use ../../figures/survival-function-persistence-viability.pdf, page 3>
+Package pdftex.def Info: ../../figures/survival-function-persistence-viability.
+pdf , page3 used on input line 123.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/germination-population.pdf, id=55, page=1, 578.16pt x 289.08pt>
+File: ../../figures/germination-population.pdf Graphic file (type pdf)
+<use ../../figures/germination-population.pdf, page 1>
+Package pdftex.def Info: ../../figures/germination-population.pdf , page1 used 
+on input line 140.
 (pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
+<../../figures/germination-population.pdf, id=56, page=2, 578.16pt x 289.08pt>
+File: ../../figures/germination-population.pdf Graphic file (type pdf)
+<use ../../figures/germination-population.pdf, page 2>
+Package pdftex.def Info: ../../figures/germination-population.pdf , page2 used 
+on input line 141.
+(pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/structured-parameters-all.pdf, id=57, page=1, 578.16pt x 433.62p
+t>
+File: ../../figures/structured-parameters-all.pdf Graphic file (type pdf)
+<use ../../figures/structured-parameters-all.pdf, page 1>
+Package pdftex.def Info: ../../figures/structured-parameters-all.pdf , page1 us
+ed on input line 148.
+(pdftex.def)             Requested size: 387.00153pt x 290.246pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/compare-structured-germination.pdf, id=58, page=1, 578.16pt x 28
+9.08pt>
+File: ../../figures/compare-structured-germination.pdf Graphic file (type pdf)
+<use ../../figures/compare-structured-germination.pdf, page 1>
+Package pdftex.def Info: ../../figures/compare-structured-germination.pdf , pag
+e1 used on input line 155.
+(pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
+<../../figures/compare-structured-germination.pdf, id=59, page=2, 578.16pt x 28
+9.08pt>
+File: ../../figures/compare-structured-germination.pdf Graphic file (type pdf)
+<use ../../figures/compare-structured-germination.pdf, page 2>
+Package pdftex.def Info: ../../figures/compare-structured-germination.pdf , pag
+e2 used on input line 156.
+(pdftex.def)             Requested size: 430.00462pt x 215.00095pt.
+
+LaTeX Warning: Float too large for page by 44.02531pt on input line 159.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/compare-structured-germination2.pdf, id=60, page=2, 578.16pt x 4
+33.62pt>
+File: ../../figures/compare-structured-germination2.pdf Graphic file (type pdf)
+
+<use ../../figures/compare-structured-germination2.pdf, page 2>
+Package pdftex.def Info: ../../figures/compare-structured-germination2.pdf , pa
+ge2 used on input line 164.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/structured-parameters-all.pdf, id=61, page=2, 578.16pt x 433.62p
+t>
+File: ../../figures/structured-parameters-all.pdf Graphic file (type pdf)
+<use ../../figures/structured-parameters-all.pdf, page 2>
+Package pdftex.def Info: ../../figures/structured-parameters-all.pdf , page2 us
+ed on input line 175.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/structured-parameters-all.pdf, id=62, page=3, 578.16pt x 433.62p
+t>
+File: ../../figures/structured-parameters-all.pdf Graphic file (type pdf)
+<use ../../figures/structured-parameters-all.pdf, page 3>
+Package pdftex.def Info: ../../figures/structured-parameters-all.pdf , page3 us
+ed on input line 182.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/compare-structured-survival.pdf, id=63, page=1, 578.16pt x 433.6
+2pt>
+File: ../../figures/compare-structured-survival.pdf Graphic file (type pdf)
+<use ../../figures/compare-structured-survival.pdf, page 1>
+Package pdftex.def Info: ../../figures/compare-structured-survival.pdf , page1 
+used on input line 189.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/compare-structured-survival2.pdf, id=64, page=2, 578.16pt x 433.
+62pt>
+File: ../../figures/compare-structured-survival2.pdf Graphic file (type pdf)
+<use ../../figures/compare-structured-survival2.pdf, page 2>
+Package pdftex.def Info: ../../figures/compare-structured-survival2.pdf , page2
+ used on input line 197.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/compare-structured-parameters-1to1.pdf, id=65, page=1, 578.16pt 
+x 289.08pt>
+File: ../../figures/compare-structured-parameters-1to1.pdf Graphic file (type p
+df)
+<use ../../figures/compare-structured-parameters-1to1.pdf, page 1>
+Package pdftex.def Info: ../../figures/compare-structured-parameters-1to1.pdf ,
+ page1 used on input line 208.
+(pdftex.def)             Requested size: 289.07928pt x 144.53964pt.
+<../../figures/compare-structured-parameters-1to1.pdf, id=66, page=2, 578.16pt 
+x 289.08pt>
+File: ../../figures/compare-structured-parameters-1to1.pdf Graphic file (type p
+df)
+<use ../../figures/compare-structured-parameters-1to1.pdf, page 2>
+Package pdftex.def Info: ../../figures/compare-structured-parameters-1to1.pdf ,
+ page2 used on input line 209.
+(pdftex.def)             Requested size: 289.07928pt x 144.53964pt.
+<../../figures/compare-structured-parameters-1to1.pdf, id=67, page=3, 578.16pt 
+x 289.08pt>
+File: ../../figures/compare-structured-parameters-1to1.pdf Graphic file (type p
+df)
+<use ../../figures/compare-structured-parameters-1to1.pdf, page 3>
+Package pdftex.def Info: ../../figures/compare-structured-parameters-1to1.pdf ,
+ page3 used on input line 210.
+(pdftex.def)             Requested size: 289.07928pt x 144.53964pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/cumulative-survival.pdf, id=68, page=1, 578.16pt x 433.62pt>
+File: ../../figures/cumulative-survival.pdf Graphic file (type pdf)
+<use ../../figures/cumulative-survival.pdf, page 1>
+Package pdftex.def Info: ../../figures/cumulative-survival.pdf , page1 used on 
+input line 222.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/cumulative-survival.pdf, id=69, page=2, 578.16pt x 433.62pt>
+File: ../../figures/cumulative-survival.pdf Graphic file (type pdf)
+<use ../../figures/cumulative-survival.pdf, page 2>
+Package pdftex.def Info: ../../figures/cumulative-survival.pdf , page2 used on 
+input line 229.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [2
 
- <../../figures/viability-estimates-population.pdf>] [3 <../../figures/viabilit
-y-estimates-population.pdf>] [4 <../../figures/survival-function-parms-populati
-on.pdf>] [5 <../../figures/survival-function-population.pdf>] [6 <../../figures
-/survival-function-population.pdf>] [7 <../../figures/germination-population.pd
-f> <../../figures/germination-population.pdf>] [8 <../../figures/survival-funct
-ion-discrete.pdf>] [9 <../../figures/survival-function-compound.pdf>]
-[10 <../../figures/survival-function-summary.pdf>] (./figures-all.aux)
+ <../../figures/survival-function-population.pdf>] [3 <../../figures/survival-f
+unction-population.pdf>] [4 <../../figures/survival-function-parms-population.p
+df>] [5 <../../figures/survival-function-discrete.pdf>] [6 <../../figures/survi
+val-function-compound.pdf>] [7 <../../figures/viability-estimates-population.pd
+f>] [8 <../../figures/viability-estimates-population.pdf>] [9 <../../figures/su
+rvival-function-persistence-viability.pdf>] [10 <../../figures/survival-functio
+n-persistence-viability.pdf>] [11 <../../figures/germination-population.pdf> <.
+./../figures/germination-population.pdf>] [12 <../../figures/structured-paramet
+ers-all.pdf>] [13 <../../figures/compare-structured-germination.pdf> <../../fig
+ures/compare-structured-germination.pdf>] [14 <../../figures/compare-structured
+-germination2.pdf>] [15 <../../figures/structured-parameters-all.pdf>]
+[16 <../../figures/structured-parameters-all.pdf>] [17 <../../figures/compare-s
+tructured-survival.pdf>] [18 <../../figures/compare-structured-survival2.pdf>]
+[19 <../../figures/compare-structured-parameters-1to1.pdf> <../../figures/compa
+re-structured-parameters-1to1.pdf> <../../figures/compare-structured-parameters
+-1to1.pdf>] [20 <../../figures/cumulative-survival.pdf>] [21 <../../figures/cum
+ulative-survival.pdf>]
+<../../figures/interannual-sigma.pdf, id=219, page=1, 433.62pt x 867.24pt>
+File: ../../figures/interannual-sigma.pdf Graphic file (type pdf)
+<use ../../figures/interannual-sigma.pdf, page 1>
+Package pdftex.def Info: ../../figures/interannual-sigma.pdf , page1 used on in
+put line 245.
+(pdftex.def)             Requested size: 264.33578pt x 528.65103pt.
 
-LaTeX Warning: There were multiply-defined labels.
+
+LaTeX Warning: Float too large for page by 11.17445pt on input line 248.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/spatial-sigma.pdf, id=220, page=1, 578.16pt x 433.62pt>
+File: ../../figures/spatial-sigma.pdf Graphic file (type pdf)
+<use ../../figures/spatial-sigma.pdf, page 1>
+Package pdftex.def Info: ../../figures/spatial-sigma.pdf , page1 used on input 
+line 252.
+(pdftex.def)             Requested size: 430.00462pt x 322.50143pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/interannualTFEfull.pdf, id=221, page=1, 433.62pt x 867.24pt>
+File: ../../figures/interannualTFEfull.pdf Graphic file (type pdf)
+<use ../../figures/interannualTFEfull.pdf, page 1>
+Package pdftex.def Info: ../../figures/interannualTFEfull.pdf , page1 used on i
+nput line 259.
+(pdftex.def)             Requested size: 264.33578pt x 528.65103pt.
+
+LaTeX Warning: Float too large for page by 40.17445pt on input line 262.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/spatialTFEfull.pdf, id=222, page=1, 867.24pt x 578.16pt>
+File: ../../figures/spatialTFEfull.pdf Graphic file (type pdf)
+<use ../../figures/spatialTFEfull.pdf, page 1>
+Package pdftex.def Info: ../../figures/spatialTFEfull.pdf , page1 used on input
+ line 266.
+(pdftex.def)             Requested size: 430.00462pt x 286.67088pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/interannualSeeds.pdf, id=223, page=1, 433.62pt x 867.24pt>
+File: ../../figures/interannualSeeds.pdf Graphic file (type pdf)
+<use ../../figures/interannualSeeds.pdf, page 1>
+Package pdftex.def Info: ../../figures/interannualSeeds.pdf , page1 used on inp
+ut line 273.
+(pdftex.def)             Requested size: 264.33578pt x 528.65103pt.
+
+LaTeX Warning: Float too large for page by 11.17445pt on input line 275.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../../figures/spatialSeeds.pdf, id=224, page=1, 433.62pt x 433.62pt>
+File: ../../figures/spatialSeeds.pdf Graphic file (type pdf)
+<use ../../figures/spatialSeeds.pdf, page 1>
+Package pdftex.def Info: ../../figures/spatialSeeds.pdf , page1 used on input l
+ine 279.
+(pdftex.def)             Requested size: 430.00462pt x 430.02617pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[22
+
+] [23 <../../figures/interannual-sigma.pdf>] [24 <../../figures/spatial-sigma.p
+df>] [25 <../../figures/interannualTFEfull.pdf>] [26 <../../figures/spatialTFEf
+ull.pdf>] [27 <../../figures/interannualSeeds.pdf>] [28 <../../figures/spatialS
+eeds.pdf>] [29
+
+] (./figures-all.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 6516 strings out of 479383
- 97942 string characters out of 5869387
- 392959 words of memory out of 5000000
- 23533 multiletter control sequences out of 15000+600000
- 411763 words of font info for 57 fonts, out of 8000000 for 9000
+ 6615 strings out of 479383
+ 102989 string characters out of 5869387
+ 418519 words of memory out of 5000000
+ 23621 multiletter control sequences out of 15000+600000
+ 412368 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,7n,74p,1405b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,7n,74p,1405b,630s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
 usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
 r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/l
 ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on figures-all.pdf (10 pages, 681789 bytes).
+Output written on figures-all.pdf (29 pages, 865520 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 308 PDF objects out of 1000 (max. 8388607)
+ 209 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 156 words of extra memory for PDF output out of 10000 (max. 10000000)
 

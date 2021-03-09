@@ -23,7 +23,7 @@ library(rethinking)
 directory = "/Users/Gregor/Dropbox/dataLibrary/posteriors/"
 simFiles <- paste0(directory,list.files(directory))
 
-mcmcSamples <- readRDS(simFiles[[11]])
+mcmcSamples <- readRDS(simFiles[[12]])
 dirFigures = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/"
 
 ################################################################################

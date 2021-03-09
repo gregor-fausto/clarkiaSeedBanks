@@ -42,6 +42,11 @@ countUndamagedDamagedFruitsPerPlantAllPlots <- countUndamagedDamagedFruitsPerPla
 
 countUndamagedDamagedFruitsPerPlantAllPlots$year2 <- as.character(countUndamagedDamagedFruitsPerPlantAllPlots$year2)
 
+# remove
+countUndamagedDamagedFruitsPerPlantAllPlots = countUndamagedDamagedFruitsPerPlantAllPlots %>%
+  dplyr::filter(site2=="LO")
+
+
 countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
 
 countSeedPerUndamagedFruit <- countSeedPerFruit %>%
@@ -159,20 +164,20 @@ data$sparse_tfe = index_tfe$sparse
 data$item_tfe = index_tfe$item
 data$id_tfe = index_tfe$id
 
-# index_und <- f(dataset=countUndamagedDamagedFruitsPerPlantAllPlots,response="y_und")
-# data$sparse_und = index_und$sparse
-# data$item_und = index_und$item
-# data$id_und = index_und$id
-# 
-# index_seeds <- f(dataset=countSeedPerUndamagedFruit,response="sdno")
-# data$sparse_seeds = index_seeds$sparse
-# data$item_seeds = index_seeds$item
-# data$id_seeds = index_seeds$id
-# 
-# index_dam_seeds <- f(dataset=countSeedPerDamagedFruit,response="sdno_dam")
-# data$sparse_dam_seeds = index_dam_seeds$sparse
-# data$item_dam_seeds = index_dam_seeds$item
-# data$id_dam_seeds = index_dam_seeds$id
+index_und <- f(dataset=countUndamagedDamagedFruitsPerPlantAllPlots,response="y_und")
+data$sparse_und = index_und$sparse
+data$item_und = index_und$item
+data$id_und = index_und$id
+
+index_seeds <- f(dataset=countSeedPerUndamagedFruit,response="sdno")
+data$sparse_seeds = index_seeds$sparse
+data$item_seeds = index_seeds$item
+data$id_seeds = index_seeds$id
+
+index_dam_seeds <- f(dataset=countSeedPerDamagedFruit,response="sdno_dam")
+data$sparse_dam_seeds = index_dam_seeds$sparse
+data$item_dam_seeds = index_dam_seeds$item
+data$id_dam_seeds = index_dam_seeds$id
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
@@ -242,18 +247,28 @@ dir = c("/Users/Gregor/Dropbox/clarkiaSeedBanks/priorChecking/jagsScripts/")
 # # Call to JAGS
 # 
 # # tuning (n.adapt)
-jm = jags.model(paste0(dir,"nbLikelihood-logLink-normalHierarchical-3.R"), 
+jm = jags.model(paste0(dir,"nbLikelihood-lognormalLink-normalHierarchical-4.R"), 
                 data = data, #inits = inits,
                 n.chains = n.chain, n.adapt = n.adapt)
 
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c("mu0_tfe","sigma0_tfe","tau0_tfe",
-                  "mu_tfe","sigma_tfe",
-                  "kappa_tfe",
-                  "lambda_tfe",
-                  "y_prior")
+# parsToMonitor = c("mu0_tfe","sigma0_tfe","tau0_tfe",
+#                   "mu_tfe","sigma_tfe",
+#                   "nu_tfe_prior","sigma0_tfe_prior","sigma_tfe_prior",
+#                   "kappa_tfe",
+#                   "lambda_tfe",
+#                   "y_prior",
+#                   "nu_tfe","g_tfe")
+
+parsToMonitor = c("mu0_dam","sigma0_dam","tau0_dam",
+                  "mu_dam","sigma_dam",
+                  "nu_dam_prior","sigma0_dam_prior","sigma_dam_prior",
+                  "kappa_dam",
+                  "lambda_dam",
+                  "y_prior",
+                  "nu_dam","g_dam")
 
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
@@ -262,11 +277,51 @@ samples.rjags = coda.samples(jm,
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
+# Check convergence
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+MCMCsummary(samples.rjags,params="nu_dam")
+
+nat.scale=apply(MCMCchains(samples.rjags,param="nu_dam"),2,exp)
+hist(nat.scale[,1],breaks=1000)
+abline(v=median(nat.scale[,1]),col='red')
+dev.off()
+
+
+quants=quantile(nat.scale[,1],c(0.025,.5,.975))
+plot(x=1,y=median(nat.scale[,1]),ylim=c(0,10),pch=16)
+segments(y0=quants[1],y1=quants[3],x0=1)
+
+MCMCsummary(samples.rjags,params="mu_dam")
+obj = MCMCchains(samples.rjags,params="mu_dam")
+index=grep(paste0("\\[",1,","),colnames(obj))
+
+nat.scale=MCMCchains(obj[,index])
+df.sum=apply(nat.scale,2,quantile,c(0.025,.5,.975))
+points(c(.7,.8,.9,1.1,1.2,1.3),df.sum[2,])
+segments(x0=c(.7,.8,.9,1.1,1.2,1.3),y0=df.sum[1,],y1=df.sum[3,])
+
+
+df.sum2=countUndamagedDamagedFruitsPerPlantAllPlots %>%
+  dplyr::group_by(year2) %>%
+ # dplyr::summarise(n=sum(y_dam==0,na.rm=TRUE),y_damtot=sum(y_dam,na.rm=TRUE),total=n()) %>%
+  dplyr::summarise(y_damtot=sum(y_dam,na.rm=TRUE),total=n()) %>%
+  dplyr::mutate(p=y_damtot/(total))
+
+points(c(.7,.8,.9,1.1,1.2,1.3),df.sum2$p,col='orange')
+
+points(1,mean(countUndamagedDamagedFruitsPerPlantAllPlots$y_dam),col='orange')
+
+for(i in 1:6){hist(nat.scale[,i],breaks=100);abline(v=df.sum$p[i],col='red',lwd=2)}
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Evaluate priors
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-hist.chain=function(x){
+hist.chain=function(x,add=FALSE){
   name<-colnames(x)
   tmp = hist(x,breaks=100,plot=FALSE)
   tmp$xname = name
@@ -275,21 +330,32 @@ hist.chain=function(x){
 
 ## Priors on hyperparameters
 par(mfrow=c(2,2))
-hist.chain(MCMCchains(samples.rjags,params="mu0_tfe")[,1,drop=FALSE])
+# hist.chain(MCMCchains(samples.rjags,params="mu0_tfe")[,1,drop=FALSE])
+# #hist.chain(MCMCchains(samples.rjags,params="tau0_tfe")[,1,drop=FALSE])
+# hist.chain(MCMCchains(samples.rjags,params="sigma0_tfe")[,1,drop=FALSE])
+
+hist.chain(MCMCchains(samples.rjags,params="nu_dam")[,1,drop=FALSE])
 #hist.chain(MCMCchains(samples.rjags,params="tau0_tfe")[,1,drop=FALSE])
-hist.chain(MCMCchains(samples.rjags,params="sigma0_tfe")[,1,drop=FALSE])
+hist.chain(MCMCchains(samples.rjags,params="sigma0_dam")[,1,drop=FALSE])
+
+dev.off()
+hist(MCMCchains(samples.rjags,params="sigma0_dam_prior")[,1,drop=FALSE],breaks=100,freq=FALSE)
+plot.new()
+hist(MCMCchains(samples.rjags,params="sigma0_dam")[,1,drop=FALSE],breaks=100,freq=FALSE,col='orange',add=TRUE)
+hist(MCMCchains(samples.rjags,params="nu_dam_prior")[,2,drop=FALSE],breaks=100,freq=FALSE)
+hist(MCMCchains(samples.rjags,params="nu_dam")[,2,drop=FALSE],breaks=100,freq=FALSE,col='orange',add=TRUE)
 
 
 #par(mfrow=c(2,2))
-hist.chain(MCMCchains(samples.rjags,params="mu_tfe")[,1,drop=FALSE])
-hist.chain(MCMCchains(samples.rjags,params="sigma_tfe")[,1,drop=FALSE])
+hist.chain(MCMCchains(samples.rjags,params="mu_dam")[,1,drop=FALSE])
+hist.chain(MCMCchains(samples.rjags,params="sigma_dam")[,1,drop=FALSE])
 
 # hist.chain(MCMCchains(samples.rjags,params="kappa_tfe")[,1,drop=FALSE])
 # 
 # hist.chain(exp(MCMCchains(samples.rjags,params="mu_tfe")[,1,drop=FALSE]))
 par(mfrow=c(1,2))
-hist.chain(MCMCchains(samples.rjags,params="lambda_tfe")[,1,drop=FALSE])
-bounds=rethinking::HPDI(MCMCchains(samples.rjags,params="lambda_tfe"),prob=.95)
+hist.chain(MCMCchains(samples.rjags,params="z_dam")[,1,drop=FALSE])
+bounds=rethinking::HPDI(MCMCchains(samples.rjags,params="z_dam"),prob=.95)
 segments(x0=bounds[1],y0=0,x1=bounds[2],lwd=3,col='red')
 
 hist.chain(MCMCchains(samples.rjags,params="y_prior")[,1,drop=FALSE])
@@ -304,8 +370,8 @@ segments(x0=bounds[1],y0=0,x1=bounds[2],lwd=3,col='red')
 # plot(y_prior[order(y_prior)][1:15000])
 # plot(y_prior[order(y_prior)][15001:29000])
 
-x=seq(min(MCMCchains(samples.rjags,params="mu0_tfe")[,1,drop=FALSE]),
-      max(MCMCchains(samples.rjags,params="mu0_tfe")[,1,drop=FALSE]),
+x=seq(min(MCMCchains(samples.rjags,params="nu_dam")[,1,drop=FALSE]),
+      max(MCMCchains(samples.rjags,params="nu_dam")[,1,drop=FALSE]),
       by=0.1)
 plot(x,exp(x),type='l')
 
