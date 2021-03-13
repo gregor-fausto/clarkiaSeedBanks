@@ -41,7 +41,7 @@ summary <- censusSeedlingsFruitingPlants %>%
   dplyr::summarise(prop = sum(error,na.rm=TRUE)/n())
 ```
 
-In the observations from 2006-2015, 0.0486585% of observations exhibit
+In the observations from 2006-2019, 0.0486585% of observations exhibit
 undercounting (i.e. fewer seedlings in a plot in January/February than
 fruiting plants in June).
 
@@ -49,8 +49,8 @@ One approach to this would be to assume that the survival in these plots
 is 100%. This would mean setting the number of seedlings in the plots
 equal to the number of fruiting plants. I plot how the proportion of
 plots at a population/year corresponds to the estimate of survival if
-seedling counts are adjusted to match fruiting plant counts in plots
-with undercounting.
+seedling counts are set equal to fruiting plant counts in plots with
+undercounting.
 
 ``` r
 summary <- censusSeedlingsFruitingPlants %>%
@@ -77,7 +77,7 @@ df<-summary %>%
   dplyr::mutate(sigma = y/n)
 
 # the approach of setting seedlings = fruiting plants
-# means that sites with higher proportion of sites with observation error
+# likely means that sites with higher proportion of sites with observation error
 # have a higher estimated survival probability
 ggplot(df) +
   geom_point(aes(x=prop,y=sigma)) +
@@ -157,6 +157,99 @@ ggplot(df ) +
 
 ![](measurementQuestions_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
+How much of this is due to sample size? It seems like this is a
+reasonable explanation for the discrepancy. Most of the undercounting
+happens in plots with few seedlings; the number of fruiting plants tends
+to be only slightly higher than the observed number of fruiting plants
+and this effect is most pronounced in 2010, 2011, and 2019.
+
+``` r
+summaryOriginal <- censusSeedlingsFruitingPlants %>%
+  dplyr::mutate(n=seedlingNumber,
+                y=fruitplNumber) %>%
+  # dplyr::group_by(site,year) %>%
+  # dplyr::summarise(n=sum(seedlingNumber,na.rm=TRUE),
+  #                  y=sum(fruitplNumber,na.rm=TRUE)) %>%
+  dplyr::mutate(p=y/n)
+
+summaryMod <- censusSeedlingsFruitingPlants %>%
+  dplyr::mutate(seedlingNumber = ifelse(seedlingNumber<fruitplNumber,
+                                        fruitplNumber,seedlingNumber)) %>%
+    dplyr::mutate(n=seedlingNumber,
+                y=fruitplNumber) %>% 
+  # dplyr::group_by(site,year) %>%
+  # dplyr::summarise(n=sum(seedlingNumber,na.rm=TRUE),
+  #                  y=sum(fruitplNumber,na.rm=TRUE)) %>%
+  dplyr::mutate(p.mod=y/n)
+
+df <-summaryOriginal %>%
+  dplyr::left_join(summaryMod,c("site","year","transect","position")) %>%
+  dplyr::select("site","year","transect","position","n.x","y.x","n.y","y.y","p","p.mod") 
+
+#df[is.na(df$p==df$p.mod),]
+#df[df$p==df$p.mod,]
+error=df[df$p!=df$p.mod&!is.na(df$p!=df$p.mod),]
+
+as.numeric(names(table(error$n.y-error$n.x)))
+```
+
+    ##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 15 16 17 19 20 23 30 31 41 52
+
+``` r
+table(error$n.y-error$n.x)/sum(table(error$n.y-error$n.x))
+```
+
+    ## 
+    ##           1           2           3           4           5           6 
+    ## 0.493734336 0.172932331 0.100250627 0.067669173 0.025062657 0.027568922 
+    ##           7           8           9          10          11          12 
+    ## 0.010025063 0.025062657 0.017543860 0.010025063 0.005012531 0.012531328 
+    ##          13          15          16          17          19          20 
+    ## 0.002506266 0.005012531 0.005012531 0.002506266 0.002506266 0.002506266 
+    ##          23          30          31          41          52 
+    ## 0.002506266 0.002506266 0.002506266 0.002506266 0.002506266
+
+``` r
+cumsum(table(error$n.y-error$n.x)/sum(table(error$n.y-error$n.x)))
+```
+
+    ##         1         2         3         4         5         6         7         8 
+    ## 0.4937343 0.6666667 0.7669173 0.8345865 0.8596491 0.8872180 0.8972431 0.9223058 
+    ##         9        10        11        12        13        15        16        17 
+    ## 0.9398496 0.9498747 0.9548872 0.9674185 0.9699248 0.9749373 0.9799499 0.9824561 
+    ##        19        20        23        30        31        41        52 
+    ## 0.9849624 0.9874687 0.9899749 0.9924812 0.9949875 0.9974937 1.0000000
+
+``` r
+plot(error$n.x,error$n.y);abline(a=0,b=1)
+```
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+plot(error$n.x,error$n.y-error$n.x)
+```
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+
+``` r
+ggplot(error) +
+  geom_point(aes(x=n.x,y=n.y)) +
+  facet_wrap(~site) +
+  geom_abline(intercept=0,slope=1)
+```
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
+
+``` r
+ggplot(error) +
+  geom_point(aes(x=n.x,y=n.y)) +
+  facet_wrap(~year) +
+  geom_abline(intercept=0,slope=1)
+```
+
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->
+
 Another solution would be to estimate the true number of seedlings using
 a model for undercounting, and use that true number of seedlings in the
 model for survival.
@@ -169,7 +262,7 @@ scripts` folder in the Clarkia-LTREB dropbox that summarizes vital rates
 for a 2017 model. That file is `Clarkia-LTREB\data and scripts\clarkia
 estimated vital rates and lambdas feb17.xlsx`.
 
-First I calculated the mean fruits per plant in each year-population
+First, I calculated the mean fruits per plant in each year-population
 combination from 2006-2009. I then averaged these values to get a mean
 value for each population from 2006-2009. I did this because I assumed
 this is how the values in Table A2 of the appendix for the 2011 Am Nat
@@ -192,7 +285,13 @@ summaryAllPlants<-countFruitsPerPlantAllPlots %>%
   dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
   dplyr::group_by(site) %>%
   dplyr::summarise(mean.F.allPlants = mean(mu))
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+``` r
 summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
   dplyr::filter(year<2010) %>%
   dplyr::filter(permanentPlot==1) %>%
@@ -200,7 +299,12 @@ summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
   dplyr::summarise(mu = mean(countFruitNumberPerPlant)) %>%
   dplyr::group_by(site) %>%
   dplyr::summarise(mean.F.permanentPlotPlants = mean(mu))
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+``` r
 sites = 
 c("LO","LCW",
   "URS","LCE","CF","DEM","DLW","MC","OKRW","OKRE","FR","BG","BR","KYE","OSR","CP3","EC","S22","GCN","SM")
@@ -211,12 +315,6 @@ app=data.frame(site=sites,mean.F.2011app=est)
 summary <- summaryAllPlants %>%
   dplyr::left_join(summaryPermanentPlotPlants,by="site") %>%
   dplyr::left_join(app,by="site")
-```
-
-    ## Warning: Column `site` joining character vector and factor, coercing into
-    ## character vector
-
-``` r
 summary <- summary %>% dplyr::select(site , mean.F.2011app, mean.F.allPlants, mean.F.permanentPlotPlants)
 summary[,2:4]<-signif(summary[,2:4],digits=3)
 
@@ -259,22 +357,31 @@ that file:
 I calculated mean fruits per plant using data from all plots, using data
 from just the permanent plots, and then added in the data from the Excel
 file. The figure below this code chunk compares these 3 estimates. The
-first column is the estimate from the excel file The second column is
+first column is the estimate from the excel file. The second column is
 the estimate from all plants, the third column is the estimate from the
-permanent plots.
+permanent plots. Note that there is not estimate of fruits per plant in
+permanent plots in the year 2006.
 
 ``` r
 summaryAllPlants<-countFruitsPerPlantAllPlots %>%
   dplyr::filter(year<2016) %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(mean.F.allPlants = mean(countFruitNumberPerPlant))
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+
+``` r
 summaryPermanentPlotPlants<-countFruitsPerPlantAllPlots %>%
   dplyr::filter(year<2016) %>%
   dplyr::filter(permanentPlot==1) %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(mean.F.permanentPlotPlants = mean(countFruitNumberPerPlant)) 
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+
+``` r
 df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
 ```
 
@@ -284,7 +391,7 @@ df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia es
     ## * CL_lo -> CL_lo...7
     ## * CL_up -> CL_up...8
     ## * CL_lo -> CL_lo...10
-    ## * … and 95 more problems
+    ## * ...
 
 ``` r
 df<-janitor::clean_names(df,"lower_camel")
@@ -470,8 +577,8 @@ combination.
 
 I calculated the average number of fruits per plant in permanent plots
 vs. outside of permanent plots. I did not correct for sampling
-variation. This first pass suggests that plants outside of permanent
-plots are, on average, larger than those in permanent plots.
+variation. This first pass suggests that plants censused outside of
+permanent plots are, on average, larger than those in permanent plots.
 
 ``` r
 countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
@@ -483,12 +590,16 @@ ggplot(data=countFruitsPerPlantAllPlots %>% group_by(site,year,permanentPlot) %>
   geom_line(aes(x=year,y=mu,color=as.factor(permanentPlot)),alpha=.5) +
   facet_wrap(~site,scale='free') +
   ylab("Mean number fruits per plant") +
-  theme_bw()
+  theme_bw() +
+  theme(legend.position="bottom")
 ```
+
+    ## `summarise()` regrouping output by 'site', 'year' (override with `.groups` argument)
 
     ## Warning: Removed 1 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
 I compared the mean number of fruits per plant for the permanent plot
 data versus the permanent plot plus extra throws data. This comparison
 is more relevant than the one comparing to permanent vs. non-permanent
@@ -525,7 +636,7 @@ ggplot(data=countFruitsPerPlantJointSummary %>% dplyr::filter(year>2006)) +
   theme_bw()
 ```
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 I hypothesized that the difference in plant size could be the result of
 2 different processes. First, the permanent plots might have a different
@@ -570,7 +681,30 @@ plotList[[i]]<-
   facet_wrap(~year,scales='free') +
   labs(title=siteNames[i])
 }
+```
 
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+
+``` r
 pdf("~/Dropbox/clarkiaSeedBanks/products/figures/fruitsPerPlantComparison.pdf")
 for(i in 1:20){
   print(plotList[[i]])
@@ -605,11 +739,13 @@ ggplot(data=jointDiscrepancy %>% dplyr::filter(year>2006)) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 8 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 8 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 Next, I looked at whether plots with more plants in extra throw plots
 vs. permanent plots had a greater difference in plant size. This seems
@@ -619,22 +755,25 @@ true in some years but not all.
 countFruitsPerPlantJointNSummary<-countFruitsPerPlantAllPlots %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(n.all = n()) 
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+
+``` r
 countFruitsPerPlantPermanentNSummary<-countFruitsPerPlantAllPlots %>%
   dplyr::filter(permanentPlot==1) %>%
   dplyr::group_by(site,year) %>%
   dplyr::summarise(n.perm =n()) 
+```
 
+    ## `summarise()` regrouping output by 'site' (override with `.groups` argument)
+
+``` r
 countFruitsPerPlantJointNSummary<-countFruitsPerPlantJointNSummary %>%
   dplyr::left_join(countFruitsPerPlantPermanentNSummary,by=c("site","year")) %>%
   tidyr::pivot_longer(cols=c("n.all","n.perm"),names_to = "vars",values_to = "values") %>%
   dplyr::left_join(position,by="site")
-```
 
-    ## Warning: Column `site` joining character vector and factor, coercing into
-    ## character vector
-
-``` r
 sampleNSummary<-countFruitsPerPlantJointNSummary %>%
   dplyr::filter(year>2006) %>%
   tidyr::pivot_wider(names_from=c("vars"),values_from=c("values")) %>%
@@ -652,11 +791,13 @@ ggplot(data=comparisonN %>% dplyr::filter(year>2006)) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 8 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 8 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 I then looked at whether some sites had greater difference in plant size
 when extra throw plots had more plants.
@@ -671,11 +812,13 @@ ggplot(data=comparisonN %>% dplyr::filter(year>2006)) +
     geom_vline(xintercept=0) 
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 8 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 8 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 Here we see that generally when there are more extra plots the
 discrepancy between permanent plot plant size and all plot plant size
@@ -716,7 +859,11 @@ countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
                    se = sd/n,
                    p = 1/se) %>%
   dplyr::left_join(plotProp,by="site")
+```
 
+    ## `summarise()` regrouping output by 'site', 'year' (override with `.groups` argument)
+
+``` r
 deltaSummary<-countFruitsPerPlantAllPlotsSummary %>%
   dplyr::filter(year>2006) %>%
   dplyr::select(-c(sd,n,se,p)) %>%
@@ -724,13 +871,13 @@ deltaSummary<-countFruitsPerPlantAllPlotsSummary %>%
   dplyr::mutate(delta = `0`-`1`)
 ```
 
-We hypothesized that there might be a bigger difference between the size
+I hypothesized that there might be a bigger difference between the size
 of plants in/out of permanent plots at sites where the permanent plots
 were a smaller fraction of the total site area. Plotting the difference
 in mean plant size against the proportion of the site taken up by
-permanent plots, we expected a negative relationship between the
-difference and proportion of the site taken up by the plots. We did not
-find this relationship.
+permanent plots, I expected I might find a negative relationship between
+the difference and proportion of the site taken up by the plots. I did
+not find this relationship.
 
 ``` r
 ggplot(data=deltaSummary) +
@@ -742,13 +889,15 @@ ggplot(data=deltaSummary) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 11 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
-Here is the discrepancy plotted against easting
+Here is the discrepancy plotted against easting:
 
 ``` r
 ggplot(data=deltaSummary) +
@@ -758,11 +907,13 @@ ggplot(data=deltaSummary) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 11 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Next, I compared the difference in sample size between permanent and
 extra plots. I took the difference of the number of extra plots and
@@ -792,11 +943,13 @@ ggplot(data=comparison) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 11 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 There is no obvious geographic pattern to difference in sample size
 either.
@@ -809,159 +962,10 @@ ggplot(data=comparison) +
   theme_bw()
 ```
 
+    ## `geom_smooth()` using formula 'y ~ x'
+
     ## Warning: Removed 11 rows containing non-finite values (stat_smooth).
 
     ## Warning: Removed 11 rows containing missing values (geom_point).
 
-![](measurementQuestions_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
-
-### Seedling estimates
-
-``` r
-# g1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/g1Summary.RDS")
-# s1Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s1Summary.RDS")
-# s2Summary<-readRDS("~/Dropbox/dataLibrary/clarkiaSeedBanks/parameterSummary/s2Summary.RDS")
-# 
-# extractMed <- function(x){
-#   x<-x %>%
-#     dplyr::select(site,med)
-#   return(x)
-# }
-# 
-# g1Summary<-extractMed(g1Summary) %>% dplyr::rename(g1 = med)
-# s1Summary<-extractMed(s1Summary) %>% dplyr::rename(s1 = med)
-# s2Summary<-extractMed(s2Summary) %>% dplyr::rename(s2 = med)
-```
-
-``` r
-# censusSeedlingsFruitingPlants<-readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
-# 
-# censusSummary<-censusSeedlingsFruitingPlants %>%
-#   dplyr::filter(year<2010) %>%
-#   dplyr::group_by(site,year) %>%
-#   dplyr::summarise(fruitplno = mean(fruitplNumber),
-#                    sdlno = mean(seedlingNumber))
-# 
-# countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
-# 
-# countFruitsPerPlantAllPlotsSummary<-countFruitsPerPlantAllPlots %>%
-#   dplyr::filter(year<2010) %>%
-#   #dplyr::filter(permanentPlot==1) %>%
-#   dplyr::group_by(site,year,permanentPlot) %>%
-#   dplyr::summarise(fruitno = mean(countFruitNumberPerPlant))
-# 
-# countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
-# 
-# countSeedPerFruitSummary<-countSeedPerFruit %>%
-#     dplyr::filter(demography==1) %>%
-#   dplyr::select(site,sdno,damaged,year) %>%
-#   dplyr::filter(year<2010) %>%
-#   dplyr::group_by(site,year) %>%
-#   dplyr::summarise(sdno = mean(sdno))
-```
-
-``` r
-# df<-censusSummary %>%
-#   dplyr::left_join(s1Summary,by="site")%>%
-#   dplyr::left_join(s2Summary,by="site")%>%
-#   dplyr::left_join(g1Summary,by="site")%>%
-#   dplyr::left_join(countFruitsPerPlantAllPlotsSummary,by=c("site","year")) %>%
-#   dplyr::left_join(countSeedPerFruitSummary,by=c("site","year"))
-# 
-# df<-df %>%
-#   dplyr::mutate(exp = fruitplno*fruitno*sdno*(s2^(3/8))*s1*g1) %>%
-#   dplyr::mutate(fudge1 = ifelse(sdlno/exp>1,1,sdlno/exp)) %>%
-#   dplyr::left_join(position,by="site")
-# 
-# ggplot() +
-#   geom_point(data=df,aes(x=easting,y=exp)) +
-#   facet_wrap(~year,scales = 'free')
-#  
-# ggplot() +
-#   geom_point(data=df,aes(x=easting,y=fudge1)) +
-#   facet_wrap(~year,scales = 'free') 
-```
-
-``` r
-# position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-#   dplyr::select(site,easting) %>%
-#   dplyr::mutate(easting=easting/1000)
-# 
-# df<-readxl::read_excel(path="~/Dropbox/Clarkia-LTREB/data and scripts/clarkia estimated vital rates and lambdas feb17.xlsx")
-# 
-# df<-janitor::clean_names(df,"lower_camel")
-# 
-# df<-df %>%
-#   dplyr::select(population,contains("sdlngOE",ignore.case=FALSE)) %>%  tidyr::pivot_longer(cols=contains(c("sdlngOE")),
-#                names_to = "variable",
-#                values_to = "estimate") %>%  
-#   tidyr::separate(variable,into = c("variable", "year"), "(?<=[A-Z])(?=[0-9])") %>%
-#   dplyr::mutate(year = as.numeric(paste0(20,year))) %>%
-#   dplyr::select(-variable) %>%
-#   dplyr::rename(site=population) %>%
-#   dplyr::filter(!is.na(estimate))
-# 
-# df<-df %>%
-#   dplyr::left_join(position,by="site")
-# 
-# ggplot(data=df) +
-#   geom_point(aes(x=easting,y=estimate)) +
-#   facet_wrap(~year) +
-#   theme_bw()
-```
-
-These plots show the ratio of observed to expected seedlings. The
-observed seedlings were counted in plots in the field. The expected
-seedlings were calculated by multiplying the number of fruiting plants
-with the mean fruits per plant with the mean seeds per fruit with
-belowground seed rates.
-
-``` r
-# perm0 <- countFruitsPerPlantAllPlotsSummary %>%
-#   dplyr::filter(year==2007) %>%
-#   dplyr::ungroup() %>%
-#   dplyr::mutate(year=2008) %>%
-#   dplyr::filter(permanentPlot==0)
-# 
-# out<-df %>%
-#   dplyr::left_join(perm0,by=c("site","year","easting")) %>%
-#   dplyr::filter(year==2008)
-# 
-# ggplot(data=out) +
-#   geom_point(aes(x=estimate,y=mu)) +
-#   facet_wrap(~year) +
-#   theme_bw()
-```
-
-``` r
-# perm1 <- countFruitsPerPlantAllPlotsSummary %>%
-#   dplyr::filter(year==2007) %>%
-#   dplyr::ungroup() %>%
-#   dplyr::mutate(year=2008) %>%
-#   dplyr::filter(permanentPlot==1)
-# 
-# out<-df %>%
-#   dplyr::left_join(perm1,by=c("site","year","easting")) %>%
-#   dplyr::filter(year==2008)
-# 
-# ggplot(data=out) +
-#   geom_point(aes(x=estimate,y=mu)) +
-#   facet_wrap(~year) +
-#   theme_bw()
-```
-
-``` r
-# s <- censusSeedlingsFruitingPlants %>%
-#   dplyr::group_by(site,year) %>%
-#   dplyr::summarise(mu = mean(seedlingNumber,na.rm=TRUE))%>%
-#   dplyr::left_join(position,by="site")
-# 
-# o <- censusSeedlingsFruitingPlants %>%
-# dplyr::left_join(position,by="site")
-# 
-# ggplot(s) +
-#     geom_point(aes(x=easting,y=mu)) +
-#   geom_point(data=o,aes(x=easting,y=seedlingNumber),alpha=.25,size=.5) +
-#   facet_wrap(~year,scale='free') +
-#   theme_bw()
-```
+![](measurementQuestions_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->

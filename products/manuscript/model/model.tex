@@ -1,5 +1,7 @@
 \documentclass[12pt, oneside, titlepage]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 
+\setlength{\parindent}{5ex}
+
 \usepackage{graphicx}
 \graphicspath{ {\string} }
 \usepackage{subcaption}
@@ -165,17 +167,14 @@ Combine data from permanent plots and additional grids to estimate fruits per pl
 
 Collect fruits to estimate seeds per fruit. 
 
-%
-\singlespace
+\begin{singlespace*}...
 \captionof{table}{ Summary of data sets used to estimate parameters. } \label{tab:datasets} 
 \begin{center}
 \input{../../tables/tables/datasets.tex}
 \end{center}
-\doublespace
+\end{singlespace*}
 
 \subsection{Seed bag burial experiment}
-
-\hl{Note to self about how to turn this into Methods.} The key pieces are Figure \ref{fig:seed-bag-experiments}, columns 1, 3, and 6 of Table \ref{tab:survival-functions} and columns 1 \& 3 in Table \ref{tab:structured-parameters}. Figure \ref{fig:seed-bag-experiments} illustrates the relationship between the seed bag burial experiment, viability trials, and survival/germination probabilities. Table \ref{tab:survival-functions} gives the mathematical relationship among the components of Figure \ref{fig:seed-bag-experiments}. Table \ref{tab:structured-parameters} translates the survival and germination components to parameters for the structured population model. I would to pare this down I would pare down Section \ref{section-1} to describe the experiment and reduce the tables to the relevant parameters, likely combining them into 1 table (top section being the survival functions, bottom section being the model parameters). I would keep the description of the full model and the viability models. I would move any discussion of how the models were constructed and DAGs to a separate document. I would reduce the section on translating estimated parameters to model parameters to generally describe how this was done and move the rest to a separate document. 
 
 We used a field experiment in which we buried known numbers of seeds ($\bm{n}=100$) to estimate the probability of germination and survival for seeds of different ages (Figure \ref{fig:seed-bag-experiments}A, gray panel). Buried bags were unearthed two times each during their first, second, or third year. Bags that were dug up in a given year were only used to count intact seeds in that year; bags were removed from the field at the end of the year. The seed bag burial experiment was initiated in 3 consecutive years (3 rounds) at the 20 study populations. In round 1 (started in \hl{2006}), bags were dug up in year 1, 2, and 3. In round 2 (started in \hl{2007}), bags were dug up in year 1 and 2. In round 3 (started in \hl{2008}), bags were dug up in year 1. There were thus 3 sets of counts for age 1 seeds, 2 sets of counts for age 2 seeds, and 1 set of counts for age 3 seeds. 
 
@@ -191,42 +190,28 @@ After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were
  \label{fig:seed-bag-experiments}
 \end{figure}
 
+The key pieces are Figure \ref{fig:seed-bag-experiments}, columns 1, 3, and 6 of Table \ref{tab:survival-functions} and columns 1 \& 3 in Table \ref{tab:structured-parameters}. Figure \ref{fig:seed-bag-experiments} illustrates the relationship between the seed bag burial experiment, viability trials, and survival/germination probabilities. Table \ref{tab:survival-functions} gives the mathematical relationship among the components of Figure \ref{fig:seed-bag-experiments}. Table \ref{tab:structured-parameters} translates the survival and germination components to parameters for the structured population model. I would to pare this down I would pare down Section \ref{section-1} to describe the experiment and reduce the tables to the relevant parameters, likely combining them into 1 table (top section being the survival functions, bottom section being the model parameters). I would keep the description of the full model and the viability models. I would move any discussion of how the models were constructed and DAGs to a separate document. I would reduce the section on translating estimated parameters to model parameters to generally describe how this was done and move the rest to a separate document. \hl{Note to self about how to turn this into Methods.} 
+
 \subsection{Seedling and fruiting plant surveys in permanent plots}
 
-To assess the survival of seedlings to fruiting plants, we use counts of seedlings and fruiting plants in 30 0.5 m$^2$ plots at 20 populations from 2006--\hl{2018} (\cite{eckhart2011}). Seedlings and fruiting plants were counted in February and June, respectively. We observed counts of seedlings ($n_{ijk}$) and fruiting plants ($y_{ijk}$) in the $i^{th}$ plot, from the $j^{th}$ population, from the $k^{th}$ year. Seedlings and fruiting plants in each plot are counted by a single person at each visit. 
+To assess the survival of seedlings to fruiting plants, we use counts of seedlings and fruiting plants in 30 0.5 m$^2$ plots at 20 populations from 2006--\hl{2018} (\hl{Eckhart et al. 2011}). Seedlings and fruiting plants were counted in February and June, respectively. We observed counts of seedlings ($n_{ijk}$) and fruiting plants ($y_{ijk}$) in plot $i$, in population $j$, and in year $k$. Seedlings and fruiting plants in each plot are counted by a single person at each visit. 
 
-\hl{Discuss measurement error due to undercounting}
-While we assume that the data on seedlings is measured perfectly (i.e. we did not under- or over-count seedlings), there are at least two possible sources of error: (1) measurement error that arises because we failed to count seedlings that were present and (2) error that arises because seedlings germinated after we visited the population. Germination phenology varies from year to year and with the position of the population in the range. \hl{For now, I ignore data that involved undercounting by filtering out those rows in the dataset. We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings but I had trouble developing such a model for the time being.}
+\subsection{Surveys for fruits per plant, seeds per fruit}
 
-We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over-count) because plants stand out from the background vegetation in June. Our model estimates the proportion of seedlings that survive to become fruiting plants.
+To assess the number of fruits per plant for \textit{C. xantiana}, we use data on counts of the number of fruits per plant at 20 populations (\cite{eckhart2011}). At each population, we made two sets of counts. First, from 2007--\hl{present}, we counted the number of fruits per plant on all plants in the 0.5m$^2$ permanent plots. Second, from 2006--\hl{present}, we counted the number of fruits per plant on plants that we sampled haphazardly across the site using throws of a 0.5m$^2$ grid. We chose to combine the datasets, one from plants in permanent plots and one from plants in haphazardly distributed plots, because the latter dataset sampled a broader distribution of plant sizes, and because it allowed us to estimate the distribution of fruit number per plant in years with relatively low survival in permanent plots. 
 
-\subsection{Surveys for fruiting plant density, fruits per plant, seeds per fruit}
-
-\hl{better address permanent vs. extra plot}
-
-To assess the number of fruits per plant for \textit{C. xantiana}, we use data on counts of the number of fruits per plant at 20 populations (\cite{eckhart2011}). At each population, we made two sets of counts. First, we counted the number of fruits per plant on all plants in the 0.5m$^2$ permanent plots. Second, we counted the number of fruits per plant on plants that we sampled haphazardly across the site using throws of a 0.5m$^2$ grid. We used these counts to estimate the number fruits produced per plant. 
-
-From 2006--2012, we counted the number of undamaged fruits on a plant. We then took the damaged fruits on a plant and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used this as our count ($y^{TFE}_{ijk}$) of total fruit equivalents on the $i^{th}$ plant, from the $j^{th}$ population, from the $k^{th}$ year. 
-
-From 2013--\hl{present}, we counted and separately recorded the number of undamaged ($y^{UF}_{ijk}$) and damaged ($y^{DF}_{ijk}$) fruits on a plant plant. We used these counts to estimate the number of fruits produced per plant.
+From 2006--2012, we counted the number of undamaged fruits on a plant. We then took the damaged fruits on a plant and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used this as our count ($y^{TFE}_{ijk}$) of total fruit equivalents on plant $i$, in population $j$, and in year $k$. From 2013--\hl{present}, we counted and separately recorded the number of undamaged ($y^{UF}_{ijk}$) and damaged ($y^{DF}_{ijk}$) fruits on a plant plant. 
 
 To assess the number of seeds per fruit for \textit{C. xantiana}, we use data on counts of the seeds per fruit of fruits that were haphazardly collected in 20 populations (\cite{eckhart2011}). In the field, we collected fruits that were undamaged. In the lab, we broke open the fruits to count the number of seeds per fruit. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. The plants were outside permanent plots to avoid affecting seed input. We used these fruits to estimate the mean number of seeds produced by undamaged and damaged fruits.
 
-From 2006--\hl{present}, we collected one undamaged fruit from each of 20-30 plants that were haphazardly collected across each population. We counted the number of seeds in the fruit ($y^{US}_{ijk}$), corresponding to the $i^{th}$ undamaged fruit, from the $j^{th}$ population, from the $k^{th}$ year.
-
-From 2013--\hl{present}, we additionally collected a damaged fruit from the same plant whenever available. We counted the number of seeds in the fruit ($y^{DS}_{ijk}$), corresponding to the $i^{th}$ undamaged fruit, from the $j^{th}$ population, from the $k^{th}$ year. 
+From 2006--\hl{present}, we collected one undamaged fruit from each of 20-30 plants that were haphazardly collected across each population. We counted the number of seeds in the fruit ($y^{US}_{ijk}$), corresponding to fruit $i$, in population $j$, and in year $k$. From 2013--\hl{present}, we additionally collected a damaged fruit from the same plant whenever available. We counted the number of seeds in the fruit ($y^{DS}_{ijk}$), corresponding to fruit $i$, in population $j$, and in year $k$. 
 
 \subsection{Additional assumptions}
  
- Address the data exclusion issues under additional assumptions. This includes undercounting in the seedling survival to fruiting dataset. See figure and table for this. We assume that this is likely due to only visiting the plots once each year; we can exclude these rows from the dataset or keep them and assume high survival of 1. 
- 
-  \begin{figure}[h]
-   \centering
-       \includegraphics[width=\textwidth]{/Users/gregor/Dropbox/clarkiaSeedBanks/products/figures/underCounting.pdf}  
-    \caption{ Graphical summary of undercounting in the dataset on seedling survival to fruiting. Each panel summarizes the datasets on seedling survival to fruiting (Tables~\ref{tab:sigma} and~\ref{tab:undercount}). The black lines correspond to total plots with data on seedling survival. The red lines correspond to the number of plots with fewer seedlings than fruiting plants in a plot (corresponding to undercounting). }
- \label{fig:obs_pred}
-\end{figure}
+ \subsection{Seedling census}
+In our model (\hl{see below}) we assume that we did not under- or over-count seedlings. However, the are at least two possible sources of error that could contribute to observations in which the number of seedlings in a plot exceeds the number of fruiting plants observed later in the same year. An observer might miss a seedling that is present, or miss a seedling because germinants remained too small to observe at the February seedling census.  Of more than 8000 observations, there were fewer seedlings than fruiting plants in fewer than 5\% of observations; 50\% of these had 1 fewer seedling than fruiting plant. We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over-count) because plants stand out from the background vegetation in June. 
 
+Germination phenology varies from year to year and with the position of the population in the range. \hl{For now, I ignore data that involved undercounting by filtering out those rows in the dataset. We may want to develop a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings but I had trouble developing such a model for the time being. Alternatively, I could fit the model to data both by excluding or including the data and comparing the estimates.}
 
 \section{Model}
 
