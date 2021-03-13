@@ -2,13 +2,12 @@
 \BOOKMARK [1][-]{section.2}{Creating the dataset}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Seed bag burial experiment}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Seedling and fruiting plant surveys in permanent plots}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Surveys for fruiting plant density, fruits per plant, seeds per fruit}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Additional assumptions}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Model}{}% 7
-\BOOKMARK [2][-]{subsection.3.1}{Seed persistence and germination}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.2}{Viability}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.3}{Seedling survival to fruiting}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.4}{Fecundity: fruits per plant and seeds per fruit}{section.3}% 11
-\BOOKMARK [1][-]{section.4}{Computing vital rates}{}% 12
-\BOOKMARK [2][-]{subsection.4.1}{Belowground vital rates}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.2}{Aboveground vital rates}{section.4}% 14
+\BOOKMARK [2][-]{subsection.2.3}{Surveys for fruits per plant \046 seeds per fruit}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Model}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Seed persistence and germination}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Viability}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Seedling survival to fruiting}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Fecundity: fruits per plant and seeds per fruit}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{Computing vital rates}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Belowground vital rates}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.2}{Aboveground vital rates}{section.4}% 13
