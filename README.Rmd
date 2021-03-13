@@ -70,7 +70,7 @@ The table below summarizes the parameters and years for which I have estimates. 
 ```{r, echo=FALSE}
 variables = c("Parameter",2006:2019)
 
-s0 = c("s0", rep("N",3),rep("-",11))
+s0 = c("s0", "-", rep("Y",2),rep("-",11))
 s1 = c("s1", rep("Y",3),rep("-",11))
 g1 = c("g1", rep("Y",3),rep("-",11))
 s2 = c("s2", rep("Y",3),rep("-",11))
