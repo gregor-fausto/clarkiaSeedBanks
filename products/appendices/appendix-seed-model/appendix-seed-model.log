@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  28 FEB 2021 20:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  12 MAR 2021 14:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1044,7 +1044,7 @@ usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
 sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr
 /local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/
 local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on appendix-seed-model.pdf (22 pages, 257769 bytes).
+Output written on appendix-seed-model.pdf (22 pages, 257754 bytes).
 PDF statistics:
  362 PDF objects out of 1000 (max. 8388607)
  308 compressed objects within 4 object streams

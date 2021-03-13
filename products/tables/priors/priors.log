@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  16 FEB 2021 15:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  12 MAR 2021 16:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -392,7 +392,23 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 )
 \Hy@SectionHShift=\skip58
-) (./priors.aux)
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2020/02/24 v1.2b Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+(./priors.aux)
 \openout1 = `priors.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
@@ -493,85 +509,48 @@ LaTeX Info: Redefining \nameref on input line 26.
 \@outlinefile=\write3
 \openout3 = `priors.out'.
 
- [1
 
-{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 59.
-
-
-(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 59.
-
-
-(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Overfull \hbox (2.4174pt too wide) in paragraph at lines 61--62
-[]\OT1/cmr/m/n/12 Initially, I placed a $\OML/cmm/m/it/12 N\OT1/cmr/m/n/12 (0\O
-ML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1000)$ prior on the pop-u-la-tion means and a 
-$[](0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5)$
- []
-
-
-Overfull \hbox (2.4174pt too wide) in paragraph at lines 81--82
-[]\OT1/cmr/m/n/12 Initially, I placed a $\OML/cmm/m/it/12 N\OT1/cmr/m/n/12 (0\O
-ML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1000)$ prior on the pop-u-la-tion means and a 
-$[](0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5)$
- []
-
-[2] [3]
-Overfull \hbox (2.4174pt too wide) in paragraph at lines 106--107
-[]\OT1/cmr/m/n/12 Initially, I placed a $\OML/cmm/m/it/12 N\OT1/cmr/m/n/12 (0\O
-ML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1000)$ prior on the pop-u-la-tion means and a 
-$[](0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5)$
- []
-
-[4] [5]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 156.
-See the caption package documentation for explanation.
-
-
-Overfull \hbox (38.49641pt too wide) in alignment at lines 234--234
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd)
+Underfull \hbox (badness 10000) in alignment at lines 83--83
 [][][][] 
  []
 
-[6] (./priors.aux)
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 83--84
+[][] 
+ []
+
+[1
+
+
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+Package caption Warning: Unused \captionsetup[table] on input line 8.
+See the caption package documentation for explanation.
+
+(./priors.aux)
 Package rerunfilecheck Info: File `priors.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 8886 strings out of 479383
- 142884 string characters out of 5869387
- 472646 words of memory out of 5000000
- 25808 multiletter control sequences out of 15000+600000
- 417157 words of font info for 77 fonts, out of 8000000 for 9000
+ 8898 strings out of 479383
+ 143628 string characters out of 5869387
+ 461370 words of memory out of 5000000
+ 25838 multiletter control sequences out of 15000+600000
+ 408798 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 80i,9n,85p,1219b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
-exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texl
-ive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
-ve/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on priors.pdf (6 pages, 156954 bytes).
+ 80i,9n,85p,279b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pf
+b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+Output written on priors.pdf (1 page, 63425 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
+ 37 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
+ 2 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

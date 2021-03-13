@@ -209,31 +209,39 @@ jmWrAg = jags.model(paste0(dir,"binomialLikelihood-logLink-wrDecay-4.R"), data =
 # burn-in (n.update)
 update(jmWrAg, n.iter = n.update)
 
+# samples.rjags = coda.samples(jmWrAg,
+#                              variable.names =
+#                                # GERMINATION
+#                                c("mu0_g", "mu_g",
+#                                  "sigma0_g","sigma_g",
+#                                  #PRIOR PREDICTIVE
+#                                  # "y_pred","y_prior.pred",
+#                                  # SURVIVAL
+#                                  "mu0_s","mu_s",
+#                                 "sigma0_s","sigma_s",
+#                                 "a", 
+#                                 # PLOT DATA
+#                                 "mu0_s0","mu_s0",
+#                                 "sigma0_s0","sigma_s0"),
+#                                 #  # LOG LIKELIHOODS
+#                                 # "logLik_g","logLik_y","logLik_yplot",
+#                                 # # POSTERIOR PREDICTIVE
+#                                 # "y_sim","seedlingJan_sim","plotSeedlings_sim",
+#                                 # # MODEL CHECKING 
+#                                 # "chi2.plot.obs","chi2.plot.sim",
+#                                 # "chi2.obs","chi2.sim",
+#                                 # "chi2.yobs","chi2.ysim"
+#                                 #),
+#                              n.iter = n.iterations, thin = n.thin)
+
 samples.rjags = coda.samples(jmWrAg,
                              variable.names =
-                               # GERMINATION
-                               c("mu0_g", "mu_g",
-                                 "sigma0_g","sigma_g",
-                                 #PRIOR PREDICTIVE
-                                 # "y_pred","y_prior.pred",
-                                 # SURVIVAL
-                                 "mu0_s","mu_s",
-                                "sigma0_s","sigma_s",
-                                "a", 
-                                # PLOT DATA
-                                "mu0_s0","mu_s0",
-                                "sigma0_s0","sigma_s0"),
-                                #  # LOG LIKELIHOODS
-                                # "logLik_g","logLik_y","logLik_yplot",
-                                # # POSTERIOR PREDICTIVE
-                                # "y_sim","seedlingJan_sim","plotSeedlings_sim",
-                                # # MODEL CHECKING 
-                                # "chi2.plot.obs","chi2.plot.sim",
-                                # "chi2.obs","chi2.sim",
-                                # "chi2.yobs","chi2.ysim"
-                                #),
-                             n.iter = n.iterations, thin = n.thin)
-
+                               c(# POSTERIOR PREDICTIVE
+                                 "y_sim","seedlingJan_sim","plotSeedlings_sim",
+                                 # MODEL CHECKING
+                                 "chi2.plot.obs","chi2.plot.sim",
+                                 "chi2.obs","chi2.sim",
+                                 "chi2.yobs","chi2.ysim"),n.iter = n.iterations, thin = n.thin)
 
 
 # -------------------------------------------------------------------
@@ -271,8 +279,8 @@ fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
 samples.rjags=samples.rjags
-saveRDS(samples.rjags,file=paste0(fileDirectory,"seedBurialSamples.rds"))
-saveRDS(data,file=paste0(fileDirectory,"data.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"seedBurialSamplesChecks.rds"))
+#saveRDS(data,file=paste0(fileDirectory,"data.rds"))
 #saveRDS(seedBagsData,file=paste0(fileDirectory,"seedBagExperiment.rds"))
 #saveRDS(viabilityRawData,file=paste0(fileDirectory,"viabilityExperiment.rds"))
 

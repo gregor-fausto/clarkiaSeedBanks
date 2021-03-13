@@ -1,0 +1,39 @@
+\documentclass[varwidth=\maxdimen,border=0pt]{standalone}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[labelformat=parens,labelsep=quad,skip=3pt]{caption}
+\usepackage{graphicx}
+\newcommand{\subfigimg}[3][,]{%
+  \setbox1=\hbox{\includegraphics[#1]{#3}}% Store image in box
+  \leavevmode\rlap{\usebox1}% Print image
+  \rlap{\hspace*{2pt}\raisebox{\dimexpr\ht1-1\baselineskip}{#2}}% Print label
+  \phantom{\usebox1}% Insert appropriate spcing
+}
+
+\begin{document}    
+
+\begin{figure}
+
+
+%\subfigimg[width=\linewidth]{A)}
+    \begin{subfigure}{4cm}
+	\subfigimg[trim={1cm 3cm 2cm 4.5cm},clip,width=4cm]{A.}{../../../../clarkiaFigures/figure1b}
+    \end{subfigure}
+    
+           \begin{subfigure}{4cm}
+	%\includegraphics[trim={1cm 1cm 1cm 1cm},clip,width=4cm]{../../../../clarkiaFigures/figure1c}
+	\subfigimg[trim={1cm 2cm 1cm 1cm},clip,width=4cm]{B.}{../../../../clarkiaFigures/figure1c}
+    \end{subfigure}
+    
+   
+\end{figure}
+  
+  \end{document}
+  
+  \iffalse
+\begin{figure}
+\centering
+
+\caption{}\label{fig:cddpm}
+\end{subfigure}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  10 JAN 2021 20:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  12 MAR 2021 15:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -823,7 +823,7 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count326
 \l__pdf_internal_box=\box89
 )
-No file appendix-joint-posteriors.aux.
+(./appendix-joint-posteriors.aux)
 \openout1 = `appendix-joint-posteriors.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 124.
@@ -842,6 +842,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 124.
 LaTeX Font Info:    ... okay on input line 124.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 124.
 LaTeX Font Info:    ... okay on input line 124.
+
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count327
@@ -920,28 +921,33 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 124.
 LaTeX Info: Redefining \pageref on input line 124.
 LaTeX Info: Redefining \nameref on input line 124.
+ (./appendix-joint-posteriors.out) (./appendix-joint-posteriors.out)
 \@outlinefile=\write4
 \openout4 = `appendix-joint-posteriors.out'.
 
 Package csquotes Info: Making character " active on input line 124.
 \c@lstlisting=\count334
-LaTeX Font Info:    Trying to load font information for U+msa on input line 126
+
+[1
+
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 158
 .
- (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 126
+LaTeX Font Info:    Trying to load font information for U+msb on input line 158
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+Overfull \hbox (10.9903pt too wide) in paragraph at lines 249--250
+[][] 
+ []
 
-{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Missing character: There is no F in font nullfont!
-Missing character: There is no F in font nullfont!
-Missing character: There is no F in font nullfont!
- [2
+[2
 
 ] [3]
 Missing character: There is no F in font nullfont!
@@ -950,56 +956,44 @@ Missing character: There is no F in font nullfont!
 
 ] [5]
 Missing character: There is no F in font nullfont!
-Missing character: There is no F in font nullfont!
-
-[6
-
-] [7]
-Missing character: There is no F in font nullfont!
- [8
+ [6
 
 ]
 Missing character: There is no F in font nullfont!
 
-Overfull \hbox (21.76012pt too wide) in paragraph at lines 842--843
+Overfull \hbox (21.76012pt too wide) in paragraph at lines 618--619
  [][] 
  []
 
 
-Overfull \hbox (37.75615pt too wide) detected at line 877
+Overfull \hbox (37.75615pt too wide) detected at line 654
 []
  []
 
-[9
+[7
 
 ]
-Overfull \vbox (38.48114pt too high) has occurred while \output is active []
+Overfull \vbox (65.47862pt too high) has occurred while \output is active []
 
 
-[10] (./appendix-joint-posteriors.aux)
-
-Package rerunfilecheck Warning: File `appendix-joint-posteriors.out' has change
-d.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `appendix-joint-posteriors.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+[8] (./appendix-joint-posteriors.aux)
+Package rerunfilecheck Info: File `appendix-joint-posteriors.out' has not chang
+ed.
+(rerunfilecheck)             Checksum: 72A1DE1C08FC06630163B06C1C3EB9BB;177.
  ) 
 Here is how much of TeX's memory you used:
- 23235 strings out of 479383
- 438156 string characters out of 5869387
+ 23276 strings out of 479383
+ 438828 string characters out of 5869387
  956683 words of memory out of 5000000
- 39881 multiletter control sequences out of 15000+600000
- 412362 words of font info for 59 fonts, out of 8000000 for 9000
+ 39922 multiletter control sequences out of 15000+600000
+ 412968 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,19n,74p,920b,1194s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,19n,74p,922b,1194s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb><
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></u
-sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
 /local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
 ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/l
 ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></u
@@ -1010,10 +1004,10 @@ l/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
 exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/tex
 live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
 ive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on appendix-joint-posteriors.pdf (10 pages, 177648 bytes).
+Output written on appendix-joint-posteriors.pdf (8 pages, 172018 bytes).
 PDF statistics:
- 139 PDF objects out of 1000 (max. 8388607)
- 110 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 132 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 29 words of extra memory for PDF output out of 10000 (max. 10000000)
 

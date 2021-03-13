@@ -17,6 +17,7 @@ model {
       sigma[k,i] ~ dnorm(0, 1) T(0,)
       tau[k,i] <- 1/(sigma[k,i]*sigma[k,i])
       
+      e.mu[k,i] <- mu[k,i]-mu0[k]
     }
   }
   

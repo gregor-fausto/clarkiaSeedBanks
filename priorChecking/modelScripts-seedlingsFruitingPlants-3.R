@@ -41,6 +41,10 @@ censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 censusSeedlingsFruitingPlants$year <- as.character(censusSeedlingsFruitingPlants$year)
+
+censusSeedlingsFruitingPlants=censusSeedlingsFruitingPlants %>%
+  dplyr::filter(site=="LCW")
+
 data <- tidybayes::compose_data(censusSeedlingsFruitingPlants)
 
 # -------------------------------------------------------------------
@@ -103,6 +107,7 @@ parsToCheck = c(# LOG LIKELIHOODS
                 # "logLik",
                 # POSTERIOR PREDICTIVE
                 "fruitplNumber_sim",
+                "e.mu","mu",
                 # MODEL CHECKING 
                "chi2.obs","chi2.sim")
 
@@ -115,7 +120,7 @@ samples.rjags = coda.samples(jm,
 fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
 #
-saveRDS(samples.rjags,file=paste0(fileDirectory,"seedSurvivalSamplesChecks.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"seedSurvivalSamplesChecksPooling.rds"))
 #saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/seedSurvivalSamplesCheck.rds"))
 #saveRDS(data,file=paste0(fileDirectory,"data.rds"))
 #saveRDS(censusSeedlingsFruitingPlants,file=paste0(fileDirectory,"censusSeedlingsFruitingPlants.rds"))

@@ -241,25 +241,31 @@ jm = jags.model(paste0(dir,"nbLikelihood-lognormalLink-normalHierarchical-5.R"),
 # burn-in (n.update)
 update(jm, n.iter = n.update)
 
-parsToMonitor = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("sigma0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("mu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("sigma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("mu_p",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  paste(rep("mu_py",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
-                  "ratio","mu_py_tfe_comp")
+# # parsToMonitor = c(paste(rep("nu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # paste(rep("sigma0",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # paste(rep("mu",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # paste(rep("sigma",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # paste(rep("mu_p",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # paste(rep("mu_py",5),c("tfe","und","dam","seeds","dam_seeds"),sep="_"),
+                  # "ratio","mu_py_tfe_comp")
 
+
+parsToMonitorCheck = c("y_tfe.sim","chi2.tfe.obs","chi2.tfe.sim",
+						"y_und.sim","chi2.und.obs","chi2.und.sim",
+						"y_dam.sim","chi2.dam.obs","chi2.dam.sim",
+						"y_sd.sim","chi2.sd.obs","chi2.sd.sim",
+						"y_sd_dam.sim","chi2.sd_dam.obs","chi2.sd_dam.sim")
 # chain (n.iter)
 samples.rjags = coda.samples(jm, 
-                             variable.names = c(parsToMonitor), 
+                             variable.names = c(parsToMonitorCheck), 
                              n.iter = n.iterations, thin = n.thin)
 
  fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness-weakly-informative/")
  dir.create(file.path(fileDirectory), showWarnings = FALSE)
 # 
-saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamplesChecks.rds"))
 #saveRDS(samples.rjags,file=paste0("/Users/Gregor/Dropbox/dataLibrary/posteriors/fitnessSamples.rds"))
- saveRDS(data,file=paste0(fileDirectory,"data.rds")) 
+# saveRDS(data,file=paste0(fileDirectory,"data.rds")) 
 
 # saveRDS(countFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countFruitsPerPlantAllPlots.rds"))
 # saveRDS(countUndamagedDamagedFruitsPerPlantAllPlots,file=paste0(fileDirectory,"countUndamagedDamagedFruitsPerPlantAllPlots.rds"))
@@ -267,9 +273,9 @@ saveRDS(samples.rjags,file=paste0(fileDirectory,"fitnessSamples.rds"))
 # saveRDS(countSeedPerDamagedFruit,file=paste0(fileDirectory,"countSeedPerDamagedFruit.rds"))
 
 
- hist(MCMCsummary(samples.rjags,"mu_dam")$Rhat)
- hist(MCMCsummary(samples.rjags,"mu_tfe")$Rhat)
- hist(MCMCsummary(samples.rjags,"mu_und")$Rhat)
- hist(MCMCsummary(samples.rjags,"mu_seeds")$Rhat)
- hist(MCMCsummary(samples.rjags,"mu_dam_seeds")$Rhat)
+ # hist(MCMCsummary(samples.rjags,"mu_dam")$Rhat)
+ # hist(MCMCsummary(samples.rjags,"mu_tfe")$Rhat)
+ # hist(MCMCsummary(samples.rjags,"mu_und")$Rhat)
+ # hist(MCMCsummary(samples.rjags,"mu_seeds")$Rhat)
+ # hist(MCMCsummary(samples.rjags,"mu_dam_seeds")$Rhat)
  

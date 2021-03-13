@@ -123,21 +123,22 @@
 
 \begin{document}
 
-The models below represent the joint likelihood for data from the seed bag experiments. All data from seed bags and viability trials is in the form of binomial trials: we have counts of seeds at the start and end of an experimental window of time. All models for the parameters $\theta_1, \theta_2, \theta_3, \theta_4, \theta_5$ have the same structure for seeds in bag $i$ in year $j$ in population $k$. If the number of seeds starting the trial (trials) is $n_{ijk}$ and the number of seeds at the end of the trial (successes) is $y_{ijk}$, we write a model that has a population-level mean and year-level means drawn from the population-level distribution. The probability of success for each bag is drawn from this year- and population-level distribution:
+Last updated: \today
 
-I compared convergence diagnostics (R-hat, effective sample size) for centered and non-centered parameterizations of the model. Here, I use the centered parameterization because this led to improved convergence. In each model, we obtain the population-level posterior distribution probability of success (the $\theta$s) by marginalizing across years and taking the inverse logit.
+\section{Appendix: Posteriors and joint likelihoods}
+
+Add description of this appendix. The appendix includes directed acyclic graphs, and posterior and proportion joint distributions for all models.
 
 \clearpage
 \newpage
 
-\subsection*{Seed survival and germination rates for 1-year old seeds}
+\section{Full model: germination, seed survivorship, initial seed survival}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% DIRECTED ACYCLIC GRAPHS FOR AGE 1 SEED BAGS
+% DIRECTED ACYCLIC GRAPHS FOR SEED DECAY MODEL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[h]%
 \begin{subfigure}[c]{\textwidth}
-\centering
-   \begin{tikzpicture}[
+ \begin{tikzpicture}[
             > = stealth, % arrow head style
             shorten > = 1pt, % don't touch arrow head to node
             auto,
@@ -150,371 +151,145 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
             thick,
             fill = white,
             minimum size = 4mm
-        ]F
-
-
-	% data level
-        \node[state] (Y) [] {$y^{\mathrm{tot}}_{ijk}$};
-        \node[state] (N) [right of=Y] {$n_{ijk}$};
-       
-        \path[dashed,->] (N) edge node {} (Y);
-
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
-                  
-                  % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{1,ijk}$};
-                
-         \path[->] (AB) edge node {} (Y);
-         
-          % hyperparameters
-        
-         \node[state] (MS) [below of = AB] {$\mu_{1,jk}$};
-         \node[state] (A) [ right of = MS]  {$\sigma_{1,jk}$};
-         
-         \path[->] (A) edge node {} (AB);       
-         \path[->] (MS) edge node {} (AB);       
-         
-         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{1,j},\sigma^\mathrm{pop}_{1,j}$};
-         \path[->] (H) edge node {} (MS);       
-
-          \begin{scope}[on background layer]
-   \node [fit=(Y) (N) (H), fill= gray!30, rounded corners, inner sep=.1cm] {};
-  \end{scope}
-  
-  \end{tikzpicture}
-  %
-    \hspace{1cm}% NO SPACE!
-  % BEGIN FIGURE 3
-   \begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 2.5cm, % distance between nodes
-            semithick % line style
         ]
 
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]F
-
 
 	% data level
-        \node[state] (Y) [] {$y^{\mathrm{germ}}_{ijk}$};
-        \node[state] (N) [right of=Y] {$n^{\mathrm{tot}}_{ijk}$};
+        \node[state] (Y) [] {$y^{\mathrm{germ}}_{ijkl}$};
+        \node[state] (N) [right of=Y] {$n^{\mathrm{tot}}_{ijkl}$};
        
         \path[dashed,->] (N) edge node {} (Y);
-
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
                   
-                  % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{2,ijk}$};
+         % hyperparameters
+         \node[state] (AB) [below of = Y] {$\alpha_{\mathrm{g},ijkl}$};
                 
          \path[->] (AB) edge node {} (Y);
          
           % hyperparameters
         
-         \node[state] (MS) [below of = AB] {$\mu_{2,jk}$};
-         \node[state] (A)[ right of = MS]  {$\sigma_{2,jk}$};
+         \node[state] (MS) [below of = AB] {$\mu_{\mathrm{g},jkl}$};
+         \node[state] (A)[ right of = MS]  {$\sigma_{\mathrm{g},jkl}$};
          
          \path[->] (A) edge node {} (AB);       
          \path[->] (MS) edge node {} (AB);       
          
-         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{2,j},\sigma^\mathrm{pop}_{2,j}$};
+         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{\mathrm{g},jl},\sigma^\mathrm{pop}_{\mathrm{g},jl}$};
          \path[->] (H) edge node {} (MS);       
           
-                    \begin{scope}[on background layer]
-   \node [fit=(Y) (N) (H), fill= gray!30, rounded corners, inner sep=.1cm] {};
-  \end{scope}
-                 
-  \end{tikzpicture}
-  %
-    \hspace{1cm}% NO SPACE!
-  % BEGIN FIGURE 3
-   \begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 2.5cm, % distance between nodes
-            semithick % line style
-        ]
-
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]F
-
+         %% SURVIVAL
 
 	% data level
-        \node[state] (Y) [] {$y^{\mathrm{oct}}_{ijk}$};
-        \node[state] (N) [right of=Y] {$n^{\mathrm{intact}}_{ijk}$};
-       
-        \path[dashed,->] (N) edge node {} (Y);
+        \node[state] (T2) [right of = N] {$\mathrm{t}_{ijkm}$};
+        \node[state] (Y2) [right of = T2] {$y_{ijkm}$};
+        \node[state] (N2) [right of=Y2] {$n_{ijkm}$};
 
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
-                  
-                  % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{3,ijk}$};
-                
-         \path[->] (AB) edge node {} (Y);
-         
-          % hyperparameters
-        
-         \node[state] (MS) [below of = AB] {$\mu_{3,jk}$};
-         \node[state] (A) [ right of = MS] {$\sigma_{3,jk}$};
-         
-         \path[->] (A) edge node {} (AB);       
-         \path[->] (MS) edge node {} (AB);       
-         
-         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{3,j},\sigma^\mathrm{pop}_{3,j}$};
-         \path[->] (H) edge node {} (MS);      
-         
-                   \begin{scope}[on background layer]
-   \node [fit=(Y) (N) (H), fill= gray!30, rounded corners, inner sep=.1cm] {};
-  \end{scope} 
-                 
-  \end{tikzpicture}
-\subcaption{Directed acyclic graphs for the hierarchical models for seed bag rates. Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
-\end{subfigure}
-\end{figure}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% POSTERIOR AND JOINT DISTRIBUTIONS FOR AGE 1 SEED BAGS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% QUESTIONS
-% do I need to include \bm{n} on the RHS of the conditional statement for the posterior?
-
-\begin{align}
-  \begin{split}
- [  \bm{\alpha_1} , \bm{\mu_1} , \bm{\sigma_1} , \bm{\mu^\mathrm{pop}_1}, \bm{\sigma^\mathrm{pop}_1} | & \bm{y^{\mathrm{tot}}}  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n_{ijk}, \mathrm{logit}^{-1}( \alpha_{1,ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{1,ijk}  | \mu_{1,jk}, \sigma{_{1,jk} })
-  \\ & \times \mathrm{normal} ( \mu_{1,jk}  | \mu^\mathrm{pop}_{1,j}, \sigma^\mathrm{pop}_{1,j} )
-  \\ & \times \textrm{half-normal} ( \sigma_{1,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{1,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{1,j} | 0,1).
-  \end{split}
-\end{align}
-%
-\begin{align}
-  \begin{split}
- [  \bm{\alpha_2} , \bm{\mu_2} , \bm{\sigma_2} , \bm{\mu^\mathrm{pop}_2}, \bm{\sigma^\mathrm{pop}_2} | & \bm{y^{\mathrm{total}}}  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n^\mathrm{tot}_{ijk}, \mathrm{logit}^{-1}( \alpha_{2,ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{2,ijk}  | \mu_{2,jk}, \sigma{_{2,jk} })
-  \\ & \times \mathrm{normal} ( \mu_{2,jk}  | \mu^\mathrm{pop}_{2,j}, \sigma^\mathrm{pop}_{2,j} )
-  \\ & \times \textrm{half-normal} ( \sigma_{2,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{2,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{1,j} | 0,1).
-  \end{split}
-\end{align}
-%
-\begin{align}
-  \begin{split}
- [  \bm{\alpha_3} , \bm{\mu_3} , \bm{\sigma_3} , \bm{\mu^\mathrm{pop}_3}, \bm{\sigma^\mathrm{pop}_3} | & \bm{y^{\mathrm{germ}}}  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
-   \mathrm{binomial} ( y^{\mathrm{germ}}_{ijk} | n^\mathrm{intact}_{ijk}, \mathrm{logit}^{-1}( \alpha_{3,ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{3,ijk}  | \mu_{3,jk}, \sigma{_{3,jk} })
-  \\ & \times \mathrm{normal} ( \mu_{3,jk}  | \mu^\mathrm{pop}_{3,j}, \sigma^\mathrm{pop}_{3,j} )
-  \\ & \times \textrm{half-normal} ( \sigma_{3,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{3,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{1,j} | 0,1).
-  \end{split}
-\end{align}
-
-\clearpage
-\newpage
-
-\subsection*{Seed survival and germination rates for 2-year old seeds}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% DIRECTED ACYCLIC GRAPHS FOR AGE 2 SEED BAGS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]%
-\begin{subfigure}[c]{\textwidth}
-\centering
-   \begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 2.5cm, % distance between nodes
-            semithick % line style
-            ]
-
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]F
-
-
-	% data level
-        \node[state] (N2) [] {$n^\mathrm{age_1}_{ijk}$};
-	\node[state] (Y2) [right of=N2] {$y^{\mathrm{oct}}_{ijk}$};
-       
         \path[dashed,->] (N2) edge node {} (Y2);
-	
-        \node[state] (Y) [right = 3cm of Y2] {$y^{\mathrm{tot_2}}_{ijk}$};
-        \node[state] (N) [right of=Y] {$n^\mathrm{age_2}_{ijk}$};
-       
-        \path[dashed,->] (N) edge node {} (Y);
+
+        \path[dashed,->] (T2) edge node {} (Y2);
+
+                  % hyperparameters
+        \node[state] (AB2) [below of = Y2] {$\eta_{ijk}$};
+       \node[state] (TH2) [left of = AB2] {$\theta_{jkm}$};
         
-
-
-	% link models
-	 \node[state] (AB3) [below left  =2.3cm of Y] {$\theta_{jk}$};  
-
-
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
-                  
-        % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{4,ijk}$};  
-         \path[->] (AB) edge node {} (Y);
-         
-         \node[state] (AB2) [below of = Y2] {$\alpha_{\mathrm{D},ijk}$};
          \path[->] (AB2) edge node {} (Y2);
-               
+         \path[->] (TH2) edge node {} (Y2);
+         \path[->] (MS) edge node {} (TH2);
+          \path[->] (A) edge node {} (TH2);
+                  
           % hyperparameters
         
-         \node[state] (MS) [below of = AB] {$\mu_{4,jk}$};
-         \node[state] (A) [right of = MS] {$\sigma_{4,jk}$};
-         
-         \path[->] (A) edge node {} (AB);       
-         \path[->] (MS) edge node {} (AB);       
-         
-         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{4,j},\sigma^\mathrm{pop}_{4,j}$};
-         \path[->] (H) edge node {} (MS);       
-         
-         \node[state] (MS2) [below of = AB2] {$\mu_{\mathrm{D},jk}$};
-         \node[state] (A2) [left of = MS2] {$\sigma_{\mathrm{D},jk}$};
+         \node[state] (MS2) [below of = AB2] {$\mu_{jk}$};
+         \node[state] (A2) [ right of = MS2]  {$\sigma_{jk}$};
          
          \path[->] (A2) edge node {} (AB2);       
          \path[->] (MS2) edge node {} (AB2);       
          
-         \node[state] (H2) [below of = MS2] {$\mu^\mathrm{pop}_{\mathrm{D},j},\sigma^\mathrm{pop}_{\mathrm{D},j}$};
+         \node[state] (H2) [below of = MS2] {$\mu^\mathrm{pop}_{j},\sigma^\mathrm{pop}_{j}$};
          \path[->] (H2) edge node {} (MS2);       
-
-% link nodes
-         \path[->] (AB3) edge node {} (Y);
-         \path[->] (A2) edge node {} (AB3);       
-         \path[->] (MS2) edge node {} (AB3);       
          
-          \begin{scope}[on background layer]
-   \node [fit=(N2) (N) (H2), fill= gray!30, rounded corners, inner sep=.1cm] {};
-  \end{scope}
-         
-  \end{tikzpicture}
-  %
-    \hspace{1cm}% NO SPACE!
-  % BEGIN FIGURE 3
-   \begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 2.5cm, % distance between nodes
-            semithick % line style
-        ]
+         \node[state] (ALPHA2) [left of = H2] {$\alpha_{j}$};
+         \path[->] (ALPHA2) edge node {} (Y2);       
 
-        \tikzstyle{every state}=[
-            draw = none,
-            thick,
-            fill = white,
-            minimum size = 4mm
-        ]F
-
+         % INITIAL SURVIVAL
 
 	% data level
-        \node[state] (Y) [] {$y^{\mathrm{germ_2}}_{ijk}$};
-        \node[state] (N) [right of=Y] {$n_{ijk}$};
+        \node[state] (Y3) [right of =N2] {$y^{\mathrm{sdl}}_{ijk}$};
+        \node[state] (N3) [right of=Y3] {$n^{\mathrm{fec}}_{ijk}$};
        
-        \path[dashed,->] (N) edge node {} (Y);
-
-        % probability
-        % \node[state] (T) [below of = Y] {$\theta_{ijk}$};
-        %       
-        % \path[->] (T) edge node {} (Y);
-                  
-                  % hyperparameters
-         \node[state] (AB) [below of = Y] {$\alpha_{5,ijk}$};
-                
-         \path[->] (AB) edge node {} (Y);
-         
+        \path[dashed,->] (N3) edge node {} (Y3);
+                   
+        % hyperparameters
+         \node[state] (AB3) [below of = Y3] {$\alpha_{\mathrm{s},ijk}$};
+               
+         \path[->] (AB3) edge node {} (Y3);
+         \path[->] (AB2) edge node {} (Y3);
+         \path[->] (TH2) edge node {} (Y3);
+        
           % hyperparameters
         
-         \node[state] (MS) [below of = AB] {$\mu_{5,jk}$};
-         \node[state] (A) [right of = MS] {$\sigma_{5,jk}$};
+         \node[state] (MS3) [below of = AB3] {$\mu_{\mathrm{s},jk}$};
+         \node[state] (A3)[ right of = MS3]  {$\sigma_{\mathrm{s},jk}$};
          
-         \path[->] (A) edge node {} (AB);       
-         \path[->] (MS) edge node {} (AB);       
+         \path[->] (A3) edge node {} (AB3);       
+         \path[->] (MS3) edge node {} (AB3);       
          
-         \node[state] (H) [below of = MS] {$\mu^\mathrm{pop}_{5,j},\sigma^\mathrm{pop}_{5,j}$};
-         \path[->] (H) edge node {} (MS);       
+         \node[state] (H3) [below of = MS3] {$\mu^\mathrm{pop}_{\mathrm{s},j},\sigma^\mathrm{pop}_{\mathrm{s},j}$};
+         \path[->] (H3) edge node {} (MS3);       
          
-   \begin{scope}[on background layer]
+         
+         % BACKGROUND
+
+
+          \begin{scope}[on background layer]
+   \node [fit=(T2) (N2) (H2), fill= gray!30, rounded corners, inner sep=.1cm] {};
    \node [fit=(Y) (N) (H), fill= gray!30, rounded corners, inner sep=.1cm] {};
+   \node [fit=(Y3) (N3) (H3), fill= gray!30, rounded corners, inner sep=.1cm] {};
   \end{scope}
-                                 
+                   
   \end{tikzpicture}
-\subcaption{Directed acyclic graphs for the hierarchical models for seed bag rates (age 2). Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
+\subcaption{Directed acyclic graphs for the joint models for seed germination, persistence, and survival from seed production to the first October. Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
 \end{subfigure}
 \end{figure}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% POSTERIOR AND JOINT DISTRIBUTIONS FOR AGE 2 SEED BAGS
+% POSTERIOR AND JOINT DISTRIBUTIONS FOR SEED BAG EXPERIMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% QUESTIONS
-% do I need to include \bm{n} on the RHS of the conditional statement for the posterior?
 
 \begin{align}
   \begin{split}
-  [  \bm{\alpha_\mathrm{D}} , &  \bm{\alpha_4}, \bm{\theta}, \bm{\mu_\mathrm{D}} , \bm{\sigma_\mathrm{D}} , \bm{\mu_4} , \bm{\sigma_4} , \bm{\mu^\mathrm{pop}_\mathrm{D}}, \bm{\sigma^\mathrm{pop}_\mathrm{D}} , \bm{\mu^\mathrm{pop}_4}, \bm{\sigma^\mathrm{pop}_4} | \bm{y^\mathrm{oct}} , \bm{y^\mathrm{tot_2}}  ]  \propto  \\  
- 	     & \prod_{j=1}^{J} \bigg\{ \Big\{ \prod_{i=1}^{N_1}  \prod_{k=1}^{K_1} \mathrm{binomial} \big( y^{\mathrm{oct}}_{ijk} | n^\mathrm{age_1}_{ijk}, \mathrm{logit}^{-1}( \alpha_{\mathrm{D},ijk} ) \big) \\
-	      \times & \mathrm{normal} ( \alpha_{\mathrm{D},ijk}  | \mu_{\mathrm{D},jk}, \sigma{_{\mathrm{D},jk} }) \mathrm{normal} ( \mu_{\mathrm{D},jk}  | \mu^\mathrm{pop}_{\mathrm{D},j}, \sigma^\mathrm{pop}_{\mathrm{D},j} ) 
- \textrm{half-normal} ( \sigma_{\mathrm{D},jk} | 0,1) \\
- \times & \mathrm{normal} ( \mu^\mathrm{pop}_{\mathrm{D},j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{\mathrm{D},j} | 0,1)   \Big\}  \\
-  \times &  \Big\{ \prod_{i=1}^{N_2}  \prod_{k=1}^{K_2}   \mathrm{binomial} \big( y^{\mathrm{tot_2}}_{ijk} | n^\mathrm{age_2}_{ijk}, \mathrm{logit}^{-1}( \alpha_{\mathrm{4},ijk} ) \times \theta_{jk} \big) \\
-   \times & \mathrm{normal} ( \theta_{jk}  | \mu_{\mathrm{D},jk}, \sigma{_{\mathrm{D},jk} }) \\
-    \times & \mathrm{normal} ( \alpha_{\mathrm{4},ijk}  | \mu_{\mathrm{4},jk}, \sigma{_{\mathrm{4},jk} }) \mathrm{normal} ( \mu_{\mathrm{4},jk}  | \mu^\mathrm{pop}_{\mathrm{4},j}, \sigma^\mathrm{pop}_{\mathrm{4},j} ) \textrm{half-normal} ( \sigma_{\mathrm{4},jk} | 0,1) \\
-    \times & \mathrm{normal} ( \mu^\mathrm{pop}_{\mathrm{4},j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{\mathrm{4},j} | 0,1) \Big\}  \bigg\}.
-  \end{split}
-\end{align}
-
-
-%
-\begin{align}
-  \begin{split}
- [  \bm{\alpha_5} , \bm{\mu_5} , \bm{\sigma_5} , \bm{\mu^\mathrm{pop}_5}, \bm{\sigma^\mathrm{pop}_5} | & \bm{y^{\mathrm{total}}}  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
-   \mathrm{binomial} ( y^{\mathrm{tot}}_{ijk} | n^\mathrm{tot}_{ijk}, \mathrm{logit}^{-1}( \alpha_{5,ijk} ) ) 
-   \\ & \times \mathrm{normal} ( \alpha_{5,ijk}  | \mu_{5,jk}, \sigma{_{5,jk} })
-  \\ & \times \mathrm{normal} ( \mu_{5,jk}  | \mu^\mathrm{pop}_{5,j}, \sigma^\mathrm{pop}_{5,j} )
-  \\ & \times \textrm{half-normal} ( \sigma_{5,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{5,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{5,j} | 0,1).
+%  \beta_{ijk} & = \exp({ - \frac{ \eta_{ijk} }{ \alpha_j }})
+% \\ g( \eta_{ijk}, \theta_{jkm},  t_{ijkm} ) & = \theta_{jkm}  \times \exp(- (\frac{ t_{ijkm} }{\beta_{ijk}})^{\alpha_j}  ) \\
+%  & =  \theta_{jkm}  \times \exp(- (\frac{ t_{ijkm} }{ \exp({ - \frac{ \eta_{ijk} }{ \alpha_j}}) })^{\alpha_j}  ) 
+& g( \eta_{ijk}, \theta_{jkm},  t_{ijkm} )  = \theta_{jkm}  \times \exp(- (\frac{ t_{ijkm} }{ \exp({ - \frac{ \eta_{ijk} }{ \alpha_j}}) })^{\alpha_j}  ) 
+ \\  [ \bm{\mu}_\mathrm{g} , \bm{\sigma}_\mathrm{g} , & \bm{\mu}_\mathrm{g}^\mathrm{pop}, \bm{\sigma}_\mathrm{g}^\mathrm{pop} , \bm{\eta} , \bm{\mu} , \bm{\sigma} , \bm{\mu}^\mathrm{pop}, \bm{\sigma}^\mathrm{pop} |  \bm{\mathrm{y}}_\mathrm{g}, \bm{\mathrm{y}}  ]  \propto 
+ \\ &   \prod_{i=1}^{I}  \prod_{j=1}^{J} \prod_{k=1}^{K} \Bigg[ \Big[ \prod_{m=1}^{M} 
+   \mathrm{binomial} ( y_{ijkm} | n_{ijkm}, g( \theta_{jkm}, \eta_{ijk}, \alpha_j , t_{ijkm} ) ) 
+   \\ & \times \mathrm{normal} ( \eta_{ijk}  | \mu_{jk}, \sigma{_{jk} })
+  \\ & \times \mathrm{normal} ( \mu_{jk}  | \mu^\mathrm{pop}_{j}, \sigma^\mathrm{pop}_{j} ) \textrm{half-normal} ( \sigma_{jk} | 0,1)
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{j} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{j} | 0,1)
+  \\ & \times \mathrm{gamma} ( \alpha_j | 2 , 2 ) \Big]
+  \\ & \Big[ \times \prod_{l=1}^{L} 
+   \mathrm{binomial} ( y_{\mathrm{g},ijkl} | n_{\mathrm{g},ijkl}, \mathrm{logit}^{-1}(\alpha_{\mathrm{g},ijkl}) ) 
+   \\ & \times \mathrm{normal} ( \alpha_{\mathrm{g},ijkl}  | \mu_{\mathrm{g},jkl}, \sigma{_{\mathrm{g},jkl} })
+  \\ & \times \mathrm{normal} ( \mu_{\mathrm{g},jkl}  | \mu^\mathrm{pop}_{\mathrm{g},jl}, \sigma^\mathrm{pop}_{\mathrm{g},jl} ) \textrm{half-normal} ( \sigma_{\mathrm{g},jkl} | 0,1)
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{\mathrm{g},jl} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{\mathrm{g},jl} | 0,1). \Big] \Bigg] 
+  \\ & \prod_{i=1}^{I} \prod_{j=1}^{J} \prod_{k=2}^{K} \mathrm{binomial} ( y_{\mathrm{p},ijk} | n_{\mathrm{p},ijk}, g( \theta_{jk,m=1}, \eta_{ijk}, \alpha_j , t_{ijk,m=1} )  \mathrm{logit}^{-1}(\alpha_{\mathrm{s},ijk})  )
+             \\ & \times \mathrm{normal} ( \alpha_{\mathrm{s},ijk}  | \mu_{\mathrm{g},jk}, \sigma{_{\mathrm{s},jk} })
+  \\ & \times \mathrm{normal} ( \mu_{\mathrm{s},jk}  | \mu^\mathrm{pop}_{\mathrm{s},j}, \sigma^\mathrm{pop}_{\mathrm{s},j} )
+  \\ & \times \textrm{half-normal} ( \sigma_{\mathrm{s},jk} | 0,1)
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{\mathrm{s},j} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{\mathrm{s},j} | 0,1)
   \end{split}
 \end{align}
 
 \clearpage
 \newpage
-
 
 \subsection*{Viability trials}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DIRECTED ACYCLIC GRAPHS FOR VIABILITY TRIALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{figure}[h]%
 \begin{subfigure}[c]{\textwidth}
 \centering
@@ -628,6 +403,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
 % QUESTIONS
 % do I need to include \bm{n} on the RHS of the conditional statement for the posterior?
 
+
 \begin{align}
   \begin{split}
  [  \bm{\alpha_G} , \bm{\mu_G} , \bm{\sigma_G} , \bm{\mu^\mathrm{pop}_G}, \bm{\sigma^\mathrm{pop}_G} | & \bm{y^{\mathrm{tot}}}  ] \propto \prod_{i=1}^{I}   \prod_{j=1}^{J}  \prod_{k=1}^{K} 
@@ -635,7 +411,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
    \\ & \times \mathrm{normal} ( \alpha_{G,ijk}  | \mu_{G,jk}, \sigma{_{G,jk} })
   \\ & \times \mathrm{normal} ( \mu_{G,jk}  | \mu^\mathrm{pop}_{G,j}, \sigma^\mathrm{pop}_{G,j} )
   \\ & \times \textrm{half-normal} ( \sigma_{G,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{G,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{G,j} | 0,1).
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{G,j} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{G,j} | 0,1).
   \end{split}
 \end{align}
 %
@@ -646,7 +422,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
    \\ & \times \mathrm{normal} ( \alpha_{V,ijk}  | \mu_{V,jk}, \sigma{_{V,jk} })
   \\ & \times \mathrm{normal} ( \mu_{V,jk}  | \mu^\mathrm{pop}_{V,j}, \sigma^\mathrm{pop}_{V,j} )
   \\ & \times \textrm{half-normal} ( \sigma_{V,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{V,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{V,j} | 0,1).
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{V,j} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{V,j} | 0,1).
   \end{split}
 \end{align}
 %
@@ -709,7 +485,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
   
   \end{tikzpicture}
 
-\subcaption{Directed acyclic graphs for the hierarchical models for seed survival. Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
+\subcaption{Directed acyclic graphs for the hierarchical models for seedling survival to fruiting. Solid arrows depict the relationships among random variables, and dashed arrows depict the deterministic relationships.}
 \end{subfigure}
 \end{figure}
 
@@ -728,7 +504,7 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
    \\ & \times \mathrm{normal} ( \alpha_{S,ijk}  | \mu_{S,jk}, \sigma{_{S,jk} })
   \\ & \times \mathrm{normal} ( \mu_{S,jk}  | \mu^\mathrm{pop}_{S,j}, \sigma^\mathrm{pop}_{S,j} )
   \\ & \times \textrm{half-normal} ( \sigma_{S,jk} | 0,1)
-  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{S,j} | 0 , 1000 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{S,j} | 0,1).
+  \\ & \times \mathrm{normal} ( \mu^\mathrm{pop}_{S,j} | 0 , 1 ) \textrm{half-normal} ( \sigma^\mathrm{pop}_{S,j} | 0,1).
   \end{split}
 \end{align}
 
@@ -854,28 +630,28 @@ I compared convergence diagnostics (R-hat, effective sample size) for centered a
 
 \begin{align}
   \begin{split}
-  [ &  \bm{z_{\mathrm{TF}}} ,  \bm{z_{\mathrm{UF}}},  \bm{z_{\mathrm{DF}}},  \bm{z_{\mathrm{US}}},  \bm{z_{\mathrm{DS}}},  \bm{\mu_{\mathrm{TF}}} ,  \bm{\mu_{\mathrm{UF}}},  \bm{\mu_{\mathrm{DF}}},  \bm{\mu_{\mathrm{US}}},  \bm{\mu_{\mathrm{DS}}},   \bm{\sigma_{\mathrm{TF}}}^2 ,  \bm{\sigma_{\mathrm{UF}}}^2,  \bm{\sigma_{\mathrm{DF}}}^2,  \bm{\sigma_{\mathrm{US}}}^2,  \bm{\sigma_{\mathrm{DS}}}^2, \\ & ( \bm{\sigma^\mathrm{pop}_{\mathrm{TF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{UF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{US}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DS}}})^2,  \bm{\nu_{\mathrm{TF}}} ,  \bm{\nu_{\mathrm{UF}}},  \bm{\nu_{\mathrm{DF}}},  \bm{\nu_{\mathrm{US}}},  \bm{\nu_{\mathrm{DS}}}, |  \bm{y^{\mathrm{TF}}} , \bm{y^{\mathrm{UF}}} , \bm{y^{\mathrm{DF}}} , \bm{y^{\mathrm{US}}} , \bm{y^{\mathrm{DS}}} ]  \propto  \\  
+  & g( \theta )  = \exp{\theta}
+ \\ [ &  \bm{z_{\mathrm{TF}}} ,  \bm{z_{\mathrm{UF}}},  \bm{z_{\mathrm{DF}}},  \bm{z_{\mathrm{US}}},  \bm{z_{\mathrm{DS}}},  \bm{\mu_{\mathrm{TF}}} ,  \bm{\mu_{\mathrm{UF}}},  \bm{\mu_{\mathrm{DF}}},  \bm{\mu_{\mathrm{US}}},  \bm{\mu_{\mathrm{DS}}},   \bm{\sigma_{\mathrm{TF}}}^2 ,  \bm{\sigma_{\mathrm{UF}}}^2,  \bm{\sigma_{\mathrm{DF}}}^2,  \bm{\sigma_{\mathrm{US}}}^2,  \bm{\sigma_{\mathrm{DS}}}^2, \\ & ( \bm{\sigma^\mathrm{pop}_{\mathrm{TF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{UF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DF}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{US}}})^2, ( \bm{\sigma^\mathrm{pop}_{\mathrm{DS}}})^2,  \bm{\nu_{\mathrm{TF}}} ,  \bm{\nu_{\mathrm{UF}}},  \bm{\nu_{\mathrm{DF}}},  \bm{\nu_{\mathrm{US}}},  \bm{\nu_{\mathrm{DS}}}, |  \bm{y^{\mathrm{TF}}} , \bm{y^{\mathrm{UF}}} , \bm{y^{\mathrm{DF}}} , \bm{y^{\mathrm{US}}} , \bm{y^{\mathrm{DS}}} ]  \propto  \\  
  	     & \prod_{j=1}^{J}  \Big\{ \prod_{i=1}^{N_1}  \prod_{k=1}^{K_1}  \mathrm{Poisson} ( y^\mathrm{TF}_{ijk} | z_{\mathrm{TF},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{TF},ijk} | \mathrm{log}(\mu_{\mathrm{TF},jk}), \sigma^2_{\mathrm{TF},jk} )  \\
 	     & \times \mathrm{lognormal} ( \mu_{\mathrm{TF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{TF},j}), (\sigma^\mathrm{pop}_{\mathrm{TF},j} )^2)  \\
-	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{TF},jk}  | 0.001, 0.001 ) \\
-	     & \times \mathrm{gamma} (\nu_{\mathrm{TF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{TF},j} )^2 | 0.001, 0.001 ) \Big\}  \\
+	     & \times \textrm{half-normal}  ( \sigma^2_{\mathrm{TF},jk}  | 0, 1 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{TF},j} | 1 , 1)\  \textrm{half-normal} ( (\sigma^\mathrm{pop}_{\mathrm{TF},j} )^2 | 0, 1 ) \Big\}  \\
   \times &  \Big\{ \prod_{i=1}^{N_2}  \prod_{k=1}^{K_2}  \mathrm{Poisson} ( y^\mathrm{UF}_{ijk} | z_{\mathrm{UF},ijk} )\  \mathrm{Poisson} ( y^\mathrm{DF}_{ijk} | z_{\mathrm{DF},ijk} ) \\
   & \times  \mathrm{lognormal} ( z_{\mathrm{UF},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{UF},jk} )\ \mathrm{lognormal} ( z_{\mathrm{DF},ijk} | \mathrm{log}(\mu_{\mathrm{DF},jk}), \sigma^2_{\mathrm{DF},jk} )    \\
 	     & \times \mathrm{lognormal} ( \mu_{\mathrm{UF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{UF},j}), (\sigma^\mathrm{pop}_{\mathrm{UF},j} )^2 )\  \mathrm{lognormal} ( \mu_{\mathrm{DF},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{DF},j}), (\sigma^\mathrm{pop}_{\mathrm{DF},j} )^2 )   \\
-	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{UF},jk}  | 0.001, 0.001 )\ \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{DF},jk}  | 0.001, 0.001 ) \\
-	     & \times \mathrm{gamma} (\nu_{\mathrm{UF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{UF},j} )^2  | 0.001, 0.001 ) \\
-	     & \times  \mathrm{gamma} (\nu_{\mathrm{DF},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{DF},j} )^2  | 0.001, 0.001 ) \Big\}  \\
+	     & \times \textrm{half-normal}  ( \sigma^2_{\mathrm{UF},jk}  | 0, 1 )\ \textrm{half-normal}  ( \sigma^2_{\mathrm{DF},jk}  | 0, 1 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{UF},j} | 1 , 1)\  \textrm{half-normal} ( (\sigma^\mathrm{pop}_{\mathrm{UF},j} )^2  | 0, 1 ) \\
+	     & \times  \mathrm{gamma} (\nu_{\mathrm{DF},j} | 1 , 1)\  \textrm{half-normal} ( (\sigma^\mathrm{pop}_{\mathrm{DF},j} )^2  | 0, 1 ) \Big\}  \\
 	      & \times \Big\{  \prod_{i=1}^{N_3}  \prod_{k=1}^{K_3}  \mathrm{Poisson} ( y^\mathrm{US}_{ijk} | z_{\mathrm{US},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{US},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{US},jk} )  \\
 	     & \times \mathrm{lognormal} ( \mu_{\mathrm{US},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{US},j}), (\sigma^\mathrm{pop}_{\mathrm{US},j} )^2 )  \\
-	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{US},jk}  | 0.001, 0.001 ) \\
-	     & \times \mathrm{gamma} (\nu_{\mathrm{US},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{US},j} )^2  | 0.001, 0.001 ) \Big\}   \\
+	     & \times \textrm{half-normal} ( \sigma^2_{\mathrm{US},jk}  | 0, 1 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{US},j} | 1 , 1)\  \textrm{half-normal} ( (\sigma^\mathrm{pop}_{\mathrm{US},j} )^2  | 0, 1 ) \Big\}   \\
 	     & \times \Big\{  \prod_{i=1}^{N_4}  \prod_{k=1}^{K_4}  \mathrm{Poisson} ( y^\mathrm{DS}_{ijk} | z_{\mathrm{DS},ijk} )\ \mathrm{lognormal} ( z_{\mathrm{DS},ijk} | \mathrm{log}(\mu_{\mathrm{UF},jk}), \sigma^2_{\mathrm{DS},jk} )  \\
 	     & \times \mathrm{lognormal} ( \mu_{\mathrm{DS},jk} | \mathrm{log}(\mathrm{g}(\nu_{\mathrm{DS},j}), (\sigma^\mathrm{pop}_{\mathrm{DS},j} )^2 )  \\
-	     & \times \mathrm{inverse\ gamma} ( \sigma^2_{\mathrm{DS},jk}  | 0.001, 0.001 ) \\
-	     & \times \mathrm{gamma} (\nu_{\mathrm{DS},j} | 1 , 1)\  \mathrm{inverse\ gamma} ( (\sigma^\mathrm{pop}_{\mathrm{DS},j} )^2 | 0.001, 0.001 ) \Big\}.
+	     & \times \textrm{half-normal}  ( \sigma^2_{\mathrm{DS},jk}  | 0, 1 ) \\
+	     & \times \mathrm{gamma} (\nu_{\mathrm{DS},j} | 1 , 1)\  \textrm{half-normal} ( (\sigma^\mathrm{pop}_{\mathrm{DS},j} )^2  | 0,1) \Big\}.
   \end{split}
 \end{align}
-
 
 
 
