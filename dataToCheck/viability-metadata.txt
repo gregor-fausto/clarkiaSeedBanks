@@ -1,0 +1,2 @@
+Issue with 1 row of data; number of seeds starting viability trials is coded viabStart=NA and viabStain=NA;  all others have viabStart=0 and viabStain=NA
+Issue with 23 rows of data; More seeds started the viability trials than were left after the end of the germination trials

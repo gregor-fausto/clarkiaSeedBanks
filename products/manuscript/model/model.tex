@@ -190,15 +190,11 @@ After 10 days, all remaining ungerminated seeds (up to a total of 10 seeds) were
  \label{fig:seed-bag-experiments}
 \end{figure}
 
-The key pieces are Figure \ref{fig:seed-bag-experiments}, columns 1, 3, and 6 of Table \ref{tab:survival-functions} and columns 1 \& 3 in Table \ref{tab:structured-parameters}. Figure \ref{fig:seed-bag-experiments} illustrates the relationship between the seed bag burial experiment, viability trials, and survival/germination probabilities. Table \ref{tab:survival-functions} gives the mathematical relationship among the components of Figure \ref{fig:seed-bag-experiments}. Table \ref{tab:structured-parameters} translates the survival and germination components to parameters for the structured population model. I would to pare this down I would pare down Section \ref{section-1} to describe the experiment and reduce the tables to the relevant parameters, likely combining them into 1 table (top section being the survival functions, bottom section being the model parameters). I would keep the description of the full model and the viability models. I would move any discussion of how the models were constructed and DAGs to a separate document. I would reduce the section on translating estimated parameters to model parameters to generally describe how this was done and move the rest to a separate document. \hl{Note to self about how to turn this into Methods.} 
-
 \subsection{Seedling and fruiting plant surveys in permanent plots}
 
 To assess the survival of seedlings to fruiting plants, we use counts of seedlings and fruiting plants in 30 0.5 m$^2$ plots at 20 populations from 2006--\hl{2018} (\hl{Eckhart et al. 2011}). Seedlings and fruiting plants were counted in February and June, respectively. We observed counts of seedlings ($n_{ijk}$) and fruiting plants ($y_{ijk}$) in plot $i$, in population $j$, and in year $k$. Seedlings and fruiting plants in each plot are counted by a single person at each visit. 
 
-Of more than 8000 observations, there were fewer seedlings than fruiting plants in approximately 5\% of observations; 50\% of these had 1 fewer seedling than fruiting plant. We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over-count) because plants stand out from the background vegetation in June. We thus had to make an additional assumption about why we observed fewer seedlings than fruiting plants; this was necessary because we model seedling survival to fruiting as a binomial (\hl{see below}). There are at least two possible mechanisms that could contribute to observations in which the number of seedlings in a plot exceeds the number of fruiting plants observed later in the same year. An observer might miss a seedling that is present, or miss a seedling because germinants remained too small to observe at the February seedling census. 
-
-\hl{For now, I excluded data that involved undercounting by filtering out those rows in the dataset. Alternatively, I could fit the model to data both by excluding or including the data and comparing the estimates. Future directions could include developing a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings (I had trouble developing such a model for the time being).}
+Of more than 8000 observations, there were fewer seedlings than fruiting plants in approximately 5\% of observations; 50\% of these had 1 fewer seedling than fruiting plant. There are at least two possible mechanisms that could contribute to observations in which the number of seedlings in a plot exceeds the number of fruiting plants observed later in the same year. An observer might miss a seedling that is present, or miss a seedling because germinants remained too small to observe at the February seedling census. We assume that the data on fruiting plants is measured perfectly (i.e. we did not under- or over-count) because plants stand out from the background vegetation in June. We tested the effect of (1) excluding data from plots with undercounting or (2) recoding the data such that the count of seedlings was set equal to the number of seedlings observed later in the season (\hl{see below}). \hl{Future directions could include developing a model that relates our estimate of seedlings to the true number of seedlings in a plot because we sometimes observe more fruiting plants than seedlings (I had trouble developing such a model for the time being).}
 
 \subsection{Surveys for fruits per plant \& seeds per fruit}
 
@@ -212,7 +208,7 @@ From 2006--\hl{present}, we collected one undamaged fruit from each of 20-30 pla
 
 \section{Model}
 
-We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We fit multilevel models to obtain population-specific estimates for belowground vital rates, and model year- and population-specific estimates for aboveground vital rates. Because we were interested in describing the life histories of individual populations, we built separate models for each population. Our general approach was to include a population-level mean as the top hierarchy, and have the next level be year-specific means drawn from the population mean. Although we used different likelihoods for different observations (e.g. binomial for seed bag experiments; Poisson for counts of seed per fruit), for a single population our approach can be summarized by the following model structure
+We use observational and experimental data from 20 populations of \textit{Clarkia xantiana} to estimate transition probabilities across the life cycle. We fit multilevel models to obtain population-specific estimates for belowground vital rates, and year- and population-specific estimates for aboveground vital rates. Because we were interested in describing the life histories of individual populations, we built separate models for each population. Our general approach was to include a population-level mean as the top hierarchy, and have the next level be year-specific means drawn from the population mean. Although we used different likelihoods for different observations (e.g. binomial for seed bag experiments; Poisson for counts of seed per fruit), for a single population our approach can be summarized by the following model structure
 
 \begin{align}
   \begin{split}
@@ -220,11 +216,22 @@ We use observational and experimental data from 20 populations of \textit{Clarki
   \end{split}
 \end{align}
 
+\begin{wrapfigure}[]{r}{0.5\textwidth}
+%\begin{figure}[!h]
+       \includegraphics[scale=.65]{../../manuscript/figures/hierarchical-dag.pdf}  
+    \caption{ Graph depicting the general structure for the hierarchical models, for one populatoin. Observations from each year, $y_{ij}$, are shown grouped and outlined by dotted lines. The observations are drawn from year-level parameters, $\theta_j$, which in turn are drawn from a population-level parameter, $\theta_0$. The graph omits variance terms. }
+ \label{fig:hierarchical-dag}
+%\end{figure}
+\end{wrapfigure}
+
 The distribution of the observations $y_{ij}$ is conditional on the year-specific parameters $\theta_j$ and $\sigma^2_j$. In turn, the year-specific parameter $\theta_j$ is conditional on the population-specific parameters $\theta_0$ and $ \varsigma^2$. All parameters found only on the right of conditional statements are also given priors ($\theta_0, \sigma^2_j, \varsigma^2$) In practice, we implemented this model by writing the upper levels of the model as Normal-Normal distributions; we thus drew year-specific means from a population-specific mean.
 
 For each model, we include the expression for the posterior proportional to the joint distribution in \hl{Appendix: Joint Posterior}. Details about the choice of priors are give in \hl{Appendix: Priors}.
 
 \subsection{Seed persistence and germination}
+
+The key pieces are Figure \ref{fig:seed-bag-experiments}, columns 1, 3, and 6 of Table \ref{tab:survival-functions} and columns 1 \& 3 in Table \ref{tab:structured-parameters}. Figure \ref{fig:seed-bag-experiments} illustrates the relationship between the seed bag burial experiment, viability trials, and survival/germination probabilities. I would to pare this down I would pare down Section \ref{section-1} to describe the experiment and reduce the tables to the relevant parameters, likely combining them into 1 table (top section being the survival functions, bottom section being the model parameters). I would keep the description of the full model and the viability models. 
+
 
 Describe full model at once; introduce model for germination then model for seed persistence as the product of absence of germination and destruction which combines the germination history and the deterministic survival function; then add the piece of estimating s0.
 
@@ -322,6 +329,10 @@ Use model checking and compare outputs to look at effect of accounting for viabi
 
 \subsection{Belowground vital rates}
 
+ Table \ref{tab:survival-functions} gives the mathematical relationship among the components of Figure \ref{fig:seed-bag-experiments}. Table \ref{tab:structured-parameters} translates the survival and germination components to parameters for the structured population model.
+ 
+ I would reduce the section on translating estimated parameters to model parameters to generally describe how this was done and move the rest to a separate document. \hl{Note to self about how to turn this into Methods.} 
+
 Describe calculating persistence + persistence/viability.
 Then describe linking these to the structured parameters
 
@@ -410,7 +421,88 @@ We tested the viability of seeds in October, and were thus able to estimate the 
 
 \subsection{Aboveground vital rates}
 
-Describe using the posteriors to calculate ratio of and get TFE equivalents in later years. 
+%Describe dealing with missing years (compare to Venable)
+
+%Describe selecting combinations of parameter estimates from each year (for all 3 rates).
+
+%Describe using the posteriors to calculate ratio of and get TFE equivalents in later years. 
+
+Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated as:
+%
+\begin{align}
+  \begin{split}
+F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk} \label{eq:percapitars}
+  \end{split}
+\end{align}
+%
+where
+%
+\begin{align}
+  \begin{split}
+\phi_{jk} & = \mathrm{logit}^{-1}(\mu^S_{jk}) \\
+\lambda^F_{jk} & = \mathrm{exp}(\mu^F_{jk}) \\
+\lambda^P_{jk} & = \mathrm{exp}(\mu^P_{jk}) \\
+  \end{split}
+\end{align}
+
+Because of how we modeled each component of fitness, we obtained estimates even in years with relatively little or no data. Specifically, years without any data were pooled to the population-level means. 
+
+\clearpage
+\newpage
+
+\begin{singlespace*}...
+\captionof{table}{ Summary of zeros and missing data in Venable 2007. } \label{tab:venable} 
+\begin{center}
+ \begin{tabular}{ l c c c c  c } 
+ \hline
+ \hline
+\multicolumn{1}{ l }{ Description  } &
+\multicolumn{1}{ c }{ Seedlings } & 
+\multicolumn{1}{ c }{ Fruiting plants } & 
+\multicolumn{1}{ c }{ lx }  & 
+\multicolumn{1}{ c }{ bx  }  & 
+\multicolumn{1}{ c }{ lx bx }  \\
+ \hline
+ % seed bag burial experiment
+No survival; 0 fitness  & \# & 0 & 0 & NA & 0  \\
+No germination; 0 fitness & 0 & 0 & NA & NA & 0  \\
+Missing data & \# & \# & \# & NA & NA   \\
+   \hline
+\end{tabular} 
+\end{center}
+\end{singlespace*}
+
+Units for lx are (plants/seedling), for bx are (seeds/plant), and for lxbx are (seeds/seedling). To analyze the variance in per capita reproductive success, Venable (2007) added 0.5 to per capita reproductive success before taking the log. 
+
+
+Our dataset is a bit different because we have and use data both from permanent plots and additional surveys. So, if seedling survival to fruiting is 0 in plots or there is no germination, we still might observe plants elsewhere in the population. 
+
+
+\begin{singlespace*}...
+\captionof{table}{ Summary of zeros and missing data in Venable 2007. } \label{tab:venable} 
+\begin{center}
+ \begin{tabular}{ l c c c c  c } 
+ \hline
+ \hline
+\multicolumn{1}{ l }{ Description  } &
+\multicolumn{1}{ c }{ Seedlings } & 
+\multicolumn{1}{ c }{ Fruiting plants } & 
+\multicolumn{1}{ c }{ Fruits per plant }  & 
+\multicolumn{1}{ c }{ Seeds per fruit  }  & 
+\multicolumn{1}{ c }{ lx bx }  \\
+ \hline
+ % seed bag burial experiment
+0 survival in plots & \# & 0 & \# & \# & \dots  \\
+0 survival in plots, throws & \# & 0 & NA & NA & 0  \\
+0 seedlings in plots & 0 & 0 &  \# & \# & \dots \\
+0 seedlings in plots, throws & 0 & 0 &  NA & NA & 0 \\
+missing data & \# & \# & \# & NA & NA   \\
+   \hline
+\end{tabular} 
+\end{center}
+\end{singlespace*}
+
+Units for survival are (fruiting plants/ seedling), for bx are the product of fruits per plant and seeds per fruit to get (seeds/fruiting plant) and then per-capita RS is lxbx which has units (seeds/seedling).
 
 \clearpage
 \newpage

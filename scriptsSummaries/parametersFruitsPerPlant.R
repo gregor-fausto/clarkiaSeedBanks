@@ -1,7 +1,7 @@
 #################################################################################
 ################################################################################
 ################################################################################
-# Code for figures to compare the following modeling approaches for the seedling survivorship data
+# Code for figures of total fruit equivalents per plant
 # 
 # Scripts by Gregor Siegmund
 # fausto.siegmund@gmail.com
@@ -460,3 +460,151 @@ ggsave(filename=paste0(dirFigures,"interannualTFEfull.pdf"),
 
 ggsave(filename=paste0(dirFigures,"spatialTFEfull.pdf"),
        plot=spatialTFEfull,width=12,height=8)
+
+
+################################################################################
+# Make summary plots
+#################################################################################
+
+summary_py = tfeFullDF
+#sigma_p = summary.pop.df
+
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/TFE-population.pdf",width=8,height=6)
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1    )
+
+time.sample = 1:13+2005
+for(i in 1:20){
+  
+  tmp=summary_py[summary_py$site==siteNames[i],]
+ # tmp.pop=sigma_p[sigma_p$site==siteNames[i],]
+  
+  tmp.vec=c()
+  # need 2 for-loops because datasets indexed separately
+  for(j in 1:7){
+    tmp.vec[j]=sum(data$y_tfe[data$site==i&data$year==j])
+  }
+  
+  # second loop indexed to start at 8
+  for(j in 1:6){
+    tmp.vec[7+j]=sum(data$y_und[data$site2==i&data$year2==j],
+                   data$y_dam[data$site2==i&data$year2==j])
+    
+  }
+  
+  tmp.vec=ifelse(is.na(tmp.vec),0,tmp.vec)
+
+
+  
+  plot(NA,NA,
+       ylim=c(0,max(tmp[,3:7])),pch=16,xlim=c(2006,2019),
+       ylab='',xlab='',xaxt='n',yaxt='n')
+  
+  index=tmp.vec==0
+  if (sum(index)>0) {for(j in 1:length(time.sample[index])){
+    ts=time.sample[index]
+    polygon(x=c(ts[j]-.5,ts[j]-.5,
+                ts[j]+.5, ts[j]+.5),
+            y=c(-.1,max(tmp[,3:7])*2,max(tmp[,3:7])*2,-.1),col='gray95',border='gray95')
+  }} else {NA}
+  
+  
+  # polygon(x=c(2005,2020,2020,2005),
+  #         y=c(tmp.pop$ci.lo,tmp.pop$ci.lo,tmp.pop$ci.hi,tmp.pop$ci.hi),
+  #         col='gray95',border='gray95')
+  
+  #abline(h=tmp.pop$med,col='gray')
+  segments(time.sample,y0=tmp$ci.lo,y1=tmp$ci.hi)
+  
+  points(time.sample,
+         tmp$med,pch=21,cex=1,
+         col="black",bg='white')
+  
+  
+  text(x=2005.5,y=.9*max(tmp[,3:7]),siteNames[i],pos=4)
+  ifelse(i%in%c(16:20),axis(1L),NA)
+  axis(2, seq(0,max(tmp[,3:7]),by=5), tick=FALSE,
+       labels = seq(0,max(tmp[,3:7]),by=5), las = 1, 
+       cex.axis = 1,line=0,mgp=c(3,.25,0))
+  #ifelse(i%in%c(1,6,11,16),,NA)
+  ifelse(i%in%c(5), legend(x = 15, y = 1,
+                           col = c('gray','orange'),
+                           lty = c(1,1),
+                           legend = c("Persistence only","Persistence & viability"),
+                           cex=.55,
+                           box.lty=0), NA)
+}
+mtext("Year", side = 1, outer = TRUE, line = 2.2)
+mtext("Total fruit equivalents per plant", side = 2, outer = TRUE, line = 2.2)
+#mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+dev.off()
+
+# 
+# sigma0=MCMCchains(mcmcSamples,params="sigma0")
+# 
+# x.sum=apply(sigma0,2,quantile,probs=c(0.025,.25,.5,.75,.975))
+# index=order(x.sum[3,],decreasing=TRUE)
+# x.sum=x.sum[,index]
+# par(mfrow=c(1,1))
+# plot(NA,NA,type='n',xlim=c(0,3),ylim=c(0,20),
+#      axes=FALSE,frame=FALSE,
+#      xlab="",ylab="")
+# y.pt = 1:20
+# for(i in 1:20){
+#   tmp<-x.sum[,i]
+#   segments(x0=tmp[1],x1=tmp[5],y0=y.pt[i])
+#   segments(x0=tmp[2],x1=tmp[4],y0=y.pt[i],lwd=3)
+#   points(x=tmp[3],y=y.pt[i],pch=21,bg='white')
+#   
+# }
+# axis(1,  seq(0,3,by=.5), col.ticks = 1)
+# axis(2, (1:20),
+#      labels = siteNames[index], las = 1, 
+#      col = NA, col.ticks = 1, cex.axis = 1)
+# mtext("sigma0",
+#       side=1,line=2.5,adj=.5,col='black',cex=1)
+# 
+# df.sum=censusSeedlingsFruitingPlants %>%
+#   dplyr::group_by(site) %>%
+#   dplyr::summarise(var(seedlingNumber,na.rm=TRUE))
+# 
+# sigma=MCMCchains(mcmcSamples,params="sigma")
+# x.sum=apply(sigma,2,quantile,probs=c(0.025,.25,.5,.75,.975))
+# 
+# par(mfrow = c(4,5),
+#     oma = c(5,4,0,0) + 0.1,
+#     mar = c(0,0,1,1) + 0.1)
+# 
+# time.sample = 1:14+2005
+# for(i in 1:20){
+#   
+#   index=grep(paste0("\\[",i,","),colnames(x.sum))
+#   tmp=x.sum[,index]
+#   
+#   plot(NA,NA,
+#        ylim=c(0,4),pch=16,xlim=c(2006,2019),
+#        ylab='',xlab='',xaxt='n',yaxt='n')
+#   
+#   segments(time.sample,y0=tmp[1,],y1=tmp[5,])
+#   points(time.sample,
+#          tmp[3,],pch=21,cex=1,
+#          col="black",bg='white')
+#   
+#   
+#   text(x=2005.5,y=3.75,siteNames[i],pos=4)
+#   ifelse(i%in%c(16:20),axis(1L),NA)
+#   ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+#   ifelse(i%in%c(5), legend(x = 15, y = 1,
+#                            col = c('gray','orange'),
+#                            lty = c(1,1),
+#                            legend = c("Persistence only","Persistence & viability"),
+#                            cex=.55,
+#                            box.lty=0), NA)
+# }
+# mtext("Year", side = 1, outer = TRUE, line = 2.2)
+# mtext("sigma", side = 2, outer = TRUE, line = 2.2)
+# #mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+# 
+# sigma0=MCMCchains(mcmcSamples,params="sigma0")
+# 

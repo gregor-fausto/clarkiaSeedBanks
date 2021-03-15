@@ -42,16 +42,22 @@
   %%%% SEED BURIALS
    \multicolumn{4}{ l }{ \sc{Seed bag burial experiments}} \\
 
- %% Population-level means
-  $\mu_{0,ik}^\mathrm{germ}$   & Population mean germination   & $N(0, 1)$ & Weakly informative \\ 
-  $\sigma_{0,ik}^\mathrm{germ}$   & Population S.D. of germination   & $N(0, 1)^+$ & Weakly informative \\ 
-  $\sigma_{0,ijk}^\mathrm{germ}$   & Population and year S.D. of germination   & $N(0, 1)^+$ & Weakly informative \\ 
-  
+
   $\mu_{0,i}^\mathrm{decay}$   & Population mean \hl{rate parameter}  & $N(0, 1)$ & Weakly informative \\ 
   $\sigma_{0,i}^\mathrm{decay}$   & Population S.D. of \hl{rate parameter}   & $N(0, 1)^+$ & Weakly informative \\ 
   $\sigma_{0,ij}^\mathrm{decay}$   & Population and year S.D. of \hl{rate parameter}  & $N(0, 1)^+$ & Weakly informative \\ 
   
     $\beta_{ij}^\mathrm{decay}$   & Population and year shape parameter of beta & $\mathrm{gamma}(2,2)$ & Weakly informative \\ 
+       
+     %% Population-level means
+  $\mu_{0,ik}^\mathrm{germ}$   & Population mean germination   & $N(0, 1)$ & Weakly informative \\ 
+  $\sigma_{0,ik}^\mathrm{germ}$   & Population S.D. of germination   & $N(0, 2)^+$ & Slightly informative \\ 
+  $\sigma_{0,ijk}^\mathrm{germ}$   & Population and year S.D. of germination   & $N(0, 1)^+$ & Weakly informative \\ 
+  
+       %% Population-level means
+  $\mu_{0,ik}^\mathrm{s_0}$   & Population mean survival from seed production to 1st October & $N(0, 1)$ & Weakly informative \\ 
+  $\sigma_{0,ik}^\mathrm{s_0}$   & Population S.D. of survival from seed production to 1st October    & $N(0, 2)^+$ & Slightly informative \\ 
+  $\sigma_{0,ijk}^\mathrm{s_0}$   & Population and year S.D. of survival from seed production to 1st October & $N(0, 1)^+$ & Weakly informative \\ 
 
   %%%% SEEDLING SURVIVAL TO FRUITING
  \multicolumn{4}{ l }{ \sc{ Seedling survival to fruiting }} \\

@@ -1,7 +1,7 @@
 #################################################################################
 ################################################################################
 ################################################################################
-# Code for figures to compare the following modeling approaches for the seedling survivorship data
+# Code for figures for seeds per fruit
 # 
 # Scripts by Gregor Siegmund
 # fausto.siegmund@gmail.com
@@ -190,3 +190,74 @@ ggsave(filename=paste0(dirFigures,"interannualSeeds.pdf"),
 
 ggsave(filename=paste0(dirFigures,"spatialSeeds.pdf"),
        plot=spatialSeeds,width=6,height=6)
+
+
+################################################################################
+# Make summary plots
+#################################################################################
+
+summary_py = sigma_py
+summary_p = summary.pop.df
+
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/seedsPerFruit-population.pdf",width=8,height=6)
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1    )
+
+time.sample = 1:13+2005
+for(i in 1:20){
+  
+  tmp=summary_py[summary_py$site==siteNames[i],]
+  tmp.pop=summary_p[summary_p$site==siteNames[i],]
+  
+  tmp.vec=c()
+  for(j in 1:length(time.sample)){
+    tmp.vec[j]=sum(data$sdno[data$site3==i&data$year3==j],na.rm=TRUE)
+  }
+
+  tmp.vec=ifelse(is.na(tmp.vec),0,tmp.vec)
+  
+  
+  
+  plot(NA,NA,
+       ylim=c(0,max(tmp[,3:7])),pch=16,xlim=c(2006,2019),
+       ylab='',xlab='',xaxt='n',yaxt='n')
+  
+  index=tmp.vec==0
+  if (sum(index)>0) {for(j in 1:length(time.sample[index])){
+    ts=time.sample[index]
+    polygon(x=c(ts[j]-.5,ts[j]-.5,
+                ts[j]+.5, ts[j]+.5),
+            y=c(-.1,max(tmp[,3:7])*2,max(tmp[,3:7])*2,-.1),col='gray95',border='gray95')
+  }} else {NA}
+  
+  
+  polygon(x=c(2005,2020,2020,2005),
+          y=c(tmp.pop$ci.lo,tmp.pop$ci.lo,tmp.pop$ci.hi,tmp.pop$ci.hi),
+          col='gray95',border='gray95')
+  
+  abline(h=tmp.pop$med,col='gray')
+  segments(time.sample,y0=tmp$ci.lo,y1=tmp$ci.hi)
+  
+  points(time.sample,
+         tmp$med,pch=21,cex=1,
+         col="black",bg='white')
+  
+  
+  text(x=2005.5,y=.1*max(tmp[,3:7]),siteNames[i],pos=4)
+  ifelse(i%in%c(16:20),axis(1L),NA)
+  axis(2, seq(0,max(tmp[,3:7]),by=5), tick=FALSE,
+       labels = seq(0,max(tmp[,3:7]),by=5), las = 1, 
+       cex.axis = 1,line=0,mgp=c(3,.25,0))
+  #ifelse(i%in%c(1,6,11,16),,NA)
+  ifelse(i%in%c(5), legend(x = 15, y = 1,
+                           col = c('gray','orange'),
+                           lty = c(1,1),
+                           legend = c("Persistence only","Persistence & viability"),
+                           cex=.55,
+                           box.lty=0), NA)
+}
+mtext("Year", side = 1, outer = TRUE, line = 2.2)
+mtext("Seeds per fruit", side = 2, outer = TRUE, line = 2.2)
+#mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
+dev.off()

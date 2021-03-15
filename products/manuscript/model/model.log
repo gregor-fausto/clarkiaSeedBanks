@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  13 MAR 2021 12:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  15 MAR 2021 10:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -779,7 +779,11 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count328
 \l__pdf_internal_box=\box68
 )
-(./model.aux)
+(./model.aux
+
+LaTeX Warning: Label `tab:venable' multiply defined.
+
+)
 \openout1 = `model.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 114.
@@ -798,8 +802,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 114.
 LaTeX Font Info:    ... okay on input line 114.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 114.
 LaTeX Font Info:    ... okay on input line 114.
-
-(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count329
 \scratchdimen=\dimen296
@@ -927,55 +930,69 @@ input line 188.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[6] [7 <../../manuscript/figures/seed-bag-figure.pdf>]
 
-LaTeX Warning: Reference `section-1' on page 6 undefined on input line 193.
+Package natbib Warning: Citation `eckhart2011' on page 8 undefined on input lin
+e 201.
 
-[6] [7 <../../manuscript/figures/seed-bag-figure.pdf>] [8]
+[8]
 
 Package natbib Warning: Citation `eckhart2011' on page 9 undefined on input lin
 e 205.
 
+[9]
+<../../manuscript/figures/hierarchical-dag.pdf, id=233, 377.02557pt x 115.30779
+pt>
+File: ../../manuscript/figures/hierarchical-dag.pdf Graphic file (type pdf)
+<use ../../manuscript/figures/hierarchical-dag.pdf>
+Package pdftex.def Info: ../../manuscript/figures/hierarchical-dag.pdf  used on
+ input line 221.
+(pdftex.def)             Requested size: 245.0637pt x 74.94916pt.
 
-Package natbib Warning: Citation `eckhart2011' on page 9 undefined on input lin
-e 209.
+Overfull \hbox (10.18622pt too wide) in paragraph at lines 221--222
+[][] 
+ []
 
-[9] [10]
-<../../manuscript/figures/dag-seed-bag.pdf, id=247, 477.54108pt x 266.27982pt>
+
+LaTeX Warning: Reference `section-1' on page 10 undefined on input line 233.
+
+[10 <../../manuscript/figures/hierarchical-dag.pdf>]
+<../../manuscript/figures/dag-seed-bag.pdf, id=260, 477.54108pt x 266.27982pt>
 File: ../../manuscript/figures/dag-seed-bag.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-seed-bag.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-seed-bag.pdf  used on inp
-ut line 232.
+ut line 239.
 (pdftex.def)             Requested size: 469.75499pt x 261.93976pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [11] [12 <../../manuscript/figures/dag-seed-bag.pdf>]
-<../../manuscript/figures/dag-survival.pdf, id=276, 129.30006pt x 271.56357pt>
+<../../manuscript/figures/dag-survival.pdf, id=285, 129.30006pt x 271.56357pt>
 File: ../../manuscript/figures/dag-survival.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-survival.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-survival.pdf  used on inp
-ut line 261.
+ut line 268.
 (pdftex.def)             Requested size: 129.29973pt x 271.56288pt.
 
-Overfull \hbox (11.861pt too wide) in paragraph at lines 261--262
+Overfull \hbox (11.861pt too wide) in paragraph at lines 268--269
 [][] 
  []
 
 
-Underfull \hbox (badness 5578) in paragraph at lines 262--262
-[]\OT1/cmr/m/n/12 Figure 4: |Di-rected
+Underfull \hbox (badness 5578) in paragraph at lines 269--269
+[]\OT1/cmr/m/n/12 Figure 5: |Di-rected
  []
 
 [13] [14 <../../manuscript/figures/dag-survival.pdf>]
-<../../manuscript/figures/dag-fecundity.pdf, id=301, 470.8511pt x 278.04277pt>
+<../../manuscript/figures/dag-fecundity.pdf, id=310, 470.8511pt x 278.04277pt>
 File: ../../manuscript/figures/dag-fecundity.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-fecundity.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-fecundity.pdf  used on in
-put line 293.
+put line 300.
 (pdftex.def)             Requested size: 470.84995pt x 278.04208pt.
 
-Overfull \hbox (1.09496pt too wide) in paragraph at lines 293--294
+Overfull \hbox (1.09496pt too wide) in paragraph at lines 300--301
 [][] 
  []
 
@@ -987,26 +1004,43 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 ] [16 <../../manuscript/figures/dag-fecundity.pdf>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 331.
+(caption)                particular \caption on input line 342.
 See the caption package documentation for explanation.
 
-
-Overfull \hbox (2.71252pt too wide) in alignment at lines 364--364
+[17]
+Overfull \hbox (2.71252pt too wide) in alignment at lines 375--375
 [][][] 
  []
 
-[17]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 374.
+(caption)                particular \caption on input line 385.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (6.92955pt too wide) in alignment at lines 403--403
+Overfull \hbox (6.92955pt too wide) in alignment at lines 414--414
 [][] 
  []
 
 [18] [19]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 454.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 482.
+See the caption package documentation for explanation.
+
+
+Overfull \hbox (46.64745pt too wide) in paragraph at lines 484--502
+ [] 
+ []
+
+[20
+
+]
 No file model.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 31.
@@ -1023,22 +1057,22 @@ Package rerunfilecheck Info: File `model.out' has not changed.
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
  )
 (\end occurred inside a group at level 2)
 
-### semi simple group (level 2) entered at line 405 (\begingroup)
-### semi simple group (level 1) entered at line 367 (\begingroup)
+### semi simple group (level 2) entered at line 416 (\begingroup)
+### semi simple group (level 1) entered at line 378 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 21982 strings out of 479383
- 398269 string characters out of 5869387
- 728573 words of memory out of 5000000
- 38616 multiletter control sequences out of 15000+600000
+ 21998 strings out of 479383
+ 398685 string characters out of 5869387
+ 721102 words of memory out of 5000000
+ 38625 multiletter control sequences out of 15000+600000
  413316 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,19n,74p,1415b,575s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,19n,74p,1415b,611s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
@@ -1058,10 +1092,10 @@ sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr
 /local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
 local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/lo
 cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on model.pdf (19 pages, 314636 bytes).
+Output written on model.pdf (20 pages, 321048 bytes).
 PDF statistics:
- 410 PDF objects out of 1000 (max. 8388607)
- 339 compressed objects within 4 object streams
- 47 named destinations out of 1000 (max. 500000)
- 142 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 431 PDF objects out of 1000 (max. 8388607)
+ 358 compressed objects within 4 object streams
+ 53 named destinations out of 1000 (max. 500000)
+ 147 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,9 +1,9 @@
 \contentsline {section}{\numberline {1}Clarkia life history}{2}{section.1}%
 \contentsline {section}{\numberline {2}Creating the dataset}{3}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Seed bag burial experiment}{5}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Seedling and fruiting plant surveys in permanent plots}{8}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Surveys for fruits per plant \& seeds per fruit}{9}{subsection.2.3}%
-\contentsline {section}{\numberline {3}Model}{10}{section.3}%
+\contentsline {subsection}{\numberline {2.2}Seedling and fruiting plant surveys in permanent plots}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Surveys for fruits per plant \& seeds per fruit}{8}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Model}{9}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Seed persistence and germination}{11}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Viability}{11}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Seedling survival to fruiting}{12}{subsection.3.3}%

@@ -1,0 +1,3 @@
+Issue with rows of data where number of fruiting plants is greater than number of seedlings
+Issue with rows of data where number of seedlings is NA but number of fruiting plants is numeric
+Issue with rows of data where number of seedlings is numeric but number of fruiting plants is NA
