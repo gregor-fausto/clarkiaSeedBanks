@@ -62,6 +62,8 @@ yearIndex <- data.frame(yearIndex=unique(countSeedPerUndamagedFruit$year3),
 siteNames=siteIndex$siteIndex
 
 parm.mu_seeds=MCMCchains(mcmcSamples, params=c("mu_seeds"))
+saveRDS(parm.mu_seeds,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/observedSeeds.RDS")
+
 parm.mu_seeds.sum = apply(parm.mu_seeds,2,summary.fun)
 
 df.list = list()

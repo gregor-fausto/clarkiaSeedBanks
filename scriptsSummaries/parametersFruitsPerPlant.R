@@ -59,6 +59,8 @@ summary.fun = function(x){
 }
 
 parm.mu_tfe=MCMCchains(mcmcSamples, params=c("mu_tfe"))
+saveRDS(parm.mu_tfe,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/observedTFE.RDS")
+
 parm.mu_tfe.sum = apply(parm.mu_tfe,2,summary.fun)
 
 df.list = list()
@@ -238,7 +240,7 @@ mu_seeds.lastyears=parm.mu_seeds[,141:260]
 ratio.seeds=parm.mu_dam_seeds/mu_seeds.lastyears
 
 parm.mu_comp=parm.mu_und + parm.mu_dam*ratio.seeds
-
+saveRDS(parm.mu_comp,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/compositeTFE.RDS")
 
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/fitness/"
 dataFiles <- paste0(directory,list.files(directory))

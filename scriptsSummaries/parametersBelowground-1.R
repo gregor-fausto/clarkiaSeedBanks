@@ -732,6 +732,10 @@ g1.v=gamma1.v
 g2.v=gamma2.v
 g3.v=gamma3.v
 
+saveRDS(g1.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
+saveRDS(g2.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g2-pop.RDS")
+saveRDS(g3.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g3-pop.RDS")
+
 # compare differences
 # unconditional calculation from both persistence and viability
 hist(th_1*gamma1-phi_1*gamma1.v)
@@ -858,6 +862,13 @@ s3.v=phi_4/phi_3
 s4.v=phi_6/phi_5
 s5.v=phi_7/phi_6
 s6.v=phi_9/phi_8
+
+saveRDS(s1.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s1-pop.RDS")
+saveRDS(s2.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s2-pop.RDS")
+saveRDS(s3.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s3-pop.RDS")
+saveRDS(s4.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s4-pop.RDS")
+saveRDS(s5.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s5-pop.RDS")
+saveRDS(s6.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s6-pop.RDS")
 
 pdf("~/Dropbox/clarkiaSeedBanks/products/figures/compare-structured-survival.pdf",width=8,height=6)
 
