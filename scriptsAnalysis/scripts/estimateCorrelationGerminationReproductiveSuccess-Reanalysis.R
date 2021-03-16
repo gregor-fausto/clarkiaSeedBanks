@@ -50,11 +50,105 @@ f<-function(x="alphaS1"){
 
 # read in samples from posterior distributions
 
-# belowground <- readRDS("~/Dropbox/dataLibrary/posteriors/jointInferenceSamples.RDS")
-# aboveground <- readRDS("~/Dropbox/clarkiaSeedBanks/products/dataFiles/rsVarFullPosterior.RDS")
+g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
+rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
 
-g1Summary<-read.csv("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/parameterSummary/g1Summary.csv")[,-1]
-rsMedians<-readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/dataFiles/rsMedianEstimates.RDS")
+# g1Summary<-read.csv("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/parameterSummary/g1Summary.csv")[,-1]
+# rsMedians<-readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/dataFiles/rsMedianEstimates.RDS")
+# 
+
+
+summary.fun = function(x){
+  tmp = gsd.am(x)
+  return(tmp)
+}
+
+
+df.list = list()
+for(i in 1:20){
+  obj = rs
+  index=grep(paste0("\\[",i,","),colnames(obj))
+  tmp.df=apply(obj[,index],1,summary.fun)
+  df.list[[i]] = tmp.df
+}
+
+gsdSummary=do.call(cbind,df.list)
+
+n.iter=dim(gsdSummary)[1]
+
+# create empty vector for the correlation
+posterior.correlation<-c()
+# calculate correlation for each draw from the posterior
+for(i in 1:n.iter){
+  posterior.correlation[i]<-cor(g1[i,],gsdSummary[i,])
+}
+
+# calculate the 95% credible interval and HPDI for g1
+CI.g1 <- apply(g1,2,FUN = function(x) quantile(x, c(.0255, .5, .975)))
+#HPDI.g1 <- apply(posterior.g1,2,FUN = function(x) hdi(x, .95))
+
+# calculate the 95% credible interval and HPDI for probability of RS
+CI.rs <- apply(gsdSummary,2,FUN = function(x) quantile(x, c(.0255, .5, .975)))
+#HPDI.survival <- apply(probability.survival,2,FUN = function(x) hdi(x, .95))
+
+# put medians and credible intervals into data frame
+g1PosteriorSummary <- data.frame(t(CI.g1))
+names(g1PosteriorSummary) <- c("lo.g1","med.g1","hi.g1")
+
+rsPosteriorSummary<-data.frame(t(CI.rs))
+names(rsPosteriorSummary) <- c("lo.rs","med.rs","hi.rs")
+
+# calculate the 95% credible interval and HPDI for the correlation
+CI.correlation <- quantile(posterior.correlation, c(.025, .5, .975))
+HPDI.correlation <- hdi(posterior.correlation, .95)
+
+par(mar=c(4,4,2,1))
+par(fig=c(0,10,4,10)/10)
+# plot median of g1 vs. median of RS with CIs
+plot(x = NA,
+     y = NA,
+     xlim=c(0,20),ylim=c(0,.6),
+     pch=16, cex = 0.5,
+     xlab = "",
+     ylab = "",
+     xaxt= "n", yaxt="n",
+     cex.lab = 1, cex.axis = 1)
+
+segments(x0=rsPosteriorSummary$lo.rs,x1=rsPosteriorSummary$hi.rs,
+         y0=g1PosteriorSummary$med.g1, lwd=.5)
+segments(x0=rsPosteriorSummary$med.rs,
+         y0=g1PosteriorSummary$lo.g1, y1=g1PosteriorSummary$hi.g1,
+         lwd=.5)
+points(rsPosteriorSummary$med.rs,g1PosteriorSummary$med.g1,
+       pch=21,col='black',bg='white',cex=.75)
+
+axis(1, seq(0,20,by=2),
+     labels = seq(0,20,by=2), las = 1, line = 0,
+     col = NA, col.ticks = 1, cex.axis = 1)
+axis(2, seq(0,1,by=.2),
+     labels = seq(0,1,by=.2), las = 1, line = 0,
+     col = NA, col.ticks = 1, cex.axis = 1)
+mtext("Germination probability",
+      side=2,line=2.5,adj=.5,col='black',cex=1)
+mtext("Geometric SD RS",
+      side=1,line=2,adj=.5,col='black',cex=1)
+
+text(x=3,y=.58,
+     paste0("Pearson's r=",round(CI.correlation[2],2)),
+     cex=1)
+#abline(a=0,b=1)
+
+par(fig=c(0,10,0,4)/10)
+par(new=T)
+# plot posterior of correlation coefficient
+hist(posterior.correlation,breaks = 100, main = "", xlab = "", xlim = c(-1, 1),
+     freq = FALSE, col = "gray75", cex.lab = 1.25,cex.axis=1.5)
+
+title(xlab="Correlation of germination and  GSD RS \n (Pearson's r)", line=3, cex.lab=1.25)
+
+abline(v=CI.correlation[c(1,3)],lty='dashed',lwd='2')
+abline(v=CI.correlation[2],lty='solid',lwd='2',col='black')
+
 
 
 gsdSummary <- rsMedians %>%
