@@ -870,6 +870,13 @@ saveRDS(s4.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s
 saveRDS(s5.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s5-pop.RDS")
 saveRDS(s6.v,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s6-pop.RDS")
 
+## GET S0
+
+mu0_s0=MCMCchains(mcmcSamples,params="mu0_s0")
+s0 = boot::inv.logit(mu0_s0)
+saveRDS(s0,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s0-pop.RDS")
+
+
 pdf("~/Dropbox/clarkiaSeedBanks/products/figures/compare-structured-survival.pdf",width=8,height=6)
 
 par(mfrow=c(2,3))

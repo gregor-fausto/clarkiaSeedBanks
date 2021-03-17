@@ -34,8 +34,10 @@ censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   # recode s.t. number of seedlings equals number of fruiting plants
   dplyr::mutate(seedlingNumber=ifelse(fruitplNumber>seedlingNumber,fruitplNumber,seedlingNumber)) %>% 
   # NA for seedlings
+  # filter these out; these are true missing data
   # recode s.t. number of seedlings equals number of fruiting plants
-  dplyr::mutate(seedlingNumber=ifelse(is.na(seedlingNumber),fruitplNumber,seedlingNumber)) %>%
+  #dplyr::mutate(seedlingNumber=ifelse(is.na(seedlingNumber),fruitplNumber,seedlingNumber)) %>%
+  dplyr::filter(!is.na(seedlingNumber)) %>% 
   # NA for fruiting plants
   # still filter these out; missing response
   dplyr::filter(!is.na(fruitplNumber)) 

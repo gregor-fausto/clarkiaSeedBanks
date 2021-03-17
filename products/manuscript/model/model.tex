@@ -504,6 +504,14 @@ missing data & \# & \# & \# & NA & NA   \\
 
 Units for survival are (fruiting plants/ seedling), for bx are the product of fruits per plant and seeds per fruit to get (seeds/fruiting plant) and then per-capita RS is lxbx which has units (seeds/seedling).
 
+We test the predictions of the density-independent model using two levels of stringency. The strong test of the model uses the hierarchical model, with partially pooling, to estimate reproductive success. We consider this the strict test because estimates of reproductive success are corrected for sampling variation (partial pooling) and years without data are pooled towards the population-means. This is certainly beneficial for distinguishing between spurious estimates and true temporal variation in reproductive success; however, it may also underestimate variation in reproductive success if there is correlation between components of the life cycle. Because we model each component of reproductive success separately, our estimates are pooled to the population-mean for the vital rate. Years with zero seedling survivorship would thus have estimates for fruits per plant that are pooled towards the population-mean (because there were no fruiting plants on which to count fruits). This would be okay if we estimated low survivorship; but if we had few seedlings in which to observe survivorship then those estimates would also be pooled. 
+
+We decided to deal with this issue by considering a second, less strict test. We took the years in which we observed zero plants or no survivorship in permanent plots (even if there were plants elsewhere in the population) and did the following. First, if we observed zero plants we calculated the probability of no germination given the number of seeds that were produced the previous year. To do this, we used the estimates of fruits per plant and seeds per fruit to estimate the average number of seeds produced per plot in each population. We then multiplied this by s0, s1, and g1. We used the population-level estimates for these calculations. Specifically, we asked what the probability of observing no germination was given the population-level estimates of s0*s1*g1.
+
+Second, if we observed no survivorship we calculated the probability of no survivorship given the number of seedlings. We took the plots and repeated binomial trials at each plot until we arrived at the probability of survival necessary to get the observed 0 survivorship. 
+
+Rather than assume that survival probability was 0 we sought to get a 90\% probability of no survivorship or germination. 
+
 \clearpage
 \newpage
 

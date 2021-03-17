@@ -15,11 +15,6 @@ library(HDInterval)
 library(bayesplot)
 
 # -------------------------------------------------------------------
-# Reproductive success: full posterior
-# -------------------------------------------------------------------
-
-
-# -------------------------------------------------------------------
 # Seedling survival to fruiting
 # -------------------------------------------------------------------
 directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
@@ -60,6 +55,9 @@ dim(tfeMCMCsamples)==dim(observedSeedsMCMCsamples)
 
 rsMCMCsamples = boot::inv.logit(sigmaMCMCsamples)*tfeMCMCsamples*observedSeedsMCMCsamples
 saveRDS(rsMCMCsamples,file="~/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
+
+seedsPerPlant = tfeMCMCsamples*observedSeedsMCMCsamples
+saveRDS(seedsPerPlant,file="~/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/seedsPerPlantPosterior.RDS")
 
 # -------------------------------------------------------------------
 # Summarize
