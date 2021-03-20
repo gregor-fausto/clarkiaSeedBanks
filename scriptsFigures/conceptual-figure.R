@@ -20,7 +20,7 @@ alpha=1
 g = c(.25,.25,.25)
 
 # viability at the end of the year for age 1, 2, and 3 seeds
-v = c(.8,.9,.8)
+v = c(.9,.8,.7)
 
 ######################### 
 ## Weibull survival function
@@ -835,7 +835,7 @@ legend(x = 0, y = 1,
 ## TWO PANEL PLOT
 #########################
 
-#pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/persistence.pdf",width=6,height=8)
+pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/persistence.pdf",width=6,height=8)
 
 par(mfrow=c(1,1))
 t.sample = c(0,4,4,12,16,16,24,28,28,36)/36
@@ -935,13 +935,18 @@ legend(x = 22.5, y = 210,
        box.lty=0,
        bg=NA)
 
-#dev.off()
+rect(c(0,4,12,16,24,28,36),-6,c(4,12,16,24,28,36,40),-2,
+     col=c('gray50','gray90'),lwd=0)
+text(c(0,4,12,16,24,28,36,40),1.5,
+     c("O","J"),cex=.75)
+
+dev.off()
 
 #########################
 ## TWO PANEL PLOT FOR VIABILITY
 #########################
 
-#pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/viability.pdf",width=4,height=8)
+pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/viability.pdf",width=4,height=8)
 par(mfrow=c(1,1))
 t.sample = c(0,4,4,12,16,16,24,28,28,36)/36
 
@@ -1029,7 +1034,12 @@ legend(x = 27.5, y = 210,
        box.lty=0,
        bg=NA)
 
-#dev.off()
+rect(c(0,4,12,16,24,28,36),-.05,c(4,12,16,24,28,36,40),-.01,
+     col=c('gray50','gray90'),lwd=0)
+text(c(0,4,12,16,24,28,36,40),.025,
+     c("O","J"),cex=.75)
+
+dev.off()
 # 
 
 #########################
