@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  14 MAR 2021 17:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  17 MAR 2021 11:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**hierarchical-dag.tex
-(./hierarchical-dag.tex
+**dag-partialpool.tex
+(./dag-partialpool.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03>
 (/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
@@ -681,8 +681,9 @@ File: tikzlibraryshapes.misc.code.tex 2020/12/01 v3.1.7a (3.1.7a)
 (/usr/local/texlive/2020/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
 shapes.misc.code.tex
 File: pgflibraryshapes.misc.code.tex 2020/12/01 v3.1.7a (3.1.7a)
-)) (./hierarchical-dag.aux)
-\openout1 = `hierarchical-dag.aux'.
+))
+No file dag-partialpool.aux.
+\openout1 = `dag-partialpool.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
@@ -698,7 +699,6 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
-
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count306
@@ -735,20 +735,23 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./hierarchical-dag.aux) ) 
+(./dag-partialpool.aux
+
+Package pdfbase Warning: Rerun to get internal references right!
+
+) ) 
 Here is how much of TeX's memory you used:
- 25626 strings out of 479383
- 682055 string characters out of 5869387
- 1064411 words of memory out of 5000000
+ 25624 strings out of 479383
+ 682005 string characters out of 5869387
+ 1064414 words of memory out of 5000000
  42290 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 94i,9n,98p,755b,936s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr7.pfb>
-Output written on hierarchical-dag.pdf (1 page, 26234 bytes).
+ 94i,9n,98p,754b,936s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+Output written on dag-partialpool.pdf (1 page, 26234 bytes).
 PDF statistics:
  24 PDF objects out of 1000 (max. 8388607)
  17 compressed objects within 1 object stream

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  16 MAR 2021 09:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  20 MAR 2021 12:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -373,7 +373,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip64
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 44.
+Package hyperref Info: Option `colorlinks' set `true' on input line 45.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
@@ -772,7 +772,7 @@ Package csquotes Info: ... none found.
 
 
 Package csquotes Warning: No multilingual support.
-(csquotes)                Cannot enable multilingual quotes on input line 114.
+(csquotes)                Cannot enable multilingual quotes on input line 115.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
@@ -786,22 +786,22 @@ LaTeX Warning: Label `tab:venable' multiply defined.
 )
 \openout1 = `model.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
  (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count329
@@ -865,7 +865,7 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 114.
+Package hyperref Info: Link coloring ON on input line 115.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 
@@ -878,14 +878,14 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count335
 )
-LaTeX Info: Redefining \ref on input line 114.
-LaTeX Info: Redefining \pageref on input line 114.
-LaTeX Info: Redefining \nameref on input line 114.
+LaTeX Info: Redefining \ref on input line 115.
+LaTeX Info: Redefining \pageref on input line 115.
+LaTeX Info: Redefining \nameref on input line 115.
  (./model.out) (./model.out)
 \@outlinefile=\write4
 \openout4 = `model.out'.
 
-Package csquotes Info: Making character " active on input line 114.
+Package csquotes Info: Making character " active on input line 115.
 \c@lstlisting=\count336
  (./model.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
@@ -904,125 +904,115 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<../../manuscript/figures/model-figure.pdf, id=81, 113.8112pt x 137.73659pt>
+<../../manuscript/figures/model-figure.pdf, id=86, 113.8112pt x 163.94952pt>
 File: ../../manuscript/figures/model-figure.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/model-figure.pdf>
 Package pdftex.def Info: ../../manuscript/figures/model-figure.pdf  used on inp
-ut line 129.
-(pdftex.def)             Requested size: 216.24004pt x 261.698pt.
+ut line 130.
+(pdftex.def)             Requested size: 216.24004pt x 311.5023pt.
  [2
 
  <../../manuscript/figures/model-figure.pdf>] [3]
+<../../figures/analysis/zero-fitness.pdf, id=168, 578.16pt x 433.62pt>
+File: ../../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
+<use ../../figures/analysis/zero-fitness.pdf>
+Package pdftex.def Info: ../../figures/analysis/zero-fitness.pdf  used on input
+ line 158.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+ [4 <../../figures/analysis/zero-fitness.pdf>]
+
+LaTeX Warning: Reference `seed-bag-experiments' on page 5 undefined on input li
+ne 170.
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 171.
+(caption)                particular \caption on input line 175.
 See the caption package documentation for explanation.
 
-(../../tables/tables/datasets.tex) [4] [5]
-<../../manuscript/figures/seed-bag-figure.pdf, id=180, 401.67163pt x 228.6161pt
+(../../tables/tables/datasets.tex) [5] [6]
+<../../manuscript/figures/seed-bag-figure.pdf, id=196, 401.67163pt x 228.6161pt
 >
 File: ../../manuscript/figures/seed-bag-figure.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/seed-bag-figure.pdf>
 Package pdftex.def Info: ../../manuscript/figures/seed-bag-figure.pdf  used on 
-input line 188.
+input line 192.
 (pdftex.def)             Requested size: 469.75499pt x 267.3751pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[6] [7 <../../manuscript/figures/seed-bag-figure.pdf>]
-
-Package natbib Warning: Citation `eckhart2011' on page 8 undefined on input lin
-e 201.
-
-[8]
-
-Package natbib Warning: Citation `eckhart2011' on page 9 undefined on input lin
-e 205.
-
-[9]
-<../../manuscript/figures/hierarchical-dag.pdf, id=233, 377.02557pt x 115.30779
-pt>
-File: ../../manuscript/figures/hierarchical-dag.pdf Graphic file (type pdf)
-<use ../../manuscript/figures/hierarchical-dag.pdf>
-Package pdftex.def Info: ../../manuscript/figures/hierarchical-dag.pdf  used on
- input line 221.
+[7] [8 <../../manuscript/figures/seed-bag-figure.pdf>] [9] [10] [11]
+<../../manuscript/figures/dag-partialpool.pdf, id=255, 377.02557pt x 115.30779p
+t>
+File: ../../manuscript/figures/dag-partialpool.pdf Graphic file (type pdf)
+<use ../../manuscript/figures/dag-partialpool.pdf>
+Package pdftex.def Info: ../../manuscript/figures/dag-partialpool.pdf  used on 
+input line 243.
 (pdftex.def)             Requested size: 245.0637pt x 74.94916pt.
 
-Overfull \hbox (10.18622pt too wide) in paragraph at lines 221--222
+Overfull \hbox (10.18622pt too wide) in paragraph at lines 243--244
 [][] 
  []
 
-
-LaTeX Warning: Reference `section-1' on page 10 undefined on input line 233.
-
-[10 <../../manuscript/figures/hierarchical-dag.pdf>]
-<../../manuscript/figures/dag-seed-bag.pdf, id=260, 477.54108pt x 266.27982pt>
+[12 <../../manuscript/figures/dag-partialpool.pdf>] [13] [14]
+<../../manuscript/figures/dag-seed-bag.pdf, id=291, 477.54108pt x 266.27982pt>
 File: ../../manuscript/figures/dag-seed-bag.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-seed-bag.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-seed-bag.pdf  used on inp
-ut line 239.
+ut line 272.
 (pdftex.def)             Requested size: 469.75499pt x 261.93976pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[11] [12 <../../manuscript/figures/dag-seed-bag.pdf>]
-<../../manuscript/figures/dag-survival.pdf, id=285, 129.30006pt x 271.56357pt>
+ [15 <../../manuscript/figures/dag-seed-bag.pdf>]
+<../../manuscript/figures/dag-survival.pdf, id=311, 129.30006pt x 271.56357pt>
 File: ../../manuscript/figures/dag-survival.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-survival.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-survival.pdf  used on inp
-ut line 268.
+ut line 286.
 (pdftex.def)             Requested size: 129.29973pt x 271.56288pt.
 
-Overfull \hbox (11.861pt too wide) in paragraph at lines 268--269
+Overfull \hbox (11.861pt too wide) in paragraph at lines 286--287
 [][] 
  []
 
 
-Underfull \hbox (badness 5578) in paragraph at lines 269--269
-[]\OT1/cmr/m/n/12 Figure 5: |Di-rected
+Underfull \hbox (badness 5578) in paragraph at lines 287--287
+[]\OT1/cmr/m/n/12 Figure 6: |Di-rected
  []
 
-[13] [14 <../../manuscript/figures/dag-survival.pdf>]
-<../../manuscript/figures/dag-fecundity.pdf, id=310, 470.8511pt x 278.04277pt>
+[16 <../../manuscript/figures/dag-survival.pdf>]
+<../../manuscript/figures/dag-fecundity.pdf, id=327, 470.8511pt x 278.04277pt>
 File: ../../manuscript/figures/dag-fecundity.pdf Graphic file (type pdf)
 <use ../../manuscript/figures/dag-fecundity.pdf>
 Package pdftex.def Info: ../../manuscript/figures/dag-fecundity.pdf  used on in
-put line 300.
+put line 306.
 (pdftex.def)             Requested size: 470.84995pt x 278.04208pt.
 
-Overfull \hbox (1.09496pt too wide) in paragraph at lines 300--301
+Overfull \hbox (1.09496pt too wide) in paragraph at lines 306--307
 [][] 
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[15
-
-] [16 <../../manuscript/figures/dag-fecundity.pdf>]
+[17 <../../manuscript/figures/dag-fecundity.pdf>] [18] [19]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 342.
+(caption)                particular \caption on input line 340.
 See the caption package documentation for explanation.
 
-[17]
-Overfull \hbox (2.71252pt too wide) in alignment at lines 375--375
+
+Overfull \hbox (2.71252pt too wide) in alignment at lines 373--373
 [][][] 
  []
 
+[20]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 385.
+(caption)                particular \caption on input line 382.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (6.92955pt too wide) in alignment at lines 414--414
+Overfull \hbox (6.92955pt too wide) in alignment at lines 411--411
 [][] 
  []
 
-[18] [19]
+[21] [22]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 454.
@@ -1038,20 +1028,17 @@ Overfull \hbox (46.64745pt too wide) in paragraph at lines 484--502
  [] 
  []
 
-[20
+[23
 
-]
+] [24]
 No file model.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 31.
 See the caption package documentation for explanation.
 
-
-Package natbib Warning: There were undefined citations.
-
 (./model.aux)
 Package rerunfilecheck Info: File `model.out' has not changed.
-(rerunfilecheck)             Checksum: 50289B6B283DFB42A0ADE6E42009A4C2;943.
+(rerunfilecheck)             Checksum: C94B0144AE1E623A295DDED637F3787A;1014.
 
 
 LaTeX Warning: There were undefined references.
@@ -1062,40 +1049,38 @@ LaTeX Warning: There were multiply-defined labels.
  )
 (\end occurred inside a group at level 2)
 
-### semi simple group (level 2) entered at line 416 (\begingroup)
-### semi simple group (level 1) entered at line 378 (\begingroup)
+### semi simple group (level 2) entered at line 413 (\begingroup)
+### semi simple group (level 1) entered at line 376 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 21998 strings out of 479383
- 398685 string characters out of 5869387
- 721102 words of memory out of 5000000
- 38625 multiletter control sequences out of 15000+600000
+ 22010 strings out of 479383
+ 399015 string characters out of 5869387
+ 736048 words of memory out of 5000000
+ 38630 multiletter control sequences out of 15000+600000
  413316 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,19n,74p,1415b,611s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,14n,74p,1588b,575s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmbx8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib1
-0.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cmextra/c
-mmib8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.p
-fb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></u
-sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr
-/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/lo
-cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on model.pdf (20 pages, 321048 bytes).
+cm/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+b10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
+pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
+cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
+l/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on model.pdf (24 pages, 331321 bytes).
 PDF statistics:
- 431 PDF objects out of 1000 (max. 8388607)
- 358 compressed objects within 4 object streams
- 53 named destinations out of 1000 (max. 500000)
- 147 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 449 PDF objects out of 1000 (max. 8388607)
+ 372 compressed objects within 4 object streams
+ 58 named destinations out of 1000 (max. 500000)
+ 160 words of extra memory for PDF output out of 10000 (max. 10000000)
 

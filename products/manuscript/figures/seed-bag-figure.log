@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  17 MAR 2021 14:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  18 MAR 2021 17:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**model-figure.tex
-(./model-figure.tex
+**seed-bag-figure.tex
+(./seed-bag-figure.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03>
 (/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
@@ -112,25 +112,26 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count193
 \l__pdf_internal_box=\box49
 )
-No file model-figure.aux.
-\openout1 = `model-figure.aux'.
+(./seed-bag-figure.aux)
+\openout1 = `seed-bag-figure.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
+
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count194
@@ -153,42 +154,53 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<../../../../clarkiaFigures/figure1b.pdf, id=1, 722.7pt x 542.025pt>
-File: ../../../../clarkiaFigures/figure1b.pdf Graphic file (type pdf)
-<use ../../../../clarkiaFigures/figure1b.pdf>
-Package pdftex.def Info: ../../../../clarkiaFigures/figure1b.pdf  used on input
- line 21.
-(pdftex.def)             Requested size: 113.81102pt x 58.67937pt.
+<../../miscellaneous/conceptual/persistence.pdf, id=1, 433.62pt x 578.16pt>
+File: ../../miscellaneous/conceptual/persistence.pdf Graphic file (type pdf)
+<use ../../miscellaneous/conceptual/persistence.pdf>
+Package pdftex.def Info: ../../miscellaneous/conceptual/persistence.pdf  used o
+n input line 14.
+(pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 22.
+(Font)              <7> on input line 15.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 22.
-<../../../../clarkiaFigures/figure1c.pdf, id=3, 443.15262pt x 406.00533pt>
-File: ../../../../clarkiaFigures/figure1c.pdf Graphic file (type pdf)
-<use ../../../../clarkiaFigures/figure1c.pdf>
-Package pdftex.def Info: ../../../../clarkiaFigures/figure1c.pdf  used on input
- line 26.
-(pdftex.def)             Requested size: 113.81102pt x 104.2703pt.
+(Font)              <5> on input line 15.
+<../../miscellaneous/conceptual/viability.pdf, id=2, 289.08pt x 578.16pt>
+File: ../../miscellaneous/conceptual/viability.pdf Graphic file (type pdf)
+<use ../../miscellaneous/conceptual/viability.pdf>
+Package pdftex.def Info: ../../miscellaneous/conceptual/viability.pdf  used on 
+input line 18.
+(pdftex.def)             Requested size: 113.81102pt x 227.61641pt.
+<../../miscellaneous/conceptual/germination.pdf, id=3, 289.08pt x 289.08pt>
+File: ../../miscellaneous/conceptual/germination.pdf Graphic file (type pdf)
+<use ../../miscellaneous/conceptual/germination.pdf>
+Package pdftex.def Info: ../../miscellaneous/conceptual/germination.pdf  used o
+n input line 22.
+(pdftex.def)             Requested size: 113.81102pt x 113.8082pt.
+<../../miscellaneous/conceptual/survival.pdf, id=4, 289.08pt x 289.08pt>
+File: ../../miscellaneous/conceptual/survival.pdf Graphic file (type pdf)
+<use ../../miscellaneous/conceptual/survival.pdf>
+Package pdftex.def Info: ../../miscellaneous/conceptual/survival.pdf  used on i
+nput line 23.
+(pdftex.def)             Requested size: 113.81102pt x 113.8082pt.
 
 [1
 
-{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../../.
-./../clarkiaFigures/figure1b.pdf> <../../../../clarkiaFigures/figure1c.pdf>]
-(./model-figure.aux) ) 
+ <../../miscellaneous/conceptual/persistence.pdf> <../../miscellaneous/conceptu
+al/viability.pdf> <../../miscellaneous/conceptual/germination.pdf> <../../misce
+llaneous/conceptual/survival.pdf>] (./seed-bag-figure.aux) ) 
 Here is how much of TeX's memory you used:
- 3039 strings out of 479383
- 53238 string characters out of 5869387
- 318129 words of memory out of 5000000
- 20161 multiletter control sequences out of 15000+600000
+ 3048 strings out of 479383
+ 53829 string characters out of 5869387
+ 318132 words of memory out of 5000000
+ 20167 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,10n,115p,249b,435s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr10.pfb>
-Output written on model-figure.pdf (1 page, 51458 bytes).
+ 67i,9n,115p,252b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on seed-bag-figure.pdf (1 page, 20759 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 28 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

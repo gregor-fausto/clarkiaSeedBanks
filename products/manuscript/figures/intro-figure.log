@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  17 MAR 2021 14:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  18 MAR 2021 16:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**model-figure.tex
-(./model-figure.tex
+**intro-figure.tex
+(./intro-figure.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03>
 (/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
@@ -112,23 +112,23 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count193
 \l__pdf_internal_box=\box49
 )
-No file model-figure.aux.
-\openout1 = `model-figure.aux'.
+No file intro-figure.aux.
+\openout1 = `intro-figure.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -153,42 +153,47 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<../../../../clarkiaFigures/figure1b.pdf, id=1, 722.7pt x 542.025pt>
-File: ../../../../clarkiaFigures/figure1b.pdf Graphic file (type pdf)
-<use ../../../../clarkiaFigures/figure1b.pdf>
-Package pdftex.def Info: ../../../../clarkiaFigures/figure1b.pdf  used on input
- line 21.
-(pdftex.def)             Requested size: 113.81102pt x 58.67937pt.
+<../../figures/analysis/zero-fitness.pdf, id=1, 578.16pt x 433.62pt>
+File: ../../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
+<use ../../figures/analysis/zero-fitness.pdf>
+Package pdftex.def Info: ../../figures/analysis/zero-fitness.pdf  used on input
+ line 14.
+(pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 22.
+(Font)              <7> on input line 15.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 22.
-<../../../../clarkiaFigures/figure1c.pdf, id=3, 443.15262pt x 406.00533pt>
-File: ../../../../clarkiaFigures/figure1c.pdf Graphic file (type pdf)
-<use ../../../../clarkiaFigures/figure1c.pdf>
-Package pdftex.def Info: ../../../../clarkiaFigures/figure1c.pdf  used on input
- line 26.
-(pdftex.def)             Requested size: 113.81102pt x 104.2703pt.
+(Font)              <5> on input line 15.
+<../../figures/analysis/correlation-germ-rs.pdf, id=2, 433.62pt x 578.16pt>
+File: ../../figures/analysis/correlation-germ-rs.pdf Graphic file (type pdf)
+<use ../../figures/analysis/correlation-germ-rs.pdf>
+Package pdftex.def Info: ../../figures/analysis/correlation-germ-rs.pdf  used o
+n input line 18.
+(pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
+<../../figures/analysis/obs-pred-germ.pdf, id=3, 433.62pt x 578.16pt>
+File: ../../figures/analysis/obs-pred-germ.pdf Graphic file (type pdf)
+<use ../../figures/analysis/obs-pred-germ.pdf>
+Package pdftex.def Info: ../../figures/analysis/obs-pred-germ.pdf  used on inpu
+t line 22.
+(pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
 
 [1
 
-{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../../.
-./../clarkiaFigures/figure1b.pdf> <../../../../clarkiaFigures/figure1c.pdf>]
-(./model-figure.aux) ) 
+ <../../figures/analysis/zero-fitness.pdf> <../../figures/analysis/correlation-
+germ-rs.pdf> <../../figures/analysis/obs-pred-germ.pdf>] (./intro-figure.aux) )
+ 
 Here is how much of TeX's memory you used:
- 3039 strings out of 479383
- 53238 string characters out of 5869387
+ 3040 strings out of 479383
+ 53445 string characters out of 5869387
  318129 words of memory out of 5000000
- 20161 multiletter control sequences out of 15000+600000
+ 20162 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,10n,115p,249b,435s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr10.pfb>
-Output written on model-figure.pdf (1 page, 51458 bytes).
+ 67i,9n,115p,249b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on intro-figure.pdf (1 page, 20008 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 29 PDF objects out of 1000 (max. 8388607)
+ 19 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
