@@ -34,7 +34,7 @@ gsd <- function(x){
 }
 
 
-f<-function(x="alphaS1",chain){
+f<-function(x="parm",chain){
   chain<-MCMCchains(chain=belowground,params = x)
   p<-boot::inv.logit(chain)
   BCI <- t(apply(p,2,FUN = function(x) quantile(x, c(.025, .5, .975))))
@@ -47,6 +47,16 @@ gm_mean = function(x, na.rm=TRUE){
 exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 
+gm_mean = function(x, na.rm=TRUE){
+  exp(sum(log(x), na.rm=na.rm) / length(x))
+}
+
+# geometric mean from +.5 to 0
+# gm_mean = function(x, na.rm=TRUE){
+#   exp(sum(log(x+.5)) / length(x))
+# }
+
+
 # -------------------------------------------------------------------
 
 # read in samples from posterior distributions
@@ -55,7 +65,6 @@ s1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/
 g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
 s2 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s2-pop.RDS")
 s3 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s3-pop.RDS")
-
 rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
 
 # rs = rsMedians %>% tidyr::pivot_wider(values_from=c(med_sigma,med_fec,med_phi))
@@ -81,18 +90,62 @@ fitness <- function(g=g1,s0=s0,s1=s1,s2=s2,s3=s3,rs=rs){
 }
 
 medianEst <- function(x){return(apply(x,2,median))}
-#meanEst <- function(x){return(apply(x,2,mean))}
+posterior.mode = function(x){
+  x.max=max(x)
+  x.min=min(x)
+  dres <- density( x ,from = x.min, to = x.max)
+  modeParam <- dres$x[which.max(dres$y)]
+  return(modeParam)
+}
+modeEst <- function(x){return(apply(x,2,posterior.mode))}
 
-s0.med = medianEst(s0)
-g1.med = medianEst(g1)
-s1.med = medianEst(s1)
-s2.med = medianEst(s2)
-s3.med = medianEst(s3)
-rs.med = medianEst(rs)
+# use mode as Bayesian estimator
+s0.hat = modeEst(s0)
+g1.hat = modeEst(g1)
+s1.hat = modeEst(s1)
+s2.hat = modeEst(s2)
+s3.hat = modeEst(s3)
+#rs.hat = medianEst(rs)
+rs.hat = modeEst(rs)
+
 #rs.mean = meanEst(rs)
 #dev.off()
-#plot(rs.med,rs.mean);abline(a=0,b=1)
+#plot(rs.hat,rs.mean);abline(a=0,b=1)
 #logfit<-c()
+
+# -------------------------------------------------------------------
+# calculate autocorrelation of per-capita reproductive success (mode)
+# no significant autocorrelation, include in appendix
+
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+for( k in 1:20){
+  pop.index=index[,1]==k
+  rs.tmp = rs.hat[pop.index]
+  yt = rs.tmp
+  acf(yt)
+}
+
+# -------------------------------------------------------------------
+# calculate harmonic mean for each population
+f = function(x){1/mean(1/x)}
+
+pop.harmonicMean =c ()
+for( k in 1:20){
+  pop.index=index[,1]==k
+  rs.tmp = c(rs.hat[pop.index])
+  hm = f(rs.tmp)
+  pop.harmonicMean[k] = hm
+}
+
+par(mfrow=c(1,1))
+plot(pop.harmonicMean,s2.hat*s3.hat,type='n');
+abline(a=0,b=1);
+text(pop.harmonicMean,s2.hat*s3.hat,siteNames)
+
+#(pop.harmonicMean,siteNames) %>% View
+
 
 g = seq(0,1,by=.01)
 g.seq = g
@@ -102,13 +155,19 @@ g.sites = list()
 yt = c()
 n.iter=dim(rs)[1]
 
+# -------------------------------------------------------------------
+# for each population k (use mode)
+# get the median of per-capita reproductive success in each year
+# sample a sequence of 1000 years to use in the analysis for each value of g
+# for each g, calculate the growth rate for 1000 years
+
 for( k in 1:20){
   pop.index=index[,1]==k
-  rs.tmp = rs.med[pop.index]
+  rs.tmp = rs.hat[pop.index]
   yt = sample(rs.tmp,1000,replace=TRUE)
     for( i in 1:length(g)){
-        fit<-fitness(g=g[i],s0.med[k],s1.med[k],s2.med[k],s3.med[k],rs=yt)
-        logfit<-log(fit)
+        fit<-fitness(g=g[i],s0.hat[k],s1.hat[k],s2.hat[k],s3.hat[k],rs=yt)
+        #logfit<-log(fit)
         g.mat[,i] <- fit
         #g.mat[,i] <- logfit
     }
@@ -118,25 +177,30 @@ for( k in 1:20){
 par(mfrow=c(1,1))
 plot(g.seq,apply(g.mat,2,gm_mean))
 
+# make plots of geometric mean fitness
+# note that without reproductive failure fitness
+# remains high at high values of g
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1)
 for(k in 1:20){
   plot(g.seq,apply(g.sites[[k]],2,gm_mean),type='l')
-  lines(g.seq,apply(g.sites[[k]],2,mean,na.rm=TRUE),type='l',lty='dotted')
+#  lines(g.seq,apply(g.sites[[k]],2,mean,na.rm=TRUE),type='l',lty='dotted')
 }
 
-par(mfrow=c(1,1))
-plot(g.seq,apply(g.sites[[1]],2,gm_mean),type='n',ylim=c(0,20))
-for(k in 1){
-  lines(g.seq,apply(g.sites[[k]],2,gm_mean),type='l')
-  lines(g.seq,apply(g.sites[[k]],2,mean),type='l',lty='dotted')
+# plots of arithmetic mean fitness (log)
+for(k in 1:20){
+  plot(g.seq,log(apply(g.sites[[k]],2,mean)),type='l')
+  #lines(g.seq,apply(g.sites[[k]],2,mean,na.rm=TRUE),type='l',lty='dotted')
+}
+
+# plots of standard deviation of pop growth rate
+for(k in 1:20){
+  plot(g.seq,apply(g.sites[[k]],2,sd),type='l')
 }
 
 
-
-plot(g.seq,apply(g.mat,2,gm_mean))
-
+# calculate optimal germination fraction
 gmean <- function(x){apply(x,2,gm_mean)}
 site.optima<-lapply(g.sites,gmean)
 
@@ -147,19 +211,19 @@ dev.off()
 pdf(
   "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/obs-pred-germ.pdf",width=6,height=8)
 
-par(mar=c(4,4,2,1))
+par(mar=c(4,5,2,1))
 par(fig=c(0,10,4,10)/10)
 
 plot(NA,NA,xlim=c(0,1),ylim=c(0,1),
-      cex.lab = 1, cex.axis = 1,
+      cex.lab = 1.5, cex.axis = 1,
      xlab="",
      ylab="Observed germination fraction")
 # Now, define a custom axis
-points(x=optima,y=g1.med,pch=21,col='black',bg='white',cex=.75)
+points(x=optima,y=g1.hat,pch=21,col='black',bg='white',cex=.75)
 abline(a=0,b=1,lty='dashed')
 
 mtext("Predicted germination fraction",
-      side=1,line=2,adj=.5,col='black',cex=1)
+      side=1,line=2.1,adj=.5,col='black',cex=1)
 
 g1.sum=apply(g1,2,quantile,probs=c(0.025,.25,.5,.75,.975))
 
@@ -199,6 +263,7 @@ rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/
 lowFitnessYears <- readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/output/lowFitnessYearsPlots.RDS")
 lowFitnessYears=lowFitnessYears %>% dplyr::left_join(yearIndex) %>% dplyr::left_join(siteIndex)
 
+# calculate posterior mode
 df.list = list()
 for(i in 1:20){
   obj = rs
@@ -206,12 +271,12 @@ for(i in 1:20){
   index=grep(paste0("\\[",i,","),colnames(obj))
   obj=obj[,index]
   obj[,zeroYears] = 0
-  tmp.df=apply(obj,2,median)
+  tmp.df=apply(obj,2,posterior.mode)
   df.list[[i]] = tmp.df
 }
 
-rs.med=unlist(df.list)
-length(rs.med)
+rs.hat=unlist(df.list)
+length(rs.hat)
 
 index=expand.grid(1:20,1:13)
 
@@ -225,10 +290,10 @@ n.iter=dim(rs)[1]
 
 for( k in 1:20){
   pop.index=index[,1]==k
-  rs.tmp = rs.med[pop.index]
+  rs.tmp = rs.hat[pop.index]
   yt = sample(rs.tmp,1000,replace=TRUE)
   for( i in 1:length(g)){
-    fit<-fitness(g=g[i],s0.med[k],s1.med[k],s2.med[k],s3.med[k],rs=yt)
+    fit<-fitness(g=g[i],s0.hat[k],s1.hat[k],s2.hat[k],s3.hat[k],rs=yt)
     logfit<-log(fit)
     g.mat[,i] <- fit
     #g.mat[,i] <- logfit
@@ -276,7 +341,7 @@ plot(NA,NA,xlim=c(0,1),ylim=c(0,1),
      xlab="",
      ylab="Observed germination fraction")
 # Now, define a custom axis
-points(x=optima,y=g1.med,pch=21,col='black',bg='white',cex=.75)
+points(x=optima,y=g1.hat,pch=21,col='black',bg='white',cex=.75)
 abline(a=0,b=1,lty='dashed')
 
 mtext("Predicted germination fraction",
@@ -370,7 +435,7 @@ dev.off()
 # # pdf(
 # #   "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/obs-pred-germ-sample.pdf",width=4,height=4)
 # 
-# plot(optima,g1.med,xlim=c(0,1),ylim=c(0,1),pch=16,
+# plot(optima,g1.hat,xlim=c(0,1),ylim=c(0,1),pch=16,
 #      cex.lab = 1.5, cex.axis = 1.5,
 #      xlab="Predicted germination fraction",
 #      ylab="Observed germination fraction")

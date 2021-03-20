@@ -72,15 +72,122 @@ yearIndex <- data.frame(yearIndex=unique(countSeedPerUndamagedFruit$year3),
                         year=1:13) 
 siteNames=unique(siteIndex$siteIndex)
 
+# calculate posterior mode; 
+# directly from https://github.com/mikemeredith/BEST/blob/master/R/plotPost.R
+posterior.mode = function(x){
+  x.max=max(x)
+  x.min=min(x)
+  dres <- density( x ,from = x.min, to = x.max)
+  modeParam <- dres$x[which.max(dres$y)]
+  return(modeParam)
+}
+
 summary.fun = function(x){
   quant=quantile(x,c(.025,.975))
   mu = mean(x)
   med = median(x)
+  mode = posterior.mode(x)
   hpdi.interval = HPDI(x, prob = .95)
-  return(c(mu,quant,med,hpdi.interval))
+  return(c(mu,med,mode,quant,hpdi.interval))
 }
 
 rsSummary.tmp = apply(rsMCMCsamples,2,summary.fun)
+
+par(mfrow=c(1,3))
+plot(x=rsSummary.tmp[1,],y=rsSummary.tmp[2,],xlab="Mean",ylab="Median")
+plot(x=rsSummary.tmp[1,],y=rsSummary.tmp[3,],xlab="Mean",ylab="Mode")
+plot(x=rsSummary.tmp[2,],y=rsSummary.tmp[3,],xlab="Median",ylab="Mode")
+
+
+#pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/analysis/fecundity-distributions.pdf",height=16,width=8)
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+time.sample = 2006:2018
+for(i in 1:20){
+  index=grep(paste0("\\[",i,","),colnames(rsMCMCsamples))
+  tmp = (boot::inv.logit(sigmaMCMCsamples))[,index]
+  # tmp.f = (tfeMCMCsamples)[,index]
+  # tmp.phi = (observedSeedsMCMCsamples)[,index]
+  # tmp  = rsMCMCsamples[,index]
+
+  xmax=c()
+  for(k in 1:13){
+    dhist=hist(tmp[,k],plot=FALSE,breaks=50)
+    xmax[k]=1.1*max(dhist$mids)
+  }
+  xmax=max(xmax)
+  plot(0,0, type="n", xlim=c(0,xmax), ylab="",xaxt='n',yaxt='n', xlab="Value",ylim=c(0,13))
+  
+  y.pt=rev(1:13)
+  for(k in 13:1){
+    
+    dhist=hist(tmp[,k],plot=FALSE,breaks=25)
+    x.max=max(tmp[,k])
+    x.min=min(tmp[,k])
+    dres <- density( tmp[,k])
+    xrange=range(dres$x);yrange=range(dres$y)
+    xrange=range(dres$x)
+    yrange=range(dres$y)
+   # polygon(dres$x, dres$y/(1.1*max(dres$y))+k-1, col="light blue")
+    segments(x0=dhist$mids,y0=y.pt[k]-1,y1=dhist$density/(1.25*max(dhist$density))+y.pt[k]-1,col='gray75')
+    points(dhist$mids,dhist$density/(1.25*max(dhist$density))+y.pt[k]-1,pch=16,cex=.5,col='gray50')
+  }
+  ifelse(i %in% 16:20, axis(1L),NA)
+  ifelse(i %in% c(1,6,11,16), axis(2,0:12,y.pt,las=2),NA)
+  
+}
+#dev.off()
+
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/analysis/fecundity-distributions.pdf",height=16,width=8)
+par(mfrow = c(13,4),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+time.sample = 2006:2018
+for(i in 1:20){
+  index=grep(paste0("\\[",i,","),colnames(rsMCMCsamples))
+  tmp.sigma = (boot::inv.logit(sigmaMCMCsamples))[,index]
+  tmp.f = (tfeMCMCsamples)[,index]
+  tmp.phi = (observedSeedsMCMCsamples)[,index]
+  tmp  = rsMCMCsamples[,index]
+  for(k in 1:13){
+    hist(tmp.sigma[,k],breaks=100,main="",xaxt='n',yaxt='n',xlab='',ylab='',xlim=c(0,1))
+    mtext(time.sample[k], side = 2,  line = 1, cex = .5, las =2)
+    hist(tmp.f[,k],breaks=100,main="",xaxt='n',yaxt='n',xlab='',ylab='')
+    hist(tmp.phi[,k],breaks=100,main="",xaxt='n',yaxt='n',xlab='',ylab='')
+    hist(tmp[,k],breaks=100,main="",xaxt='n',yaxt='n',xlab='',ylab='')
+  }
+}
+dev.off()
+
+
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/analysis/rs-distributions.pdf",height=10,width=10)
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+for(k in 1:13){
+  index=grep(paste0(",",k,"\\]"),colnames(rsMCMCsamples))
+  tmp  = rsMCMCsamples[,index]
+  for(i in 1:20){
+    hist(tmp[,i],breaks=100,main="",xaxt='n',yaxt='n',xlab='',ylab='')
+    abline(v=rsSummary.tmp[1,index[i]],col='red',lwd=2)
+    abline(v=rsSummary.tmp[2,index[i]],col='orange',lwd=2)
+    abline(v=rsSummary.tmp[3,index[i]],col='pink',lwd=2)
+    hist.df=hist(tmp[,i],breaks=100,plot=FALSE)
+    legend(x=.6*max(hist.df$breaks),
+           y=max(hist.df$counts),
+           legend = c("mean","median","mode"),
+           col = c("red","orange","pink"),cex=.75,
+           lty = 1,border=0)
+  }
+}
+dev.off()
+
+par(mfrow=c(1,1))
+plot(x=rep(1,260),rsSummary.tmp[1,],xlim=c(0,4),ylim=c(0,400))
+points(x=rep(2,260),rsSummary.tmp[2,])
+points(x=rep(3,260),rsSummary.tmp[3,])
+
 
 df.list = list()
 for(i in 1:20){
@@ -88,7 +195,7 @@ for(i in 1:20){
   index=grep(paste0("\\[",i,","),colnames(obj))
   tmp = signif(obj[,index],3)
   tmp.df=data.frame(site=(siteIndex[,1])[i],year=yearIndex[,1],(t(tmp)))
-  names(tmp.df) = c("site","year","mu","ci.lo95","ci.hi95","med","hpdi.lo95","hpdi.hi95")
+  names(tmp.df) = c("site","year","mu","med","mode","ci.lo95","ci.hi95","hpdi.lo95","hpdi.hi95")
   rownames(tmp.df) = NULL
   df.list[[i]] = tmp.df
 }
@@ -135,10 +242,12 @@ for(i in 1:20){
   # abline(h=tmp.pop$med,col='gray')
   segments(time.sample,y0=tmp$ci.lo,y1=tmp$ci.hi)
   
-  points(time.sample,
-         tmp$med,pch=21,cex=1,
-         col="black",bg='white')
-  
+  points(time.sample,tmp$mode,pch=21,cex=1,
+         col="black",bg='pink')
+  points(time.sample,tmp$mu,pch=21,cex=1,
+         col="black",bg='red')
+  points(time.sample,tmp$med,pch=21,cex=1,
+         col="black",bg='orange')
   
   text(x=2005.5,y=.9*max(tmp[,3:7]),siteNames[i],pos=4)
   ifelse(i%in%c(16:20),axis(1L),NA)
