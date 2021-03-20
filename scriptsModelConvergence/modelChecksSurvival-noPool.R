@@ -8,12 +8,11 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
 modelFittingFiles <- paste0(directory,list.files(directory))
 
-mcmcSamples <- readRDS(modelFittingFiles[[grep("seedSurvivalSamplesChecks.rds",modelFittingFiles)]])
-data <- readRDS(modelFittingFiles[[grep("data.rds",modelFittingFiles)]])
-
+mcmcSamples <- readRDS(modelFittingFiles[[grep("seedlingSurvivalSamples-recode-noPool.rds",modelFittingFiles)]])
+data <- readRDS(modelFittingFiles[[grep("seedlingData-recode",modelFittingFiles)]])
 
 censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 
@@ -24,9 +23,8 @@ siteNames = unique(censusSeedlingsFruitingPlants$site)
 # Convergence diagnostics
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# MCMCsummary(mcmcSamples, params = c("mu0"))
-# MCMCsummary(mcmcSamples, params = c("sigma0"))
-# MCMCsummary(mcmcSamples, params = c("sigma"))
+# MCMCsummary(mcmcSamples, params = c("mu"))
+ # MCMCsummary(mcmcSamples, params = c("sigma"))
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -39,7 +37,7 @@ siteNames = unique(censusSeedlingsFruitingPlants$site)
 # ---
 
 y.sim=MCMCchains(mcmcSamples, params = "fruitplNumber_sim")
-y.obs=data$fruitplNumber
+y.obs=data$fruitplNumber 
 n.obs=data$seedlingNumber
 n.iter=dim(y.sim)[1]
 year=2006:2019
@@ -135,7 +133,7 @@ for(h in 1:20){
   }
   #ifelse(h%in%c(1,6),axis(2,  seq(0,1,by=.2), col.ticks = 1),NA)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-ppc-population.pdf",height=6,width=6)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-ppc-population-noPool.pdf",height=6,width=6)
 
 for(i in 1:14){
   par(mfrow = c(4,5),
@@ -311,7 +309,7 @@ seedlings.sd=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=sd)
 colfunc <- colorRampPalette(c("white", "black"))
 col.vec=colfunc(14)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-pvals.pdf",height=6,width=6)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-pvals-noPool.pdf",height=6,width=6)
 
 par(mfrow=c(1,1))
 time.sample = 1:14
@@ -451,7 +449,7 @@ for(i in 1:20){
 apply(p.pop,2,mean)
 
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-population.pdf",height=6,width=8)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-population-noPool.pdf",height=6,width=8)
 
 par(mfrow=c(1,2))
 pop.sample = 1:20
@@ -605,7 +603,7 @@ mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1
 # Years in which almost no plants survived, this model does not capture that
 
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-populationyear.pdf",height=6,width=6)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-populationyear-noPool.pdf",height=6,width=6)
 
 
 par(mfrow = c(4,5),
@@ -769,7 +767,7 @@ cbind(time.sample,apply(ifelse(p.chi.mat>.9,1,0),2,sum)/20)
 
 # per year*population shows some values that are not well modeled this way
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-zerotrials.pdf",height=6,width=6)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-zerotrials-noPool.pdf",height=6,width=6)
 
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
