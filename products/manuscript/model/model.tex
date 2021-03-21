@@ -322,15 +322,70 @@ To evaluate our model's fit to the data, we performed model checks that are desc
 
 \section{Computing vital rates}
 
-\hl{WORK ON THIS}
+\subsection{Belowground vital rates - seed bank paper}
 
-\hl{General summary should cover link of parameter estimates from observational and experimental data to structured model parameters. Key issues to address are different kinds of data collection in different years, as well as combining datasets to get a coherent estimate for a parameter (correct support).}
+We used the age-specific germination probabilities, survival function, and viability estimates to account for viability in estimates for the probability of germination and survival. We first discretized the survival function to times at which we observed germination and counted seeds (January and October). Estimates of survival over these intervals are the probability that a seed remains intact, but does not account for loss of viability. Next, we used viability estimates from October to calculate viability for January by interpolation (Figure \ref{fig:seed-bag-experiments}D). We tested the viability of seeds in October, and were thus able to estimate the proportion of viable seeds (Figure \ref{fig:seed-bag-experiments}B; filled points). We inferred the viability of intact seeds in January by assuming that seeds lost viability at a constant rate (exponential decay). Further, we interpolated between estimates by assuming that viability changed at a constant rate between years, and that all seeds were viable at the start of the experiment (Figure \ref{fig:seed-bag-experiments}B; open points). 
 
-\hl{Use model checking and compare outputs to look at effect of accounting for viability in belowground rates, and understand that certain years in aboveground rates had no data in permanent plots and were thus more strongly pooled. }
+We combined the discretized survival function and viability estimates to construct a survival function for the probability that a seed remains intact and viable (Table \ref{tab:survival-functions}, \hl{column X}). Specifically, we multiplied the posteriors of the discretized survival and viability estimates. Because we combined estimates, some portions of the posterior for seed survival probability was than 1, especially for later seed ages. We restricted the posterior to be less than 1 by truncating the distribution and resampling to redistribute the probability mass. We take this step to retain parameter uncertainty about survival probability in cases where combining the estimates implies a high probability of survival. The survival function for viable seeds ($\phi$) is composed of estimates of persistence over time ($\theta_\cdot$), estimates of viability ($\nu_\cdot$), and estimates of germination conditional on persistence ($\gamma_\cdot$).
 
-\subsection{Belowground vital rates}
+We used the discretized survival function and age-specific germination probability to obtain the estimates of germination and seed survival required to test predictions from bet-hedging theory. Table \ref{tab:structured-parameters} defines the age-specific germination probabilities and survival probabilities for the structured model in \hl{Eckhart et al. 2011} in terms of the survival function and age-specific germination probabilities. Figure \ref{fig:seed-bag-experiments}E-F illustrate the relationship among the various probabilities of germination and seed survival. Estimates from the seed bag experiment correspond to the probability of germination or survival conditional on persistence (e.g. $\gamma_1$). Multiplying these estimates by the probability of persistence up to a certain time gives the unconditional probability (e.g. $\theta_1 \times \gamma_1$). Finally, the probability conditional on persistence and viability is estimated by incorporating loss of viability into the survival function (e.g. $\gamma_1 / \phi_1$), and defines the parameters in the structured population model.
 
-We used the age-specific germination probabilities, survival function, and viability estimates to account for viability in estimates for the probability of germination and survival. We first discretized the survival function to times at which we observed germination and counted seeds (January and October). Estimates of survival over these intervals are the probability that a seed remains intact, but does not account for loss of viability. Next, we used viability estimates from October to calculate viability for January by interpolation (Figure \ref{fig:seed-bag-experiments}D). We tested the viability of seeds in October, and were thus able to estimate the proportion of viable seeds (Figure \ref{fig:seed-bag-experiments}B; filled points). We further inferred the viability of intact seeds in January by assuming that seeds lost viability at a constant rate (exponential decay). Further, we interpolated between estimates by assuming that viability changed at a constant rate between years, and that all seeds were viable at the start of the experiment (Figure \ref{fig:seed-bag-experiments}B; open points). We combined the discretized survival function and viability estimates to construct a survival function for the probability that a seed remains intact and viable. [\hl{discuss detail of folded probability}] The survival function for viable seeds ($\phi$) is composed of estimates of persistence over time ($\theta_\cdot$), estimates of viability ($\nu_\cdot$), and estimates of germination conditional on persistence ($\gamma_\cdot$).
+\singlespace
+%
+\begin{center}
+\captionof{table}{ Seed persistence and viability in the soil seed bank } \label{tab:survival-functions} 
+ \begin{tabularx}{11cm}{l  | c | l    } 
+  \multicolumn{1}{ c | }{  } & 
+  \multicolumn{1}{ c |  }{ Persistence } & 
+   \multicolumn{1}{ c  }{ Persistence \& viability } \\ 
+ \hline
+ \hline
+ \multicolumn{1}{ l }{ Time $(x_i)$ } & 
+\multicolumn{1}{ | c | }{ $S(x_i)$ } & 
+ \multicolumn{1}{ c }{ $S(x_i)$ } \\
+ \hline
+
+ $\mathrm{Oct_0}$ & $\theta_0$ & $\phi_0 =  \theta_0$  \\
+
+  $\mathrm{Jan_{1,total}}$ & $\theta_1$ & $\phi_1 = \theta_1 (\gamma_1 + (1-\gamma_1) \nu^{1/3}_1 ) $   \\
+
+  $\mathrm{Jan_{1,intact}}$ & $\theta_2$ & $\phi_2 = \theta_2 \nu^{1/3}_1$  \\
+
+   $\mathrm{Oct}_1$ & $\theta_3$ & $\phi_3 = \theta_3 \nu_1$  \\
+
+  $\mathrm{Jan_{2,total}}$ & $\theta_4$ & $\phi_4 = \theta_4 (\gamma_2 + (1-\gamma_2) \nu_1 (\nu_2 / \nu_1 )^{1/3}) $ \\
+  
+  \hline
+ \hline
+ \multicolumn{1}{ l }{ Description  } & 
+\multicolumn{1}{ | c | }{ Parameter } & 
+ \multicolumn{1}{ c }{ Probability } \\
+ \hline
+  
+July-October & $s_0$ &  \\
+
+October-January & $s_1$ & $ \phi_1$ \\
+
+1-year old germination &  $g_1$  & $  \gamma_1  / \phi_1 $ \\
+
+January-October & $s_2$ &  $ \phi_3 / \phi_2 $  \\
+
+October-January & $s_3$ & $  \phi_4 / \phi_3  $ \\
+ 
+  \hline
+   \hline
+ 
+  \hline
+\end{tabularx}
+\end{center}
+%
+\doublespace
+
+\subsection{Belowground vital rates - all}
+
+We used the age-specific germination probabilities, survival function, and viability estimates to account for viability in estimates for the probability of germination and survival. We first discretized the survival function to times at which we observed germination and counted seeds (January and October). Estimates of survival over these intervals are the probability that a seed remains intact, but does not account for loss of viability. Next, we used viability estimates from October to calculate viability for January by interpolation (Figure \ref{fig:seed-bag-experiments}D). We tested the viability of seeds in October, and were thus able to estimate the proportion of viable seeds (Figure \ref{fig:seed-bag-experiments}B; filled points). We inferred the viability of intact seeds in January by assuming that seeds lost viability at a constant rate (exponential decay). Further, we interpolated between estimates by assuming that viability changed at a constant rate between years, and that all seeds were viable at the start of the experiment (Figure \ref{fig:seed-bag-experiments}B; open points). 
+
+We combined the discretized survival function and viability estimates to construct a survival function for the probability that a seed remains intact and viable. Specifically, we multiplied the posteriors of the discretized survival and viability estimates. Because we combined estimates, some portions of the posterior for seed survival probability was than 1, especially for later seed ages. We restricted the posterior to be less than 1 by truncating the distribution and resampling to redistribute the probability mass. We take this step to retain parameter uncertainty about survival probability in cases where combining the estimates implies a high probability of survival. The survival function for viable seeds ($\phi$) is composed of estimates of persistence over time ($\theta_\cdot$), estimates of viability ($\nu_\cdot$), and estimates of germination conditional on persistence ($\gamma_\cdot$).
 
 \singlespace
 %
@@ -375,6 +430,7 @@ We used the age-specific germination probabilities, survival function, and viabi
 
 We used the survival function and age-specific germination probabilities to obtain the parameters in the structured population model for \textit{Clarkia xantiana} ssp. \textit{xantiana}. Table \ref{tab:structured-parameters} defines the age-specific germination probabilities and survival probabilities for the structured model in \hl{Eckhart et al. 2011} in terms of the survival function (Table \ref{tab:survival-functions}) and age-specific germination probabilities. 
 %
+
 \singlespace%
 \begin{center}
 \captionof{table}{ Structured model parameters conditional on persistence and viability } \label{tab:structured-parameters} 
@@ -410,13 +466,55 @@ $s_5$ &  $  \phi_7 / \phi_6  $  \\
 \end{center}
 \doublespace
 
+
 Figure \ref{fig:seed-bag-experiments}E-F illustrate the relationship among the various probabilities of germination and seed survival. Estimates from the seed bag experiment correspond to the probability of germination or survival conditional on persistence (e.g. $\gamma_1$). Multiplying these estimates by the probability of persistence up to a certain time gives the unconditional probability (e.g. $\theta_1 \times \gamma_1$). Finally, the probability conditional on persistence and viability is estimated by incorporating loss of viability into the survival function (e.g. $\gamma_1 / \phi_1$), and defines the parameters in the structured population model.
 
-\subsection{Aboveground vital rates}
+\subsection{Per-capita reproductive success}
+
+In order to make our analysis comparable to previous empirical studies of bet hedging, we calculated per-capita reproductive success as the product of the probability of seedling survival to fruiting, fruits per plant, and seeds per fruit. We thus calculate per-capita reproductive success as the number of seeds produced per seedling, on average (e.g. \hl{Venable 2007, Gremer et al. 2014}). 
+
+We used a consistent method to estimate seedling survival to fruiting throughout the experiment, and use the population- and year-level means ($\mu_{\mathrm{S},jk}$) in our calculation. Because we estimated fruit production in 2 different ways during the study, we chose to use total fruit equivalents (TFE) per plant as our common estimate of fruit production. From 2006--2012, we used $\mu_{\mathrm{TFE},jk})$ as estimated in the statistical model. From 2013--\hl{2018}, we used the ratio of seeds per damaged to undamaged fruit to calculate a proportion of damaged fruits to add to undamaged fruit counts, as in 
+
+\begin{align}
+\begin{split}
+\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} .
+  \end{split}
+\end{align}
+
+We used posterior distributions for population- and year-level parameters (e.g. $\mu_{\mathrm{US},jk}$) for these calculations and obtained estimates of $\mu_{\mathrm{TFE},jk})$ for 2013--\hl{2018}. Finally, we used estimates of seeds per undamaged fruit ($\mu_{\mathrm{US},jk}$) as our estimate of seeds per fruit.
+
+In terms of parameters from our statistical models, per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ is calculated as
+
+\begin{align}
+  \begin{split}
+F_{jk} = \phi_{jk} \times \lambda_{\mathrm{TFE},jk} \times \lambda_{\mathrm{US},jk}, \label{eq:percapitars}
+  \end{split}
+\end{align}
+
+where
+
+\begin{align}
+  \begin{split}
+\phi_{jk} & = \mathrm{logit}^{-1}(\mu_{\mathrm{S},jk}) \\
+\lambda_{\mathrm{TFE},jk} & = \mathrm{exp}(\mu_{\mathrm{TFE},jk}) \\
+\lambda_{\mathrm{US},jk} & = \mathrm{exp}(\mu_{\mathrm{US},jk}). 
+  \end{split}
+\end{align}
+
+Our multilevel models for aboveground vital rates pooled data more strongly in years with relatively little data. A benefit of this approach is that it implicitly corrects for variation in sample size (e.g. an observation of 0/37 seeds surviving is given more weight than an observation of 0/1 seeds surviving). While this is beneficial for distinguishing between spurious estimates and true temporal variation in reproductive success, it may also underestimate variation in reproductive success. At the extreme, estimates in years without any data are pooled to the population-level means. Years with zero seedling survivorship would thus have estimates for fruits per plant that are pooled towards the population-mean (because there were no fruiting plants on which to count fruits). 
+
+We calculated the posterior mode of annual estimates for each parameter in \hl{Equation 6} before multiplying to obtain the per-capita reproductive success in that year. Using the posterior mode is equivalent to taking the BLUP of a linear model, and allowed us to estimate vital rates in years with small sample sizes. 
 
 \hl{WORK ON THIS}
 
-Because we did not have estimates of undamaged or damaged fruits from 2006--2012, we chose to use total fruit equivalents (TFE) per plant as our common estimate of fruit production. We used the ratio of seeds per damaged to undamaged fruit to calculate a proportion of damaged fruits to add to undamaged fruit counts. We used posterior distributions for population- and year-level parameters (e.g. $\mu_{\mathrm{US},jk}$) for these calculations. Subsequently, we obtained the posterior distribution for seed production by multiplying total fruit equivalents and seeds per undamaged fruit. 
+
+We decided to deal with this issue by considering a second, less strict test. We took the years in which we observed zero plants or no survivorship in permanent plots (even if there were plants elsewhere in the population) and did the following. First, if we observed zero plants we calculated the probability of no germination given the number of seeds that were produced the previous year. To do this, we used the estimates of fruits per plant and seeds per fruit to estimate the average number of seeds produced per plot in each population. We then multiplied this by s0, s1, and g1. We used the population-level estimates for these calculations. Specifically, we asked what the probability of observing no germination was given the population-level estimates of s0*s1*g1.
+
+Second, if we observed no survivorship we calculated the probability of no survivorship given the number of seedlings. We took the plots and repeated binomial trials at each plot until we arrived at the probability of survival necessary to get the observed 0 survivorship. 
+
+Rather than assume that survival probability was 0 we sought to get a 90\% probability of no survivorship or germination. 
+
+
 
 
 %Describe dealing with missing years (compare to Venable)
@@ -425,25 +523,7 @@ Because we did not have estimates of undamaged or damaged fruits from 2006--2012
 
 %Describe using the posteriors to calculate ratio of and get TFE equivalents in later years. 
 
-Per-capita reproductive success $F_{jk}$ at population $j$ in year $k$ was calculated as:
-%
-\begin{align}
-  \begin{split}
-F_{jk} = \phi_{jk} \times \lambda^F_{jk} \times \lambda^P_{jk} \label{eq:percapitars}
-  \end{split}
-\end{align}
-%
-where
-%
-\begin{align}
-  \begin{split}
-\phi_{jk} & = \mathrm{logit}^{-1}(\mu^S_{jk}) \\
-\lambda^F_{jk} & = \mathrm{exp}(\mu^F_{jk}) \\
-\lambda^P_{jk} & = \mathrm{exp}(\mu^P_{jk}) \\
-  \end{split}
-\end{align}
 
-Because of how we modeled each component of fitness, we obtained estimates even in years with relatively little or no data. Specifically, years without any data were pooled to the population-level means. 
 
 \clearpage
 \newpage

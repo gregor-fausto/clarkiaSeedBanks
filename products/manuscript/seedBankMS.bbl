@@ -1,4 +1,4 @@
-\begin{thebibliography}{20}
+\begin{thebibliography}{18}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
@@ -81,12 +81,6 @@ Heinrich, L., J.~Müller, A.~Tellier, and D.~Živković. 2018.
   evolution and efficacy of natural selection.
 \newblock Theoretical Population Biology, {\bf 123}:45--69.
 
-\bibitem[{Lindén and Mäntyniemi(2011)}]{linden2011}
-Lindén, A. and S.~Mäntyniemi. 2011.
-\newblock Using the negative binomial distribution to model overdispersion in
-  ecological count data.
-\newblock Ecology, {\bf 92}:1414--1421.
-
 \bibitem[{Mccue and Holtsford(1998)}]{mccue1998b}
 Mccue, K.~A. and T.~P. Holtsford. 1998.
 \newblock Seed bank influences on genetic diversity in the rare annual
@@ -106,14 +100,6 @@ Paniw, M., P.~F. Quintana-Ascencio, F.~Ojeda, and R.~Salguero-Gómez. 2017.
 \newblock Accounting for uncertainty in dormant life stages in stochastic
   demographic models.
 \newblock Oikos, {\bf 126}:900--909.
-
-\bibitem[{Pironon et~al.(2018)Pironon, Villellas, Thuiller, Eckhart, Geber,
-  Moeller, and García}]{pironon2018}
-Pironon, S., J.~Villellas, W.~Thuiller, V.~M. Eckhart, M.~A. Geber, D.~A.
-  Moeller, and M.~B. García. 2018.
-\newblock The ‘{Hutchinsonian} niche’ as an assemblage of demographic
-  niches: implications for species geographic ranges.
-\newblock Ecography, {\bf 41}:1103--1113.
 
 \bibitem[{Ritland(1983)}]{ritland1983}
 Ritland, K. 1983.

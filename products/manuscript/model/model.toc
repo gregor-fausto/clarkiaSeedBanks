@@ -1,5 +1,5 @@
 \contentsline {section}{\numberline {1}Clarkia life history}{2}{section.1}%
-\contentsline {section}{\numberline {2}Creating the dataset}{4}{section.2}%
+\contentsline {section}{\numberline {2}Creating the dataset}{5}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Seed bag burial experiment}{6}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Seedling and fruiting plant surveys in permanent plots}{8}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Surveys for fruits per plant \& seeds per fruit}{9}{subsection.2.3}%
@@ -10,5 +10,6 @@
 \contentsline {subsection}{\numberline {3.4}Fruits per plant \& seeds per fruit}{16}{subsection.3.4}%
 \contentsline {section}{\numberline {4}Model statements, implementation, and fitting}{18}{section.4}%
 \contentsline {section}{\numberline {5}Computing vital rates}{19}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Belowground vital rates}{19}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Aboveground vital rates}{21}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.1}Belowground vital rates - seed bank paper}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Belowground vital rates - all}{21}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Per-capita reproductive success}{23}{subsection.5.3}%

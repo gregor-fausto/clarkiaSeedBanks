@@ -16,7 +16,9 @@ model {
     # change prior to be half-cauchy
 
     # seed survival ---------------------------------------------------------------
-    a[i] ~ dgamma(2,2)
+   # alpha[i] ~ dgamma(2,1)
+    beta[i] ~ dgamma(20,20)
+    a[i] ~ dgamma(2,beta[i])
 
     # WEAKLY INFORMATIVE
     mu0_s[i] ~ dnorm(0,1)

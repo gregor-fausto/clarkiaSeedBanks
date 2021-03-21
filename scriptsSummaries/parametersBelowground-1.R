@@ -320,7 +320,7 @@ phi_9=Oct_3.v*Janpost_3.v*Janpre_3.v*Oct_2.v*Janpost_2.v*Janpre_2.v*Oct_1.v*Janp
 # Truncate distributions and recalculate survival function
 # here I considered 3 options
 # 1. truncate distribution: this piled a lot of probability mass up at 1
-# 2. truncate distrbution and resample from same distribution [chose this option]
+# 2. truncate distribution and resample from same distribution [chose this option]
 # 3. resample but from the distribution of the transition without viability
 # -------------------------------------------------------------------
 # truncate distributions
