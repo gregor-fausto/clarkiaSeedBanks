@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  22 MAR 2021 06:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  22 MAR 2021 06:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**analysis-figure.tex
-(./analysis-figure.tex
+**analysis-figure-lowFitness.tex
+(./analysis-figure-lowFitness.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03>
 (/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
@@ -112,8 +112,8 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count193
 \l__pdf_internal_box=\box49
 )
-(./analysis-figure.aux)
-\openout1 = `analysis-figure.aux'.
+(./analysis-figure-lowFitness.aux)
+\openout1 = `analysis-figure-lowFitness.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
@@ -154,37 +154,41 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<../../figures/analysis/correlation-germ-rs.pdf, id=1, 433.62pt x 578.16pt>
-File: ../../figures/analysis/correlation-germ-rs.pdf Graphic file (type pdf)
-<use ../../figures/analysis/correlation-germ-rs.pdf>
-Package pdftex.def Info: ../../figures/analysis/correlation-germ-rs.pdf  used o
-n input line 14.
+<../../figures/analysis/correlation-germ-rs-lowfitness.pdf, id=1, 433.62pt x 57
+8.16pt>
+File: ../../figures/analysis/correlation-germ-rs-lowfitness.pdf Graphic file (t
+ype pdf)
+<use ../../figures/analysis/correlation-germ-rs-lowfitness.pdf>
+Package pdftex.def Info: ../../figures/analysis/correlation-germ-rs-lowfitness.
+pdf  used on input line 14.
 (pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 15.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 15.
-<../../figures/analysis/obs-pred-germ.pdf, id=2, 433.62pt x 578.16pt>
-File: ../../figures/analysis/obs-pred-germ.pdf Graphic file (type pdf)
-<use ../../figures/analysis/obs-pred-germ.pdf>
-Package pdftex.def Info: ../../figures/analysis/obs-pred-germ.pdf  used on inpu
-t line 18.
+<../../figures/analysis/obs-pred-germ-lowFitness.pdf, id=2, 433.62pt x 578.16pt
+>
+File: ../../figures/analysis/obs-pred-germ-lowFitness.pdf Graphic file (type pd
+f)
+<use ../../figures/analysis/obs-pred-germ-lowFitness.pdf>
+Package pdftex.def Info: ../../figures/analysis/obs-pred-germ-lowFitness.pdf  u
+sed on input line 18.
 (pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
 
 [1
 
- <../../figures/analysis/correlation-germ-rs.pdf> <../../figures/analysis/obs-p
-red-germ.pdf>] (./analysis-figure.aux) ) 
+ <../../figures/analysis/correlation-germ-rs-lowfitness.pdf> <../../figures/ana
+lysis/obs-pred-germ-lowFitness.pdf>] (./analysis-figure-lowFitness.aux) ) 
 Here is how much of TeX's memory you used:
  3036 strings out of 479383
- 53255 string characters out of 5869387
- 317132 words of memory out of 5000000
+ 53497 string characters out of 5869387
+ 317143 words of memory out of 5000000
  20157 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,9n,115p,252b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 67i,9n,115p,263b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on analysis-figure.pdf (1 page, 11881 bytes).
+Output written on analysis-figure-lowFitness.pdf (1 page, 11889 bytes).
 PDF statistics:
  22 PDF objects out of 1000 (max. 8388607)
  14 compressed objects within 1 object stream

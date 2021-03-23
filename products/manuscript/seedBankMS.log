@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  20 MAR 2021 18:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  22 MAR 2021 07:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -840,11 +840,7 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count328
 \l__pdf_internal_box=\box88
 )
-(./seedBankMS.aux
-
-LaTeX Warning: Label `eq:percapitars' multiply defined.
-
-)
+(./seedBankMS.aux)
 \openout1 = `seedBankMS.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 137.
@@ -863,7 +859,8 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 137.
 LaTeX Font Info:    ... okay on input line 137.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 137.
 LaTeX Font Info:    ... okay on input line 137.
- (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count329
 \scratchdimen=\dimen297
@@ -952,52 +949,28 @@ Package csquotes Info: Making character " active on input line 137.
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
-
-
-Package xcolor Warning: Incompatible color definition on input line 179.
+Package xcolor Warning: Incompatible color definition on input line 181.
 
 
 Package xcolor Warning: Incompatible color definition on input line 181.
@@ -1023,43 +996,30 @@ Package xcolor Warning: Incompatible color definition on input line 181.
 
 Package xcolor Warning: Incompatible color definition on input line 181.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.184 
-       [1]
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
 
-Package xcolor Warning: Incompatible color definition on input line 187.
+Package xcolor Warning: Incompatible color definition on input line 183.
 
-
-Package xcolor Warning: Incompatible color definition on input line 187.
-
-
-Package xcolor Warning: Incompatible color definition on input line 187.
-
-[2]
 
 Package xcolor Warning: Incompatible color definition on input line 197.
 
@@ -1072,422 +1032,271 @@ Package xcolor Warning: Incompatible color definition on input line 197.
 
 Package xcolor Warning: Incompatible color definition on input line 197.
 
-[3] [4]
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Package xcolor Warning: Incompatible color definition on input line 213.
-
-
-Overfull \hbox (8.92915pt too wide) in paragraph at lines 213--214
-\OT1/cmr/m/n/12 (as com-pared to the arith-metic pop-u-la-tion growth rate) ([]
-[]Co-hen[][] ([][]1966[][], [][]1968[][]); [][]Ell-ner[][] ([][]1985\OT1/cmr/m/
-it/12 a[][]\OT1/cmr/m/n/12 ,[][]\OT1/cmr/m/it/12 b[][]\OT1/cmr/m/n/12 )).
- []
-
-[5]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 224.
-See the caption package documentation for explanation.
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 242
+LaTeX Font Info:    Trying to load font information for U+msa on input line 197
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 242
+LaTeX Font Info:    Trying to load font information for U+msb on input line 197
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
-[]|\OT1/cmr/m/n/12 Density-independent
+
+Package xcolor Warning: Incompatible color definition on input line 197.
+
+
+Package xcolor Warning: Incompatible color definition on input line 197.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.198 
+       [1]
+
+Package xcolor Warning: Incompatible color definition on input line 199.
+
+
+Package xcolor Warning: Incompatible color definition on input line 199.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Package xcolor Warning: Incompatible color definition on input line 201.
+
+
+Overfull \hbox (8.92915pt too wide) in paragraph at lines 201--202
+\OT1/cmr/m/n/12 (as com-pared to the arith-metic pop-u-la-tion growth rate) ([]
+[]Co-hen[][] ([][]1966[][], [][]1968[][]); [][]Ell-ner[][] ([][]1985\OT1/cmr/m/
+it/12 a[][]\OT1/cmr/m/n/12 ,[][]\OT1/cmr/m/it/12 b[][]\OT1/cmr/m/n/12 )).
  []
 
+[2] [3] [4]
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
-[]|\OT1/cmr/m/n/12 Predictive ger-mi-na-
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 311.
+See the caption package documentation for explanation.
+
+(../tables/tables/datasets.tex) [5] [6] [7] [8]
+
+LaTeX Warning: Reference `tab:structured-parameters' on page 9 undefined on inp
+ut line 385.
+
+[9]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 390.
+See the caption package documentation for explanation.
+
+
+Overfull \hbox (69.41574pt too wide) in alignment at lines 433--433
+[][][] 
  []
 
+[10] [11]
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
-[]|\OT1/cmr/m/n/12 Key the-ory
- []
-
-
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 480.
+
+[12]
+
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Underfull \hbox (badness 4441) in paragraph at lines 242--242
-[]|[]\OT1/cmr/m/n/12 Tul[]-[]japurkar[] [][][]and[] [][][]Is[]-
- []
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 242--242
-[]\OT1/cmr/m/n/12 tock[] [][][]1997 [][]East-er-ling
- []
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 494.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 494.
+
+[13]
+
+Package xcolor Warning: Incompatible color definition on input line 509.
 
 
-Package xcolor Warning: Incompatible color definition on input line 242.
+Package xcolor Warning: Incompatible color definition on input line 509.
 
-
-Package xcolor Warning: Incompatible color definition on input line 242.
-
-
-Package xcolor Warning: Incompatible color definition on input line 242.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 de-
- []
-
-
-Underfull \hbox (badness 1122) in paragraph at lines 242--242
-[]|\OT1/cmr/m/n/12 increasing $\OML/cmm/m/it/12 ^^Z[]$ \OT1/cmr/m/n/12 or $\OML
-/cmm/m/it/12 ^^Z[]$
- []
-
-[6]
-<../manuscript/figures/model-figure.pdf, id=166, 113.8112pt x 163.94952pt>
+[14] [15] [16]
+<../manuscript/figures/model-figure.pdf, id=243, 113.8112pt x 163.94952pt>
 File: ../manuscript/figures/model-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/model-figure.pdf>
 Package pdftex.def Info: ../manuscript/figures/model-figure.pdf  used on input 
-line 255.
-(pdftex.def)             Requested size: 216.24004pt x 311.5023pt.
- [7 <../manuscript/figures/model-figure.pdf>] [8]
-<../figures/analysis/zero-fitness.pdf, id=245, 578.16pt x 433.62pt>
+line 651.
+(pdftex.def)             Requested size: 227.62183pt x 327.89822pt.
+<../figures/analysis/zero-fitness.pdf, id=244, 578.16pt x 433.62pt>
 File: ../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
 <use ../figures/analysis/zero-fitness.pdf>
 Package pdftex.def Info: ../figures/analysis/zero-fitness.pdf  used on input li
-ne 283.
+ne 658.
 (pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
- [9 <../figures/analysis/zero-fitness.pdf>]
-
-LaTeX Warning: Reference `seed-bag-experiments' on page 10 undefined on input l
-ine 293.
-
-[10]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 298.
-See the caption package documentation for explanation.
-
-(../tables/tables/datasets.tex)
-<../manuscript/figures/seed-bag-figure.pdf, id=263, 401.67163pt x 228.6161pt>
-File: ../manuscript/figures/seed-bag-figure.pdf Graphic file (type pdf)
-<use ../manuscript/figures/seed-bag-figure.pdf>
-Package pdftex.def Info: ../manuscript/figures/seed-bag-figure.pdf  used on inp
-ut line 305.
-(pdftex.def)             Requested size: 469.75499pt x 267.3751pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[11] [12 <../manuscript/figures/seed-bag-figure.pdf>]
-<../manuscript/figures/dag-partialpool.pdf, id=311, 377.02557pt x 115.30779pt>
-File: ../manuscript/figures/dag-partialpool.pdf Graphic file (type pdf)
-<use ../manuscript/figures/dag-partialpool.pdf>
-Package pdftex.def Info: ../manuscript/figures/dag-partialpool.pdf  used on inp
-ut line 342.
-(pdftex.def)             Requested size: 245.0637pt x 74.94916pt.
+<../manuscript/figures/seed-bag-figure.pdf, id=245, 401.67163pt x 228.6161pt>
+File: ../manuscript/figures/seed-bag-figure.pdf Graphic file (type pdf)
+<use ../manuscript/figures/seed-bag-figure.pdf>
+Package pdftex.def Info: ../manuscript/figures/seed-bag-figure.pdf  used on inp
+ut line 665.
+(pdftex.def)             Requested size: 469.75499pt x 267.3751pt.
 
-Overfull \hbox (10.18622pt too wide) in paragraph at lines 342--343
-[][] 
- []
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13 <../manuscript/figures/dag-partialpool.pdf>] [14] [15]
-
-LaTeX Warning: Reference `tab:structured-parameters' on page 16 undefined on in
-put line 368.
-
-[16]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 373.
-See the caption package documentation for explanation.
-
-
-Overfull \hbox (69.41574pt too wide) in alignment at lines 416--416
-[][][] 
- []
-
-[17] [18]
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-
-Package xcolor Warning: Incompatible color definition on input line 463.
-
-[19]
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-
-Package xcolor Warning: Incompatible color definition on input line 469.
-
-[20]
-
-Package xcolor Warning: Incompatible color definition on input line 491.
-
-
-Package xcolor Warning: Incompatible color definition on input line 491.
-
-
-LaTeX Warning: Reference `eq:s1' on page 21 undefined on input line 499.
-
-
-LaTeX Warning: Reference `eq:g1' on page 21 undefined on input line 499.
-
-
-LaTeX Warning: Reference `eq:s2' on page 21 undefined on input line 499.
-
-[21]
-
-Package xcolor Warning: Incompatible color definition on input line 506.
-
-
-Package xcolor Warning: Incompatible color definition on input line 506.
-
-[0]pdfTeX warning (ext4): destination with the same identifier (name{page.1}) h
-as been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.527 
-       [1]pdfTeX warning (ext4): destination with the same identifier (name{pag
-e.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.543 \clearpage
-                 [2]
-<../figures/spatial-g1.pdf, id=429, page=1, 578.16pt x 289.08pt>
-File: ../figures/spatial-g1.pdf Graphic file (type pdf)
-<use ../figures/spatial-g1.pdf, page 1>
-Package pdftex.def Info: ../figures/spatial-g1.pdf , page1 used on input line 6
-43.
-(pdftex.def)             Requested size: 469.75499pt x 234.8769pt.
-
+<../figures/analysis/correlation-germ-surv.pdf, id=246, page=1, 433.62pt x 578.
+16pt>
+File: ../figures/analysis/correlation-germ-surv.pdf Graphic file (type pdf)
+<use ../figures/analysis/correlation-germ-surv.pdf, page 1>
+Package pdftex.def Info: ../figures/analysis/correlation-germ-surv.pdf , page1 
+used on input line 685.
+(pdftex.def)             Requested size: 305.33788pt x 407.13528pt.
+<../manuscript/figures/analysis-figure.pdf, id=247, page=1, 341.4326pt x 227.62
+54pt>
+File: ../manuscript/figures/analysis-figure.pdf Graphic file (type pdf)
+<use ../manuscript/figures/analysis-figure.pdf, page 1>
+Package pdftex.def Info: ../manuscript/figures/analysis-figure.pdf , page1 used
+ on input line 695.
+(pdftex.def)             Requested size: 469.75499pt x 313.196pt.
+<../manuscript/figures/analysis-figure-lowFitness.pdf, id=248, page=1, 341.4326
+pt x 227.6254pt>
+File: ../manuscript/figures/analysis-figure-lowFitness.pdf Graphic file (type p
+df)
+<use ../manuscript/figures/analysis-figure-lowFitness.pdf, page 1>
+Package pdftex.def Info: ../manuscript/figures/analysis-figure-lowFitness.pdf ,
+ page1 used on input line 708.
+(pdftex.def)             Requested size: 422.77661pt x 281.87398pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/germ_surv_correlation.pdf, id=430, page=1, 289.08pt x 289.08pt>
-File: ../figures/germ_surv_correlation.pdf Graphic file (type pdf)
-<use ../figures/germ_surv_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_surv_correlation.pdf , page1 used on i
-nput line 652.
-(pdftex.def)             Requested size: 305.33788pt x 305.35146pt.
-<../figures/germ_rs_correlation.pdf, id=431, page=1, 794.97pt x 614.295pt>
-File: ../figures/germ_rs_correlation.pdf Graphic file (type pdf)
-<use ../figures/germ_rs_correlation.pdf, page 1>
-Package pdftex.def Info: ../figures/germ_rs_correlation.pdf , page1 used on inp
-ut line 662.
-(pdftex.def)             Requested size: 469.75499pt x 363.00267pt.
-<../figures/obs_pred_germ.pdf, id=432, page=1, 794.97pt x 614.295pt>
-File: ../figures/obs_pred_germ.pdf Graphic file (type pdf)
-<use ../figures/obs_pred_germ.pdf, page 1>
-Package pdftex.def Info: ../figures/obs_pred_germ.pdf , page1 used on input lin
-e 675.
-(pdftex.def)             Requested size: 422.77661pt x 326.6996pt.
+[17
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+ <../manuscript/figures/model-figure.pdf>] [18 <../figures/analysis/zero-fitnes
+s.pdf>] [19 <../manuscript/figures/seed-bag-figure.pdf>] [20 <../figures/analys
+is/correlation-germ-surv.pdf>] [21 <../manuscript/figures/analysis-figure.pdf>]
+ [22 <../manuscript/figures/analysis-figure-lowFitness.pdf>]
+(./seedBankMS.bbl [23
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [3
-
-]pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [4]pdfTeX warning (ext4): destination with the same identifier
- (name{page.5}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [5 <../figures/spatial-g1.pdf>]pdfTeX warning (ext4): destinat
-ion with the same identifier (name{page.6}) has been already used, duplicate ig
-nored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [6 <../figures/germ_surv_correlation.pdf>]pdfTeX warning (ext4
-): destination with the same identifier (name{page.7}) has been already used, d
-uplicate ignored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [7 <../figures/germ_rs_correlation.pdf>]pdfTeX warning (ext4):
- destination with the same identifier (name{page.8}) has been already used, dup
-licate ignored
-<to be read again> 
-                   \relax 
-l.680 \clearpage
-                 [8 <../figures/obs_pred_germ.pdf>] (./seedBankMS.bblpdfTeX war
-ning (ext4): destination with the same identifier (name{page.9}) has been alrea
-dy used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.64 
-      [9
-
-])pdfTeX warning (ext4): destination with the same identifier (name{page.10}) h
-as been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.687 \clearpage
-                 [10]
-Overfull \hbox (131.7203pt too wide) in paragraph at lines 693--694
-\OT1/cmtt/m/n/12 clarkiaSeedBanks / blob / master / products / appendices / app
-endix-[]cohen-[]results / appendix-[]x-[]cohen-[]results .
+]) [24]
+Overfull \hbox (15.53455pt too wide) in paragraph at lines 730--731
+\OT1/cmr/m/n/12 acyclic graphs. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/12 https
+ : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (4.91287pt too wide) in paragraph at lines 699--699
-[][]\OT1/cmr/bx/n/14.4 Method for es-ti-mat-ing seed bank pa-ram-e-ters us-ing 
-con-di-tional prob-
+Overfull \hbox (50.94527pt too wide) in paragraph at lines 730--731
+\OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]joint-[]pos
+teriors / appendix-[]joint-[]posteriors .
  []
 
 
-Overfull \hbox (192.47034pt too wide) in paragraph at lines 699--700
-\OT1/cmtt/m/n/12 github . com / gregor-[]fausto / clarkiaSeedBanks / blob / mas
-ter / products / appendices / appendix-[]conditional-[]probability /
+Overfull \hbox (51.27168pt too wide) in paragraph at lines 732--733
+\OT1/cmr/m/n/12 Explanation of pri-ors. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/
+12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.11}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.700 
-       [11
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.12}) ha
-s been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.702 \end{document}
-                     [12] (./seedBankMS.aux)
+Overfull \hbox (61.81601pt too wide) in paragraph at lines 734--735
+\OT1/cmr/m/n/12 values for test statis-tics. Link to doc-u-ment: [][]$\OT1/cmtt
+/m/n/12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
+ []
+
+
+Overfull \hbox (14.39525pt too wide) in paragraph at lines 734--735
+\OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]model-[]che
+cks / appendix-[]x-[]model-[]checks .
+ []
+
+[25
+
+] (./seedBankMS.aux)
 Package rerunfilecheck Info: File `seedBankMS.out' has not changed.
-(rerunfilecheck)             Checksum: C20EB4F6621E54A03124A24095118ADD;588.
+(rerunfilecheck)             Checksum: 080A5710C15AC11F509F0E6175D72843;570.
 
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  )
-(\end occurred inside a group at level 2)
+(\end occurred inside a group at level 1)
 
-### semi simple group (level 2) entered at line 419 (\begingroup)
-### semi simple group (level 1) entered at line 244 (\begingroup)
+### semi simple group (level 1) entered at line 436 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23651 strings out of 479383
- 444828 string characters out of 5869387
- 979091 words of memory out of 5000000
- 40192 multiletter control sequences out of 15000+600000
+ 23278 strings out of 479383
+ 437826 string characters out of 5869387
+ 936090 words of memory out of 5000000
+ 39837 multiletter control sequences out of 15000+600000
  413485 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,17n,74p,1475b,1449s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,17n,74p,1476b,657s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-b10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-0.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
-pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></
-usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/l
-ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/lo
-cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on seedBankMS.pdf (35 pages, 364676 bytes).
+m/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmib10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pf
+b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on seedBankMS.pdf (26 pages, 303615 bytes).
 PDF statistics:
- 588 PDF objects out of 1000 (max. 8388607)
- 494 compressed objects within 5 object streams
- 100 named destinations out of 1000 (max. 500000)
- 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 518 PDF objects out of 1000 (max. 8388607)
+ 433 compressed objects within 5 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 107 words of extra memory for PDF output out of 10000 (max. 10000000)
 

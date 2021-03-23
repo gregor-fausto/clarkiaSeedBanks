@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  20 MAR 2021 18:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  22 MAR 2021 11:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -783,9 +783,6 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 
 LaTeX Warning: Label `tab:survival-functions' multiply defined.
 
-
-LaTeX Warning: Label `tab:venable' multiply defined.
-
 )
 \openout1 = `model.aux'.
 
@@ -1027,24 +1024,6 @@ Overfull \hbox (6.92955pt too wide) in alignment at lines 465--465
  []
 
 [22] [23] [24] [25]
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 532.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 560.
-See the caption package documentation for explanation.
-
-
-Overfull \hbox (46.64745pt too wide) in paragraph at lines 562--580
- [] 
- []
-
-[26
-
-] [27]
 No file model.bbl.
 
 Package caption Warning: Unused \captionsetup[sub] on input line 31.
@@ -1068,10 +1047,10 @@ LaTeX Warning: There were multiply-defined labels.
 ### semi simple group (level 1) entered at line 382 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 22019 strings out of 479383
- 399107 string characters out of 5869387
- 724228 words of memory out of 5000000
- 38633 multiletter control sequences out of 15000+600000
+ 22013 strings out of 479383
+ 399050 string characters out of 5869387
+ 724068 words of memory out of 5000000
+ 38631 multiletter control sequences out of 15000+600000
  413316 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  66i,17n,74p,1469b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1092,10 +1071,10 @@ usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
 ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
 cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
 l/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on model.pdf (27 pages, 337081 bytes).
+Output written on model.pdf (25 pages, 330542 bytes).
 PDF statistics:
- 476 PDF objects out of 1000 (max. 8388607)
- 396 compressed objects within 4 object streams
- 64 named destinations out of 1000 (max. 500000)
+ 465 PDF objects out of 1000 (max. 8388607)
+ 387 compressed objects within 4 object streams
+ 60 named destinations out of 1000 (max. 500000)
  168 words of extra memory for PDF output out of 10000 (max. 10000000)
 
