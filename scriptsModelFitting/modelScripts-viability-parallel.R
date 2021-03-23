@@ -2,6 +2,7 @@
 # Models for estimates of viability
 # -------------------------------------------------------------------
 rm(list=ls(all=TRUE)) # clear R environment
+# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Load packages required for data cleaning and model fitting
@@ -10,11 +11,19 @@ library(rjags)
 library(tidybayes)
 library(tidyverse)
 library(parallel)
+
+# -------------------------------------------------------------------
+# Set directories
+# -------------------------------------------------------------------
+dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
+modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Import and organize viability trial data
 # -------------------------------------------------------------------
-viabilityRawData <- readRDS("~/Dropbox/dataLibrary/postProcessingData/viabilityRawData.rds")
+viabilityRawData <- readRDS(paste0(dataDirectory,"viabilityRawData.rds"))
 
 viabilityRawData <- viabilityRawData %>% 
   dplyr::select(-c(germPerc,germNot,viabPerc,viabPerc2,condTest))
@@ -24,9 +33,9 @@ viabilityRawData$bag <-as.integer(as.numeric(viabilityRawData$bagNo))
 # -------------------------------------------------------------------
 ## Issue with viabStart coded as NA instead of 0
 write.table(viabilityRawData[is.na(viabilityRawData$viabStart),],
-            "~/Dropbox/clarkiaSeedBanks/dataToCheck/viability.txt",sep="\t",row.names=FALSE)
+            paste0(dataDirectory,"viability.txt"),sep="\t",row.names=FALSE)
 write("Issue with 1 row of data; number of seeds starting viability trials is coded viabStart=NA and viabStain=NA;  all others have viabStart=0 and viabStain=NA", 
-      file="~/Dropbox/clarkiaSeedBanks/dataToCheck/viability-metadata.txt");
+      file= paste0(dataDirectory,"viability-metadata.txt"));
 
 # recode
 viabilityRawData[is.na(viabilityRawData$viabStart),]$viabStart = 0
@@ -36,12 +45,12 @@ viabilityRawData[is.na(viabilityRawData$viabStart),]$viabStart = 0
 ## Issue with 23 rows of data where more seeds started the viability trials
 ## than were left after the end of the germination trials
 write.table(viabilityRawData %>% dplyr::filter(germStart - germCount - viabStart<0) ,
-            "~/Dropbox/clarkiaSeedBanks/dataToCheck/viability.txt",sep="\t",
+            paste0(dataDirectory,"viability.txt"),sep="\t",
             row.names=FALSE,append=TRUE,col.names=FALSE)
 
 #fileConn<-file();
 write(c("Issue with 23 rows of data; More seeds started the viability trials than were left after the end of the germination trials"), 
-      file="~/Dropbox/clarkiaSeedBanks/dataToCheck/viability-metadata.txt",append=TRUE);
+      file=paste0(dataDirectory,"viability-metadata.txt"),append=TRUE);
 
 # filter
 viabilityRawData<-viabilityRawData %>% 
@@ -120,15 +129,15 @@ initsSigma <- function(rows = data$n_siteViab, cols = 6){
 }
 
 # set inits for JAGS
-inits <- list()
-for(i in 1:3){
-  inits[[i]] <- list(initsMu0(), initsMu0(), initsSigma0(), initsSigma0(), initsSigma(), initsSigma())
-
-  names(inits[[i]]) = c("mu0_g","mu0_v",
-                        "sigma0_g","sigma0_v",
-                        "sigma_g","sigma_v")
-
-}
+# inits <- list()
+# for(i in 1:3){
+#   inits[[i]] <- list(initsMu0(), initsMu0(), initsSigma0(), initsSigma0(), initsSigma(), initsSigma())
+# 
+#   names(inits[[i]]) = c("mu0_g","mu0_v",
+#                         "sigma0_g","sigma0_v",
+#                         "sigma_g","sigma_v")
+# 
+# }
 
 # jm = jags.model("~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-viability.R", data = data,
 #                 n.chains = 3, n.adapt = n.adapt, inits = inits)
@@ -164,7 +173,7 @@ parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update"
 
 out <- clusterEvalQ(cl, {
   library(rjags)
-  jm = jags.model(file="~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-viability.R",
+  jm = jags.model(file=paste0(modelDirectory,"jags-viability.R"),
                   data = data, n.chains = 1,
                   n.adapt = n.adapt, 
                   inits = inits[[which(myWorkers==Sys.getpid())]])
@@ -176,8 +185,6 @@ out <- clusterEvalQ(cl, {
 stopCluster(cl)
 samples.rjags = mcmc.list(out)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
-#
 saveRDS(samples.rjags,file=paste0(fileDirectory,"viabilityTrialSamples.rds"))
 saveRDS(data,file=paste0(fileDirectory,"viabilityData.rds"))

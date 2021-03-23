@@ -8,11 +8,56 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
-modelFittingFiles <- paste0(directory,list.files(directory))
+# Functions
 
-mcmcSamples <- readRDS(modelFittingFiles[[2]])
-data <- readRDS(modelFittingFiles[[1]])
+f.param = function(x.v,parm="g1"){
+  
+  x.sum=apply(x.v,2,quantile,probs=c(0.025,.25,.5,.75,.975))
+  
+  plot(NA,NA,type='n',xlim=c(0,1),ylim=c(0,20),
+       axes=FALSE,frame=FALSE,
+       xlab="",ylab="")
+  #abline(v=0,col='gray')
+  y.pt = 20:1
+  for(i in 20:1){
+    tmp<-x.sum[,i]
+    segments(x0=tmp[1],x1=tmp[5],y0=y.pt[i])
+    segments(x0=tmp[2],x1=tmp[4],y0=y.pt[i],lwd=3)
+    points(x=tmp[3],y=y.pt[i],pch=21,bg='white')
+  }
+  
+  axis(1,  seq(0,1,by=.2), col.ticks = 1)
+  axis(2, (1:20),
+       labels = rev(siteNames), las = 1, 
+       col = NA, col.ticks = 1, cex.axis = 1)
+  mtext("Probability",
+        side=1,line=2.5,adj=.5,col='black',cex=1)
+  mtext(paste("Parameter:",parm),
+        side=3,line=0,adj=0,col='black',cex=.65)
+  
+  x.sum.df<-data.frame(t(x.sum),position)
+  names(x.sum.df)[1:5] = c("ci.lolo","ci.lo","ci.med","ci.hi","ci.hihi")
+  
+  plot(NA,NA,type='n',ylim=seq(0,1),xlim=c(340,375),
+       axes=FALSE,frame=FALSE,
+       xlab="",ylab="")
+  #abline(h=0,col='gray')
+  
+  segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lolo,y1=x.sum.df$ci.hihi,lwd=1)
+  segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lo,y1=x.sum.df$ci.hi,lwd=3)
+  points(x=x.sum.df$easting,y=x.sum.df$ci.med,pch=21,bg='white')
+  
+  axis(2, seq(0,1,by=.2), col.ticks = 1)
+  axis(1, seq(340,375,by=5),
+       labels = seq(340,375,by=5), las = 1, 
+       col.ticks = 1, cex.axis = 1)
+  mtext("Probability",
+        side=2,line=2.5,adj=.5,col='black',cex=1)
+  mtext("Easting (km)",
+        side=1,line=2.5,adj=.5,col='black',cex=1)
+}
+
+
 
 # -------------------------------------------------------------------
 # Get site names and position
@@ -39,90 +84,48 @@ samples.rjagsViability <- readRDS(modelFittingFilesViability[[6]])
 dataViability <- readRDS(modelFittingFilesViability[[4]])
 
 # -------------------------------------------------------------------
-# Germination posterior
-# -------------------------------------------------------------------
-
-mu0_g=MCMCchains(mcmcSamples,params="mu0_g")
-mu_g=MCMCchains(mcmcSamples,params="mu_g")
-
-gamma1 = boot::inv.logit(mu0_g[,1:20])
-gamma1.sum=apply(gamma1,2,quantile,probs=c(0.025,.25,.5,.75,.975))
-
-gamma2 = boot::inv.logit(mu0_g[,21:40])
-gamma2.sum=apply(gamma2,2,quantile,probs=c(0.025,.25,.5,.75,.975))
-
-# note here this is the population-year level 
-# there is NO population-level parameter for age 3 germination
-gamma3 = boot::inv.logit(mu_g[,101:120])
-gamma3.sum=apply(gamma3,2,quantile,probs=c(0.025,.25,.5,.75,.975))
-
-# -------------------------------------------------------------------
-# Discrete survival component
-# -------------------------------------------------------------------
-
-theta_c2 = 1- gamma1
-theta_c4 = (1-gamma2)
-theta_c6 = (1-gamma3)
-
-# -------------------------------------------------------------------
-# Discretize product integral of survival function
-# -------------------------------------------------------------------
-a.wb=MCMCchains(mcmcSamples,params="a")
-b0.wb=MCMCchains(mcmcSamples,params="mu0_s")
-
-inv.b0.wb=(exp(-b0.wb/a.wb))
-
-x = c(1,2,2,3,4,4,5,6,6,7)
-t = c(0,4,12,16,24,28,36)/36
-
-theta_0 = 1
-
-theta_1 = function(t,inv.b0,alpha){
-  exp(-(t/inv.b0)^alpha)
-}
-th_1=theta_1(t[x[2]],inv.b0=inv.b0.wb,alpha=a.wb)
-
-theta_2 = function(t,inv.b0,alpha,theta_c2){
-  theta_c2*exp(-(t/inv.b0)^alpha)
-}
-th_2=theta_2(t[x[3]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2)
-
-theta_3 = theta_2
-th_3=theta_3(t[x[4]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2)
-
-theta_4 = theta_2
-th_4=theta_4(t[x[5]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2)
-
-theta_5 = function(t,inv.b0,alpha,theta_c2=theta_c2,theta_c4=theta_c4){
-  theta_c4*theta_c2*exp(-(t/inv.b0)^alpha)
-}
-th_5=theta_5(t[x[6]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2,theta_c4=theta_c4)
-
-theta_6 = theta_5
-th_6=theta_6(t[x[7]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2,theta_c4=theta_c4)
-
-theta_7 = theta_5
-th_7=theta_7(t[x[8]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2,theta_c4=theta_c4)
-
-theta_8 = function(t,inv.b0,alpha,theta_c2=theta_c2,theta_c4=theta_c4,theta_c6=theta_c6){
-  theta_c6*theta_c4*theta_c2*exp(-(t/inv.b0)^alpha)
-}
-th_8=theta_8(t[x[9]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2,theta_c4=theta_c4,theta_c6=theta_c6)
-
-theta_9 = function(t,inv.b0,alpha,theta_c2=theta_c2,theta_c4=theta_c4,theta_c6=theta_c6){
-  theta_c6*theta_c4*theta_c2*exp(-(t/inv.b0)^alpha)
-}
-th_9=theta_9(t[x[10]],inv.b0=inv.b0.wb,alpha=a.wb,theta_c2=theta_c2,theta_c4=theta_c4,theta_c6=theta_c6)
-
-# fill in theta_0
-th_0=matrix(1,nrow=dim(th_9)[1],ncol=dim(th_9)[2])
-
-# -------------------------------------------------------------------
 # Viability
 # -------------------------------------------------------------------
 
 # get population estimates for year 1-2
 mu0_g<-MCMCchains(samples.rjagsViability, params = "mu0_g")
+viab.g <- apply(mu0_g,2,boot::inv.logit)
+mu0_v<-MCMCchains(samples.rjagsViability, params = "mu0_v")
+viab.v <- apply(mu0_v,2,boot::inv.logit)
+
+mu_g<-MCMCchains(samples.rjagsViability, params = "mu_g")
+mu_v<-MCMCchains(samples.rjagsViability, params = "mu_v")
+# calculate total viability; calculation on latent scale
+nu0=exp(mu0_g)/(1+exp(mu0_g))+(exp(-mu0_g+mu0_v)/(1+exp(-mu0_g)+exp(mu0_v)+exp(-mu0_g+mu0_v)))
+
+# get population*year estimates for year 3
+mu_g<-MCMCchains(samples.rjagsViability, params = "mu_g")
+viab.g3 <- apply(mu_g[,101:120],2,boot::inv.logit)
+
+mu_v<-MCMCchains(samples.rjagsViability, params = "mu_v")
+# calculate total viability; calculation on latent scale
+nu=exp(mu_g)/(1+exp(mu_g))+(exp(-mu_g+mu_v)/(1+exp(-mu_g)+exp(mu_v)+exp(-mu_g+mu_v)))
+
+pdf("~/Downloads/totalviability-lab-trials.pdf",width=8,height=4)
+par(mfrow=c(1,2))
+f.param(nu0[,1:20],parm="v.1")
+f.param(nu0[,21:40],parm="v.2")
+f.param(nu[,101:120],parm="v.3")
+dev.off()
+
+pdf("~/Downloads/germ-cond-lab-trials.pdf",width=8,height=4)
+par(mfrow=c(1,2))
+f.param(viab.g[,1:20]/nu0[,1:20],parm="v.gc1")
+f.param(viab.g[,21:40]/nu0[,21:40],parm="v.gc2")
+f.param(viab.g3/nu[,101:120],parm="v.gc3")
+dev.off()
+
+
+apply(s1,2,quantile,c(.025,.5,.975)
+par(mfrow=c(1,2))
+plot(df$easting,df$g1)
+plot(df$easting,df$g2)
+
 mu0_v<-MCMCchains(samples.rjagsViability, params = "mu0_v")
 # calculate total viability; calculation on latent scale
 nu0=exp(mu0_g)/(1+exp(mu0_g))+(exp(-mu0_g+mu0_v)/(1+exp(-mu0_g)+exp(mu0_v)+exp(-mu0_g+mu0_v)))

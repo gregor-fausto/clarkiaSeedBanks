@@ -56,25 +56,140 @@ f<-function(x="param"){
   return(BCI)
 }
 
+posterior.mode = function(x){
+  x.max=max(x)
+  x.min=min(x)
+  dres <- density( x ,from = x.min, to = x.max)
+  modeParam <- dres$x[which.max(dres$y)]
+  return(modeParam)
+}
 
 # -------------------------------------------------------------------
 # Read in samples from posterior distributions
 # -------------------------------------------------------------------
 
 g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
-rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
+sigma <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma-analysis.RDS")
+fec <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/tfe-analysis.RDS")
+phi <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/phi-analysis.RDS")
+
+#rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
+
+# get mode from full posterior and calculate var in RS based on modes
+sigma.mode = apply(sigma,2,posterior.mode);
+fec.mode = apply(fec,2,posterior.mode);
+phi.mode = apply(phi,2,posterior.mode);
+
+rs.mode=apply(sigma*fec*phi,2,posterior.mode)
+par(mfrow = c(4,5),
+        oma = c(5,4,0,0) + 0.1,
+        mar = c(0,0,1,1) + 0.1)
+for(i in 1:20){
+    obj = sigma.mode
+    index=grep(paste0("\\[",i,","),names(obj))
+  plot(sigma.mode[index]*fec.mode[index]*phi.mode[index],rs.mode[index],pch=19);
+  abline(a=0,b=1,col='red');text(sigma.mode[index]*fec.mode[index]*phi.mode[index],rs.mode[index],index)
+}
+
+par(mfrow = c(1,1),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+plot(NA,NA,xlim=c(0,10),ylim=c(0,10),pch=19);
+
+
+for(i in 1:20){
+  obj = sigma.mode
+  index=grep(paste0("\\[",i,","),names(obj))
+ # points(gsd.am(sigma.mode[index]*fec.mode[index]*phi.mode[index]),gsd.am(rs.mode[index]),pch=19);
+  text(gsd.am(sigma.mode[index]*fec.mode[index]*phi.mode[index]),gsd.am(rs.mode[index]),i);
+    abline(a=0,b=1,col='red')
+}
+
+# function to calculate var RS for a vector of length years*pops
+f.rs = function(s,f,p){
+  tmp = s*f*p
+  df.list = list()
+  for(i in 1:20){
+    obj = tmp
+    index=grep(paste0("\\[",i,","),names(obj))
+    tmp.df=gsd.am(obj[index])
+    df.list[[i]] = tmp.df
+  }
+  unlist(df.list)
+}
+
+# calculate rs. mode based on modes of components
+rs.mode = sigma.mode*fec.mode*phi.mode
 
 df.list = list()
 for(i in 1:20){
-  obj = rs
+  obj = rs.mode
+  index=grep(paste0("\\[",i,","),names(obj))
+  tmp.df=gsd.am(obj[index])
+  df.list[[i]] = tmp.df
+}
+
+#gsdSummary=do.call(cbind,df.list)
+gsdSummary=unlist(df.list)
+
+
+for(i in 1:20){
+  obj = sigma*fec*phi
   index=grep(paste0("\\[",i,","),colnames(obj))
   tmp.df=apply(obj[,index],1,gsd.am)
   df.list[[i]] = tmp.df
 }
 
-gsdSummary=do.call(cbind,df.list)
+n.iter = dim(sigma)[1]
+gsdSummary=matrix(NA,ncol=20,nrow=n.iter)
 
-n.iter=dim(gsdSummary)[1]
+for(i in 1:20){gsdSummary[,i]=df.list[[i]]}
+
+
+# par(mfrow = c(4,5),
+#     oma = c(5,4,0,0) + 0.1,
+#     mar = c(0,0,1,1) + 0.1)
+# for(i in 1:20){
+# hist(df.list[[i]],breaks=100);abline(v=gsdSummary[i],col='red',lwd=2)
+# }
+# 
+# # get mode from resampling posterior and calculate var in RS based on modes
+# n.iter=dim(sigma)[1]
+# n.sub = 1000
+# n.rep=100
+# 
+# # sig.samples=sample(n.iter,n.rep)
+# # fec.samples=sample(n.iter,n.rep)
+# # phi.samples=sample(n.iter,n.rep)
+# 
+# # repeat calculation from above using subsamples from the posterior
+# rs.mat=matrix(NA,nrow=n.rep,ncol=20)
+# for(i in 1:n.rep){
+#   sig.samples=sample(1:n.iter,n.sub)
+#   fec.samples=sample(1:n.iter,n.sub)
+#   phi.samples=sample(1:n.iter,n.sub)
+#   
+#   sigma.mode.tmp = apply(sigma[sig.samples,],2,posterior.mode);
+#   fec.mode.tmp = apply(fec[fec.samples,],2,posterior.mode);
+#   phi.mode.tmp = apply(phi[phi.samples,],2,posterior.mode);
+#   
+#   rs.mat[i,]=f.rs(sigma.mode.tmp,fec.mode.tmp,phi.mode.tmp)
+# }
+# 
+# # variance in reproductive success based on modes alone is higher than 
+# # variance in reproductive success based on full distribution
+# # this is likely because when using the full distribution there is some chance
+# # of capturing high probability years
+# # issue in site 10, 12, 20, 17, 18
+# plot(rs.mat)
+# 
+# par(mfrow=c(4,5),oma=c(0,0,0,0),mar=c(0,0,0,0))
+# for(i in 1:20){
+# plot(rs.mat[,i],ylim=c(0,10));abline(h=gsdSummary[i],col="red",lwd=2)
+# }
+# 
+# for(i in 1:20){hist(rs.mat[,i],breaks=25,main="");abline(v=gsdSummary[i],col="red",lwd=2)}
+# n.iter=dim(gsdSummary)[1]
 
 # create empty vector for the correlation
 posterior.correlation<-c()
@@ -202,7 +317,11 @@ ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/correlat
 # -------------------------------------------------------------------
 
 g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
-rs <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/rsPosterior.RDS")
+sigma <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma-analysis.RDS")
+fec <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/tfe-analysis.RDS")
+phi <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/phi-analysis.RDS")
+
+rs = sigma*fec*phi
 lowFitnessYears <- readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/output/lowFitnessYearsPlots.RDS")
 
 lowFitnessYears=lowFitnessYears %>% dplyr::left_join(yearIndex) %>% dplyr::left_join(siteIndex)

@@ -329,9 +329,9 @@ site.optima<-lapply(g.sites,gmean)
 maxfun <- function(x){g[which(x %in% max(x))]}
 optima<-unlist(lapply(site.optima,maxfun))
 
-#dev.off()
-# pdf(
-#   "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/obs-pred-germ.pdf",width=6,height=8)
+dev.off()
+pdf(
+  "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/obs-pred-germ-lowFitness.pdf",width=6,height=8)
 
 par(mar=c(4,4,2,1))
 par(fig=c(0,10,4,10)/10)

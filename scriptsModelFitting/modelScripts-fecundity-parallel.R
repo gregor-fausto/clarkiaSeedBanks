@@ -2,6 +2,7 @@
 # Models for fitting data on fruits per plant and seeds per fruit
 # -------------------------------------------------------------------
 rm(list=ls(all=TRUE)) # clear R environment
+# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Loading required packages
@@ -12,9 +13,16 @@ library(tidyverse)
 library(parallel)
 
 # -------------------------------------------------------------------
+# Set directories
+# -------------------------------------------------------------------
+dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
+modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+
+# -------------------------------------------------------------------
 # Import and organize data
 # -------------------------------------------------------------------
-countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+countFruitsPerPlantAllPlots <- readRDS(paste0(dataDirectory,"countFruitsPerPlantAllPlots.RDS"))
 
 countFruitsPerPlantAllPlots <- countFruitsPerPlantAllPlots %>%
   dplyr::rename(y_tfe = countFruitNumberPerPlant) %>%
@@ -22,7 +30,7 @@ countFruitsPerPlantAllPlots <- countFruitsPerPlantAllPlots %>%
 
 countFruitsPerPlantAllPlots$year <- as.character(countFruitsPerPlantAllPlots$year)
 
-countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS(paste0(dataDirectory,"countUndamagedDamagedFruitsPerPlantAllPlots.RDS"))
 
 countUndamagedDamagedFruitsPerPlantAllPlots <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
   dplyr::rename(y_und = countUndamagedFruitNumberPerPlant) %>%
@@ -33,7 +41,7 @@ countUndamagedDamagedFruitsPerPlantAllPlots <- countUndamagedDamagedFruitsPerPla
 
 countUndamagedDamagedFruitsPerPlantAllPlots$year2 <- as.character(countUndamagedDamagedFruitsPerPlantAllPlots$year2)
 
-countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+countSeedPerFruit <-readRDS(paste0(dataDirectory,"countSeedPerFruit.RDS"))
 
 countSeedPerUndamagedFruit <- countSeedPerFruit %>%
   dplyr::filter(demography==1) %>%
@@ -164,7 +172,7 @@ parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update"
 
 out <- clusterEvalQ(cl, {
   library(rjags)
-  jm = jags.model(file="~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-fecundity.R",
+  jm = jags.model(file=paste0(modelDirectory,"jags-fecundity.R"),
                   data = data, n.chains = 1,
                   n.adapt = n.adapt, 
                   inits = inits[[which(myWorkers==Sys.getpid())]])
@@ -176,8 +184,6 @@ out <- clusterEvalQ(cl, {
 stopCluster(cl)
 samples.rjags = mcmc.list(out)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/")
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
-
 saveRDS(samples.rjags,file=paste0(fileDirectory,"fecunditySamples.rds"))
 saveRDS(data,file=paste0(fileDirectory,"fecundityData.rds"))

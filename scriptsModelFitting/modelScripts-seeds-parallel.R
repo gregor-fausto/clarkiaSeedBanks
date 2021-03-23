@@ -6,6 +6,7 @@
 # https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.903&rep=rep1&type=pdf
 # -------------------------------------------------------------------
 rm(list=ls(all=TRUE)) # clear R environment
+# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Loading required packages
@@ -16,10 +17,17 @@ library(tidyverse)
 library(parallel)
 
 # -------------------------------------------------------------------
+# Set directories
+# -------------------------------------------------------------------
+dataDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/seeds/"
+modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+
+# -------------------------------------------------------------------
 # Import and organize seed bag burial data
 # -------------------------------------------------------------------
 
-data = readRDS("~/Dropbox/clarkiaSeedBanks/scriptsModelChecking/seeds/seedBagMaster.RDS")
+data = readRDS(paste0(dataDirectory,"seedBagMaster.RDS"))
 
 # rename variables and oragnize
 data = data %>%
@@ -85,8 +93,13 @@ germinationData <- germinationData %>%
 # Import and organize aboveground plot data on fecundity
 # -------------------------------------------------------------------
 
+# -------------------------------------------------------------------
+# Set directories
+# -------------------------------------------------------------------
+dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
+
 # counts of fruits per plot
-censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+censusSeedlingsFruitingPlants <- readRDS(paste0(dataDirectory,"censusSeedlingsFruitingPlants.RDS"))
 
 censusSeedlings <- censusSeedlingsFruitingPlants %>%
   dplyr::filter(year%in%c(2008,2009)) %>%
@@ -95,7 +108,7 @@ censusSeedlings <- censusSeedlingsFruitingPlants %>%
   dplyr::select(-fruitplNumber)
 
 # counts of fruits per plant
-countFruitsPerPlantTransects <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+countFruitsPerPlantTransects <- readRDS(paste0(dataDirectory,"countFruitsPerPlantTransects.RDS"))
 
 countFruitsPerPlotTransects <- countFruitsPerPlantTransects %>%
   dplyr::filter(year%in%c(2007,2008)) %>%
@@ -103,7 +116,7 @@ countFruitsPerPlotTransects <- countFruitsPerPlantTransects %>%
   dplyr::summarise(totalFruitsPerPlot = sum(countFruitsPerPlant))
 
 # counts of seeds per fruit
-countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+countSeedPerFruit <- readRDS(paste0(dataDirectory,"countSeedPerFruit.RDS"))
 
 countSeedPerTotalFruitEquivalent <- countSeedPerFruit %>%
   dplyr::filter(demography==1) %>%
@@ -282,7 +295,7 @@ parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update"
 
 out <- clusterEvalQ(cl, {
   library(rjags)
-  jm = jags.model(file="~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-seeds.R",
+  jm = jags.model(file=paste0(modelDirectory,"jags-seeds.R"),
                   data = data, n.chains = 1,
                   n.adapt = n.adapt, 
                   inits = inits[[which(myWorkers==Sys.getpid())]])
@@ -294,8 +307,7 @@ out <- clusterEvalQ(cl, {
 stopCluster(cl)
 samples.rjags = mcmc.list(out)
 
-fileDirectory<- c("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/")
-dir.create(file.path(fileDirectory), showWarnings = FALSE)
 
+dir.create(file.path(fileDirectory), showWarnings = FALSE)
 saveRDS(samples.rjags,file=paste0(fileDirectory,"seedSamples.rds"))
 saveRDS(data,file=paste0(fileDirectory,"seedData.rds"))
