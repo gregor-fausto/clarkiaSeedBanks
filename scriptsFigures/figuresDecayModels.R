@@ -88,7 +88,7 @@ g_indexed <- g %>%
   dplyr::left_join(siteIndex,by="siteGermination") %>%
   dplyr::left_join(yearIndex,by="yearGermination")
 
-g_ordered = g_indexed %>% dplyr::filter(gIndex==3) %>%
+g_ordered = g_indexed %>% dplyr::filter(gIndex==1) %>%
   dplyr::ungroup() %>%
   dplyr::select(-c(siteGermination,yearGermination)) %>%
   dplyr::rename(site = siteName) %>%
@@ -124,6 +124,28 @@ ggplot(data=g_ordered, aes(x = id , y = med)) +
   ylab("Probability of germination [P(G)]") +
   ylim(c(0,1))
 
+climate=readRDS("~/Dropbox/clarkiaSeedBanks/scriptsAnalysis/climateData.RDS")
+climate = climate %>% ungroup %>%
+  dplyr::filter(intenseDemography==1 & season=="winter" ) %>%
+  dplyr::mutate(easting=easting/1000) %>%
+  unique %>%
+  dplyr::filter(year%in%2005:2009)
+
+df=g_ordered %>%
+  dplyr::mutate(year=as.numeric(year)+2004) %>%
+  dplyr::left_join(climate,by=c("site","year"))
+
+siteNames = unique(df$site)
+par(mfrow=c(1,1),mar=c(0,0,2,1))
+plot(NA,NA,yaxt='n',xlim=c(50,210),ylim=c(0,.35))
+for(i in 1:20){
+  tmp=df[df$site==siteNames[i],]
+  mod=lm(tmp$med~tmp$p)
+  a=coef(mod)[1];b=coef(mod)[2]
+  x.max=max(tmp$p);x.min=min(tmp$p)
+  segments(x0=x.min,x1=x.max,y0=a+b*x.min,y1=a+b*x.max)
+  text(x.max*1.01,1.05*(a+b*x.max),siteNames[i],col='red')
+}
 
 # # your data
 g0_spatial<-g0 %>%
