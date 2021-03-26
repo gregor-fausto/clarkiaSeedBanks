@@ -11,15 +11,50 @@ modelDirectory = "/Users/Gregor/Desktop/jagsScripts/"
 fileDirectory = "/Users/Gregor/Desktop/mcmcSamples/"
 scriptDirectory = "/Users/Gregor/Desktop/scripts/"
 
-source(paste0(scriptDirectory,"modelScripts-seeds-parallel.R"))
+# run models with partial pooling
 source(paste0(scriptDirectory,"modelScripts-viability-parallel.R"))
-source(paste0(scriptDirectory,"modelScripts-seedlingSurvival-parallel"))
-source(paste0(scriptDirectory,"modelScripts-fecundity-parallel.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-seeds-parallel.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-seedlingSurvival-parallel.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-seedsperfruit-parallel.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-fruits-parallel.R"))
+
+# run models with no pooling
+source(paste0(scriptDirectory,"modelScripts-seedlingSurvival-parallel-noPool.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-seedsperfruit-parallel-noPool.R"))
+Sys.sleep(60*10)
+source(paste0(scriptDirectory,"modelScripts-fruits-parallel-noPool.R"))
 
 # -------------------------------------------------------------------
-# Run scripts for evaluating convergence and model checking
+# Run scripts for evaluating convergence 
 # -------------------------------------------------------------------
+scriptConvergenceDirectory = "/Users/Gregor/Desktop/scriptsModelConvergence/"
+fileDirectory = "/Users/Gregor/Desktop/mcmcSamples/"
+outputDirectory = "/Users/Gregor/Desktop/convergence/"
 
+# check convergence for belowground models
+source(paste0(scriptConvergenceDirectory,"modelConvergenceViability.R"))
+source(paste0(scriptConvergenceDirectory,"modelConvergenceBelowground.R"))
+
+# check convergence for partially pooled aboveground models
+source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedlingSurvival.R"))
+source(paste0(scriptConvergenceDirectory,"modelConvergenceFruits.R"))
+source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedsperfruit.R"))
+
+# check convergence for no pooling aboveground models
+source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedlingSurvival-noPool.R"))
+source(paste0(scriptConvergenceDirectory,"modelConvergenceFruits-noPool.R"))
+source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedsperfruit-noPool.R"))
+
+# pause script here to check that convergence has been achieved
+
+# -------------------------------------------------------------------
+# Run scripts for model checks
+# -------------------------------------------------------------------
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksBelowground.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksSurvival.R")
 
@@ -27,7 +62,6 @@ source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksS
 # source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksFruitsPerPlant.R")
 # source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksSeedsPerFruit.R")
 
-# pause script here to check that convergence has been achieved
 
 # -------------------------------------------------------------------
 # Run scripts to output summary tables and summary plots

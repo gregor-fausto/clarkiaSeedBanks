@@ -106,6 +106,14 @@ kern_to_plot<-raster::crop(kern2,isabella)
 kernFinal=gDifference(kern2, kern_to_plot)
 #plot(kernFinal,col="blue",add=T)
 
+
+
+xy <- data.frame(data$long,data$lat)
+
+spdf <- SpatialPoints(coords = xy, 
+                      proj4string = CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"))
+
+
 # -------------------------------------------------------------------
 # Plot map
 # -------------------------------------------------------------------
@@ -191,12 +199,6 @@ with(data, symbols(x=long, y=lat, circles=rep(1,20), inches=1/16,
 map.axes(cex.axis=0.8,mar=rep(0,4))
 maps::map.scale(x=-118.78, y=35.89, ratio=FALSE, relwidth=0.2)
 #north.arrow(xb=-116, yb=41, len=0.22, lab="N") 
-
-
-xy <- data.frame(data$long,data$lat)
-
-spdf <- SpatialPoints(coords = xy, 
-                               proj4string = CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"))
 
 library(grid)
 rasterVis::levelplot(ned_kern, col.regions = myCol, cuts=length(myCol), margin=FALSE) +
