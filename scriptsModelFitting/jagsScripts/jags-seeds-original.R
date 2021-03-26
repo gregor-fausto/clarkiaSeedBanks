@@ -16,9 +16,7 @@ model {
     # change prior to be half-cauchy
 
     # seed survival ---------------------------------------------------------------
-   # alpha[i] ~ dgamma(2,1)
-    beta[i] ~ dgamma(20,20)
-    a[i] ~ dgamma(2,beta[i])
+    a[i] ~ dgamma(2,2)
 
     # WEAKLY INFORMATIVE
     mu0_s[i] ~ dnorm(0,1)
@@ -46,35 +44,23 @@ model {
       tau0_g[i,k] <- 1/(sigma0_g[i,k]*sigma0_g[i,k])
     }
 
-    # age 1 seeds observed in round 1-3
-    for(j in c(1,4,6)){
+    for(j in c(1,2,4,5,6)){
       # i indexes site; j indexes year; k indexes germination variable
-      mu_g[i,j] ~ dnorm(mu0_g[i,1], tau0_g[i,1])
+      mu_g[i,yearRefGerm[j],indexRefGerm[j]] ~ dnorm(mu0_g[i,indexRefGerm[j]], tau0_g[i,indexRefGerm[j]])
 
       # Weakly informative prior (Rosenbaum et al. 2019)
-      sigma_g[i,j] ~ dnorm(0,1) T(0,)
-      tau_g[i,j] <- 1/(sigma_g[i,1]*sigma_g[i,1])
+      sigma_g[i,yearRefGerm[j],indexRefGerm[j]] ~ dnorm(0,1) T(0,)
+      tau_g[i,yearRefGerm[j],indexRefGerm[j]] <- 1/(sigma_g[i,yearRefGerm[j],indexRefGerm[j]]*sigma_g[i,yearRefGerm[j],indexRefGerm[j]])
     }
 
-    # age 2 seeds observed in round 1-2
-    for(j in c(2,5)){
-      # i indexes site; j indexes year; k indexes germination variable
-      mu_g[i,j] ~ dnorm(mu0_g[i,2], tau0_g[i,2])
-      
-      # Weakly informative prior (Rosenbaum et al. 2019)
-      sigma_g[i,j] ~ dnorm(0,1) T(0,)
-      tau_g[i,j] <- 1/(sigma_g[i,2]*sigma_g[i,2])
-    }
-    
-    # age 3 seeds observed in round 1
     for(j in 3){
       # i indexes site; j indexes year; k indexes germination variable
      # mu_g[i,yearRefGerm[j],indexRefGerm[j]] ~ dnorm(0, 1)
-     mu_g[i,j] ~ dnorm(mu0_g[i,3], tau0_g[i,3])
+     mu_g[i,yearRefGerm[j],indexRefGerm[j]] ~ dnorm(mu0_g[i,indexRefGerm[j]], tau0_g[i,indexRefGerm[j]])
 
       # Weakly informative prior (Rosenbaum et al. 2019)
-      sigma_g[i,j] ~ dnorm(0,1) T(0,)
-      tau_g[i,j] <- 1/(sigma_g[i,3]*sigma_g[i,3])
+      sigma_g[i,yearRefGerm[j],indexRefGerm[j]] ~ dnorm(0,1) T(0,)
+      tau_g[i,yearRefGerm[j],indexRefGerm[j]] <- 1/(sigma_g[i,yearRefGerm[j],indexRefGerm[j]]*sigma_g[i,yearRefGerm[j],indexRefGerm[j]])
     }
 
     # unobserved s0 ---------------------------------------------------------------
@@ -103,39 +89,39 @@ model {
 
     # POPULATION*YEAR MARGINAL GERMINATION RATES FOR SURVIVAL
     # Round 1
-    alpha_g1[i,1] ~ dnorm(mu_g[siteSurvival[i],1],tau_g[siteSurvival[i],1])
-    logit(theta_g1[i,1]) <- alpha_g1[i,1]
+    alpha_g1[i,1,1] ~ dnorm(mu_g[siteSurvival[i],1,1],tau_g[siteSurvival[i],1,1])
+    logit(theta_g1[i,1,1]) <- alpha_g1[i,1,1]
 
-    alpha_g1[i,2] ~ dnorm(mu_g[siteSurvival[i],2],tau_g[siteSurvival[i],2])
-    logit(theta_g1[i,2]) <- alpha_g1[i,2]
+    alpha_g1[i,1,2] ~ dnorm(mu_g[siteSurvival[i],1,2],tau_g[siteSurvival[i],1,2])
+    logit(theta_g1[i,1,2]) <- alpha_g1[i,1,2]
 
-    alpha_g1[i,3] ~ dnorm(mu_g[siteSurvival[i],3],tau_g[siteSurvival[i],3])
-    logit(theta_g1[i,3]) <- alpha_g1[i,3]
+    alpha_g1[i,1,3] ~ dnorm(mu_g[siteSurvival[i],1,3],tau_g[siteSurvival[i],1,3])
+    logit(theta_g1[i,1,3]) <- alpha_g1[i,1,3]
 
     # Round 2
-    alpha_g1[i,4] ~ dnorm(mu_g[siteSurvival[i],4],tau_g[siteSurvival[i],4])
-    logit(theta_g1[i,4]) <- alpha_g1[i,4]
+    alpha_g1[i,2,1] ~ dnorm(mu_g[siteSurvival[i],2,1],tau_g[siteSurvival[i],2,1])
+    logit(theta_g1[i,2,1]) <- alpha_g1[i,2,1]
 
-    alpha_g1[i,5] ~ dnorm(mu_g[siteSurvival[i],5],tau_g[siteSurvival[i],5])
-    logit(theta_g1[i,5]) <- alpha_g1[i,5]
+    alpha_g1[i,2,2] ~ dnorm(mu_g[siteSurvival[i],2,2],tau_g[siteSurvival[i],2,2])
+    logit(theta_g1[i,2,2]) <- alpha_g1[i,2,2]
 
     # Round 3
-    alpha_g1[i,6] ~ dnorm(mu_g[siteSurvival[i],6],tau_g[siteSurvival[i],6])
-    logit(theta_g1[i,6]) <- alpha_g1[i,6]
+    alpha_g1[i,3,1] ~ dnorm(mu_g[siteSurvival[i],3,1],tau_g[siteSurvival[i],3,1])
+    logit(theta_g1[i,3,1]) <- alpha_g1[i,3,1]
 
     # COMPOSITE EVENT HISTORIES
     theta_c[i,1] = 1                   # jan - year/round 1 - age 1
-    theta_c[i,2] = (1-theta_g1[i,1]) # oct - year/round 1 - age 1
-    theta_c[i,3] = (1-theta_g1[i,1]) # jan - year/round 1 - age 2
-    theta_c[i,4] = (1-theta_g1[i,1])*(1-theta_g1[i,2]) # oct - year/round 1 - age 2
-    theta_c[i,5] = (1-theta_g1[i,1])*(1-theta_g1[i,2]) # jan - year/round 1 - age 3
-    theta_c[i,6] = (1-theta_g1[i,1])*(1-theta_g1[i,2])*(1-theta_g1[i,3]) # oct - year/round 1 - age 3
+    theta_c[i,2] = (1-theta_g1[i,1,1]) # oct - year/round 1 - age 1
+    theta_c[i,3] = (1-theta_g1[i,1,1]) # jan - year/round 1 - age 2
+    theta_c[i,4] = (1-theta_g1[i,1,1])*(1-theta_g1[i,1,2]) # oct - year/round 1 - age 2
+    theta_c[i,5] = (1-theta_g1[i,1,1])*(1-theta_g1[i,1,2]) # jan - year/round 1 - age 3
+    theta_c[i,6] = (1-theta_g1[i,1,1])*(1-theta_g1[i,1,2])*(1-theta_g1[i,1,3]) # oct - year/round 1 - age 3
     theta_c[i,7] =  1                   # jan - year/round 2 - age 1
-    theta_c[i,8] = (1-theta_g1[i,4]) # oct - year/round 2 - age 1
-    theta_c[i,9] = (1-theta_g1[i,4]) # jan - year/round 2 - age 2
-    theta_c[i,10] = (1-theta_g1[i,4])*(1-theta_g1[i,5]) # oct - year/round 2 - age 2
+    theta_c[i,8] = (1-theta_g1[i,2,1]) # oct - year/round 2 - age 1
+    theta_c[i,9] = (1-theta_g1[i,2,1]) # jan - year/round 2 - age 2
+    theta_c[i,10] = (1-theta_g1[i,2,1])*(1-theta_g1[i,2,2]) # oct - year/round 2 - age 2
     theta_c[i,11] =  1                   # jan - year/round 3 - age 1
-    theta_c[i,12] = (1-theta_g1[i,6]) # oct - year/round 3 - age 1
+    theta_c[i,12] = (1-theta_g1[i,3,1]) # oct - year/round 3 - age 1
 
     # DETERMINISTIC WEIBULL SURVIAL MODEL
     eta_surv[i] ~ dnorm(mu_s[siteSurvival[i],yearSurvival[i]],tau_s[siteSurvival[i],yearSurvival[i]])
@@ -153,14 +139,14 @@ model {
     chi2.ysim[i] <- pow((y_sim[i]- mu[i]*seedStart[i]),2) / (mu[i]*seedStart[i]+.001)
 
     # LOG-LIKELIHOOD
-    # logLik_y[i] <- logdensity.bin(y[i],mu[i],seedStart[i])
+    logLik_y[i] <- logdensity.bin(y[i],mu[i],seedStart[i])
 
   }
 
   # seed germination --------------------------------------------------------------
   for(i in 1:n2){
 
-    alpha_g[i] ~ dnorm(mu_g[siteGermination[i],germinationIndex[i]],tau_g[siteGermination[i],germinationIndex[i]])
+    alpha_g[i] ~ dnorm(mu_g[siteGermination[i],yearGermination[i],gIndex[i]],tau_g[siteGermination[i],yearGermination[i],gIndex[i]])
     logit(g[i]) <- alpha_g[i]
 
     # LIKELIHOOD
@@ -174,7 +160,7 @@ model {
     chi2.sim[i] <- pow((seedlingJan_sim[i]- g[i]*totalJan[i]),2) / (g[i]*totalJan[i]+.001)
 
     # LOG-LIKELIHOOD
-    # logLik_g[i] <- logdensity.bin(seedlingJan[i],g[i] ,totalJan[i])
+    logLik_g[i] <- logdensity.bin(seedlingJan[i],g[i] ,totalJan[i])
 
 
   }
@@ -187,7 +173,7 @@ model {
 
     # note the addition of +1 to the year index; data from year 1 and 2 for the aboveground
     # corresponds to years 2 and 3 for the seed bag data but indexing has to start at 1
-    g_marg[i] ~ dnorm(mu_g[sitePlot[i],fecIndex[i]],tau_g[sitePlot[i],fecIndex[i]])
+    g_marg[i] ~ dnorm(mu_g[sitePlot[i],yearPlot[i]+1,1],tau_g[sitePlot[i],yearPlot[i]+1,1])
     logit(g_plot[i]) <- g_marg[i]
 
     # DETERMINISTIC WEIBULL SURVIAL MODEL
@@ -206,7 +192,7 @@ model {
     chi2.plot.sim[i] <- pow((plotSeedlings_sim[i]- mu_plot[i]*totalJan[i]),2) / (mu_plot[i]*fec[i]+.001)         # obs.
 
     # LOG-LIKELIHOOD
-    # logLik_yplot[i] <- logdensity.bin(plotSeedlings[i],mu_plot[i] , fec[i])
+    logLik_yplot[i] <- logdensity.bin(plotSeedlings[i],mu_plot[i] , fec[i])
 
   }
 
