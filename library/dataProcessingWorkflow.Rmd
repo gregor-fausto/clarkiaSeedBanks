@@ -4,7 +4,7 @@ output: github_document
 
 ### Data processing workflow
 
-I'm trying to document the data processing workflow. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the Issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
+This document documents the workflow associated with processing the data from Clarkia xantiana demography studies. I am using the packages `tidyverse` and `readxl` (documentation: https://readxl.tidyverse.org/). Link to the issue documentation for the data processing workflow: https://github.com/gregor-fausto/clarkiaSeedBanks/issues/6. 
 
 - [File directories](#file-directories)
 - [Processing data](#processing-data)
@@ -19,7 +19,7 @@ I'm trying to document the data processing workflow. I am using the packages `ti
 
 ### File directories
 
-The files holding datasets are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
+The files holding datasets are originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/20_demography_sites/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I ran the following in my Terminal:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/`
 
@@ -27,12 +27,12 @@ I also ran:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new\ fruit\ \&\ seed\ files/`
 
-I last ran these on 05/28/20 at 7:38 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
-An additional folder holding datasets is originally found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
+I last ran these on 03/26/21 at 9:05 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+An additional folder holding datasets is found in the shared Dropbox folder `.../Dropbox/Clarkia-LTREB/data and scripts/files from monica/`. I created a folder on my local Dropbox `/Users/Gregor/Dropbox/dataLibrary/` to hold a copy of these files. To copy the files, I run the following in my Terminal:
 
 `cp /Users/Gregor/Dropbox/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/* /Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/data\ and\ scripts/files\ from\ monica/`
 
-I last ran this on 02/06/20 at 10:50 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
+I last ran this on 03/26/21 at 9:06 AM. The files in this directory are now a copy of those in the shared Dropbox folder. For the time being, the copy of the files remains outside of the folder that gets updated on Git. 
 
 Data for seed pots was shared via email on 04/11/2020 as `seed_pot_data_updated.xlsx`.
 
@@ -40,8 +40,8 @@ Updated data on survivorship and fruiting plants was shared via email on 05/13/2
 
 Additional changes:
 
+- in `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/fruit&seeds_2014.xlsx`, on the first sheet, I changed cell Q254 from `0q` to `0`.
 - in `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/fruit&seeds_2018.xlsx`, on the first sheet, I deleted cell V141 because it seemed that this was a formula (an average) rather than including raw data.
-- in `/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/fruit&seeds_2014.xlsx` I changed cell Q254 from `0q` to `0`
 
 Additional changes:
 
@@ -61,6 +61,13 @@ Additional changes:
 
 
 ### Processing data {#processing-data-link}
+
+Define the directory that will store data files as they are processed; in 2021, this is `~/Dropbox/dataLibrary/temp-2021/`. Define the directory that will store RDS files after they are processed; in 2021 this is `~/Dropbox/dataLibrary/postProcessingData-2021/`.
+
+```{r, message=FALSE, warning=FALSE}
+tempDataDirectory = "~/Dropbox/dataLibrary/temp-2021/"
+postProcessingDirectory = "~/Dropbox/dataLibrary/postProcessingData-2021/"
+```
 
 Load the libraries for data processing (see https://github.com/r-lib/rlang/issues/669 for the overwrite message I am suppressing)
 
@@ -94,18 +101,17 @@ kable(dt)
 Start with the survival data. This is file `.../reshapeSeeds.R` file in the list above.
 
 ```{r, message=FALSE, warning=FALSE}
-directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
+directory=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/")
  
-
 # extract data and write out temporary csv
 tmp <- readxl::read_excel(paste0(directory,"Survivorship & Fecundity_06-20.xls"), 
                       sheet = 1, na = c("","NA" )) %>%
   janitor::clean_names(case="lower_camel") %>%
-  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/","survivorshipFecundity","-raw.csv"))
+  readr::write_csv(paste0(tempDataDirectory,"survivorshipFecundity","-raw.csv"))
 
 names(tmp)
 
-# remove conditional and easting/northing
+# remove conditional statements and easting/northing
 tmp <- tmp %>%
   dplyr::select(-contains("numberFruitplSdl")) %>%
   dplyr::select(-contains("fruitplNumberSdl")) %>%
@@ -126,8 +132,8 @@ tmp <- tmp %>%
   dplyr::select(contains(c("site","transect","position","seedlingNumber","fruitplNumber"),ignore.case=FALSE))
 
 names(tmp)
-# remove 
 
+# reorient from wide to long format
 censusSeedlingsFruitingPlants <- tmp %>%
   tidyr::pivot_longer(cols=contains(c("seedlingNumber","fruitplNumber")),
                names_to = c("variable","year"),
@@ -140,14 +146,12 @@ censusSeedlingsFruitingPlants <- tmp %>%
 censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
   dplyr::select(-month) %>%
   tidyr::pivot_wider(names_from = variable,
-                     values_from = count) %>%
-  # remove for full dataset
-  dplyr::filter(year<2020)
+                     values_from = count) 
 
-readr::write_rds(censusSeedlingsFruitingPlants,"~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+readr::write_rds(censusSeedlingsFruitingPlants,paste0(postProcessingDirectory,"censusSeedlingsFruitingPlants.RDS"))
 
 ```
-Here, I summarize the seedling to fruiting plant dataset in two ways. First, I plot the total number of estimates for seedling survival to fruiting per population and year.
+Here, I summarize the seedling to fruiting plant data in two ways. First, I plot the total number of estimates for seedling survival to fruiting per population and year.
 
 ```{r, message=FALSE, warning=FALSE}
 tmp1 <- censusSeedlingsFruitingPlants %>%
@@ -191,8 +195,14 @@ directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites
 # years for datasets
 years = 2007:2012
 
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[3:8]
+# get names of files associated with years 
+names.tmp=unique (grep(paste(years,collapse="|"), 
+                        list.files(directory),value=TRUE))
+# exclude xlsx files
+xlsx.tmp=(grep("xlsx",names.tmp))
+
+# names of files
+namesFruitPerPlantFiles = names.tmp[-(xlsx.tmp)]
 
 #range of the data in each file
 rangeFruitPerPlantColumnNames = c("A1:AL602","A1:BC602",
@@ -220,7 +230,7 @@ cnames <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]),
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-raw.csv"))
 
 # remove columns with summary statistics
 tmp <- tmp %>%
@@ -263,7 +273,7 @@ countFruitsPerPlantTransects <- listDataFrames20072012 %>%
   purrr::reduce(full_join)
 
 # write data frame to RDS
-readr::write_rds(countFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantTransects.RDS")
+readr::write_rds(countFruitsPerPlantTransects,paste0(postProcessingDirectory,"countFruitsPerPlantTransects.RDS"))
 
 ```
 Summary tables
@@ -278,7 +288,7 @@ tmp <- arrange(tmp,tmp$site)
 
 kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from transects")
 
-# print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
+ # print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 From 2013-2018, there is data on the number of undamaged and damaged fruits on each plant in each permanent plot. In the Excel files, this means that each year's sheet is a ragged array in which a row corresponds to a permanent plot. Each row has a different number of columns because each plot has a different number of plants, and each plant is recorded in its own cell.
@@ -290,32 +300,42 @@ The code below takes these Excel files and converts them into a long data frame 
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
 # years for datasets
-years = 2013:2018
+years = 2013:2020
 
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[9:14]
+# get names of files associated with years 
+names.tmp=unique (grep(paste(years,collapse="|"), 
+                        list.files(directory),value=TRUE))
+# include only xlsx files
+xlsx.tmp=(grep("xlsx",names.tmp))
+
+# names of files
+namesFruitPerPlantFiles = names.tmp[(xlsx.tmp)]
 
 #range of the data in each file
 rangeUndamagedFruitPerPlantColumnNames = c("A1:M602","A1:M602",
                                   "A1:Q602","A1:M602",
-                                  "A1:W602","A1:Y602")
+                                  "A1:W602","A1:Y602",
+                                  "A1:Y602","A1:Y602")
 
 rangeDamagedFruitPerPlantColumnNames = c("N1:T602","N1:T602",
                                          "R1:AB602","N1:T602",
-                                         "X1:AN602","AA1:AS602")
+                                         "X1:AN602","AA1:AS602",
+                                         "AA1:AS602","AA1:AS602")
 
 # range of the data in each file
 rangeUndamagedFruitPerPlantData = c("A3:M602","A3:M602",
                                   "A3:Q602","A3:M602",
-                                  "A3:W602","A3:Y602")
+                                  "A3:W602","A3:Y602",
+                                  "A3:Y602","A3:Y602")
 
 rangeDamagedFruitPerPlantData = c("N3:T602","N3:T602",
                                     "R3:AB602","N3:T602",
-                                    "X3:AN602","AA3:AS602")
+                                    "X3:AN602","AA3:AS602",
+                                  "AA3:AS602","AA3:AS602")
 
 # empty list
-listDataFrames20132018Undamaged <- list()
-listDataFrames20132018Damaged <- list()
+listDataFrames20132020Undamaged <- list()
+listDataFrames20132020Damaged <- list()
 
 # loop to create data frame with each year of data
 for(i in 1:length(namesFruitPerPlantFiles)){
@@ -330,7 +350,7 @@ for(i in 1:length(namesFruitPerPlantFiles)){
 tmp <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeUndamagedFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-undamaged-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-undamaged-raw.csv"))
 
 # remove columns with summary statistics
 tmp <- tmp %>%
@@ -358,7 +378,7 @@ countUndamagedFruitsPerPlantFromTransects <- tmp %>%
   dplyr::filter(!is.na(countUndamagedFruitsPerPlant)) 
   
 # add data frame to list
-listDataFrames20132018Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransects
+listDataFrames20132020Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransects
 
 ## now do the damaged fruit counts
 
@@ -372,7 +392,7 @@ listDataFrames20132018Undamaged[[i]] <- countUndamagedFruitsPerPlantFromTransect
 tmpDamaged <- read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
                             sheet = 1, range = rangeDamagedFruitPerPlantData[i],
               na = "NA",  col_names=cnames) %>%
-  janitor::clean_names() %>% readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-damaged-raw.csv"))
+  janitor::clean_names() %>% readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-damaged-raw.csv"))
 
 # rename columns
 plantNumbersDamaged <- paste0("plant_",1:dim(tmpDamaged)[2])
@@ -394,33 +414,33 @@ countDamagedFruitsPerPlantFromTransects <- tmpDamaged %>%
                values_to = "countDamagedFruitsPerPlant") %>%
   dplyr::filter(!is.na(countDamagedFruitsPerPlant)) 
   
-listDataFrames20132018Damaged[[i]] <- countDamagedFruitsPerPlantFromTransects
+listDataFrames20132020Damaged[[i]] <- countDamagedFruitsPerPlantFromTransects
 
 }
 
 # append year to data frames  
 for(i in 1:length(years)){
-  listDataFrames20132018Undamaged[[i]] <- listDataFrames20132018Undamaged[[i]] %>%
+  listDataFrames20132020Undamaged[[i]] <- listDataFrames20132020Undamaged[[i]] %>%
       dplyr::mutate(year=years[i],
                     damage=0)
   
-    listDataFrames20132018Damaged[[i]] <- listDataFrames20132018Damaged[[i]] %>%
+    listDataFrames20132020Damaged[[i]] <- listDataFrames20132020Damaged[[i]] %>%
       dplyr::mutate(year=years[i],
                     damage=1)
 }
 
 # unlist and bind data frames
-countUndamagedFruitsPerPlantTransects <- listDataFrames20132018Undamaged %>%
+countUndamagedFruitsPerPlantTransects <- listDataFrames20132020Undamaged %>%
   purrr::reduce(full_join)
 
-countDamagedFruitsPerPlantTransects <- listDataFrames20132018Damaged %>%
+countDamagedFruitsPerPlantTransects <- listDataFrames20132020Damaged %>%
   purrr::reduce(full_join)
 
 countUndamagedDamagedFruitsPerPlantTransects<-left_join(countUndamagedFruitsPerPlantTransects,countDamagedFruitsPerPlantTransects,by=c("site","transect","position","plantNumber","year")) %>%
   dplyr::select(-c("damage.x","damage.y"))
 
 # write data frame to RDS
-readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantTransects.RDS")
+readr::write_rds(countUndamagedDamagedFruitsPerPlantTransects,paste0(postProcessingDirectory,"countUndamagedDamagedFruitsPerPlantTransects.RDS"))
 
 ```
 
@@ -450,8 +470,14 @@ directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites
 # years for datasets
 years = 2006:2012
 
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[2:8]
+# get names of files associated with years 
+names.tmp=unique (grep(paste(years,collapse="|"), 
+                        list.files(directory),value=TRUE))
+# exclude xlsx files
+xlsx.tmp=(grep("xlsx",names.tmp))
+
+# names of files
+namesFruitPerPlantFiles = names.tmp[-(xlsx.tmp)]
 
 #range of the data in each file
 rangeFruitPerPlantData = c("A1:C4580","A1:C3133",
@@ -470,7 +496,7 @@ tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]),
                             sheet = 2, range = rangeFruitPerPlantData[i],
               na = "NA") %>%
   janitor::clean_names("lower_camel") %>%
-  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+  readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-extra-raw.csv"))
 
 tmp <- tmp %>%
   dplyr::rename(countFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
@@ -492,7 +518,7 @@ countFruitsPerPlantAllPlots <- listDataFrames20062012 %>%
   purrr::reduce(full_join)
 
 # write data frame to RDS
-readr::write_rds(countFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+readr::write_rds(countFruitsPerPlantAllPlots,paste0(postProcessingDirectory,"countFruitsPerPlantAllPlots.RDS"))
 
 ```
 
@@ -510,7 +536,7 @@ kable(tmp, caption="Summary of dataset on total fruit equivalents per plant from
 # print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
-From 2013-2018, there is data on the number of undamaged and damaged fruits on each plant in additional plots outside of permanent plots. These additional plots were sampled to supplement counts of fruits per plant from permanent plots. 
+From 2013-2018, there is data on the number of undamaged and damaged fruits on each plant in additional plots outside of permanent plots. These additional plots were sampled to supplement counts of fruits per plant from permanent plots. From 2019-2020 the data files also have data from non-demography populations so those are processed separately.
 
 The code below takes these Excel files and converts them into a long data frame with the following columns ...
 
@@ -521,8 +547,14 @@ directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites
 # years for datasets
 years = 2013:2018
 
-# names of the files
-namesFruitPerPlantFiles = list.files(directory)[9:14]
+# get names of files associated with years 
+names.tmp=unique (grep(paste(years,collapse="|"), 
+                        list.files(directory),value=TRUE))
+# include only xlsx files
+xlsx.tmp=(grep("xlsx",names.tmp))
+
+# names of files
+namesFruitPerPlantFiles = names.tmp[(xlsx.tmp)]
 
 #range of the data in each file
 rangeFruitPerPlantData = c("A1:D822","A1:D1246",
@@ -540,7 +572,7 @@ tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]),
                             sheet = 2, range = rangeFruitPerPlantData[i],
               na = "NA") %>%
   janitor::clean_names("lower_camel") %>%
-  readr::write_csv(paste0("~/Dropbox/dataLibrary/temp/fruit&seed_data_",years[i],"-extra-raw.csv"))
+  readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-extra-raw.csv"))
 
 tmp <- tmp %>%
   dplyr::rename(countUndamagedFruitNumberPerPlant=undamagedFruitNumberPerPlant) %>%
@@ -563,12 +595,68 @@ for(i in 1:length(years)){
       dplyr::mutate(year=years[i])
 }
 
+
+# years for datasets
+years = 2019:2020
+
+# get names of files associated with years 
+names.tmp=unique (grep(paste(years,collapse="|"), 
+                        list.files(directory),value=TRUE))
+# include only xlsx files
+xlsx.tmp=(grep("xlsx",names.tmp))
+
+# names of files
+namesFruitPerPlantFiles = names.tmp[(xlsx.tmp)]
+
+#range of the data in each file
+rangeFruitPerPlantData = c("A1:F5386","A1:F3338")
+
+# empty list
+listDataFrames20192020 <- list()
+
+# loop to create data frame with each year of data
+for(i in 1:length(namesFruitPerPlantFiles)){
+  
+    # extract data and write temporary csv 
+tmp <- readxl::read_excel(paste0(directory,namesFruitPerPlantFiles[i]), 
+                            sheet = 2, range = rangeFruitPerPlantData[i],
+              na = "NA") %>%
+  janitor::clean_names("lower_camel") %>%
+  readr::write_csv(paste0(tempDataDirectory,"fruit&seed_data_",years[i],"-extra-raw.csv"))
+
+tmp <- tmp %>%
+  dplyr::rename(countUndamagedFruitNumberPerPlant=undamagedFrno) %>%
+  dplyr::rename(countDamagedFruitNumberPerPlant=damagedFrno) 
+
+tmp <- tmp %>%
+  dplyr::filter(demography==1) %>%
+  dplyr::select(-c(fullSiteName,demography))
+
+# add data frame to list
+listDataFrames20192020[[i]] <- tmp
+
+}
+
+# append year to data frames  
+for(i in 1:length(years)){
+  listDataFrames20192020[[i]] <- listDataFrames20192020[[i]] %>%
+      dplyr::mutate(year=years[i])
+}
+
+
 # unlist and bind data frames
 countUndamagedDamagedFruitsPerPlantAllPlots <- listDataFrames20132018 %>%
   purrr::reduce(full_join)
 
+# unlist and bind data frames
+countUndamagedDamagedFruitsPerPlantAllPlots_19.20 <- listDataFrames20192020 %>%
+  purrr::reduce(full_join)
+
+countUndamagedDamagedFruitsPerPlantAllPlots <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
+  dplyr::bind_rows(countUndamagedDamagedFruitsPerPlantAllPlots_19.20)
+
 # write data frame to RDS
-readr::write_rds(countUndamagedDamagedFruitsPerPlantAllPlots,"~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+readr::write_rds(countUndamagedDamagedFruitsPerPlantAllPlots,paste0(postProcessingDirectory,"countUndamagedDamagedFruitsPerPlantAllPlots.RDS"))
 
 ```
 
@@ -583,7 +671,7 @@ tmp<-arrange(tmp,tmp$site)
 
 kable(tmp, caption="Summary of dataset on undamaged and damaged fruits per plant from extra plots")
 
- # print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
+#  print(xtable::xtable(tmp, type = "latex"), include.rownames=FALSE, NA.string = "--")
 ```
 
 
@@ -597,21 +685,21 @@ The data files for 2006-2010 have two columns. The data files include 1 sheet wi
 directory = "/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/new fruit & seed files/"
 
 # all years in the dataset
-years <- 2006:2018
+years <- 2006:2020
 
 # all sheets that contain this data
 sheetVector <- c("06 Raw Data","07 Raw Data","08 Raw Data",
                  "09 Raw Data","10 Raw Data","11 Raw Data",
                  "12 Raw Data","13 Raw Data","14 Raw Data",
                  "15 Raw Data","16 Raw Data","17 Raw Data",
-                 "18 Raw Data")
+                 "18 Raw Data","19 Raw Data","20 Raw Data")
 
 # range of data in each sheet
 rangeVector <- c("Q5:V828","Q6:V1277","Q4:V1188",
                  "P4:U1214","Q5:V1248","Q8:V1051",
                  "Q7:V654","R12:W988","R10:W1110",
                  "R10:W1077","S10:X1532","R9:W1667",
-                 "R12:W1311")
+                 "R12:W1311","R6:W1637","R5:W1106")
 
 # empty list
 dataList <- list()
@@ -619,7 +707,7 @@ dataList <- list()
 # loop for getting each data range into a list of data frames
 for(i in 1:length(sheetVector)){
   dataList[[i]] <- read_excel(
-    paste0(directory,"Above_ground survival & fecundity 06-19.xlsx"),
+    paste0(directory,"Above_ground survival & fecundity 06-20.xlsx"),
     sheet = sheetVector[i], 
     range = rangeVector[i],
     na = "NA")
@@ -643,7 +731,7 @@ countSeedPerFruit <- countSeedPerFruit %>%
   janitor::clean_names(case="lower_camel")
 
 # save the dataframe as an RDS file
-readr::write_rds(countSeedPerFruit,"~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+readr::write_rds(countSeedPerFruit,paste0(postProcessingDirectory,"countSeedPerFruit.RDS"))
 
 ```
 
@@ -934,7 +1022,7 @@ seedBags <- tmp %>%
 
 seedBagsData <- seedBags
 
-readr::write_rds(seedBagsData,"~/Dropbox/dataLibrary/postProcessingData/seedBagsData.rds")
+readr::write_rds(seedBagsData,paste0(postProcessingDirectory,"seedBagsData.rds"))
 
 # january germinants
 summarySeedBags<-seedBags  %>%
@@ -980,7 +1068,7 @@ viabilityRawData <- tmp %>%
   dplyr::rename(viabPerc2 = '%Viabil') %>%
   dplyr::rename(viabTotal = 'Overall_viability')
 
-readr::write_rds(viabilityRawData,"~/Dropbox/dataLibrary/postProcessingData/viabilityRawData.rds")
+readr::write_rds(viabilityRawData,paste0(postProcessingDirectory,"viabilityRawData.rds"))
 
 # germination trial 
 summaryGerminationTrials<-viabilityRawData  %>%

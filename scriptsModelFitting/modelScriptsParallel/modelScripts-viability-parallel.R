@@ -43,16 +43,16 @@ viabilityRawData[is.na(viabilityRawData$viabStart),]$viabStart = 0
 
 # -------------------------------------------------------------------
 ## Issue with 23 rows of data where more seeds started the viability trials
-## than were left after the end of the germination trials
+## than were left after the end of the germination trials; remove these data
 write.table(viabilityRawData %>% dplyr::filter(germStart - germCount - viabStart<0) ,
             paste0(dataDirectory,"viability.txt"),sep="\t",
             row.names=FALSE,append=TRUE,col.names=FALSE)
 
 #fileConn<-file();
-write(c("Issue with 23 rows of data; More seeds started the viability trials than were left after the end of the germination trials"), 
+write(c("Issue with 23 rows of data; More seeds started the viability trials than were left after the end of the germination trials; remove these data"), 
       file=paste0(dataDirectory,"viability-metadata.txt"),append=TRUE);
 
-# filter
+# filter to remove these data
 viabilityRawData<-viabilityRawData %>% 
   dplyr::filter(germStart - germCount - viabStart >= 0)
 # -------------------------------------------------------------------
