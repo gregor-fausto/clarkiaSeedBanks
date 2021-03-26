@@ -42,8 +42,7 @@ censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>%
 # -------------------------------------------------------------------
 censusSeedlingsFruitingPlants$year <- as.character(censusSeedlingsFruitingPlants$year)
 
-censusSeedlingsFruitingPlants=censusSeedlingsFruitingPlants %>%
-  dplyr::filter(site=="LCW")
+censusSeedlingsFruitingPlants=censusSeedlingsFruitingPlants
 
 data <- tidybayes::compose_data(censusSeedlingsFruitingPlants)
 

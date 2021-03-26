@@ -107,6 +107,154 @@ plot(x=rsSummary.tmp[1,],y=rsSummary.tmp[2,],xlab="Mean",ylab="Median")
 plot(x=rsSummary.tmp[1,],y=rsSummary.tmp[3,],xlab="Mean",ylab="Mode")
 plot(x=rsSummary.tmp[2,],y=rsSummary.tmp[3,],xlab="Median",ylab="Mode")
 
+# -------------------------------------------------------------------
+# Examine relationship between climate and per-capita reproductive success
+# Sensitivity of RS to precipitation
+# -------------------------------------------------------------------
+climate=readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/climateData.RDS")
+df <- climate %>% dplyr::filter(intenseDemography==1)
+siteNames <- unique(df$site)
+position <- unique(df$easting)
+siteNames <- siteNames[order(position,decreasing=FALSE)]
+
+
+climate=df %>%
+  dplyr::filter(year>2005&year<2019)
+climate.winter = climate[climate$season=="winter",]
+climate.spring = climate[climate$season=="spring",]
+
+#dev.off()
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,0,0) + 0.1)
+ind=(1:20)[order(position)]
+b = c()
+for(i in 1:20){
+  index=grep(paste0("\\[",ind[i],","),colnames(rsSummary.tmp))
+  x=climate.spring[climate.spring$site==siteNames[ind[i]],]$p
+  x=(x-mean(x))#/(2*sd(x))
+  y=rsSummary.tmp[3,index]
+  y=log(y)
+  mod=lm(y~x)
+  
+  plot(x,y,xaxt='n',yaxt='n',pch=19,
+       xlim=c(-120,120),ylim=c(-7,7))
+  abline(v=0,lty='dotted')
+  #abline(a=coef(mod)[1],b=coef(mod)[2])
+  f=function(a,b,x){
+    x.min=min(x);x.max=max(x);
+    segments(y0=a+x.min*b,y1=a+x.max*b,x0=x.min,x1=x.max)
+  }
+  f(a=coef(mod)[1],b=coef(mod)[2],x=x)
+  b[i]=coef(mod)[2]
+  #text(.9*max(log(x+1)),.9*max(log(y+.5)),signif(cor(x,y),2),col='red')
+  text(-125,-6,paste0("R2=",signif(summary(mod)$r.squared,2)),col='red',pos=4)
+  text(-125,-4,paste0("b=",signif(coef(mod)[2],2)),col='red',pos=4)
+  text(-125,-2,paste0(siteNames[i]),col='red',pos=4)
+    ifelse(i %in% 16:20, axis(1L),NA)
+    ifelse(i %in% c(1,6,11,16), axis(2,las=2),NA)
+}
+
+dev.off()
+plot(position[order(position,decreasing=FALSE)],b)
+text(position[order(position,decreasing=FALSE)],b,
+     siteNames)
+
+# standardizing 
+par(mfrow = c(4,5),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,0,0) + 0.1)
+ind=(1:20)[order(position)]
+b = c()
+g = c()
+for(i in 1:20){
+  index=grep(paste0("\\[",ind[i],","),colnames(rsSummary.tmp))
+  x=climate.spring[climate.spring$site==siteNames[ind[i]],]$p
+  x=(x-mean(x))/(2*sd(x))
+  y=rsSummary.tmp[3,index]
+  g[i]=gsd.am(y)
+  y=log(y)
+  mod=lm(y~x)
+  
+  plot(x,y,xaxt='n',yaxt='n',pch=19,
+       xlim=c(-2,2),ylim=c(-7,7))
+  abline(v=0,lty='dotted')
+  #abline(a=coef(mod)[1],b=coef(mod)[2])
+  f=function(a,b,x){
+    x.min=min(x);x.max=max(x);
+    segments(y0=a+x.min*b,y1=a+x.max*b,x0=x.min,x1=x.max)
+  }
+  f(a=coef(mod)[1],b=coef(mod)[2],x=x)
+  b[i]=coef(mod)[2]
+
+  #text(.9*max(log(x+1)),.9*max(log(y+.5)),signif(cor(x,y),2),col='red')
+  text(-2,-6,paste0("R2=",signif(summary(mod)$r.squared,2)),col='red',pos=4)
+  text(-2,-4,paste0("b=",signif(coef(mod)[2],2)),col='red',pos=4)
+  text(-2,-2,paste0(siteNames[i]),col='red',pos=4)
+  ifelse(i %in% 16:20, axis(1L),NA)
+  ifelse(i %in% c(1,6,11,16), axis(2,las=2),NA)
+}
+
+dev.off()
+plot(position[order(position,decreasing=FALSE)],b,type='n')
+text(position[order(position,decreasing=FALSE)],b,
+     siteNames)
+
+gsd.am <- function(x){
+  x=x
+  n = length(x[!is.na(x)])
+  mu = exp(mean(log(x),na.rm=TRUE))
+  y <- exp(sqrt(sum((log(x/mu))^2,na.rm=TRUE)/(n-1)))
+  return(y)
+}
+
+
+plot(b,g,type='n',ylim=c(0,20))
+text(b,g,
+     siteNames)
+
+cor(b,g)
+
+par(mfrow = c(1,1),
+    oma = c(5,4,0,0) + 0.1,
+    mar = c(0,0,1,1) + 0.1)
+plot(NA,NA,pch=19,xlim=c(-250,250),ylim=c(-100,200))
+for(i in 1:20){
+  index=grep(paste0("\\[",i,","),colnames(rsSummary.tmp))
+  x.tmp=climate.spring[climate.spring$site==siteNames[i],]$p
+  x.tmp = x.tmp-mean(x.tmp)
+  y.tmp=rsSummary.tmp[3,index]
+  mod=lm(y.tmp~x.tmp)
+  #abline(a=coef(mod)[1],b=coef(mod)[2])
+  f=function(a,b,x){
+    x.min=min(x);x.max=max(x);
+    segments(y0=a+x.min*b,y1=a+x.max*b,x0=x.min,x1=x.max)
+  }
+  f(a=coef(mod)[1],b=coef(mod)[2],x=x.tmp)
+ # text(.9*max(x),.9*max(y),signif(cor(x,y),2),col='red')
+  #text(.9*max(x),.8*max(y),siteNames[ind[i]],col='red')
+}
+
+plot(NA,NA,pch=19,xlim=c(340,375),ylim=c(-1,1))
+for(i in 1:20){
+  index=grep(paste0("\\[",i,","),colnames(rsSummary.tmp))
+  x.tmp=climate.spring[climate.spring$site==siteNames[i],]$p
+  x.tmp = x.tmp-mean(x.tmp)
+  y.tmp=rsSummary.tmp[3,index]
+  mod=lm(y.tmp~x.tmp)
+  #abline(a=coef(mod)[1],b=coef(mod)[2])
+  f=function(a,b,x){
+    x.min=min(x);x.max=max(x);
+    segments(y0=a+x.min*b,y1=a+x.max*b,x0=x.min,x1=x.max)
+  }
+  easting=climate.spring[climate.spring$site==siteNames[i],]$easting/1000
+  points(easting[1],coef(mod)[2])
+  #f(a=coef(mod)[1],b=coef(mod)[2],x=x.tmp)
+  # text(.9*max(x),.9*max(y),signif(cor(x,y),2),col='red')
+  #text(.9*max(x),.8*max(y),siteNames[ind[i]],col='red')
+}
+
+
 
 # -------------------------------------------------------------------
 # Two ways to calculate reproductive success
@@ -307,57 +455,9 @@ for(j in 1:13){
   hist(tmp,freq=FALSE,breaks=100)
 
 }
-  # tmp.vec=c()
-  # for(j in 1:length(time.sample)){
-  #   tmp.vec[j]=sum(data$sdno[data$site3==i&data$year3==j],na.rm=TRUE)
-  # }
-  # 
-  # tmp.vec=ifelse(is.na(tmp.vec),0,tmp.vec)
-  # 
-  
-  
-  plot(NA,NA,
-       ylim=c(0,max(tmp[,3:7])),pch=16,xlim=c(2006,2019),
-       ylab='',xlab='',xaxt='n',yaxt='n')
-  
-  # index=tmp.vec==0
-  # if (sum(index)>0) {for(j in 1:length(time.sample[index])){
-  #   ts=time.sample[index]
-  #   polygon(x=c(ts[j]-.5,ts[j]-.5,
-  #               ts[j]+.5, ts[j]+.5),
-  #           y=c(-.1,max(tmp[,3:7])*2,max(tmp[,3:7])*2,-.1),col='gray95',border='gray95')
-  # }} else {NA}
-  # 
-  # 
-  # polygon(x=c(2005,2020,2020,2005),
-  #         y=c(tmp.pop$ci.lo,tmp.pop$ci.lo,tmp.pop$ci.hi,tmp.pop$ci.hi),
-  #         col='gray95',border='gray95')
-  # 
-  # abline(h=tmp.pop$med,col='gray')
-  segments(time.sample,y0=tmp$ci.lo,y1=tmp$ci.hi)
-  
-  points(time.sample,
-         tmp$med,pch=21,cex=1,
-         col="black",bg='white')
-  
-  
-  text(x=2005.5,y=.9*max(tmp[,3:7]),siteNames[i],pos=4)
-  ifelse(i%in%c(16:20),axis(1L),NA)
-  axis(2, seq(0,max(tmp[,3:7]),by=5), tick=FALSE,
-       labels = seq(0,max(tmp[,3:7]),by=5), las = 1, 
-       cex.axis = 1,line=0,mgp=c(3,.25,0))
-  #ifelse(i%in%c(1,6,11,16),,NA)
-  ifelse(i%in%c(5), legend(x = 15, y = 1,
-                           col = c('gray','orange'),
-                           lty = c(1,1),
-                           legend = c("Persistence only","Persistence & viability"),
-                           cex=.55,
-                           box.lty=0), NA)
-}
-mtext("Year", side = 1, outer = TRUE, line = 2.2)
-mtext("Seeds per fruit", side = 2, outer = TRUE, line = 2.2)
-#mtext("Population*year-level", side = 1, outer = TRUE, line = 2.5,adj=-.05,cex=1.25)
-dev.off()
+
+
+
 
 
 

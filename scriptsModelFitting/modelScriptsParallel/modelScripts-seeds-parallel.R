@@ -5,8 +5,8 @@
 # https://sourceforge.net/p/mcmc-jags/discussion/610036/thread/8211df61/
 # https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.903&rep=rep1&type=pdf
 # -------------------------------------------------------------------
-rm(list=ls(all=TRUE)) # clear R environment
-# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
+# rm(list=ls(all=TRUE)) # clear R environment
+rm(list=setdiff(ls(all=TRUE),c("dataDirectory","modelDirectory","fileDirectory","n.adapt","n.update","n.iterations","n.thin"))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Loading required packages
@@ -19,15 +19,72 @@ library(parallel)
 # -------------------------------------------------------------------
 # Set directories
 # -------------------------------------------------------------------
-dataDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/seeds/"
-modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
-fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+# dataDirectory = "~/Dropbox/dataLibrary/postProcessingData/"
+# modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+# fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
 
 # -------------------------------------------------------------------
-# Import and organize seed bag burial data
+# Import seed bag burial data
 # -------------------------------------------------------------------
+seedBagsData = readRDS(paste0(dataDirectory,"seedBagsData.rds"))
 
-data = readRDS(paste0(dataDirectory,"seedBagMaster.RDS"))
+# -------------------------------------------------------------------
+# Write out metadata file with data comments
+# -------------------------------------------------------------------
+# ## Rows of data with missing data in January; have data in October; included in survival model but not in germination model
+write.table(seedBagsData %>%
+              dplyr::filter(is.na(totalJan)) ,
+            paste0(dataDirectory,"seedBags.txt"),sep="\t",row.names=FALSE)
+write("Rows of data with missing data in January; have data in October",
+      file=paste0(dataDirectory,"seedBags-metadata.txt"));
+
+# ## Rows of data with missing data in October; have data in January
+write.table(seedBagsData %>%
+              dplyr::filter(is.na(intactOct)) ,
+            paste0(dataDirectory,"seedBags.txt"),sep="\t",row.names=FALSE)
+write("Rows of data with missing data in October; have data in January",
+      file=paste0(dataDirectory,"seedBags-metadata.txt"));
+
+# ## Row of data with more than 100 seeds at start of experiment; non-standard amount; typo?
+write.table(seedBagsData %>%
+              dplyr::filter(totalJan>100) ,
+            paste0(dataDirectory,"seedBags.txt"),sep="\t",row.names=FALSE,
+            append=TRUE,col.names=FALSE)
+write("Row of data with more than 100 seeds at start of experiment; non-standard amount; typo?",
+      file=paste0(dataDirectory,"seedBags-metadata.txt"),append=TRUE);
+
+# ## Rows of data with more seeds intact in October than intact in January
+write.table(seedBagsData %>%
+              dplyr::filter(intactOct>intactJan) ,
+            paste0(dataDirectory,"seedBags.txt"),sep="\t",row.names=FALSE,
+            append=TRUE,col.names=FALSE)
+write("Rows of data with more seeds intact in October than intact in January",
+      file=paste0(dataDirectory,"seedBags-metadata.txt"),append=TRUE);
+
+# ## Row of data needs to be relabeled manually; should be bag #42
+write.table(seedBagsData[seedBagsData$site=="DLW" & seedBagsData$bagNo==43 & seedBagsData$age==1,] ,
+            paste0(dataDirectory,"seedBags.txt"),sep="\t",row.names=FALSE,
+            append=TRUE,col.names=FALSE)
+write("Row of data needs to be relabeled manually; should be bag #42",
+      file=paste0(dataDirectory,"seedBags-metadata.txt"),append=TRUE);
+
+# -------------------------------------------------------------------
+# Manually relabel a bag number and filter out 1 row of data
+# -------------------------------------------------------------------
+# relabel bag
+seedBagsData[seedBagsData$site=="DLW" & seedBagsData$bagNo==43 & seedBagsData$age==1,]$bagNo = 42
+
+# remove row of data with 108 seeds in January
+seedBagsData <- seedBagsData %>% dplyr::filter(totalJan<=100)
+
+# -------------------------------------------------------------------
+# Prep data for JAGS
+# -------------------------------------------------------------------
+# Create a variable for the number of seeds at the start of the trial
+seedBagsData$seedStart<-as.double(100)
+
+# Rename data frame
+data = seedBagsData
 
 # rename variables and oragnize
 data = data %>%
@@ -85,18 +142,18 @@ germinationYear = c(2006,2006,2006,2007,2007,2008)
 germinationIndex = 1:6
 
 df.index=data.frame(ageBags=as.factor(germinationAge),yearGermination=as.factor(germinationYear),germinationIndex=germinationIndex)
+
 germinationData <- germinationData %>%
-  # dplyr::mutate(yearGermination=as.integer(yearGermination),ageBags=as.numeric(ageBags)) %>%
   dplyr::left_join(df.index,by=c("ageBags","yearGermination")) %>%
   dplyr::mutate(yearGermination=as.factor(yearGermination),ageBags=as.factor(ageBags))
+
+# remove data with missing totalJan from germination dataset
+germinationData <- germinationData %>%
+  dplyr::filter(!is.na(totalJan))
+
 # -------------------------------------------------------------------
 # Import and organize aboveground plot data on fecundity
 # -------------------------------------------------------------------
-
-# -------------------------------------------------------------------
-# Set directories
-# -------------------------------------------------------------------
-dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
 
 # counts of fruits per plot
 censusSeedlingsFruitingPlants <- readRDS(paste0(dataDirectory,"censusSeedlingsFruitingPlants.RDS"))
@@ -134,8 +191,6 @@ seedRainPlot<-countFruitsPerPlotTransects %>%
   dplyr::left_join(censusSeedlings,by=c("site","transect","position","yearRef")) %>%
   dplyr::mutate(p = seedlingNumber/fec.est)
 
-#max(seedRainPlot$p)
-
 seedRainTransect = seedRainPlot %>%
   dplyr::group_by(site,yearRef,transect) %>%
   dplyr::summarise(fec.est = sum(fec.est), seedlingNumber = sum(seedlingNumber)) %>%
@@ -163,7 +218,6 @@ seedRainTransectData <- seedRainTransectData %>%
 # Prepare data for analysis with JAGS
 # -------------------------------------------------------------------
 
-
 data <- tidybayes::compose_data(intactSeedData,germinationData,seedRainTransectData)
 
 data$n1 = dim(intactSeedData)[1]
@@ -182,11 +236,12 @@ detach("package:tidyverse", unload=TRUE)
 
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
-# -------------------------------------------------------------------
 # scalars that specify the 
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
+# -------------------------------------------------------------------
+ 
 n.adapt = 3000
 n.update = 5000
 n.iterations = 10000
@@ -236,7 +291,7 @@ initsSigmaLessWeak <- function(rows = data$n_siteSurvival, cols = data$n_yearPlo
   matrix(extraDistr::rhnorm(n = rows*cols, sigma = 2), rows, cols)
 }
 
-# set inits for JAGS
+## set inits for JAGS
 inits <- list()
 for(i in 1:3){
   inits[[i]] <- list(initsA(), initsMu0(), initsSigma0Weak(), initsSigmaWeak(),
@@ -249,15 +304,10 @@ for(i in 1:3){
 
 }
 
-# # Call to JAGS
-#
-# # tuning (n.adapt)
-# jm = jags.model("~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-seeds-parallel.R",
-#                 data = data, inits = inits,
-#                 n.chains = length(inits), n.adapt = n.adapt)
-
-# need to reparameterize the sigma_g to get this to run in parallel to not deal with ragged array
-# see viability data
+# Call to JAGS
+jm = jags.model("~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-seeds.R",
+                data = data, inits = inits,
+                n.chains = length(inits), n.adapt = n.adapt)
 
 # -------------------------------------------------------------------
 # Set up JAGS for parallel run
@@ -291,7 +341,7 @@ parsToCheck = c("y_sim","chi2.yobs","chi2.ysim",
                 "plotSeedlings_sim","chi2.plot.obs","chi2.plot.sim")
 
 parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update",
-                              "n.iterations", "parsToMonitor", "parsToCheck"))
+                              "n.iterations", "parsToMonitor", "parsToCheck", "modelDirectory"))
 
 out <- clusterEvalQ(cl, {
   library(rjags)

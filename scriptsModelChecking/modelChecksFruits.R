@@ -21,15 +21,6 @@ siteNames = unique(censusSeedlingsFruitingPlants$site)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-# Convergence diagnostics
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# MCMCsummary(mcmcSamples, params = c("mu0"))
-# MCMCsummary(mcmcSamples, params = c("sigma0"))
-# MCMCsummary(mcmcSamples, params = c("sigma"))
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
 # Graphical Posterior Predictive Checks
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -38,9 +29,8 @@ siteNames = unique(censusSeedlingsFruitingPlants$site)
 # Graphical checks ----
 # ---
 
-y.sim=MCMCchains(mcmcSamples, params = "fruitplNumber_sim")
-y.obs=data$fruitplNumber
-n.obs=data$seedlingNumber
+y.sim=MCMCchains(mcmcSamples, params = "y_tfe.sim")
+y.obs=data$y_tfe
 n.iter=dim(y.sim)[1]
 year=2006:2019
 
@@ -135,7 +125,7 @@ for(h in 1:20){
   }
   #ifelse(h%in%c(1,6),axis(2,  seq(0,1,by=.2), col.ticks = 1),NA)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/seedlingSurvivalFruiting-ppc-population.pdf",height=6,width=6)
+pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/fruits-ppc-population.pdf",height=6,width=6)
 
 for(i in 1:14){
   par(mfrow = c(4,5),

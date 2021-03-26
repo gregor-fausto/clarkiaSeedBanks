@@ -1,13 +1,13 @@
 # -------------------------------------------------------------------
 # Models for seedling survival to fruiting
 # -------------------------------------------------------------------
-rm(list=ls(all=TRUE)) # clear R environment
-# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
+# rm(list=ls(all=TRUE)) # clear R environment
+rm(list=setdiff(ls(all=TRUE),c("dataDirectory","modelDirectory","fileDirectory","n.adapt","n.update","n.iterations","n.thin"))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Loading required packages
 # -------------------------------------------------------------------
-library(rjags) 
+library(rjags)
 library(tidybayes)
 library(tidyverse)
 library(parallel)
@@ -15,9 +15,9 @@ library(parallel)
 # -------------------------------------------------------------------
 # Set directories
 # -------------------------------------------------------------------
-dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
-modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
-fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+# dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
+# modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+# fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -28,26 +28,17 @@ fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
 censusSeedlingsFruitingPlants <- readRDS(paste0(dataDirectory,"censusSeedlingsFruitingPlants.RDS"))
 
 # -------------------------------------------------------------------
-# ## Issue with number of fruiting plants greater than number of seedlings
-# write.table(censusSeedlingsFruitingPlants %>% 
-#               dplyr::filter((fruitplNumber>seedlingNumber)) ,
-#             "~/Dropbox/clarkiaSeedBanks/dataToCheck/seedlingSurvival.txt",sep="\t",row.names=FALSE)
-# write("Issue with rows of data where number of fruiting plants is greater than number of seedlings", 
-#       file="~/Dropbox/clarkiaSeedBanks/dataToCheck/seedlingSurvival-metadata.txt");
-
-# recode all data
-# filter out all data with issues
+# Recode and filter data
+# -------------------------------------------------------------------
 censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>% 
   # more fruiting plants than seedlings
   # recode s.t. number of seedlings equals number of fruiting plants
   dplyr::mutate(seedlingNumber=ifelse(fruitplNumber>seedlingNumber,fruitplNumber,seedlingNumber)) %>% 
   # NA for seedlings
-  # filter these out; these are true missing data
-  # recode s.t. number of seedlings equals number of fruiting plants
-  #dplyr::mutate(seedlingNumber=ifelse(is.na(seedlingNumber),fruitplNumber,seedlingNumber)) %>%
+  # filter these out; missing counts
   dplyr::filter(!is.na(seedlingNumber)) %>% 
   # NA for fruiting plants
-  # still filter these out; missing response
+  #  filter these out; missing response
   dplyr::filter(!is.na(fruitplNumber)) 
 # -------------------------------------------------------------------
 
@@ -65,16 +56,17 @@ detach("package:tidyverse", unload=TRUE)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
 # scalars that specify the 
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 3000
-n.update = 5000
-n.iterations = 15000
-n.thin = 1
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+
+# n.adapt = 3000
+# n.update = 5000
+# n.iterations = 15000
+# n.thin = 1
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -82,33 +74,13 @@ n.thin = 1
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-initsMu0 <- function(samps = data$n_site){
-  rnorm(n = samps, mean = 0, sd = 1)
-}
-
-initsSigma0 <- function(samps = data$n_site){
-  extraDistr::rhnorm(n = samps, sigma = 1)
+initsMu <- function(rows = data$n_site, cols = data$n_year){
+  matrix(rnorm(n = rows*cols, mean = 0, sd = 1), rows, cols)
 }
 
 initsSigma <- function(rows = data$n_site, cols = data$n_year){
   matrix(extraDistr::rhnorm(n = rows*cols, sigma = 1), rows, cols)
 }
-
-# # # set inits for JAGS
-# inits <- list()
-# for(i in 1:3){
-  # inits[[i]] <- list(initsMu0(), initsSigma0(), initsSigma() )
-
-  # names(inits[[i]]) = c("mu0","sigma0","sigma")
-
-# }
-
-# # # Call to JAGS
-# #
-# # # tuning (n.adapt)
-# jm = jags.model("~/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/jags-seedlingSurvival.R",
-                # data = data, inits = inits,
-                # n.chains = length(inits), n.adapt = n.adapt)
 
 # -------------------------------------------------------------------
 # Set up JAGS for parallel run
@@ -120,11 +92,10 @@ cl <- makeCluster(3)
 myWorkers <- NA
 for(i in 1:3) myWorkers[i] <- stringr::word(capture.output(cl[[i]]), -1)
 
-initsFun = function(){temp = list(initsMu0(), initsSigma0(), initsSigma(), 
+initsFun = function(){temp = list(initsMu(),  initsSigma(), 
                                   "base::Mersenne-Twister", runif(1, 1, 2000))
 
-names(temp) = c("mu0",
-                "sigma0",
+names(temp) = c("mu",
                 "sigma",
                 ".RNG.name",".RNG.seed")
 return(temp)
@@ -132,15 +103,15 @@ return(temp)
 
 inits = list(initsFun(),initsFun(),initsFun())
 
-parsToMonitor = c("mu0","sigma0","mu","sigma")
+parsToMonitor = c("mu","sigma")
 parsToCheck = c("fruitplNumber_sim","chi2.obs","chi2.sim")
 
 parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update",
-                              "n.iterations", "parsToMonitor", "parsToCheck"))
+                              "n.iterations", "parsToMonitor", "parsToCheck","modelDirectory"))
 
 out <- clusterEvalQ(cl, {
   library(rjags)
-  jm = jags.model(file=paste0(modelDirectory,"jags-seedlingSurvival.R"),
+  jm = jags.model(file=paste0(modelDirectory,"jags-seedlingSurvival-noPool.R"),
                   data = data, n.chains = 1,
                   n.adapt = n.adapt, 
                   inits = inits[[which(myWorkers==Sys.getpid())]])
@@ -153,5 +124,5 @@ stopCluster(cl)
 samples.rjags = mcmc.list(out)
 
 dir.create(file.path(fileDirectory), showWarnings = FALSE)
-saveRDS(samples.rjags,file=paste0(fileDirectory,"seedlingSurvivalSamples-recode-2.rds"))
-saveRDS(data,file=paste0(fileDirectory,"seedlingData-recode.rds"))
+saveRDS(samples.rjags,file=paste0(fileDirectory,"seedlingSurvivalSamples-noPool.rds"))
+saveRDS(data,file=paste0(fileDirectory,"seedlingSurvivalData-noPool.rds"))

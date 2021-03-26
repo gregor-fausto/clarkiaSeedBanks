@@ -1,8 +1,8 @@
 # -------------------------------------------------------------------
 # Models for estimates of viability
 # -------------------------------------------------------------------
-rm(list=ls(all=TRUE)) # clear R environment
-# rm(list=setdiff(ls(all=TRUE),c(dataDirectory,modelDirectory,fileDirectory,n.adapt,n.update,n.iterations,n.thin))) # if using in source(script)
+# rm(list=ls(all=TRUE)) # clear R environment
+rm(list=setdiff(ls(all=TRUE),c("dataDirectory","modelDirectory","fileDirectory","n.adapt","n.update","n.iterations","n.thin"))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 # -------------------------------------------------------------------
 # Load packages required for data cleaning and model fitting
@@ -15,9 +15,9 @@ library(parallel)
 # -------------------------------------------------------------------
 # Set directories
 # -------------------------------------------------------------------
-dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
-modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
-fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
+# dataDirectory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData/"
+# modelDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelFitting/jagsScripts/"
+# fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/parallel/"
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -95,16 +95,16 @@ detach("package:tidyverse", unload=TRUE)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set JAGS parameters and random seed
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# scalars that specify the 
+# scalars that specify the
 # number of iterations in the chain for adaptation
 # number of iterations for burn-in
 # number of samples in the final chain
-n.adapt = 3000
-n.update = 5000
-n.iterations = 10000
-n.thin = 1
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# n.adapt = 3000
+# n.update = 5000
+# n.iterations = 10000
+# n.thin = 1
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Set initials
@@ -164,11 +164,11 @@ return(temp)
 
 inits = list(initsFun(),initsFun(),initsFun())
 
- parsToMonitor_g = c("mu0_g","sigma0_g","mu_g","germCount_sim","chi2.germCount.obs","chi2.germCount.sim")
- parsToMonitor_v = c("mu0_v","sigma0_v","mu_v","viabStain_sim","chi2.viabStain.obs","chi2.viabStain.sim")
+ parsToMonitor_g = c("mu0_g","sigma0_g","mu_g","sigma_g","germCount_sim","chi2.germCount.obs","chi2.germCount.sim")
+ parsToMonitor_v = c("mu0_v","sigma0_v","mu_v","sigma_v","viabStain_sim","chi2.viabStain.obs","chi2.viabStain.sim")
 
 parallel::clusterExport(cl, c("myWorkers","data", "inits", "n.adapt", "n.update",
-                              "n.iterations", "parsToMonitor_g", "parsToMonitor_v"))
+                              "n.iterations", "parsToMonitor_g", "parsToMonitor_v","modelDirectory"))
 
 
 out <- clusterEvalQ(cl, {
