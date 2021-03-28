@@ -6,7 +6,7 @@ n.update = 5000
 n.iterations = 15000
 n.thin = 1
 
-dataDirectory = "/Users/Gregor/Desktop/data/"
+dataDirectory = "/Users/Gregor/Desktop/postProcessingData-2021/"
 modelDirectory = "/Users/Gregor/Desktop/jagsScripts/"
 fileDirectory = "/Users/Gregor/Desktop/mcmcSamples/"
 scriptDirectory = "/Users/Gregor/Desktop/scripts/"
@@ -32,9 +32,13 @@ source(paste0(scriptDirectory,"modelScripts-fruits-parallel-noPool.R"))
 # -------------------------------------------------------------------
 # Run scripts for evaluating convergence 
 # -------------------------------------------------------------------
-scriptConvergenceDirectory = "/Users/Gregor/Desktop/scriptsModelConvergence/"
-fileDirectory = "/Users/Gregor/Desktop/mcmcSamples/"
-outputDirectory = "/Users/Gregor/Desktop/convergence/"
+# scriptConvergenceDirectory = "/Users/Gregor/Desktop/scriptsModelConvergence/"
+# fileDirectory = "/Users/Gregor/Desktop/mcmcSamples/"
+# outputDirectory = "/Users/Gregor/Desktop/convergence/"
+
+scriptConvergenceDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelConvergence/"
+fileDirectory = "/Volumes/RUGGEDKEY/mcmcSamples/"
+outputDirectory = "/Volumes/RUGGEDKEY/convergence-check/"
 
 # check convergence for belowground models
 source(paste0(scriptConvergenceDirectory,"modelConvergenceViability.R"))

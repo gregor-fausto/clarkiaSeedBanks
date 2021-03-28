@@ -8,51 +8,20 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
-modelFittingFiles <- paste0(directory,list.files(directory))
+scriptConvergenceDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelConvergence/"
+fileDirectory = "/Volumes/RUGGEDKEY/mcmcSamples/"
+outputDirectory = "/Volumes/RUGGEDKEY/convergence-check/"
 
-mcmcSamples <- readRDS(modelFittingFiles[[grep("seedBurialSamplesChecks",modelFittingFiles)]])
-data <- readRDS(modelFittingFiles[[1]])
+modelFittingFiles <- paste0(fileDirectory,list.files(fileDirectory))
+
+mcmcSamples <- readRDS(modelFittingFiles[[grep("seedSamples",modelFittingFiles)]])
+
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
+dataDirectory <- paste0(directory,list.files(directory))
+data <- readRDS(dataDirectory[[1]])
 
 censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
 siteNames = unique(censusSeedlingsFruitingPlants$site)
-
-# ---
-# Convergence diagnostics -------------------------------------------------------------------
-# ---
-
-# MCMCsummary(mcmcSamples, params = c("mu0_g"))
-# MCMCsummary(mcmcSamples, params = c("sigma0_g"))
-# MCMCsummary(mcmcSamples, params = c("sigma_g"))
-# 
-# MCMCsummary(mcmcSamples, params = c("mu0_s"))
-# MCMCsummary(mcmcSamples, params = c("sigma0_s"))
-# MCMCsummary(mcmcSamples, params = c("sigma_s"))
-# 
-# MCMCsummary(mcmcSamples, params = c("a"))
-# 
-# alpha<-MCMCchains(mcmcSamples, params = c("a"))
-# alpha.sum<-apply(alpha,2,quantile,c(.025,.5,.975))
-# 
-# par(mfrow=c(1,1))
-# 
-# plot(NA,NA,type='n',xlim=c(0,2),ylim=c(0,20))
-# for(i in 1:20){
-#   tmp<-alpha.sum[,i]
-#   segments(x0=tmp[1],x1=tmp[3],y0=i)
-#   points(x=tmp[2],y=i,pch=19)
-# }
-# 
-# for(i in 1:20){
-#   hist(MCMCchains(mcmcSamples,params="a")[,i],
-#        breaks=100,freq=FALSE,xlim=c(0,2));
-#   abline(v=1,col='red')
-# }
-# 
-# diag.obj = gelman.diag(mcmcSamples)
-# plot(diag.obj$psrf[,1]);abline(v=c(21,61,81,101))
-# names(diag.obj$psrf[,1])
-# (diag.obj$psrf[,1])[order(diag.obj$psrf[,1])]
 
 # ---
 # Graphical checks ----

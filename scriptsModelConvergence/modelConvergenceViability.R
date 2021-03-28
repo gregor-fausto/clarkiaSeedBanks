@@ -10,7 +10,7 @@ library(bayesplot)
 library(rethinking)
 
 # get fitted model directory
-mcmcSampleFiles <- paste0(directory, list.files(fileDirectory))
+mcmcSampleFiles <- paste0(fileDirectory, list.files(fileDirectory))
 
 # get MCMC samples
 mcmcSamples <- readRDS(mcmcSampleFiles[[grep("viabilityTrialSamples", mcmcSampleFiles)]])

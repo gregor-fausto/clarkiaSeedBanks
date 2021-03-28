@@ -2,45 +2,45 @@ This is BibTeX, Version 0.99d (TeX Live 2020)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: seedBankMS.aux
 The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
-Database file #1: /Users/gregor/Dropbox/bibliography/seeds.bib
-You've used 18 entries,
+Database file #1: /Users/gregor/Dropbox/bibliography/chapter-1.bib
+You've used 27 entries,
             2706 wiz_defined-function locations,
-            711 strings with 8634 characters,
-and the built_in function-call counts, 8750 in all, are:
-= -- 860
-> -- 387
-< -- 13
-+ -- 138
-- -- 111
-* -- 686
-:= -- 1600
-add.period$ -- 72
-call.type$ -- 18
-change.case$ -- 127
-chr.to.int$ -- 17
-cite$ -- 18
-duplicate$ -- 396
-empty$ -- 633
-format.name$ -- 155
-if$ -- 1716
+            777 strings with 11295 characters,
+and the built_in function-call counts, 14069 in all, are:
+= -- 1361
+> -- 727
+< -- 19
++ -- 253
+- -- 213
+* -- 1143
+:= -- 2547
+add.period$ -- 114
+call.type$ -- 27
+change.case$ -- 212
+chr.to.int$ -- 26
+cite$ -- 27
+duplicate$ -- 609
+empty$ -- 956
+format.name$ -- 290
+if$ -- 2763
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 18
-newline$ -- 97
-num.names$ -- 72
-pop$ -- 143
+missing$ -- 27
+newline$ -- 148
+num.names$ -- 108
+pop$ -- 241
 preamble$ -- 1
-purify$ -- 109
+purify$ -- 179
 quote$ -- 0
-skip$ -- 231
+skip$ -- 356
 stack$ -- 0
-substring$ -- 596
-swap$ -- 44
-text.length$ -- 0
+substring$ -- 905
+swap$ -- 77
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 162
+type$ -- 240
 warning$ -- 0
-while$ -- 87
+while$ -- 128
 width$ -- 0
-write$ -- 240
+write$ -- 368

@@ -8,11 +8,16 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
-modelFittingFiles <- paste0(directory,list.files(directory))
+fileDirectory = "/Volumes/RUGGEDKEY/mcmcSamples/"
+outputDirectory = "/Volumes/RUGGEDKEY/convergence-check/"
 
-mcmcSamples <- readRDS(modelFittingFiles[[2]])
-data <- readRDS(modelFittingFiles[[1]])
+modelFittingFiles <- paste0(fileDirectory,list.files(fileDirectory))
+mcmcSamples <- readRDS(modelFittingFiles[[grep("seedSamples",modelFittingFiles)]])
+
+directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
+dataFiles <- paste0(directory,list.files(directory))
+
+data <- readRDS(dataFiles[[1]])
 
 # -------------------------------------------------------------------
 # Get site names and position
