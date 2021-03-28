@@ -1,4 +1,5 @@
-rm(list=ls(all=TRUE)) # clear R environment
+# rm(list=ls(all=TRUE)) # clear R environment
+rm(list=setdiff(ls(all=TRUE),c("scriptCheckDirectory","fileDirectory","outputDirectory"))) # if using in source(script)
 options(stringsAsFactors = FALSE)
 
 library(MCMCvis)
@@ -8,19 +9,15 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-scriptConvergenceDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelConvergence/"
-fileDirectory = "/Volumes/RUGGEDKEY/mcmcSamples/"
-outputDirectory = "/Volumes/RUGGEDKEY/convergence-check/"
+# scriptCheckDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecks/"
+# fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/mcmcSamplesThinned/"
+# outputDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/modelChecks-2020/"
 
-modelFittingFiles <- paste0(fileDirectory,list.files(fileDirectory))
+mcmcSampleDirectory <- paste0(fileDirectory,list.files(fileDirectory))
+mcmcSamples <- readRDS(mcmcSampleDirectory[[grep("seedSamples.rds",mcmcSampleDirectory)]])
+data <- readRDS(mcmcSampleDirectory[[grep("seedData.rds",mcmcSampleDirectory)]])
 
-mcmcSamples <- readRDS(modelFittingFiles[[grep("seedSamples",modelFittingFiles)]])
-
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/decayModel/"
-dataDirectory <- paste0(directory,list.files(directory))
-data <- readRDS(dataDirectory[[1]])
-
-censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData-2021/censusSeedlingsFruitingPlants.RDS")
 siteNames = unique(censusSeedlingsFruitingPlants$site)
 
 # ---
@@ -34,30 +31,40 @@ siteNames = unique(censusSeedlingsFruitingPlants$site)
 par(mfrow=c(1,3))
 
 y.sim=MCMCchains(mcmcSamples, params = "seedlingJan_sim")
+n.iter=dim(y.sim)[1]
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/germination-population.pdf",height=6,width=6)
+f = function(x){
+  x.max=max(x)
+  x.min=min(x)
+  dres <- density(x, from= x.min, to = x.max)
+  return(dres)
+}
+
+pdf(file=paste0(outputDirectory,"germination-population.pdf"),height=6,width=6)
 
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1)
 for(i in 1:20){
+  
+  # for each site get index for year 1 germination
   index=data$siteGermination==i&data$gIndex==1
-  # hist(data$seedlingJan[index]/data$totalJan[index], breaks = 10, 
-  #      freq = FALSE, main='',
-  #      ylab='',xlab='',xaxt='n',yaxt='n') 
+  
   plot(NA,NA,xlim=c(0,1),ylim=c(0,10), main='',
-             ylab='',xlab='',xaxt='n',yaxt='n')
+       ylab='',xlab='',xaxt='n',yaxt='n')
   tmp=sweep(y.sim[,index], 2, data$totalJan[index], FUN = '/')
   
+  sample.index = sample(1:n.iter,20)
+  tmp=tmp[sample.index,]
+
   for(j in 1:20){
-    pg=ggplot_build(ggplot(data.frame(d=tmp[j,]))+stat_density(aes(x=d)))
-   # plot(pg$data[[1]]$x,pg$data[[1]]$y,type='l')
-   # lines(density(tmp[j,]), col = "gray",lwd=.05)
-    lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=0.25,col='gray')
+    dres=f(tmp[j,])
+    lines(dres$x,dres$y,lwd=0.25,col='gray')
   }
-  pg=ggplot_build(ggplot(data.frame(d=data$seedlingJan[index]/data$totalJan[index]))+stat_density(aes(x=d)))
+
+  dres = f(data$seedlingJan[index]/data$totalJan[index])
   
-  lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=1,col='black')
+  lines(dres$x,dres$y,lwd=1,col='black')
   
   text(x=.05,y=9.5,siteNames[i],pos=4)
   ifelse(i%in%c(16:20),axis(1L),NA)
@@ -68,29 +75,27 @@ mtext("Probability of germination (1)", side = 1, outer = TRUE, line = 2.2)
 mtext("Density", side = 2, outer = TRUE, line = 2.2)
 
 
-
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1)
 for(i in 1:20){
   index=data$siteGermination==i&data$gIndex==2
-  # hist(data$seedlingJan[index]/data$totalJan[index], breaks = 10, 
-  #      freq = FALSE, main='',
-  #      ylab='',xlab='',xaxt='n',yaxt='n') 
   
   plot(NA,NA,xlim=c(0,1),ylim=c(0,10), main='',
        ylab='',xlab='',xaxt='n',yaxt='n')
   tmp=sweep(y.sim[,index], 2, data$totalJan[index], FUN = '/')
   
-  for(j in 1:20){
-    pg=ggplot_build(ggplot(data.frame(d=tmp[j,]))+stat_density(aes(x=d)))
-   # plot(pg$data[[1]]$x,pg$data[[1]]$y,type='l')
-   # lines(density(tmp[j,]), col = "gray",lwd=.05)
-    lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=0.25,col='gray')
-  }
-  pg=ggplot_build(ggplot(data.frame(d=data$seedlingJan[index]/data$totalJan[index]))+stat_density(aes(x=d)))
+  sample.index = sample(1:n.iter,20)
+  tmp=tmp[sample.index,]
   
-  lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=1,col='black')
+  for(j in 1:20){
+    dres=f(tmp[j,])
+    lines(dres$x,dres$y,lwd=0.25,col='gray')
+  }
+  
+  dres = f(data$seedlingJan[index]/data$totalJan[index])
+  
+  lines(dres$x,dres$y,lwd=1,col='black')
   
   text(x=.05,y=9.5,siteNames[i],pos=4)
   ifelse(i%in%c(16:20),axis(1L),NA)
@@ -107,23 +112,22 @@ par(mfrow = c(4,5),
     mar = c(0,0,1,1) + 0.1)
 for(i in 1:20){
   index=data$siteGermination==i&data$gIndex==3
-  # hist(data$seedlingJan[index]/data$totalJan[index], breaks = 10, 
-  #      freq = FALSE, main='',
-  #      ylab='',xlab='',xaxt='n',yaxt='n') 
   
   plot(NA,NA,xlim=c(0,1),ylim=c(0,10), main='',
        ylab='',xlab='',xaxt='n',yaxt='n')
   tmp=sweep(y.sim[,index], 2, data$totalJan[index], FUN = '/')
   
-  for(j in 1:20){
-    pg=ggplot_build(ggplot(data.frame(d=tmp[j,]))+stat_density(aes(x=d)))
-   # plot(pg$data[[1]]$x,pg$data[[1]]$y,type='l')
-   # lines(density(tmp[j,]), col = "gray",lwd=.05)
-    lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=0.25,col='gray')
-  }
-  pg=ggplot_build(ggplot(data.frame(d=data$seedlingJan[index]/data$totalJan[index]))+stat_density(aes(x=d)))
+  sample.index = sample(1:n.iter,20)
+  tmp=tmp[sample.index,]
   
-  lines(pg$data[[1]]$x,pg$data[[1]]$y,lwd=1,col='black')
+  for(j in 1:20){
+    dres=f(tmp[j,])
+    lines(dres$x,dres$y,lwd=0.25,col='gray')
+  }
+  
+  dres = f(data$seedlingJan[index]/data$totalJan[index])
+  
+  lines(dres$x,dres$y,lwd=1,col='black')
   
   text(x=.05,y=9.5,siteNames[i],pos=4)
   ifelse(i%in%c(16:20),axis(1L),NA)
@@ -139,29 +143,32 @@ dev.off()
 # *Intact seed counts ----
 # ---
 
-par(mfrow=c(2,3))
+# par(mfrow=c(2,3))
+# 
+# y.sim=MCMCchains(mcmcSamples, params = "y_sim")
+# 
+# for(i in c(1,7,11)){
+#   hist(data$y[data$siteSurvival==1&data$compIndex==i], breaks = 10, 
+#        freq = FALSE, main = "Simulated and real data for germination", 
+#        xlab = expression(paste("germinant count")), cex.lab = 1.2) 
+#   y_sim=y.sim[,data$siteSurvival==1&data$compIndex==i]
+#   hist(y_sim, col = "red",add=TRUE,freq=FALSE)
+# }
+# 
+# dev.off()
 
-y.sim=MCMCchains(mcmcSamples, params = "y_sim")
-
-for(i in c(1,7,11)){
-  hist(data$y[data$siteSurvival==1&data$compIndex==i], breaks = 10, 
-       freq = FALSE, main = "Simulated and real data for germination", 
-       xlab = expression(paste("germinant count")), cex.lab = 1.2) 
-  y_sim=y.sim[,data$siteSurvival==1&data$compIndex==i]
-  hist(y_sim, col = "red",add=TRUE,freq=FALSE)
-}
-
-dev.off()
 
 
-
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/decay-population.pdf",height=8,width=6)
+pdf(file=paste0(outputDirectory,"decay-population.pdf"),height=8,width=6)
 
 par(mfrow=c(5,6),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1)
 
 group = list(1:5,6:10,11:15,16:20)
+
+time.sample = 1:6
+
 
 for(g in 1:4){
   
@@ -189,8 +196,8 @@ for(g in 1:4){
            xlim=c(0,all.max),ylim=c(0,1),
            main=ifelse(j==1,time.sample[i],''),xaxt='n',xlab='',ylab='',yaxt='n')
       for(h in 1:n.samples){
-        m.max=max(tmp[h,])
-        m.min=min(tmp[h,])
+        m.max=max(tmp[h,],na.rm=TRUE)
+        m.min=min(tmp[h,],na.rm=TRUE)
         
         dens.x = density(tmp[h,],from=m.min,to=m.max)
         
@@ -198,10 +205,10 @@ for(g in 1:4){
       }
       
       p = data$y[index]/data$seedStart[index]
-      m.max=max(p)
-      m.min=min(p)
+      m.max=max(p,na.rm=TRUE)
+      m.min=min(p,na.rm=TRUE)
       
-      dens.x = density(p,from=m.min,to=m.max)
+      dens.x = density(p,from=m.min,to=m.max, na.rm=TRUE)
       
       lines(y=dens.x$x,x=dens.x$y)
       
@@ -225,7 +232,7 @@ dev.off()
 
 y.sim=MCMCchains(mcmcSamples, params = "plotSeedlings_sim")
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/s0-population.pdf",height=6,width=6)
+pdf(file=paste0(outputDirectory,"s0-population.pdf"),height=6,width=6)
 
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
@@ -241,10 +248,11 @@ for(i in 1:20){
   tmp=tmp[iter.ind,]
   
   list.dens=apply(tmp,1,density)
-  all.max=max(unlist(lapply(list.dens, "[", "y")))
-
+  all.max.y=max(unlist(lapply(list.dens, "[", "y")))
+  all.max.x=max(unlist(lapply(list.dens, "[", "x")))
+  
   plot(NA,NA,
-       xlim=c(0,.5),ylim=c(0,all.max),
+       xlim=c(0,.3),ylim=c(0,all.max.y),
        main='',xaxt='n',xlab='',ylab='',yaxt='n')
  
    for(h in 1:n.samples){
@@ -265,7 +273,6 @@ for(i in 1:20){
   lines(x=dens.x$x,y=dens.x$y)
   
   text(x=.3,y=all.max-1.5,siteNames[i],pos=4)
-#  text(x=.7,y=all.max-4,sum(data$fec[index]),pos=4)
   ifelse(i%in%c(16:20),axis(1L),NA)
   ifelse(i%in%c(1,6,11,16),axis(2L),NA)
 }
@@ -291,34 +298,34 @@ fit.sim=apply(chi2.sim,1,sum)
 p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
 mean(p.chi2.calc)
 
-p.pop = matrix(NA,nrow=dim(chi2.obs)[1],ncol=20)
-for(i in 1:20){
-  tmp.chi2.obs=chi2.obs[,data$siteGermination==i]
-  tmp.chi2.sim=chi2.sim[,data$siteGermination==i]
-  fit.obs=apply(tmp.chi2.obs,1,sum)
-  fit.sim=apply(tmp.chi2.sim,1,sum)
-  p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
-  p.pop[,i] = p.chi2.calc
-}
-apply(p.pop,2,mean)
-
-
-par(mfrow=c(1,2))
-pop.sample = 1:20
-plot(y=(pop.sample),x=rev(apply(p.pop,2,mean)),
-     xlim=c(0,1),pch=16,
-     ylab="Population",xlab="p-Value",
-     main="Germination",    
-     axes=FALSE,frame=FALSE,xaxt='n',yaxt='n')
-abline(v=c(.1,.9),lty='dotted')
-abline(v=c(.2,.8),lty='dotted',col='gray')
-
-axis(2, (1:20),
-     labels = rev(siteNames), las = 1, 
-     col = NA, col.ticks = 1, cex.axis = 1)
-axis(1,  seq(0,1,by=.2), col.ticks = 1)
-
-n.iter = dim(chi2.obs)[1]
+# p.pop = matrix(NA,nrow=dim(chi2.obs)[1],ncol=20)
+# for(i in 1:20){
+#   tmp.chi2.obs=chi2.obs[,data$siteGermination==i]
+#   tmp.chi2.sim=chi2.sim[,data$siteGermination==i]
+#   fit.obs=apply(tmp.chi2.obs,1,sum)
+#   fit.sim=apply(tmp.chi2.sim,1,sum)
+#   p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
+#   p.pop[,i] = p.chi2.calc
+# }
+# apply(p.pop,2,mean)
+# 
+# 
+# par(mfrow=c(1,2))
+# pop.sample = 1:20
+# plot(y=(pop.sample),x=rev(apply(p.pop,2,mean)),
+#      xlim=c(0,1),pch=16,
+#      ylab="Population",xlab="p-Value",
+#      main="Germination",    
+#      axes=FALSE,frame=FALSE,xaxt='n',yaxt='n')
+# abline(v=c(.1,.9),lty='dotted')
+# abline(v=c(.2,.8),lty='dotted',col='gray')
+# 
+# axis(2, (1:20),
+#      labels = rev(siteNames), las = 1, 
+#      col = NA, col.ticks = 1, cex.axis = 1)
+# axis(1,  seq(0,1,by=.2), col.ticks = 1)
+# 
+# n.iter = dim(chi2.obs)[1]
 
 p.chi.list = list()
 p.pop = matrix(NA,nrow=n.iter,ncol=3)
@@ -337,56 +344,56 @@ for(j in 1:20){
 }
 p.chi.mat=do.call(rbind,p.chi.list)
 
-age.sample = 1:3
-plot(age.sample,p.chi.mat[1,],
-     ylim=c(0,1),pch=16,xlim=c(1,3),
-     xlab="Year",ylab="p-Value",
-     main="Germination",type='n')
-for(i in 1:20){
-  points(age.sample+rnorm(1,0,sd=.05),
-         p.chi.mat[i,],pch=19,cex=.5,col='black')
-}
-abline(h=c(.1,.9),lty='dotted')
-abline(h=c(.2,.8),lty='dotted',col='gray')
-
-
-
-y.sim=MCMCchains(mcmcSamples,params=c("seedlingJan_sim"))
-y.obs=data$seedlingJan
-test.sim=apply(y.sim,1,mean)
-test.obs=mean(y.obs)
-p.test = ifelse(test.sim-test.obs>=0,1,0)
-mean(p.test)
-
-n.iter=dim(y.sim)[1]
-
-p.test.list = list()
-p.pop = matrix(NA,nrow=n.iter,ncol=3)
-for(j in 1:20){
-  for(i in 1:3){
-    tmp.obs=y.obs[data$siteGermination==j&data$gIndex==i]
-    tmp.sim=y.sim[,data$siteGermination==j&data$gIndex==i]
-    test.obs=mean(tmp.obs)
-    test.sim=apply(tmp.sim,1,mean)
-    p.test.calc=ifelse(test.sim-test.obs>=0,1,0)
-    p.pop[,i] = p.test.calc
-  }
-  p.test.list[[j]] = apply(p.pop,2,mean,na.rm=TRUE)
-}
-p.test.mat=do.call(rbind,p.test.list)
-
-
-par(mfrow=c(1,1))
-age.sample = 1:3
-plot(age.sample,p.test.mat[1,],
-     ylim=c(0,1),pch=16,xlim=c(0,4),
-     xlab="Months",ylab="p-Value",
-     main="Germinant counts",type='n')
-for(i in 1:20){
-  points(age.sample+rnorm(1,0,sd=.05),
-         p.test.mat[i,],pch=1,cex=.5)
-}
-abline(h=c(.1,.9),lty='dotted')
+# age.sample = 1:3
+# plot(age.sample,p.chi.mat[1,],
+#      ylim=c(0,1),pch=16,xlim=c(1,3),
+#      xlab="Year",ylab="p-Value",
+#      main="Germination",type='n')
+# for(i in 1:20){
+#   points(age.sample+rnorm(1,0,sd=.05),
+#          p.chi.mat[i,],pch=19,cex=.5,col='black')
+# }
+# abline(h=c(.1,.9),lty='dotted')
+# abline(h=c(.2,.8),lty='dotted',col='gray')
+# 
+# 
+# 
+# y.sim=MCMCchains(mcmcSamples,params=c("seedlingJan_sim"))
+# y.obs=data$seedlingJan
+# test.sim=apply(y.sim,1,mean)
+# test.obs=mean(y.obs)
+# p.test = ifelse(test.sim-test.obs>=0,1,0)
+# mean(p.test)
+# 
+# n.iter=dim(y.sim)[1]
+# 
+# p.test.list = list()
+# p.pop = matrix(NA,nrow=n.iter,ncol=3)
+# for(j in 1:20){
+#   for(i in 1:3){
+#     tmp.obs=y.obs[data$siteGermination==j&data$gIndex==i]
+#     tmp.sim=y.sim[,data$siteGermination==j&data$gIndex==i]
+#     test.obs=mean(tmp.obs)
+#     test.sim=apply(tmp.sim,1,mean)
+#     p.test.calc=ifelse(test.sim-test.obs>=0,1,0)
+#     p.pop[,i] = p.test.calc
+#   }
+#   p.test.list[[j]] = apply(p.pop,2,mean,na.rm=TRUE)
+# }
+# p.test.mat=do.call(rbind,p.test.list)
+# 
+# 
+# par(mfrow=c(1,1))
+# age.sample = 1:3
+# plot(age.sample,p.test.mat[1,],
+#      ylim=c(0,1),pch=16,xlim=c(0,4),
+#      xlab="Months",ylab="p-Value",
+#      main="Germinant counts",type='n')
+# for(i in 1:20){
+#   points(age.sample+rnorm(1,0,sd=.05),
+#          p.test.mat[i,],pch=1,cex=.5)
+# }
+# abline(h=c(.1,.9),lty='dotted')
 
 
 
@@ -421,15 +428,21 @@ germ.max=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=max)
 germ.mean=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=mean)
 germ.sd=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=sd)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/germination-ppc.pdf",height=6,width=6)
+pdf(file=paste0(outputDirectory,"germination-ppc.pdf"),height=6,width=6)
 
 par(mfrow=c(1,1))
+
+## Make plot of p-values
 age.sample = 1:3
 plot(age.sample,germ.sd[1,],
      ylim=c(0,1),pch=16,xlim=c(.5,5.5),
      xlab="Months",ylab="p-Value",
      main="Germinant counts",type='n',
-     xaxt='n',yaxt='n')
+     xaxt='n',yaxt='n',frame=FALSE)
+
+polygon(x=c(1.5,1.5,2.5,2.5),y=c(-1,2,2,-1),col='gray90',border=0)
+polygon(x=c(3.5,3.5,4.5,4.5),y=c(-1,2,2,-1),col='gray90',border=0)
+box(which="plot",bty="l",col='black')
 abline(h=0.5,lty='dotted')
 
 col.vec = c("white","gray","black")
@@ -461,6 +474,7 @@ legend(x=.5,y=.1,legend=c("Age 1", "Age 2", "Age 3"),
        pch =c(21,21,21), cex =.5, pt.bg=col.vec)
 
 
+# Simulate values of the minimum 
 f2=function(y.sim=chains,y.obs=data,n.obs=data2,age=1,model.fun=mean){
   
   n.iter=dim(y.sim)[1]
@@ -498,8 +512,9 @@ for(i in 1:20){
        siteNames[i],pos=4)
 }
 
-mtext("Probability of germination (1)", side = 1, outer = TRUE, line = 2.2)
+mtext("Probability of germination (age 1)", side = 1, outer = TRUE, line = 2.2)
 mtext("Density", side = 2, outer = TRUE, line = 2.2)
+
 dev.off()
 
 # ---
@@ -571,7 +586,7 @@ seeds.sd=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=sd)
 colfunc <- colorRampPalette(c("white", "black"))
 col.vec=colfunc(6)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/decay-ppc.pdf",height=6,width=6)
+pdf(file=paste0(outputDirectory,"decay-ppc.pdf"),height=6,width=6)
 
 par(mfrow=c(1,1))
 time.sample = 1:6
@@ -579,7 +594,11 @@ plot(NA,NA,
      ylim=c(0,1),pch=16,xlim=c(.5,13),
      xlab="Months",ylab="p-Value",
      main="Intact seed counts",type='n',
-     xaxt='n',yaxt='n')
+     xaxt='n',yaxt='n',frame=FALSE)
+
+polygon(x=c(3,3,5.5,5.5),y=c(-1,2,2,-1),col='gray90',border=0)
+polygon(x=c(8,8,10.5,10.5),y=c(-1,2,2,-1),col='gray90',border=0)
+box(which="plot",bty="l",col='black')
 abline(h=0.5,lty='dotted')
 
 start = c(1,3.5,6,8.5,11)
@@ -673,8 +692,8 @@ for(j in 1:20){
     index = data$sitePlot==j&data$yearPlot==i
     tmp.chi2.obs=chi2.obs[,index]
     tmp.chi2.sim=chi2.sim[,index]
-    fit.obs=apply(tmp.chi2.obs,1,sum)
-    fit.sim=apply(tmp.chi2.sim,1,sum)
+    fit.obs=apply(as.matrix(tmp.chi2.obs),1,sum)
+    fit.sim=apply(as.matrix(tmp.chi2.sim),1,sum)
     p.chi2.calc=ifelse(fit.sim-fit.obs>=0,1,0)
     p.pop[,i] = p.chi2.calc
   }
@@ -694,7 +713,7 @@ f=function(y.sim=chains,y.obs=data,n.obs=data2,model.fun=mean){
     for(i in 1:2){
       index = data$sitePlot==j&data$yearPlot==i
       tmp.obs=y.obs[index]/n.obs[index]
-      tmp.sim=sweep(y.sim[,index], 2, n.obs[index], FUN = '/')
+      tmp.sim=sweep(as.matrix(y.sim[,index]), 2, n.obs[index], FUN = '/')
       test.obs=model.fun(tmp.obs)
       test.sim=apply(tmp.sim,1,model.fun)
       p.test.calc=ifelse(test.sim-test.obs>=0,1,0)
@@ -718,7 +737,7 @@ seeds.sd=f(y.sim=sims,y.obs=df,n.obs=df2,model.fun=sd)
 colfunc <- colorRampPalette(c("white", "black"))
 col.vec=colfunc(2)
 
-pdf(file="~/Dropbox/clarkiaSeedBanks/products/figures/modelChecks/s0-ppc.pdf",height=6,width=6)
+pdf(file=paste0(outputDirectory,"s0-ppc.pdf"),height=6,width=6)
 
 par(mfrow=c(1,1))
 time.sample = 1:2
@@ -726,7 +745,11 @@ plot(NA,NA,
      ylim=c(0,1),pch=16,xlim=c(.5,5.5),
      xlab="",ylab="",
      main="Emerging seedlings",type='n',
-     xaxt='n',yaxt='n')
+     xaxt='n',yaxt='n',frame=FALSE)
+
+polygon(x=c(1.5,1.5,2.5,2.5),y=c(-1,2,2,-1),col='gray90',border=0)
+polygon(x=c(3.5,3.5,4.5,4.5),y=c(-1,2,2,-1),col='gray90',border=0)
+box(which="plot",bty="l",col='black')
 abline(h=0.5,lty='dotted')
 
 start = c(1,2,3,4,5)
@@ -769,7 +792,7 @@ f2=function(y.sim=chains,y.obs=data,n.obs=data2,class=1,model.fun=mean){
     index = data$sitePlot==j&data$yearPlot==class
     
     tmp.obs=y.obs[index]/n.obs[index]
-    tmp.sim=sweep(y.sim[,index], 2, n.obs[index], FUN = '/')
+    tmp.sim=sweep(as.matrix(y.sim[,index]), 2, n.obs[index], FUN = '/')
     test.obs=model.fun(tmp.obs)
     test.sim=apply(tmp.sim,1,model.fun)
     test.list[[j]] = list(test.obs,test.sim)
@@ -782,7 +805,7 @@ sims=MCMCchains(mcmcSamples,params=c("plotSeedlings_sim"))
 df=data$plotSeedlings
 df2=data$fec
 
-seeds.min=f2(y.sim=sims,y.obs=df,n.obs=df2,class=2,model.fun=min)
+seeds.min=f2(y.sim=sims,y.obs=df,n.obs=df2,class=1,model.fun=min)
 
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
@@ -811,123 +834,123 @@ mtext("Minimum (2008)", side = 1, outer = TRUE, line = 2.2)
 mtext("Density", side = 2, outer = TRUE, line = 2.2)
 dev.off()
 
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Model comparison
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-
-LLmat.wb <- MCMCchains(mcmcSamples,params="logLik_y")
-rel_n_eff.wb <- relative_eff(exp(LLmat.wb), chain_id = rep(1, each = n.iter))
-looWb <- loo(LLmat.wb, r_eff = rel_n_eff.wb, cores = 2)
-
-print(looWb)
-plot(looWb)
-
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Model comparison
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-
-
-# WEIBULL
-
-a.wb=MCMCchains(mcmcSamples,params="a")
-b.wb=MCMCchains(mcmcSamples,params="mu_s")
-b0.wb=MCMCchains(mcmcSamples,params="mu0_s")
-
-
-  inv.b0=cbind(exp(-b0.wb/a.wb))
-  inv.b0.parm=apply(inv.b0,2,quantile,probs=c(0.025,.5,.975))
-  
-  inv.b=cbind(exp(-b.wb[,1]/a.wb),exp(-b.wb[,2]/a.wb),exp(-b.wb[,3]/a.wb))
-  inv.b.parm=apply(inv.b,2,quantile,probs=c(0.025,.5,.975))
-  
-  a.parm=apply(a.wb,2,quantile,probs=c(0.025,.5,.975))
-
-
-  par(mfrow = c(4,5),
-      oma = c(5,4,0,0) + 0.1,
-      mar = c(0,0,1,1) + 0.1)
-
-  t=seq(0,max(data$months),.01)
 # 
-# par(mfrow=c(1,1))
-# plot(t,exp(-(t/inv.b0.parm[2,1])^a.parm[2,1]),
-#      xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
-# lines(t,exp(-(t/inv.b0.parm[1,1])^a.parm[2,1]),lty='dotted')
-# lines(t,exp(-(t/inv.b0.parm[3,1])^a.parm[2,1]),lty='dotted')
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# # Model comparison
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# 
+# LLmat.wb <- MCMCchains(mcmcSamples,params="logLik_y")
+# rel_n_eff.wb <- relative_eff(exp(LLmat.wb), chain_id = rep(1, each = n.iter))
+# looWb <- loo(LLmat.wb, r_eff = rel_n_eff.wb, cores = 2)
+# 
+# print(looWb)
+# plot(looWb)
 # 
 # 
-# # sample from the same rows of the posterior to keep correlations between parameters
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# # Model comparison
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# 
+# 
+# # WEIBULL
+# 
+# a.wb=MCMCchains(mcmcSamples,params="a")
+# b.wb=MCMCchains(mcmcSamples,params="mu_s")
+# b0.wb=MCMCchains(mcmcSamples,params="mu0_s")
+# 
+# 
+#   inv.b0=cbind(exp(-b0.wb/a.wb))
+#   inv.b0.parm=apply(inv.b0,2,quantile,probs=c(0.025,.5,.975))
+#   
+#   inv.b=cbind(exp(-b.wb[,1]/a.wb),exp(-b.wb[,2]/a.wb),exp(-b.wb[,3]/a.wb))
+#   inv.b.parm=apply(inv.b,2,quantile,probs=c(0.025,.5,.975))
+#   
+#   a.parm=apply(a.wb,2,quantile,probs=c(0.025,.5,.975))
+# 
+# 
+#   par(mfrow = c(4,5),
+#       oma = c(5,4,0,0) + 0.1,
+#       mar = c(0,0,1,1) + 0.1)
+# 
+#   t=seq(0,max(data$months),.01)
+# # 
+# # par(mfrow=c(1,1))
+# # plot(t,exp(-(t/inv.b0.parm[2,1])^a.parm[2,1]),
+# #      xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
+# # lines(t,exp(-(t/inv.b0.parm[1,1])^a.parm[2,1]),lty='dotted')
+# # lines(t,exp(-(t/inv.b0.parm[3,1])^a.parm[2,1]),lty='dotted')
+# # 
+# # 
+# # # sample from the same rows of the posterior to keep correlations between parameters
+# # # par(mfrow=c(1,3))
+# # # plot(a.wb,b.wb[,1])
+# # # plot(a.wb,b.wb[,2])
+# # # plot(a.wb,b.wb[,3])
+# # 
 # # par(mfrow=c(1,3))
-# # plot(a.wb,b.wb[,1])
-# # plot(a.wb,b.wb[,2])
-# # plot(a.wb,b.wb[,3])
-# 
-# par(mfrow=c(1,3))
-## AGE 1
-  for(j in 1:20){
-plot(t,exp(-(t/inv.b.parm[2,j])^a.parm[2,j]),
-     xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
-for(i in 1:100){
-  tmp=sample(1:dim(a.wb)[1],1)
-  lines(t,exp(-(t/inv.b[tmp,j])^a.wb[tmp,j]),
-        lwd=.5,col=ifelse(a.wb[tmp,j]>1,"purple","orange"))
-}
-lines(t,exp(-(t/inv.b.parm[2,j])^a.parm[2,j]),lwd=2)
-
-# df<-survivalData[survivalData$yearSurvival==2006,]
-# points(df$months,df$y/df$seedStart,pch=16,cex=.75)
-}
-## AGE 2
-plot(t,exp(-(t/inv.b.parm[2,2])^a.parm[2,1]),
-     xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
-for(i in 1:100){
-  tmp=sample(1:dim(a.wb)[1],1)
-  lines(t,exp(-(t/inv.b[tmp,2])^a.wb[tmp,1]),
-        lwd=.5,col=ifelse(a.wb[tmp,1]>1,"purple","orange"))
-}
-lines(t,exp(-(t/inv.b.parm[2,2])^a.parm[2,1]),lwd=2)
-
-
-df<-survivalData[survivalData$yearSurvival==2007,]
-points(df$months,df$y/df$seedStart,pch=16,cex=.75)
-
-
-## AGE 3
-plot(t,exp(-(t/inv.b.parm[2,3])^a.parm[2,1]),
-     xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
-for(i in 1:100){
-  tmp=sample(1:dim(a.wb)[1],1)
-  lines(t,exp(-(t/inv.b[tmp,3])^a.wb[tmp,1]),
-        lwd=.5,col=ifelse(a.wb[tmp,1]>1,"purple","orange"))
-}
-lines(t,exp(-(t/inv.b.parm[2,3])^a.parm[2,1]),lwd=2)
-
-df<-survivalData[survivalData$yearSurvival==2008,]
-points(df$months,df$y/df$seedStart,pch=16,cex=.75)
-
-
-
-# -------------------------------------------------------------------
-# Binned residual plots
-# see check 6: https://moodle2.units.it/pluginfile.php/290133/mod_resource/content/1/model_check_script.R
-# https://discourse.mc-stan.org/t/posterior-prediction-from-logit-regression/12217
-# -------------------------------------------------------------------
-# 
-# sims <- MCMCchains(mcmcSamples, params = "y_sim")
-# sims.subset=sims[sample(dim(sims)[1],10000),]
-# 
-# sims <- MCMCchains(mcmcSamples, params = "seedlingJan_sim")
-# 
-# for(i in 1:6){
-#   
-#   par(mfrow=c(2,3))
-#   bayesplot::ppc_error_binned(data$seedlingJan[data$gIndex==3], 
-#                               sims[1:6,data$gIndex==3])
-#   
+# ## AGE 1
+#   for(j in 1:20){
+# plot(t,exp(-(t/inv.b.parm[2,j])^a.parm[2,j]),
+#      xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
+# for(i in 1:100){
+#   tmp=sample(1:dim(a.wb)[1],1)
+#   lines(t,exp(-(t/inv.b[tmp,j])^a.wb[tmp,j]),
+#         lwd=.5,col=ifelse(a.wb[tmp,j]>1,"purple","orange"))
 # }
+# lines(t,exp(-(t/inv.b.parm[2,j])^a.parm[2,j]),lwd=2)
+# 
+# # df<-survivalData[survivalData$yearSurvival==2006,]
+# # points(df$months,df$y/df$seedStart,pch=16,cex=.75)
+# }
+# ## AGE 2
+# plot(t,exp(-(t/inv.b.parm[2,2])^a.parm[2,1]),
+#      xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
+# for(i in 1:100){
+#   tmp=sample(1:dim(a.wb)[1],1)
+#   lines(t,exp(-(t/inv.b[tmp,2])^a.wb[tmp,1]),
+#         lwd=.5,col=ifelse(a.wb[tmp,1]>1,"purple","orange"))
+# }
+# lines(t,exp(-(t/inv.b.parm[2,2])^a.parm[2,1]),lwd=2)
+# 
+# 
+# df<-survivalData[survivalData$yearSurvival==2007,]
+# points(df$months,df$y/df$seedStart,pch=16,cex=.75)
+# 
+# 
+# ## AGE 3
+# plot(t,exp(-(t/inv.b.parm[2,3])^a.parm[2,1]),
+#      xlim=c(0,max(data$months)),ylim=c(0,1),type='l')
+# for(i in 1:100){
+#   tmp=sample(1:dim(a.wb)[1],1)
+#   lines(t,exp(-(t/inv.b[tmp,3])^a.wb[tmp,1]),
+#         lwd=.5,col=ifelse(a.wb[tmp,1]>1,"purple","orange"))
+# }
+# lines(t,exp(-(t/inv.b.parm[2,3])^a.parm[2,1]),lwd=2)
+# 
+# df<-survivalData[survivalData$yearSurvival==2008,]
+# points(df$months,df$y/df$seedStart,pch=16,cex=.75)
+# 
+# 
+# 
+# # -------------------------------------------------------------------
+# # Binned residual plots
+# # see check 6: https://moodle2.units.it/pluginfile.php/290133/mod_resource/content/1/model_check_script.R
+# # https://discourse.mc-stan.org/t/posterior-prediction-from-logit-regression/12217
+# # -------------------------------------------------------------------
+# # 
+# # sims <- MCMCchains(mcmcSamples, params = "y_sim")
+# # sims.subset=sims[sample(dim(sims)[1],10000),]
+# # 
+# # sims <- MCMCchains(mcmcSamples, params = "seedlingJan_sim")
+# # 
+# # for(i in 1:6){
+# #   
+# #   par(mfrow=c(2,3))
+# #   bayesplot::ppc_error_binned(data$seedlingJan[data$gIndex==3], 
+# #                               sims[1:6,data$gIndex==3])
+# #   
+# # }

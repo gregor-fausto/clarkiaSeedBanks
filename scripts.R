@@ -37,8 +37,8 @@ source(paste0(scriptDirectory,"modelScripts-fruits-parallel-noPool.R"))
 # outputDirectory = "/Users/Gregor/Desktop/convergence/"
 
 scriptConvergenceDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelConvergence/"
-fileDirectory = "/Volumes/RUGGEDKEY/mcmcSamples/"
-outputDirectory = "/Volumes/RUGGEDKEY/convergence-check/"
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/mcmcSamplesThinned/"
+outputDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/convergence/"
 
 # check convergence for belowground models
 source(paste0(scriptConvergenceDirectory,"modelConvergenceViability.R"))
@@ -50,22 +50,26 @@ source(paste0(scriptConvergenceDirectory,"modelConvergenceFruits.R"))
 source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedsperfruit.R"))
 
 # check convergence for no pooling aboveground models
-source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedlingSurvival-noPool.R"))
-source(paste0(scriptConvergenceDirectory,"modelConvergenceFruits-noPool.R"))
-source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedsperfruit-noPool.R"))
+# source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedlingSurvival-noPool.R"))
+# source(paste0(scriptConvergenceDirectory,"modelConvergenceFruits-noPool.R"))
+# source(paste0(scriptConvergenceDirectory,"modelConvergenceSeedsperfruit-noPool.R"))
 
 # pause script here to check that convergence has been achieved
 
 # -------------------------------------------------------------------
 # Run scripts for model checks
 # -------------------------------------------------------------------
+scriptCheckDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecks/"
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/mcmcSamplesThinned/"
+outputDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/modelChecks-2020/"
+
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksBelowground.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksSurvival.R")
+source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksFruitsPerPlant.R")
+source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksSeedsPerFruit.R")
 
 # following scripts not yet written
-# source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksFruitsPerPlant.R")
-# source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksSeedsPerFruit.R")
-
+# source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksViability.R")
 
 # -------------------------------------------------------------------
 # Run scripts to output summary tables and summary plots
