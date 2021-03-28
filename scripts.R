@@ -80,8 +80,11 @@ source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsModelChecking/modelChecksS
 # -------------------------------------------------------------------
 # Run scripts to recover structured model parameters
 # -------------------------------------------------------------------
+fileDirectory = "/Users/Gregor/Dropbox/dataLibrary/mcmcSamplesThinned/"
+outputDirectory = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/modelChecks-2020/"
 
-source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsSummaries/parametersBelowground-1.R")
+source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsParameters/parametersBelowground.R")
+source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsParameters/parametersSeedlingSurvival.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsSummaries/parametersFruitsPerPlant.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsSummaries/parametersSeedsPerFruit.R")
 
@@ -89,7 +92,12 @@ source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsSummaries/parametersSeedsP
 # Run scripts to analyze data for paper
 # -------------------------------------------------------------------
 
+# create figure summarizing aboveground observations
+# generate RDS with populations and years without plants
+source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/scripts/zeroFitness.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/scripts/calculateReproductiveSuccess.R")
+
+
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/scripts/estimateCorrelationGerminationSurvival-Reanalysis.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/scripts/estimateCorrelationGerminationReproductiveSuccess-Reanalysis.R")
 source("/Users/gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/scripts/simulatePopulationGrowthRateDIModel-Reanalysis.R")

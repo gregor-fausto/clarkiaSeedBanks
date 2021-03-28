@@ -35,7 +35,6 @@ dataViability <- readRDS(mcmcSampleDirectory[[grep("viabilityData.rds",mcmcSampl
 # -------------------------------------------------------------------
 
 mu0_g=MCMCchains(mcmcSamples,params="mu0_g")
-#mu_g=MCMCchains(mcmcSamples,params="mu_g")
 
 index.g1=grep(",1\\]",colnames(mu0_g))
 index.g2=grep(",2\\]",colnames(mu0_g))
@@ -47,8 +46,6 @@ gamma1.sum=apply(gamma1,2,quantile,probs=c(0.025,.25,.5,.75,.975))
 gamma2 = boot::inv.logit(mu0_g[,index.g2])
 gamma2.sum=apply(gamma2,2,quantile,probs=c(0.025,.25,.5,.75,.975))
 
-# note here this is the population-year level 
-# there is NO population-level parameter for age 3 germination
 gamma3 = boot::inv.logit(mu0_g[,index.g3])
 gamma3.sum=apply(gamma3,2,quantile,probs=c(0.025,.25,.5,.75,.975))
 
@@ -56,7 +53,7 @@ gamma3.sum=apply(gamma3,2,quantile,probs=c(0.025,.25,.5,.75,.975))
 # Discrete survival component
 # -------------------------------------------------------------------
 
-theta_c2 = 1- gamma1
+theta_c2 = (1-gamma1)
 theta_c4 = (1-gamma2)
 theta_c6 = (1-gamma3)
 
@@ -72,7 +69,6 @@ x = c(1,2,2,3,4,4,5,6,6,7)
 t = c(0,4,12,16,24,28,36)/36
 
 theta_0 = 1
-
 theta_1 = function(t,inv.b0,alpha){
   exp(-(t/inv.b0)^alpha)
 }
@@ -117,31 +113,25 @@ th_0=matrix(1,nrow=dim(th_9)[1],ncol=dim(th_9)[2])
 # Viability
 # -------------------------------------------------------------------
 
-# get population estimates for year 1-2
+# get population estimates for year 1-3
 mu0_g<-MCMCchains(mcmcSamplesViability, params = "mu0_g")
 mu0_v<-MCMCchains(mcmcSamplesViability, params = "mu0_v")
 # calculate total viability; calculation on latent scale
 nu0=exp(mu0_g)/(1+exp(mu0_g))+(exp(-mu0_g+mu0_v)/(1+exp(-mu0_g)+exp(mu0_v)+exp(-mu0_g+mu0_v)))
 
-# get population*year estimates for year 3
-mu_g<-MCMCchains(mcmcSamplesViability, params = "mu_g")
-mu_v<-MCMCchains(mcmcSamplesViability, params = "mu_v")
-# calculate total viability; calculation on latent scale
-nu=exp(mu_g)/(1+exp(mu_g))+(exp(-mu_g+mu_v)/(1+exp(-mu_g)+exp(mu_v)+exp(-mu_g+mu_v)))
-
 # interpolate for January estimates
-nu0_ratio1=(nu0[,c(1:20)])^(1/3)
-nu0_ratio2=nu0[,c(1:20)]*(nu0[,c(21:40)]/nu0[,c(1:20)])^(1/3)
-nu0_ratio3=nu0[,c(21:40)]*(nu[,c(101:120)]/nu0[,c(21:40)])^(1/3)
+nu0_ratio1=(nu0[,index.g1])^(1/3)
+nu0_ratio2=nu0[,index.g1]*(nu0[,index.g2]/nu0[,index.g1])^(1/3)
+nu0_ratio3=nu0[,index.g2]*(nu0[,index.g3]/nu0[,index.g2])^(1/3)
 nu0_ratio2=nu0_ratio2
 nu0_ratio3=nu0_ratio3
 
 nu_01.inter = nu0_ratio1
-nu_1 = nu0[,1:20]
+nu_1 = nu0[,index.g1]
 nu_12.inter = nu0_ratio2
-nu_2 = nu0[,21:40]
+nu_2 = nu0[,index.g2]
 nu_23.inter = nu0_ratio3
-nu_3 = nu[,101:120]
+nu_3 = nu0[,index.g3]
 
 # -------------------------------------------------------------------
 # Combine survival function + viability
@@ -159,35 +149,6 @@ gamma3.v = gamma3/(1-(1-nu_23.inter)*(1-gamma3))
 f.wb = function(t,inv.b0,alpha){
   exp(-(t/inv.b0)^alpha)
 }
-
-## survival function formulation
-# Oct_0.v = f.wb(t=t[x[1]],inv.b0=inv.b0.wb,alpha=a.wb)
-# 
-# Janpre_1.v = f.wb(t=t[x[2]],inv.b0=inv.b0.wb,alpha=a.wb)*(gamma1+(1-gamma1)*nu_01.inter)
-# Jangerm_1.v = gamma1.v
-# Janpost_1.v = f.wb(t=t[x[3]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*nu_01.inter
-# Oct_1.v = (f.wb(t=t[x[4]],inv.b0=inv.b0.wb,alpha=a.wb)*nu_1*(1-gamma1))
-# 
-# Janpre_2.v =( f.wb(t=t[x[5]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(gamma2+(1-gamma2)*nu_12.inter))
-# Jangerm_2.v = gamma2.v
-# Janpost_2.v = f.wb(t=t[x[6]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(1-gamma2)*nu_12.inter
-# Oct_2.v = (f.wb(t=t[x[7]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(1-gamma2)*nu_2)
-# 
-# Janpre_3.v = ( f.wb(t=t[x[8]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(1-gamma2)*(gamma3+(1-gamma3)*nu_23.inter))
-# Jangerm_3.v = gamma3.v
-# Janpost_3.v = f.wb(t=t[x[9]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(1-gamma2)*(1-gamma3)*nu_23.inter
-# Oct_3.v =(f.wb(t=t[x[10]],inv.b0=inv.b0.wb,alpha=a.wb)*(1-gamma1)*(1-gamma2)*(1-gamma3)*nu_3)
-
-# phi_0 = Oct_0.v
-# phi_1 = Janpre_1.v
-# phi_2 = Janpost_1.v
-# phi_3 = Oct_1.v
-# phi_4 = Janpre_2.v
-# phi_5 = Janpost_2.v
-# phi_6 = Oct_2.v
-# phi_7 = Janpre_3.v
-# phi_8 = Janpost_3.v
-# phi_9 = Oct_3.v
 
 ## age-specific probability formulation function formulation
 
@@ -342,32 +303,6 @@ Janpre_2.v=apply(Janpre_2.v,2,resample)
 Oct_2.v=apply(Oct_2.v,2,resample)
 Janpre_3.v=apply(Janpre_3.v,2,resample)
 Oct_3.v=apply(Oct_3.v,2,resample)
-
-# ALTERNATIVE?
-# instead of resampling from the same distribution below one, instead sample
-# from the transition distribution without viability?
-# resample2=function(x,y){
-#   tmp = ifelse(x<=1,x,NA)
-#   len=sum(is.na(tmp))
-#   #tmp2=x[x<=1]
-#   out = ifelse(is.na(tmp),sample(y,len,replace=TRUE),tmp)
-#   return(out)
-# }
-# 
-# Janpre_2.v2=apply(Janpre_2.v,2,resample2,y=(f.wb(t=t[x[5]],inv.b0=inv.b0.wb,alpha=a.wb)*(gamma2+(1-gamma2)))/(f.wb(t=t[x[4]],inv.b0=inv.b0.wb,alpha=a.wb)))
-# Oct_2.v2=apply(Oct_2.v,2,resample2,y=(f.wb(t=t[x[7]],inv.b0=inv.b0.wb,alpha=a.wb))/(f.wb(t=t[x[6]],inv.b0=inv.b0.wb,alpha=a.wb)))
-# Janpre_3.v2=apply(Janpre_3.v,2,resample2,y=(f.wb(t=t[x[8]],inv.b0=inv.b0.wb,alpha=a.wb)*(gamma3+(1-gamma3)))/(f.wb(t=t[x[7]],inv.b0=inv.b0.wb,alpha=a.wb)))
-# Oct_3.v2=apply(Oct_3.v,2,resample2,y=(f.wb(t=t[x[10]],inv.b0=inv.b0.wb,alpha=a.wb))/(f.wb(t=t[x[9]],inv.b0=inv.b0.wb,alpha=a.wb)))
-
-
-## Check properties of the resampled distribution
-# par(mfrow = c(4,5),
-#     oma = c(5,4,0,0) + 0.1,
-#     mar = c(0,0,1,1) + 0.1)
-# for(i in 1:20){hist(Janpre_2.v[,i],main='',breaks=100)}#;abline(v=c(0,1),col='red')}
-# for(i in 1:20){hist(Oct_2.v[,i],main='',breaks=100)}#;abline(v=c(0,1),col='red')}
-# for(i in 1:20){hist(Janpre_3.v[,i],main='',breaks=100)}#;abline(v=c(0,1),col='red')}
-# for(i in 1:20){hist(Oct_3.v[,i],main='',breaks=100)}#;abline(v=c(0,1),col='red')}
 
 # -------------------------------------------------------------------
 # Diagnostic
@@ -715,7 +650,6 @@ dev.off()
 # Calculate structured model parameters
 # -------------------------------------------------------------------
 
-
 # look at germination, conditional on persistence vs. conditional on persistence and viability
 
 # conditional on persistence only
@@ -798,7 +732,6 @@ dev.off()
 
 
 pdf("~/Dropbox/clarkiaSeedBanks/products/figures/compare-structured-germination2.pdf",width=8,height=6)
-
 
 g.sum = rbind(apply(g1,2,quantile,c(.025,.5,.975)),apply(g2,2,quantile,c(.025,.5,.975)),apply(g3,2,quantile,c(.025,.5,.975)))
 g.v.sum = rbind(apply(g1.v,2,quantile,c(.025,.5,.975)),apply(g2.v,2,quantile,c(.025,.5,.975)),apply(g3.v,2,quantile,c(.025,.5,.975)))

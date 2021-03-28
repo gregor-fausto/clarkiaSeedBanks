@@ -22,12 +22,17 @@ cols_fun <- function(x,fun=var){
 }
 
 # -------------------------------------------------------------------
-# -------------------------------------------------------------------
 # read in samples from posterior distributions
+# -------------------------------------------------------------------
+
 g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
 s2 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s2-pop.RDS")
 s3 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/s3-pop.RDS")
 
+
+# -------------------------------------------------------------------
+# Uncomment for histograms of posteriors
+# -------------------------------------------------------------------
 par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1    )
@@ -47,39 +52,26 @@ for(i in 1:20){
 }
 
 
+# -------------------------------------------------------------------
+# Analyze correlation
+# -------------------------------------------------------------------
+
 n.iter = dim(g1)[1]
-# # extract parameters for analysis
-# posterior.g1<-MCMCchains(zc,params = "g1")
-# posterior.s2<-MCMCchains(zc,params = "s2")
-# posterior.s3<-MCMCchains(zc,params = "s3")
 
-# read nSites and nYears from data file
-# nSites <- 20
-# nYears <- 3
-# 
-# # get number of iterations from matrix of posterior
-# n.iter = dim(posterior.g1)[1]
-
-# create empty matrix
-# probability.survival <- matrix(NA,nrow=n.iter,ncol=nSites)
-
-# calculate product of s2 and s3 for each site
-  # for(i in 1:nSites){
-  #   probability.survival[,i]<-posterior.s2[,i]*posterior.s3[,i]
-  # }
 probability.survival = s2*s3
-posterior.g1 = g1
+probability.g1 = g1
+
 # create empty vector for the correlation
 posterior.correlation<-c()
 
 # calculate correlation for each draw from the posterior
 for(i in 1:n.iter){
-  posterior.correlation[i]<-cor(posterior.g1[i,],probability.survival[i,])
+  posterior.correlation[i]<-cor(probability.g1[i,],probability.survival[i,])
 }
 
 # calculate the 95% credible interval and HPDI for g1
-CI.g1 <- apply(posterior.g1,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
-HPDI.g1 <- apply(posterior.g1,2,FUN = function(x) hdi(x, .95))
+CI.g1 <- apply(probability.g1,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
+HPDI.g1 <- apply(probability.g1,2,FUN = function(x) hdi(x, .95))
 
 # calculate the 95% credible interval and HPDI for probability of survival (s2*s3)
 CI.survival <- apply(probability.survival,2,FUN = function(x) quantile(x, c(.025, .5, .975)))
@@ -114,15 +106,15 @@ plot(x = NA,
      cex.lab = 1, cex.axis = 1)
 
 segments(x0=survivalPosteriorSummary$lo.surv,x1=survivalPosteriorSummary$hi.surv,
-         y0=g1PosteriorSummary$med.g1, lwd=.5)
+         y0=g1PosteriorSummary$med.g1, lwd=1)
 segments(x0=survivalPosteriorSummary$med.surv,
          y0=g1PosteriorSummary$lo.g1, y1=g1PosteriorSummary$hi.g1,
-         lwd=.5)
+         lwd=1)
 points(survivalPosteriorSummary$med.surv,g1PosteriorSummary$med.g1,
-       pch=21,col='black',bg='white',cex=.75)
+       pch=21,col='black',bg='white',cex=1.25)
 
-axis(1, seq(0,1,by=.2),
-     labels = seq(0,1,by=.2), las = 1, line = 0,
+axis(1, seq(0,1,by=.1),
+     labels = seq(0,1,by=.1), las = 1, line = 0,
      col = NA, col.ticks = 1, cex.axis = 1)
 axis(2, seq(0,1,by=.1),
      labels = seq(0,1,by=.1), las = 1, line = 0,
@@ -140,10 +132,10 @@ text(x=.1,y=.9,
 par(fig=c(0,10,0,4.5)/10)
 par(new=T)
 # plot posterior of correlation coefficient
-hist(posterior.correlation,breaks = 100, 
+hist(posterior.correlation,breaks = 50, 
      main = "", xlab = "", ylab='', xaxt='n',yaxt='n', 
      xlim = c(-1, 1), ylim=c(0,2.5),
-     freq = FALSE, col = "gray75", 
+     freq = FALSE, col = "gray75", border='white',
      cex.lab = 1.25,cex.axis=1.5)
 
 # as in Duskey dissertation
@@ -167,6 +159,10 @@ mtext("Correlation of germination and survival",
       side=1,line=2,adj=.5,col='black',cex=1)
 
 dev.off()
+
+# -------------------------------------------------------------------
+# Commented code below is for labeling populations
+# -------------------------------------------------------------------
 # 
 # names<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
 #   dplyr::select(site) 

@@ -17,14 +17,12 @@ library(HDInterval)
 library(bayesplot)
 library(stringr)
 
-set.seed(10)
-
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Seedling survival to fruiting
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData/censusSeedlingsFruitingPlants.RDS")
+censusSeedlingsFruitingPlants <- readRDS("~/Dropbox/dataLibrary/postProcessingData-2021/censusSeedlingsFruitingPlants.RDS")
 
 censusSeedlingsFruitingPlants <- censusSeedlingsFruitingPlants %>% 
   # more fruiting plants than seedlings
@@ -96,7 +94,7 @@ prob.sigma=lapply(combos.list, prod )
 # Fruits per plant
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countFruitsPerPlantAllPlots.RDS")
+countFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData-2021/countFruitsPerPlantAllPlots.RDS")
 
 countFruitsPerPlantAllPlots <- countFruitsPerPlantAllPlots %>%
   dplyr::rename(y_tfe = countFruitNumberPerPlant) %>%
@@ -104,7 +102,7 @@ countFruitsPerPlantAllPlots <- countFruitsPerPlantAllPlots %>%
 
 countFruitsPerPlantAllPlots$year <- as.character(countFruitsPerPlantAllPlots$year)
 
-countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
+countUndamagedDamagedFruitsPerPlantAllPlots <- readRDS("~/Dropbox/dataLibrary/postProcessingData-2021/countUndamagedDamagedFruitsPerPlantAllPlots.RDS")
 
 countUndamagedDamagedFruitsPerPlantAllPlots <- countUndamagedDamagedFruitsPerPlantAllPlots %>%
   dplyr::rename(y_und = countUndamagedFruitNumberPerPlant) %>%
@@ -168,7 +166,7 @@ axis(2, (1:20),
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData/countSeedPerFruit.RDS")
+countSeedPerFruit <- readRDS("~/Dropbox/dataLibrary/postProcessingData-2021/countSeedPerFruit.RDS")
 
 countSeedPerUndamagedFruit <- countSeedPerFruit %>%
   dplyr::filter(demography==1) %>%
@@ -240,7 +238,9 @@ axis(2, (1:20),
      labels = rev(siteNames), las = 2, 
      col = NA, col.ticks = 1, cex.axis = 1)
 
-# combine plots
+# -------------------------------------------------------------------
+# Create figure for manuscript
+# -------------------------------------------------------------------
 
 pdf("/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/analysis/zero-fitness.pdf",width=8,height=6)
 par(mfrow=c(1,1))
@@ -315,9 +315,13 @@ segments(x0=2011.25,x1=2012.3,y0=20,y1=21)
 
 dev.off()
 
+# -------------------------------------------------------------------
+# Write out data objects with missing data/zero fitness years
+# Specifically no plants 
+# -------------------------------------------------------------------
 missing.list = list()
 for(i in 1:20){
-  tmp.sigma=sigmaSummary[sigmaSummary$site==siteNames[i],][1:13,]
+  tmp.sigma=sigmaSummary[sigmaSummary$site==siteNames[i],]
   tmp.fec=fecSummary[fecSummary$site==siteNames[i],]
   tmp.seeds=seedsSummary[seedsSummary$site==siteNames[i],]
   tmp.seeds= tmp.seeds[ order( tmp.seeds$year),]
@@ -329,17 +333,17 @@ for(i in 1:20){
 lowFitnessYears=do.call(rbind,missing.list)
 saveRDS(lowFitnessYears,"/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/output/lowFitnessYears.RDS")
 
-
-missing.list = list()
-for(i in 1:20){
-  tmp.sigma=sigmaSummary[sigmaSummary$site==siteNames[i],][1:13,]
-  tmp.fec=fecSummary[fecSummary$site==siteNames[i],]
-  tmp.seeds=seedsSummary[seedsSummary$site==siteNames[i],]
-  tmp.seeds= tmp.seeds[ order( tmp.seeds$year),]
-  na.obs=tmp.sigma$trueNA==1
-  na.obs2=tmp.sigma$obsZero==1
-  tmp=tmp.sigma[na.obs|na.obs2,1:2]
-  missing.list[[i]] = tmp
-}
-lowFitnessYearsPlots=do.call(rbind,missing.list)
-saveRDS(lowFitnessYearsPlots,"/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/output/lowFitnessYearsPlots.RDS")
+# 
+# missing.list = list()
+# for(i in 1:20){
+#   tmp.sigma=sigmaSummary[sigmaSummary$site==siteNames[i],]
+#   tmp.fec=fecSummary[fecSummary$site==siteNames[i],]
+#   tmp.seeds=seedsSummary[seedsSummary$site==siteNames[i],]
+#   tmp.seeds= tmp.seeds[ order( tmp.seeds$year),]
+#   na.obs=tmp.sigma$trueNA==1
+#   na.obs2=tmp.sigma$obsZero==1
+#   tmp=tmp.sigma[na.obs|na.obs2,1:2]
+#   missing.list[[i]] = tmp
+# }
+# lowFitnessYearsPlots=do.call(rbind,missing.list)
+# saveRDS(lowFitnessYearsPlots,"/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/output/lowFitnessYearsPlots.RDS")
