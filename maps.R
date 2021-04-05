@@ -119,6 +119,9 @@ spdf <- SpatialPoints(coords = xy,
 # -------------------------------------------------------------------
 # https://github.com/mtennekes/tmap/issues/164
 # https://rstudio-pubs-static.s3.amazonaws.com/289387_6d2bbaf850764a38bfea1618e78a68ef.html
+pdf(
+  "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/map.pdf",
+  height = 8, width = 8)
 tm_shape(ned_kern, unit.size = 1)+      
   tm_grid(col = "black", n.x = 5, n.y = 5, lines = FALSE,
           labels.rot = c(0, 90),labels.size=.8) +
@@ -132,15 +135,15 @@ tm_shape(ned_kern, unit.size = 1)+
   tm_lines(kernFinal='lightgray',col='lightgray',alpha=.5) +
   # Add populations
   tm_shape(spdf)+
-  tm_dots(size=0.25,col='lightgray',border.col='black',border.lwd=1,shape=21)+
+  tm_dots(size=1,alpha=.75,col='lightgray',border.col='black',border.lwd=1,shape=21)+
   # Add legend, compass, and scale bar
-  tm_legend(legend.outside = TRUE,legend.outside.size=.1)+
+ # tm_legend(legend.outside = TRUE,legend.outside.size=.1)+
+   tm_legend(legend.show=FALSE)+
   tm_compass(position=c(0.9,0.9))+
   tm_scale_bar(position=c('left','top'),width = 0.2,
                text.size=1,text.color='white',
                breaks = c(0,4,8,12)) 
-
-
+dev.off()
 # 
 # par(mfrow=c(1,1), cex=1, mar=c(2.5,2.5,2.5,2.5))
 # sp::plot(ned_kern)
