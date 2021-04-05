@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  18 MAR 2021 16:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  4 APR 2021 14:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -65,6 +65,9 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 )
 \sa@box=\box48
 )
+(/usr/local/texlive/2020/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
+
 (/usr/local/texlive/2020/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 
@@ -82,8 +85,6 @@ Package caption Info: Standard document class detected.
 \c@caption@flags=\count189
 \c@continuedfloat=\count190
 )
-(/usr/local/texlive/2020/texmf-dist/tex/latex/caption/subcaption.sty
-Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
 \c@subfigure=\count191
 \c@subtable=\count192
 )
@@ -107,42 +108,102 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 \Gin@req@height=\dimen148
 \Gin@req@width=\dimen149
 )
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box49
+)
+\tc@llx=\dimen150
+\tc@lly=\dimen151
+\tc@urx=\dimen152
+\tc@ury=\dimen153
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen154
+\adjbox@Height=\dimen155
+\adjbox@Depth=\dimen156
+\adjbox@Totalheight=\dimen157
+\adjbox@pwidth=\dimen158
+\adjbox@pheight=\dimen159
+\adjbox@pdepth=\dimen160
+\adjbox@ptotalheight=\dimen161
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count193
+))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 4
+6.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
+)
 (/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
-\l__kernel_color_stack_int=\count193
-\l__pdf_internal_box=\box49
+\l__kernel_color_stack_int=\count194
+\l__pdf_internal_box=\box50
 )
-No file intro-figure.aux.
+(./intro-figure.aux)
 \openout1 = `intro-figure.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
+
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count194
-\scratchdimen=\dimen150
-\scratchbox=\box50
-\nofMPsegments=\count195
-\nofMParguments=\count196
+\scratchcounter=\count195
+\scratchdimen=\dimen162
+\scratchbox=\box51
+\nofMPsegments=\count196
+\nofMParguments=\count197
 \everyMPshowfont=\toks17
-\MPscratchCnt=\count197
-\MPscratchDim=\dimen151
-\MPnumerator=\count198
-\makeMPintoPDFobject=\count199
+\MPscratchCnt=\count198
+\MPscratchDim=\dimen163
+\MPnumerator=\count199
+\makeMPintoPDFobject=\count266
 \everyMPtoPDFconversion=\toks18
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -153,47 +214,66 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<../../figures/analysis/zero-fitness.pdf, id=1, 578.16pt x 433.62pt>
+<../../figures/analysis/map.pdf, id=1, 578.16pt x 578.16pt>
+File: ../../figures/analysis/map.pdf Graphic file (type pdf)
+<use ../../figures/analysis/map.pdf>
+Package pdftex.def Info: ../../figures/analysis/map.pdf  used on input line 51.
+
+(pdftex.def)             Requested size: 162.18062pt x 162.17482pt.
+<../../figures/analysis/precip.pdf, id=2, 578.16pt x 433.62pt>
+File: ../../figures/analysis/precip.pdf Graphic file (type pdf)
+<use ../../figures/analysis/precip.pdf>
+Package pdftex.def Info: ../../figures/analysis/precip.pdf  used on input line 
+52.
+(pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 53.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 53.
+<../../figures/analysis/zero-fitness.pdf, id=3, 578.16pt x 433.62pt>
 File: ../../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
 <use ../../figures/analysis/zero-fitness.pdf>
 Package pdftex.def Info: ../../figures/analysis/zero-fitness.pdf  used on input
- line 14.
+ line 55.
 (pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 15.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 15.
-<../../figures/analysis/correlation-germ-rs.pdf, id=2, 433.62pt x 578.16pt>
-File: ../../figures/analysis/correlation-germ-rs.pdf Graphic file (type pdf)
-<use ../../figures/analysis/correlation-germ-rs.pdf>
-Package pdftex.def Info: ../../figures/analysis/correlation-germ-rs.pdf  used o
-n input line 18.
-(pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
-<../../figures/analysis/obs-pred-germ.pdf, id=3, 433.62pt x 578.16pt>
-File: ../../figures/analysis/obs-pred-germ.pdf Graphic file (type pdf)
-<use ../../figures/analysis/obs-pred-germ.pdf>
-Package pdftex.def Info: ../../figures/analysis/obs-pred-germ.pdf  used on inpu
-t line 22.
-(pdftex.def)             Requested size: 170.71652pt x 227.62523pt.
+<../../figures/analysis/simulation-1.pdf, id=4, 578.16pt x 289.08pt>
+File: ../../figures/analysis/simulation-1.pdf Graphic file (type pdf)
+<use ../../figures/analysis/simulation-1.pdf>
+Package pdftex.def Info: ../../figures/analysis/simulation-1.pdf  used on input
+ line 57.
+(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
+<../../figures/analysis/simulation-2.pdf, id=5, 578.16pt x 289.08pt>
+File: ../../figures/analysis/simulation-2.pdf Graphic file (type pdf)
+<use ../../figures/analysis/simulation-2.pdf>
+Package pdftex.def Info: ../../figures/analysis/simulation-2.pdf  used on input
+ line 59.
+(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--60
+[][][][][][]
+ []
 
 [1
 
- <../../figures/analysis/zero-fitness.pdf> <../../figures/analysis/correlation-
-germ-rs.pdf> <../../figures/analysis/obs-pred-germ.pdf>] (./intro-figure.aux) )
- 
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../../f
+igures/analysis/map.pdf> <../../figures/analysis/precip.pdf> <../../figures/ana
+lysis/zero-fitness.pdf> <../../figures/analysis/simulation-1.pdf> <../../figure
+s/analysis/simulation-2.pdf>] (./intro-figure.aux) ) 
 Here is how much of TeX's memory you used:
- 3040 strings out of 479383
- 53445 string characters out of 5869387
- 318129 words of memory out of 5000000
- 20162 multiletter control sequences out of 15000+600000
- 403430 words of font info for 27 fonts, out of 8000000 for 9000
+ 4377 strings out of 479383
+ 73812 string characters out of 5869387
+ 343125 words of memory out of 5000000
+ 21461 multiletter control sequences out of 15000+600000
+ 405190 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,9n,115p,249b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
-
-Output written on intro-figure.pdf (1 page, 20008 bytes).
+ 80i,11n,128p,349b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/te
+xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/
+type1/urw/helvetic/uhvr8a.pfb>
+Output written on intro-figure.pdf (1 page, 429267 bytes).
 PDF statistics:
- 29 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 53 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

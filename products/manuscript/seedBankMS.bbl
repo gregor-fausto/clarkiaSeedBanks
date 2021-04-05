@@ -1,13 +1,26 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{34}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 
+\bibitem[{Clauss and Venable(2000)}]{clauss2000}
+Clauss, M.~J. and D.~L. Venable. 2000.
+\newblock Seed {Germination} in {Desert} {Annuals}: {An} {Empirical} {Test} of
+  {Adaptive} {Bet} {Hedging}.
+\newblock The American Naturalist, {\bf 155}:168--186.
+
 \bibitem[{Cohen(1966)}]{cohen1966}
 Cohen, D. 1966.
 \newblock Optimizing reproduction in a randomly varying environment.
 \newblock Journal of Theoretical Biology, {\bf 12}:119--129.
+
+\bibitem[{Cohen(1967)}]{cohen1967}
+Cohen, D. 1967.
+\newblock Optimizing {Reproduction} in a {Randomly} {Varying} {Environment}
+  when a {Correlation} {May} {Exist} between the {Conditions} at the {Time} a
+  {Choice} has to be {Made} and the {Subsequent} {Outcome}.
+\newblock Journal of Theoretical Biology, {\bf 16}:1--14.
 
 \bibitem[{Cohen(1968)}]{cohen1968}
 Cohen, D. 1968.
@@ -28,6 +41,12 @@ Eager, E.~A., R.~Rebarber, and B.~Tenhumberg. 2014.
   {Integral} {Projection} {Model} for a {Disturbance} {Specialist} {Plant} and
   {Its} {Seed} {Bank}.
 \newblock Bulletin of Mathematical Biology, {\bf 76}:1809--1834.
+
+\bibitem[{Easterling and Ellner(2000)}]{easterling2000}
+Easterling, M.~R. and S.~P. Ellner. 2000.
+\newblock Dormancy strategies in a random environment: {Comparing} structured
+  and unstructured models.
+\newblock Evolutionary Ecology Research, {\bf 2}:387--407.
 
 \bibitem[{Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
   Moeller}]{eckhart2011}
@@ -77,17 +96,33 @@ Gabry, J., D.~Simpson, A.~Vehtari, M.~Betancourt, and A.~Gelman. 2019.
 
 \bibitem[{Geber and Eckhart(2005)}]{geber2005}
 Geber, M.~A. and V.~M. Eckhart. 2005.
-\newblock {EXPERIMENTAL} {STUDIES} {OF} {ADAPTATION} {IN} clarkia
-  xantiana:{II}. {FITNESS} {VARIATION} {ACROSS} {A} {SUBSPECIES} {BORDER}.
+\newblock Experimental studies of adaptation in {Clarkia} xantiana: {II}.
+  {Fitness} variation across a subspecies border.
 \newblock Evolution, {\bf 59}:521--531.
-\newblock \_eprint:
-  https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.0014-3820.2005.tb01012.x.
+
+\bibitem[{Gremer et~al.(2016)Gremer, Kimball, and Venable}]{gremer2016}
+Gremer, J.~R., S.~Kimball, and D.~L. Venable. 2016.
+\newblock Within-and among-year germination in {Sonoran} {Desert} winter
+  annuals: bet hedging and predictive germination in a variable environment.
+\newblock Ecology Letters, {\bf 19}:1209--1218.
 
 \bibitem[{Gremer and Venable(2014)}]{gremer2014}
 Gremer, J.~R. and D.~L. Venable. 2014.
 \newblock Bet hedging in desert winter annual plants: optimal germination
   strategies in a variable environment.
 \newblock Ecology Letters, {\bf 17}:380--387.
+
+\bibitem[{Hacker(1984)}]{hacker1984}
+Hacker, J.~B. 1984.
+\newblock Genetic {Variation} in {Seed} {Dormancy} in {Digitaria} milanjiana in
+  {Relation} to {Rainfall} at the {Collection} {Site}.
+\newblock The Journal of Applied Ecology, {\bf 21}:947.
+
+\bibitem[{Hacker and Ratcliff(1989)}]{hacker1989}
+Hacker, J.~B. and D.~Ratcliff. 1989.
+\newblock Seed {Dormancy} and {Factors} {Controlling} {Dormancy} {Breakdown} in
+  {Buffel} {Grass} {Accession} from {Contrasting} {Provenances}.
+\newblock The Journal of Applied Ecology, {\bf 26}:201.
 
 \bibitem[{Heinrich et~al.(2018)Heinrich, Müller, Tellier, and
   Živković}]{heinrich2018}
@@ -152,6 +187,12 @@ Paniw, M., P.~F. Quintana-Ascencio, F.~Ojeda, and R.~Salguero-Gómez. 2017.
 \newblock Accounting for uncertainty in dormant life stages in stochastic
   demographic models.
 \newblock Oikos, {\bf 126}:900--909.
+
+\bibitem[{Philippi(1993)}]{philippi1993a}
+Philippi, T. 1993.
+\newblock Bet-{Hedging} {Germination} of {Desert} {Annuals}: {Variation}
+  {Among} {Populations} and {Maternal} {Effects} in {Lepidium} lasiocarpum.
+\newblock The American Naturalist, {\bf 142}:488--507.
 
 \bibitem[{Pironon et~al.(2018)Pironon, Villellas, Thuiller, Eckhart, Geber,
   Moeller, and García}]{pironon2018}

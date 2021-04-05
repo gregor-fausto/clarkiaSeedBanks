@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  27 MAR 2021 10:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  4 APR 2021 16:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -949,594 +949,657 @@ Package csquotes Info: Making character " active on input line 137.
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 184.
+Package xcolor Warning: Incompatible color definition on input line 180.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 186.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.189 
-       [1]
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 192.
-
-
-Package natbib Warning: Citation `cohen1967' on page 2 undefined on input line 
-192.
-
-
-Package natbib Warning: Citation `easterling2000' on page 2 undefined on input 
-line 192.
-
-
-Package xcolor Warning: Incompatible color definition on input line 194.
-
-
-Package xcolor Warning: Incompatible color definition on input line 194.
-
-
-Package natbib Warning: Citation `hacker1984' on page 2 undefined on input line
- 196.
-
-
-Package natbib Warning: Citation `hacker1989' on page 2 undefined on input line
- 196.
-
-
-Package natbib Warning: Citation `philippi1993a' on page 2 undefined on input l
-ine 196.
-
-
-Package natbib Warning: Citation `clauss2000' on page 2 undefined on input line
- 196.
-
-
-Package xcolor Warning: Incompatible color definition on input line 196.
-
-
-Package xcolor Warning: Incompatible color definition on input line 196.
-
-
-Package xcolor Warning: Incompatible color definition on input line 196.
-
-
-Package xcolor Warning: Incompatible color definition on input line 196.
-
-
-Package natbib Warning: Citation `gremer2016' on page 2 undefined on input line
- 196.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.197 
-       [2]
-
-Package xcolor Warning: Incompatible color definition on input line 200.
-
-
-Package xcolor Warning: Incompatible color definition on input line 200.
-
-
-Package xcolor Warning: Incompatible color definition on input line 200.
-
-
-Package xcolor Warning: Incompatible color definition on input line 200.
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 200
+LaTeX Font Info:    Trying to load font information for U+msa on input line 182
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 200
+LaTeX Font Info:    Trying to load font information for U+msb on input line 182
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 202.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 202.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 182.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 
-Package xcolor Warning: Incompatible color definition on input line 204.
+Package xcolor Warning: Incompatible color definition on input line 184.
 
 
-Overfull \hbox (8.92915pt too wide) in paragraph at lines 204--205
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+
+Package xcolor Warning: Incompatible color definition on input line 184.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.185 
+       [1]pdfTeX warning (ext4): destination with the same identifier (name{pag
+e.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.197 
+       [2] [3]
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Package xcolor Warning: Incompatible color definition on input line 210.
+
+
+Overfull \hbox (8.92915pt too wide) in paragraph at lines 210--211
 \OT1/cmr/m/n/12 (as com-pared to the arith-metic pop-u-la-tion growth rate) ([]
 []Co-hen[][] ([][]1966[][], [][]1968[][]); [][]Ell-ner[][] ([][]1985\OT1/cmr/m/
 it/12 a[][]\OT1/cmr/m/n/12 ,[][]\OT1/cmr/m/it/12 b[][]\OT1/cmr/m/n/12 )).
  []
 
-[3]
+[4] [5]
 
-Package xcolor Warning: Incompatible color definition on input line 216.
-
-
-Package xcolor Warning: Incompatible color definition on input line 216.
-
-[4] [5] [6]
-
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package xcolor Warning: Incompatible color definition on input line 221.
 
 
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package xcolor Warning: Incompatible color definition on input line 221.
 
 
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package xcolor Warning: Incompatible color definition on input line 221.
 
 
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package xcolor Warning: Incompatible color definition on input line 221.
 
 
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package natbib Warning: Citation `knies2004' on page 6 undefined on input line 
+221.
 
 
-Package xcolor Warning: Incompatible color definition on input line 239.
+Package natbib Warning: Citation `kramer2011' on page 6 undefined on input line
+ 221.
 
 
-Overfull \hbox (8.92915pt too wide) in paragraph at lines 239--240
+Package xcolor Warning: Incompatible color definition on input line 225.
+
+
+Package xcolor Warning: Incompatible color definition on input line 225.
+
+
+Package xcolor Warning: Incompatible color definition on input line 225.
+
+
+Package xcolor Warning: Incompatible color definition on input line 225.
+
+[6]
+
+Package xcolor Warning: Incompatible color definition on input line 229.
+
+
+Package xcolor Warning: Incompatible color definition on input line 229.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 234.
+
+
+Package xcolor Warning: Incompatible color definition on input line 236.
+
+
+Package xcolor Warning: Incompatible color definition on input line 236.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Package xcolor Warning: Incompatible color definition on input line 238.
+
+
+Overfull \hbox (8.92915pt too wide) in paragraph at lines 238--239
 \OT1/cmr/m/n/12 (as com-pared to the arith-metic pop-u-la-tion growth rate) ([]
 []Co-hen[][] ([][]1966[][], [][]1968[][]); [][]Ell-ner[][] ([][]1985\OT1/cmr/m/
 it/12 a[][]\OT1/cmr/m/n/12 ,[][]\OT1/cmr/m/it/12 b[][]\OT1/cmr/m/n/12 )).
  []
 
-[7] [8] [9]
+[7] [8]
 
-Package xcolor Warning: Incompatible color definition on input line 309.
-
-
-Package xcolor Warning: Incompatible color definition on input line 309.
+LaTeX Warning: Reference `fig:life-cycle' on page 9 undefined on input line 284
+.
 
 
-Package xcolor Warning: Incompatible color definition on input line 309.
+LaTeX Warning: Reference `fig:life-cycle' on page 9 undefined on input line 288
+.
+
+[9]
+
+Package xcolor Warning: Incompatible color definition on input line 304.
 
 
-Package xcolor Warning: Incompatible color definition on input line 309.
+Package xcolor Warning: Incompatible color definition on input line 304.
 
 
-Package xcolor Warning: Incompatible color definition on input line 311.
+Package xcolor Warning: Incompatible color definition on input line 304.
 
 
-Package xcolor Warning: Incompatible color definition on input line 311.
+Package xcolor Warning: Incompatible color definition on input line 304.
+
+
+Package xcolor Warning: Incompatible color definition on input line 306.
+
+
+Package xcolor Warning: Incompatible color definition on input line 306.
 
 [10]
 
-Package xcolor Warning: Incompatible color definition on input line 313.
+Package xcolor Warning: Incompatible color definition on input line 308.
 
 
-Package xcolor Warning: Incompatible color definition on input line 313.
+Package xcolor Warning: Incompatible color definition on input line 308.
 
 
-Package xcolor Warning: Incompatible color definition on input line 313.
+Package xcolor Warning: Incompatible color definition on input line 308.
 
 
-Package xcolor Warning: Incompatible color definition on input line 313.
+Package xcolor Warning: Incompatible color definition on input line 308.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 316.
+(caption)                particular \caption on input line 311.
 See the caption package documentation for explanation.
 
 (../tables/tables/datasets.tex) [11]
 
-Package xcolor Warning: Incompatible color definition on input line 334.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 334.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 334.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 334.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 342.
+Package xcolor Warning: Incompatible color definition on input line 337.
 
 
-Package xcolor Warning: Incompatible color definition on input line 342.
+Package xcolor Warning: Incompatible color definition on input line 337.
 
 [12]
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 
-Package xcolor Warning: Incompatible color definition on input line 374.
+Package xcolor Warning: Incompatible color definition on input line 369.
+
+
+Package xcolor Warning: Incompatible color definition on input line 371.
+
+
+Package xcolor Warning: Incompatible color definition on input line 371.
 
 [13]
 
-Package xcolor Warning: Incompatible color definition on input line 376.
+Package xcolor Warning: Incompatible color definition on input line 373.
 
 
-Package xcolor Warning: Incompatible color definition on input line 376.
+Package xcolor Warning: Incompatible color definition on input line 373.
+
+[14]
+
+LaTeX Warning: Reference `tab:structured-parameters' on page 15 undefined on in
+put line 385.
 
 
-Package xcolor Warning: Incompatible color definition on input line 378.
+Package xcolor Warning: Incompatible color definition on input line 385.
 
 
-Package xcolor Warning: Incompatible color definition on input line 378.
+Package xcolor Warning: Incompatible color definition on input line 385.
 
-[14] [15]
-
-LaTeX Warning: Reference `tab:structured-parameters' on page 16 undefined on in
-put line 390.
-
-
-Package xcolor Warning: Incompatible color definition on input line 390.
-
-
-Package xcolor Warning: Incompatible color definition on input line 390.
-
+[15]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 395.
+(caption)                particular \caption on input line 390.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (69.41574pt too wide) in alignment at lines 438--438
+Overfull \hbox (69.41574pt too wide) in alignment at lines 433--433
 [][][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 445.
+Package xcolor Warning: Incompatible color definition on input line 440.
 
 
-Package xcolor Warning: Incompatible color definition on input line 445.
+Package xcolor Warning: Incompatible color definition on input line 440.
 
 
-Package xcolor Warning: Incompatible color definition on input line 445.
+Package xcolor Warning: Incompatible color definition on input line 440.
 
 
-Package xcolor Warning: Incompatible color definition on input line 445.
+Package xcolor Warning: Incompatible color definition on input line 440.
 
 [16] [17]
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+LaTeX Warning: Reference `fig:zero-fitness' on page 18 undefined on input line 
+470.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
+Package xcolor Warning: Incompatible color definition on input line 480.
+
+
+Package xcolor Warning: Incompatible color definition on input line 480.
 
 [18]
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 491.
+Package xcolor Warning: Incompatible color definition on input line 486.
 
 
-Package xcolor Warning: Incompatible color definition on input line 493.
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 
-Package xcolor Warning: Incompatible color definition on input line 493.
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 
-Package xcolor Warning: Incompatible color definition on input line 493.
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 
-Package xcolor Warning: Incompatible color definition on input line 493.
+Package xcolor Warning: Incompatible color definition on input line 488.
 
 [19]
 
-Package xcolor Warning: Incompatible color definition on input line 499.
+Package xcolor Warning: Incompatible color definition on input line 494.
 
 
-Package xcolor Warning: Incompatible color definition on input line 499.
+Package xcolor Warning: Incompatible color definition on input line 494.
 
 [20]
 
-Package xcolor Warning: Incompatible color definition on input line 514.
+Package xcolor Warning: Incompatible color definition on input line 509.
 
 
-Package xcolor Warning: Incompatible color definition on input line 514.
+Package xcolor Warning: Incompatible color definition on input line 509.
 
-[21] [22]
-<../manuscript/figures/model-figure.pdf, id=378, 113.8112pt x 163.94952pt>
-File: ../manuscript/figures/model-figure.pdf Graphic file (type pdf)
-<use ../manuscript/figures/model-figure.pdf>
-Package pdftex.def Info: ../manuscript/figures/model-figure.pdf  used on input 
-line 656.
-(pdftex.def)             Requested size: 227.62183pt x 327.89822pt.
-<../figures/analysis/zero-fitness.pdf, id=379, 578.16pt x 433.62pt>
-File: ../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
-<use ../figures/analysis/zero-fitness.pdf>
-Package pdftex.def Info: ../figures/analysis/zero-fitness.pdf  used on input li
-ne 663.
-(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+[21]
+
+Package natbib Warning: Citation `kramer2011' on page 22 undefined on input lin
+e 556.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package xcolor Warning: Incompatible color definition on input line 556.
 
-<../manuscript/figures/seed-bag-figure.pdf, id=380, 401.67163pt x 228.6161pt>
+
+Package xcolor Warning: Incompatible color definition on input line 556.
+
+
+Package natbib Warning: Citation `moeller2005' on page 22 undefined on input li
+ne 556.
+
+
+Package natbib Warning: Citation `benning2019' on page 22 undefined on input li
+ne 556.
+
+[22] [23] [24]
+
+Package xcolor Warning: Incompatible color definition on input line 588.
+
+
+Package xcolor Warning: Incompatible color definition on input line 588.
+
+[25] [26]
+<../manuscript/figures/intro-figure.pdf, id=451, 341.4326pt x 309.05965pt>
+File: ../manuscript/figures/intro-figure.pdf Graphic file (type pdf)
+<use ../manuscript/figures/intro-figure.pdf>
+Package pdftex.def Info: ../manuscript/figures/intro-figure.pdf  used on input 
+line 702.
+(pdftex.def)             Requested size: 469.75499pt x 425.24362pt.
+<../manuscript/figures/seed-bag-figure.pdf, id=452, 401.11858pt x 228.6161pt>
 File: ../manuscript/figures/seed-bag-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/seed-bag-figure.pdf>
 Package pdftex.def Info: ../manuscript/figures/seed-bag-figure.pdf  used on inp
-ut line 670.
-(pdftex.def)             Requested size: 469.75499pt x 267.3751pt.
+ut line 709.
+(pdftex.def)             Requested size: 469.75499pt x 267.74837pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../figures/analysis/correlation-germ-surv.pdf, id=381, page=1, 433.62pt x 578.
+<../figures/analysis/correlation-germ-surv.pdf, id=453, page=1, 433.62pt x 578.
 16pt>
 File: ../figures/analysis/correlation-germ-surv.pdf Graphic file (type pdf)
 <use ../figures/analysis/correlation-germ-surv.pdf, page 1>
 Package pdftex.def Info: ../figures/analysis/correlation-germ-surv.pdf , page1 
-used on input line 690.
+used on input line 729.
 (pdftex.def)             Requested size: 305.33788pt x 407.13528pt.
-<../manuscript/figures/analysis-figure.pdf, id=382, page=1, 341.4326pt x 227.62
+<../manuscript/figures/analysis-figure.pdf, id=454, page=1, 341.4326pt x 227.62
 54pt>
 File: ../manuscript/figures/analysis-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/analysis-figure.pdf, page 1>
 Package pdftex.def Info: ../manuscript/figures/analysis-figure.pdf , page1 used
- on input line 700.
+ on input line 739.
 (pdftex.def)             Requested size: 469.75499pt x 313.196pt.
-<../manuscript/figures/analysis-figure-lowFitness.pdf, id=383, page=1, 341.4326
+<../manuscript/figures/analysis-figure-lowFitness.pdf, id=455, page=1, 341.4326
 pt x 227.6254pt>
 File: ../manuscript/figures/analysis-figure-lowFitness.pdf Graphic file (type p
 df)
 <use ../manuscript/figures/analysis-figure-lowFitness.pdf, page 1>
 Package pdftex.def Info: ../manuscript/figures/analysis-figure-lowFitness.pdf ,
- page1 used on input line 713.
+ page1 used on input line 752.
 (pdftex.def)             Requested size: 422.77661pt x 281.87398pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[23
+[27
 
- <../manuscript/figures/model-figure.pdf>] [24 <../figures/analysis/zero-fitnes
-s.pdf>] [25 <../manuscript/figures/seed-bag-figure.pdf>] [26 <../figures/analys
-is/correlation-germ-surv.pdf>] [27 <../manuscript/figures/analysis-figure.pdf>]
- [28 <../manuscript/figures/analysis-figure-lowFitness.pdf>]
-(./seedBankMS.bbl [29
+] [28 <../manuscript/figures/intro-figure.pdf>] [29 <../manuscript/figures/seed
+-bag-figure.pdf>] [30 <../figures/analysis/correlation-germ-surv.pdf>]
+[31 <../manuscript/figures/analysis-figure.pdf>] [32 <../manuscript/figures/ana
+lysis-figure-lowFitness.pdf>] (./seedBankMS.bbl [33
 
-]
-Underfull \hbox (badness 6658) in paragraph at lines 100--104
+] [34]
+Underfull \hbox (badness 6658) in paragraph at lines 135--139
 []\OT1/cmr/m/n/12 Hobbs, N. T. and M. B. Hooten. 2015.  Bayesian mod-els: a sta
 -tis-ti-cal
  []
 
 
-Underfull \hbox (badness 6675) in paragraph at lines 100--104
+Underfull \hbox (badness 6675) in paragraph at lines 135--139
 \OT1/cmr/m/n/12 primer for ecol-o-gists.  Prince-ton Uni-ver-sity Press, Prince
 -ton, New Jer-sey.
  []
 
 
-Underfull \hbox (badness 1755) in paragraph at lines 106--111
+Underfull \hbox (badness 1755) in paragraph at lines 141--146
 []\OT1/cmr/m/n/12 Lemoine, N. P. 2019.  Mov-ing be-yond non-in-for-ma-tive pri-
 ors: why and how to
  []
 
-[30]
-Underfull \hbox (badness 10000) in paragraph at lines 142--148
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 177--183
 []\OT1/cmr/m/n/12 Ogle, K. and J. J. Bar-ber. 2020.  En-sur-ing iden-ti-fi-a-bi
 l-ity in hi-er-ar-chi-cal
  []
 
 
-Underfull \hbox (badness 3138) in paragraph at lines 142--148
+Underfull \hbox (badness 3138) in paragraph at lines 177--183
 \OT1/cmr/m/n/12 mixed ef-fects Bayesian mod-els.  Eco-log-i-cal Ap-pli-ca-tions
 , \OT1/cmr/bx/n/12 30\OT1/cmr/m/n/12 :e02159.  []eprint:
  []
 
-[31]) [32]
-Overfull \hbox (15.53455pt too wide) in paragraph at lines 735--736
+) [36]
+Overfull \hbox (15.53455pt too wide) in paragraph at lines 774--775
 \OT1/cmr/m/n/12 acyclic graphs. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/12 https
  : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (50.94527pt too wide) in paragraph at lines 735--736
+Overfull \hbox (50.94527pt too wide) in paragraph at lines 774--775
 \OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]joint-[]pos
 teriors / appendix-[]joint-[]posteriors .
  []
 
 
-Overfull \hbox (51.27168pt too wide) in paragraph at lines 737--738
+Overfull \hbox (51.27168pt too wide) in paragraph at lines 776--777
 \OT1/cmr/m/n/12 Explanation of pri-ors. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/
 12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (61.81601pt too wide) in paragraph at lines 739--740
+Overfull \hbox (61.81601pt too wide) in paragraph at lines 778--779
 \OT1/cmr/m/n/12 values for test statis-tics. Link to doc-u-ment: [][]$\OT1/cmtt
 /m/n/12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (14.39525pt too wide) in paragraph at lines 739--740
+Overfull \hbox (14.39525pt too wide) in paragraph at lines 778--779
 \OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]model-[]che
 cks / appendix-[]x-[]model-[]checks .
  []
@@ -1544,50 +1607,56 @@ cks / appendix-[]x-[]model-[]checks .
 
 Package natbib Warning: There were undefined citations.
 
-[33
+[37
 
 ] (./seedBankMS.aux)
 Package rerunfilecheck Info: File `seedBankMS.out' has not changed.
-(rerunfilecheck)             Checksum: 080A5710C15AC11F509F0E6175D72843;570.
+(rerunfilecheck)             Checksum: B401C4BCDDFC10E4F5064C952FC1FAEE;617.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  )
 (\end occurred inside a group at level 2)
 
-### semi simple group (level 2) entered at line 441 (\begingroup)
-### simple group (level 1) entered at line 207 ({)
+### semi simple group (level 2) entered at line 436 (\begingroup)
+### simple group (level 1) entered at line 189 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23336 strings out of 479383
- 438589 string characters out of 5869387
- 954091 words of memory out of 5000000
- 39866 multiletter control sequences out of 15000+600000
- 413485 words of font info for 63 fonts, out of 8000000 for 9000
+ 23395 strings out of 479383
+ 439214 string characters out of 5869387
+ 966091 words of memory out of 5000000
+ 39901 multiletter control sequences out of 15000+600000
+ 418287 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,17n,74p,1476b,768s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmib10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
-pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pf
-b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></
-usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on seedBankMS.pdf (35 pages, 331900 bytes).
+ 66i,17n,74p,1516b,773s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced bu
+t does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{bet-hedging-history} has been referenced but does n
+ot exist, replaced by a fixed one
+
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
+texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texli
+ve/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
+020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/20
+20/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/202
+0/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on seedBankMS.pdf (39 pages, 745536 bytes).
 PDF statistics:
- 663 PDF objects out of 1000 (max. 8388607)
- 568 compressed objects within 6 object streams
- 114 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 730 PDF objects out of 1000 (max. 8388607)
+ 632 compressed objects within 7 object streams
+ 129 named destinations out of 1000 (max. 500000)
+ 110 words of extra memory for PDF output out of 10000 (max. 10000000)
 
