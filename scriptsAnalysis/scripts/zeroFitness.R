@@ -239,6 +239,18 @@ axis(2, (1:20),
      col = NA, col.ticks = 1, cex.axis = 1)
 
 # -------------------------------------------------------------------
+# Reorder levels by position
+# -------------------------------------------------------------------
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
+  dplyr::select(site,easting) %>%
+  dplyr::mutate(easting=easting/1000)
+
+
+position=position[order(position$easting,decreasing=TRUE),]
+siteNames=position$site
+
+
+# -------------------------------------------------------------------
 # Create figure for manuscript
 # -------------------------------------------------------------------
 
