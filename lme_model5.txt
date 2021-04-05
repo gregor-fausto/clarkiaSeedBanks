@@ -1,0 +1,68 @@
+model {
+
+# Set up the means for the multivariate ranef distribution
+for (i in 1:3) {
+    xi[i]~dunif(0, 100)
+    mu_raw[i]~dnorm(0, .0001)
+    mu[i] <- xi[i]*mu_raw[i]
+}
+mu_int <- mu[1]
+mu_slope1 <- mu[2]
+mu_slope2 <- mu[3]
+
+Tau_B_raw[1:3, 1:3] ~ dwish(W[,], 4)
+Sigma_B_raw[1:3, 1:3] <- inverse(Tau_B_raw[,])
+for (i in 1:3) {
+    sigma[i] <- xi[i]*sqrt(Sigma_B_raw[i, i])
+}
+sigma_int <- sigma[1]
+sigma_slope1 <- sigma[2]
+sigma_slope2 <- sigma[3]
+for (i in 1:3) { for (j in 1:3) {
+    rho[i, j] <- Sigma_B_raw[i, j]/sqrt(Sigma_B_raw[i, i]*Sigma_B_raw[j, j])
+} }
+rho_int_slope1 <- rho[1, 2]
+rho_int_slope2 <- rho[1, 3]
+rho_slope1_slope2 <- rho[2, 3]
+
+for (j in 1:n_subj) {
+	B_raw_hat[j, 1] <- mu_raw[1]
+	B_raw_hat[j, 2] <- mu_raw[2]
+	B_raw_hat[j, 3] <- mu_raw[3]
+	B_raw[j, 1:3] ~ dmnorm(B_raw_hat[j, ], Tau_B_raw[, ])
+	alpha[j] <- xi[1]*B_raw[j, 1]
+    beta1[j] <- xi[2]*B_raw[j, 2]
+    beta2[j] <- xi[3]*B_raw[j, 3]
+}
+
+sigma_res~dunif(0, 100) # Residual standard deviation
+tau_res <- 1/(sigma_res*sigma_res)
+
+for (i in 1:n_obs) {
+    mu_obs[i] <- alpha[subjects[i]]+beta1[subjects[i]]*x1[i]+beta2[subjects[i]]*x2[i]
+    y[i]~dnorm(mu_obs[i], tau_res)
+}
+
+for (i in 1:3) {
+    xi_prior[i]~dunif(0, 100)
+    mu_raw_prior[i]~dnorm(0, .0001)
+    mu_prior[i] <- xi_prior[i]*mu_raw_prior[i]
+}
+mu_int_prior <- mu_prior[1]
+mu_slope1_prior <- mu_prior[2]
+mu_slope2_prior <- mu_prior[3]
+Tau_B_raw_prior[1:3, 1:3] ~ dwish(W[,], 4)
+Sigma_B_raw_prior[1:3, 1:3] <- inverse(Tau_B_raw_prior[,])
+for (i in 1:3) {
+    sigma_prior[i] <- xi_prior[i]*sqrt(Sigma_B_raw_prior[i, i])
+}
+sigma_int_prior <- sigma_prior[1]
+sigma_slope1_prior <- sigma_prior[2]
+sigma_slope2_prior <- sigma_prior[3]
+for (i in 1:3) { for (j in 1:3) {
+    rho_prior[i, j] <- Sigma_B_raw_prior[i, j]/sqrt(Sigma_B_raw_prior[i, i]*Sigma_B_raw_prior[j, j])
+} }
+rho_int_slope1_prior <- rho_prior[1, 2]
+rho_int_slope2_prior <- rho_prior[1, 3]
+rho_slope1_slope2_prior <- rho_prior[2, 3]
+}
