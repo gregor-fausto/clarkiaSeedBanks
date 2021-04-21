@@ -1,0 +1,2 @@
+latexdiff 040521/seedBankMS.tex seedBankMS.tex > diff.tex
+pdflatex diff.tex
