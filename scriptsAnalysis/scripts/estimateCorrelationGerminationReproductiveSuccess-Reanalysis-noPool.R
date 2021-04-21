@@ -33,7 +33,7 @@ gsd <- function(x){
 
 # sample based calculation of gsd
 gsd.am <- function(x){
-  x=x+.5
+#  x=x+.5
   n = length(x[!is.na(x)])
   mu = exp(mean(log(x),na.rm=TRUE))
   y <- exp(sqrt(sum((log(x/mu))^2,na.rm=TRUE)/(n-1)))
@@ -59,11 +59,9 @@ posterior.mode = function(x){
 # -------------------------------------------------------------------
 
 g1 <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/g1-pop.RDS")
-sigma <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma-analysis.RDS")
-fec <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/tfe-analysis.RDS")
-phi <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/phi-analysis.RDS")
-
-n.iter=dim(phi)[1]
+sigma <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma-analysis-noPool.RDS")
+fec <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/tfe-analysis-noPool.RDS")
+phi <- readRDS("/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/phi-analysis-noPool.RDS")
 
 rsPosterior = sigma*fec*phi
 
@@ -74,6 +72,7 @@ phi.mode = apply(phi,2,posterior.mode);
 
 rs.mode=apply(sigma*fec*phi,2,posterior.mode)
 
+n.iter = dim(rsPosterior)[1]
 # -------------------------------------------------------------------
 # Compare calculation of posterior by mode of components vs. mode of RS
 # -------------------------------------------------------------------
@@ -183,9 +182,9 @@ mtext("Germination probability",
 mtext("Geometric SD RS",
       side=1,line=2,adj=.5,col='black',cex=1)
 
-text(x=0,y=.58,
+text(x=2.5,y=.58,
      paste0("Pearson's r=",round(CI.correlation[2],2)),
-     cex=1,adj=c(0,0))
+     cex=1)
 #abline(a=0,b=1)
 
 par(fig=c(0,10,0,4.5)/10)
@@ -219,31 +218,28 @@ dev.off()
 # -------------------------------------------------------------------
 # Uncomment below to label points
 # -------------------------------------------------------------------
-climate <- readRDS("/Users/Gregor/Dropbox/clarkiaSeedBanks/scriptsAnalysis/climateData-2021.RDS")
-siteNames=climate %>% dplyr::filter(intenseDemography==1) %>% 
-  dplyr::select(site) %>% unique
 
-df <- g1PosteriorSummary %>%
-  dplyr::bind_cols(site=siteNames) %>%
-  dplyr::left_join(rsPosteriorSummary %>%
-                     dplyr::bind_cols(site=siteNames),by="site")
-
-library(ggrepel)
-
-g1.plot <- ggplot(df,aes(x=med.rs,y=med.g1,label=site)) +
-  geom_point() +
-  geom_text_repel(size=3,color="black") +
-  # annotate("text", label =  paste0("Pearson's r=",round(CI.correlation[1],2)), x = 2.5, y = .29, size = 4) +
-  theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
-  # scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
-  # scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
-  xlab("Geometric SD of reproductive success") +
-  ylab("Mean germination probability [P(G)]") +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/correlation-germ-rs-labeled.pdf",
-       plot=g1.plot,width=4,height=4)
-
+# df <- g1PosteriorSummary %>%
+#   dplyr::bind_cols(site=siteNames) %>%
+#   dplyr::left_join(rsPosteriorSummary %>%
+#                      dplyr::bind_cols(site=siteNames),by="site")
+# 
+# library(ggrepel)
+# 
+# g1 <- ggplot(df,aes(x=med.rs,y=med.g1,label=site)) +
+#   geom_point() +
+#   geom_text_repel(size=3,color="black") +
+#   # annotate("text", label =  paste0("Pearson's r=",round(CI.correlation[1],2)), x = 2.5, y = .29, size = 4) +
+#   theme_bw() + #xlim(c(0,8)) + ylim(c(0,.3)) +
+#   # scale_x_continuous(limits = c(.99,8), expand = c(0, 0), breaks = c(1, 3, 5, 7)) +
+#   # scale_y_continuous(limits = c(0,.31), expand = c(0, 0)) +
+#   xlab("Geometric SD of reproductive success") +
+#   ylab("Mean germination probability [P(G)]") +
+#   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+# 
+# ggsave(filename=  "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/correlation-germ-rs-labeled.pdf",
+#        plot=g1,width=4,height=4)
+# 
 
 # -------------------------------------------------------------------
 # Repeat with low fitness years set to 0
@@ -341,9 +337,9 @@ mtext("Germination probability",
 mtext("Geometric SD RS",
       side=1,line=2,adj=.5,col='black',cex=1)
 
-text(x=0,y=.58,
+text(x=2.5,y=.58,
      paste0("Pearson's r=",round(CI.correlation[2],2)),
-     cex=1,adj=c(0,0))
+     cex=1)
 #abline(a=0,b=1)
 
 par(fig=c(0,10,0,4.5)/10)
