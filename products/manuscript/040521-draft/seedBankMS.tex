@@ -1,0 +1,820 @@
+\documentclass[12pt, oneside, titlepage]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+
+\usepackage{graphicx}
+\graphicspath{ {\string} }
+\usepackage{subcaption}
+
+\usepackage{tabularx}   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% set up packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{geometry}                
+\usepackage{textcomp}                
+\usepackage{amsmath}                
+\usepackage{graphicx}                
+\usepackage{amssymb}                
+\usepackage{fancyhdr}                
+\usepackage{subcaption}                
+\usepackage{bm}                
+\usepackage{lineno}
+% package for comments
+\usepackage{soul}
+\sethlcolor{lightgray}
+
+\usepackage{wrapfig}
+
+\usepackage[usenames, dvipsnames]{color}
+
+\usepackage[breaklinks=true]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=orange,      
+    urlcolor=red,
+    citecolor=Violet,
+}
+
+\usepackage[superscript,noadjust]{cite} % puts dash in citations to abbreviate
+\usepackage [autostyle, english = american]{csquotes} % sets US-style quotes
+
+\usepackage{etoolbox} % block quotes
+
+\usepackage{float}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{eqnarray}
+
+\usepackage{listings} % code blocks
+\usepackage{setspace}
+
+\usepackage{lscape}
+
+\usepackage{natbib}
+%\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear}
+
+% Adds parentheses around year
+%\setcitestyle{authoryear,open={(},close={)}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% call packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\geometry{letterpaper, marginparwidth=60pt} % sets up geometry              		
+\linenumbers % adds line numbers 
+\MakeOuterQuote{"} % sets quote style
+\doublespacing % setspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% patches with etoolbox 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+% block quotes
+\AtBeginEnvironment{quote}{\small}
+
+% linenumbers
+\makeatletter
+\patchcmd{\@startsection}{\@ifstar}{\nolinenumbers\@ifstar}{}{}
+\patchcmd{\@xsect}{\ignorespaces}{\linenumbers\ignorespaces}{}{}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tikzlibrary modifications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{automata}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% page formatting; exact 1 in margins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}                                                     
+
+\setlength{\textwidth}{6.5in}    
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{8.5in}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\footskip}{.5in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% defining code blocks using listings package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+ % keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  otherkeywords={0,1,2,3,4,5,6,7,8,9},
+  deletekeywords={data,frame,length,as,character,dunif,ps},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLE PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+ 
+       \textbf{\hl{[Working title]}: Intraspecific variation in range-wide seed bank dynamics is not consistent with density-independent bet hedging alone}
+ 
+       \vspace{1.5cm}
+ 
+       Gregor-Fausto Siegmund and Monica Geber
+ 
+   	Last updated: \today
+	
+
+	
+ 
+   \end{center}
+\end{titlepage}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Organisms across the tree of life exhibit life history strategies to persist in environments with different levels of variability, uncertainty, and predictability. In annual plants, temporal variation in fitness can favor the evolution of delayed germination and seed dormancy that establish soil seed banks. Seed banks can buffer plant populations against environmental change and stochasticity (\cite{eager2014,paniw2017}), increase effective population size (\cite{nunney2002,waples2006}), and maintain genetic diversity (\cite{mccue1998b}). Theory thus suggests that seed banks have key ecological and evolutionary consequences (\cite{evans2005}). 
+
+Evolutionary ecologists have classically theorized seed banks as a bet-hedging strategy that maximizes geometric mean fitness (reviewed in \cite{philippi1989,simons2011}). Because the geometric mean is multiplicative, optimal bet-hedging strategies reduce variance in geometric mean fitness even if they decrease the arithmetic mean fitness (\cite{cohen1966}). Density-independent models have been expanded to density-dependent cases with competition, in which case seed banks are an evolutionary stable strategy (\cite{ellner1985,ellner1985a}). However, seed strategies are shaped by environments that vary in both their levels of uncertainty and predictability. Predictive germination is expected if seeds are able to detect and respond to cues that reliably predict fitness upon germination (\cite{cohen1967}). Ultimately, it is likely that life history strategies are the product of a combination of these factors (\cite{simons2011}), an idea supported by research carried out with a guild of Sonoran Desert annuals (\cite{venable2007,gremer2014,gremer2016}).
+
+A variety of approaches have also been used to examine support for bet hedging and predictive germination hypotheses within species. Studies have correlated genetic variation or morphological traits with putative bet hedging strategies (e.g. \cite{hacker1984,hacker1989,philippi1993a,clauss2000}), identified clines in seed behavior (e.g. \cite{fernandez-pascual2013,gremer2020}, and correlated life history patterns with environmental variation (e.g. \cite{philippi1993}). Experimental studies have also decomposed the multifactorial contributions to germination and dormancy, establishing that these seed behaviors are complex traits jointly influenced by genetics, maternal effects, and the environment. Despite this wealth of research on patterns of intraspecific variation, tests of bet hedging theory in plants in the field have been conducted by examining (co)-variation in germination, seed survival, and reproductive success in a group of species at a single site in the Sonoran Desert (e.g. \cite{venable2007,gremer2014,gremer2016}). Here, we examine intraspecific variation in life-history patterns of a winter annual plant with a seed bank, and use a combination of field experiments, surveys, and modeling to test whether the observed variation is consistent with bet hedging theory. 
+
+Populations of the winter annual \textit{Clarkia xantiana} ssp. \textit{xantiana} are distributed across a complex landscape in the southern Sierra Nevada Mountains (Fig.~\ref{fig:intro-figure}). Although earlier work suggested the species lacked a soil seed bank (\cite{lewis1962}), multiple lines of evidence now support the presence and relevance of a seed bank in populations of \textit{C. xantiana} ssp. \textit{xantiana}. In field experiments burying seeds in bags (\cite{eckhart2011}) and pots (\hl{Geber, unpublished data}), seeds can germinate at least up to 3 years after burial. Fifteen years of surveys suggest that the seed bank may allow some populations to persist exclusively as seeds for as long as 4 consecutive years (Fig.~\ref{fig:intro-figure}D). Seeds lack morphological adaptations for dispersal (\cite{knies2004}) and spatial distribution patterns in populations are consistent with dispersal limitation (\cite{kramer2011}). We thus expect limited seed dispersal among populations over the relatively short temporal scales reported in this study.
+
+Intraspecific variation in fitness and demography in \textit{C. xantiana} prompted us to consider whether bet hedging might explain life-history patterns in the species. A study of \textit{C. xantiana} population dynamics identified an increase in the germination rate of first-year seeds from west to east (\cite{eckhart2011}). Variability in rainfall during the growing season shows the opposite pattern, from wetter and less variable in the west to drier and more variable in the east (\cite{eckhart2011}; Fig.~\ref{fig:intro-figure}B\&C for pattern from 2005-2020). Demographic observations \cite{eckhart2011} and transplant experiments also demonstrate that fitness can exhibit dramatic interannual variation (e.g. 30-fold between a wet and dry year in \cite{geber2005}). Because environmental variability is an imperfect proxy for fitness, we sought to understand intraspecific variation in \textit{C. xantiana} seed vital rates in the context of temporal variation in fitness. We thus sought to test whether bet hedging theory helps explains observed patterns of life history variation.
+ 
+Here, we test whether life history patterns in \textit{Clarkia xantiana} ssp. \textit{xantiana} are consistent with predictions made by bet hedging models. We combine seed burial experiments and 15 years of observations on aboveground vital rates from 20 populations to address the following questions: (1) Is there a negative correlation between germination and seed survival (Fig.~\ref{fig:intro-figure}E)? (2) Is there a negative correlation between germination and variance in per-capita reproductive success (Fig.~\ref{fig:intro-figure}F)? (3)  Is per-capita reproductive success positively correlated with growing season precipitation? (4) Does germination predicted by density-independent bet hedging models match observed germination? Because we find that life history patterns are not consistent with predictions, we examined two additional pieces of evidence to explore support for complementary hypotheses: (4) Is there a correlation between variation in the environment and per-capita reproductive success? (5) What is the relative contribution of different fitness components to total variance in per-capita reproductive success? %(5) Is there intraspecific variation in the sensitivity of germination to climatic covariates?
+
+\iffalse
+Seed strategies are shaped by environments with different levels of variability, uncertainty, and predictability. 
+
+\singlespace
+\begin{center}
+\captionof{table}{Models for germination delays: references and predictions } \label{tab:title} 
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ |p{2.5cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|  }
+ \hline
+  & Density-independent fitness & Density-dependent fitness & Predictive germination & Structured model \\
+ \hline
+ Key theory references   & \cite{cohen1966,cohen1968}    & \cite{ellner1985,ellner1985a} &   \cite{cohen1967} & \hl{Tuljapurkar and Istock 1997} \cite{easterling2000} \hl{Valleriani and Tielborger 2006} \\
+ \hline
+ Key empirical tests & \cite{venable2007}  & \cite{gremer2014}   & \cite{gremer2016} & ... \\
+ \hline
+ Mean of \newline seed yield    & increase in $\bar{Y}$ increases $G$* & increase in $\bar{K}$ can increase or decrease $\hat{G}$  &  \dots & \dots \\
+ \hline
+ CV of \newline seed yield & increasing $\rho_Y$ decreases $G$* & increasing $\rho_K$ or $\rho_C$ decreases $\hat{G}$ &  \dots  & \dots \\
+ \hline
+ Seed \newline survivorship & increasing $s$ decreases $G$*; limit near $s=1$ is p & increasing $s$ decreases $\hat{G}$; limit near $s=1$ is 0  & \dots  & \dots \\
+ \hline
+ %Frequency of good years & higher frequency of good years increases $G$*  & high frequency of good or bad years decreases $\hat{G}$   & \dots & \dots \\
+%\dots & \dots & \dots  & years with high G correspond to years with high Y & \dots \\
+\end{tabular}}
+\end{center}
+\doublespace
+\fi
+
+\iffalse
+
+\hl{Germination delays are generally life history strategies that make sense in the long-term, maximizing the geometric mean fitness rather than arithmetic mean. Reduce variance at expense of increase in mean. Germination delays are classic 'bet hedging' strategy but can also evolve as result of plasticity, adaptation, and are likely shaped by multiple factors} \hl{Theory - why do seed banks evolve?} What drives the evolution of delayed germination? The \hl{theory} developed by \cite{cohen1966} frames the problem in the following terms. What is the optimal germination fraction for a given level of interannual variation in fitness and seed survivorship? These models make it clear that the germination fraction that maximizes long-term population growth rate is a function of the distribution of fitness (characterized by the variation in fitness), the fitness values, and the rate of seed survivorship. For a given mean fitness, increasing the variance in fitness decreases the optimal germination fraction. Increasing seed survivorship decreases the optimal germination fraction, and the degree to which it does so depends on the probability of a 'good year'. Specifically, as the probability of a high-fitness year decreases, the optimal germination fraction decreases. Bet hedging should evolve to maximize the long-term geometric population growth rate (as compared to the arithmetic population growth rate) (\cite{cohen1966,cohen1968,ellner1985,ellner1985a}).\footnote{In paragraph on \hl{theory}, discuss density-independent models \cite{cohen1966,cohen1968}, density-dependent models \cite{ellner1985,ellner1985a}, predictive germination \cite{cohen1967}, and unstructured versus structured models \cite{easterling2000} (\hl{Tuljaparkur 1993, Valleriani and Tielborger 2006}).}
+
+Experimental studies have elegantly decomposed multifactorial contributions to dormancy and germination. 
+
+Studies have identified traits () and genetic loci associated with dormancy (),.  
+Genetic basis of seed banking; traits associated with seed banks; clines in seed banks/genetic variation.
+Cline associated with summer temperature {\hl{Wagmann 2012}
+
+Intraspecific variation in seed dormancy , clines in 
+. The main set of papers I've included are ones that look at variation in germination among Sonoran Desert annuals (\cite{venable2007,gremer2014,gremer2016}). The table lists predictions made by different models. I think examining the following relationships would be good starting points: The correlation between variance in fitness (seeds/seedling) and germination fraction should be negative -- this is true under the density-independent and -dependent model. The correlation between seed survivorship and germination fraction should be negative under both a density-independent and -dependent model but the limit as survivorship approaches 1 differs. Finally, the correlation between mean seed yield and germination fraction will be positive if fitness is density-independent but is not necessarily positive if fitness is density-dependent.
+
+Include altitudinal cline in the paragraph above
+
+Altitudinal clines: more dormancy in seeds produced with lower annual temperature and precipitation \hl{Fernandez-Pascual 2012}; low elevation pops have high germination fractions but high elevation pops require stratification to attain high germination fractions \hl{Gremer 2020}. Studies of intraspecific variation in germination and dormancy behavior have identified correlations between these traits and climate at populations of origins. Other studies have used crosses to identify the genetic bases of germination and dormancy. Environmental variation is an indirect proxy for what theory predicts should drive the evolution of germination delays; variation in per-capita reproductive success. Seed dormancy and germination in the field is shaped by local adaptation and parental environment, which are functions of natural selection and transgenerational plasticity, respectively. 
+
+
+\hl{See also the comments in Lewis 1953 on lifespan of seeds, absence of dormancy, and cued germination. Lewis 1963 Presidential address at SSE on catastrophic selection is also relevant. Discusses extinction and possible absence of a seed bank in populations of Clarkia species. Specifically mentions a population in the upper Kern Valley that had both whites and pinks; the pinks went extinct during a drought year while the whites maintained their population size. This work was followed up by others on different species in Clarkia genus. I think its important to consider the possibility that C. xantiana being studied in 1963 was a xantiana/parviflora ssp. which may have different dynamics than the outcrossing xantiana/xantiana. Furthermore: the upper parts of the range have the highest rates of germination which may also trade off with low survival. It would be interesting to put that observation in the range-wide context!} 
+
+\hl{Knies et al. 2004} studied 2 C. xantiana populations; seeds of outcrosser are heavier than selfers. Identify heavier seeds (~.1 mg heavier at SC than WH population). Seeds from both populations were bullet-shaped but differ in shape of exotesta cells; WH cells are gourd shaped, SC shapes are even width and spherical. Seed size/number trade-off: smaller size for dispersal; greater mass increases germination probability. Smaller seed size also facilitates seed integration into soil seed bank. Small seed size is also correlated with a persistent seed bank (Thompson et al. 1993). Larger seeds may germinate under more conditions and perhaps have smaller seed bank.
+
+\hl{Moeller et al. 2011} population genetic study. 
+
+\hl{Eckhart and Geber 1999} identify more populations than those of Lewis, populations that they have since monitored intensively. 
+
+\hl{Price et al. 1985} followed a population for 2 years, did an elimination experiment. determined a dormant seed bank.  \hl{Snow 1960} reports eliminating plants and not observing plants the following year. 
+
+\hl{Geber and Eckhart 2005} observed a 30-fold difference in lifetime fitness [calculated as number of germinants times survival, flower number, fruit set and seed set] between two transplant years (one wet, one dry). Fitness was very low in the dry year of the study (0.02-0.03 seeds per seed planted). They observed a 2-4 fold difference between years in germination, seedling survival, and flower number. They did not observe a difference in fruit or seed set. Western populations showed evidence of regional adaptation: survival and flower number. Germination declined from the western to eastern transplant sites [in contrast to what we observe here?] Germination is consistently higher in subspecies xantiana than parviflora. From west to east, rainfall declines and becomes more variable. Low survivorship is the product of end-of-season drought, small mammal herbivory (\hl{Geber and Eckhart 2005, Benning et al. 2019}), competition by higher vegetation cover of grasses (survivorship increases with plant size), fungal rust infection. Plants from western populations are larger. Note that the transplant experiments took place on igneous soils, and later work by Vince has shown that soil type is important. 
+
+\hl{Eckhart et al. 2010 IJPS}: geographic patterns in precipitation, decline from west to east, mirrored geographic pattern in midday water potential (reduced performance). Metasedimentary soils were more resistant and finer. Soil characteristic curves indicated that metasedimentary soils can hold more water but that it becomes unavailable to plants at higher water contents. Higher water potential on steeper, eroding slopes; this soil was softer and coarser. Decline in soil water potential (more negative) decreases plant size and fruit number. However, soil water potential is unrelated to seedling survival in the study years. Metasedimentary rocks may compound effect of decline in precipitation. Metasedimentary rocks may hold more water but it may be more available to plants in igneous soils. 
+
+Bet hedging should evolve to maximize the long-term geometric population growth rate (as compared to the arithmetic population growth rate) (\cite{cohen1966,cohen1968,ellner1985,ellner1985a}). Seed banks are more likely to be selected in populations which experience higher levels of interannual variation in per-capita reproductive success. To investigate this empirical relationship, I will estimate the correlation between interannual variation in per-capita reproductive success and the proportion of seeds that germinate in the winter immediately following seed production. I predict that germination is negatively correlated with interannual variation in per-capita reproductive success. [What is the relationship between interannual variation in fitness and dormancy? This is a question about whether fitness variation and dormancy are positively correlated as expected ? this is what selects for bet hedging.]
+
+Seed dormancy and persistence in the soil seed bank may be a bet-hedging strategy that is favored by environmental uncertainty. If this is the case in \textit{C. xantiana}, I think we might expect increased seed survival and decreased germination at the eastern range edge (precipitation is more variable at eastern populations in winter and spring). This seems to be opposite of what was observed in the previous study ? though I could also be misinterpreting this. This is could be one reason to revisit this question with a new analysis. 
+
+Why using the Clarkia system? We expect to see differences among populations in either seed survivorship or variance in fitness. In the study of \textit{C. xantiana} population dynamics that showed a decline of long-term stochastic population growth rate from west to east across the range, Eckhart et al. 2011 inferred a decrease in survival through winter (s1) and an increase in germination rate (g1) of first-year seeds from west to east. [need to be clear about this] also know that the environment changes across the range; that will affect the mean fitness
+
+I expect bet hedging stages to be sensitive to variation in an environmental cue. For something to be an adaptive strategy, it should respond to variation in the environment to capitalize on good years such as ones with high precipitation. To investigate the sensitivity of vital rates to the environment, I estimate the slope of the relationship between environmental cues and vital rates at individual sites using a random coefficients model that estimates covariation between intercepts and slopes. I predict that I will estimate variation both in the intercept and slope for populations, and that variation in the modeled cue [to be determined] will be positively related to the estimated slope. [What is the relationship between dormancy and environmental cues? This is a question about whether we can make any inferences about the mechanism responsible for bet hedging in this system.]
+\fi
+
+
+\iffalse
+\hl{Eckhart et al. 2004} conducted a transplant experiment in two years in which seed set varied ten-fold. There are additional studies that did elimination experiments (with other species of Clarkia) and suggested limited role/role for seed bank because plants did or did not come up with following year. 
+
+An earlier study focused on range-wide variation in demography identified a gradient in rainfall variability during the growing season, from wetter and less variable in the west to drier and more variable in the east (\cite{eckhart2011}; Fig.~\ref{fig:intro-figure}B\&C for pattern from 2005-2020). 
+
+Variation and coverage in (D) also led to testing what shaped seed banks and life history patterns. We focus on bet hedging as this is a classic case of dealing with environmental variability. 
+
+The fitness consequences of germination delays only become evident when placed in context of reproductive success variation. 
+
+Studies with \textit{Clarkia xantiana} ssp. \textit{xantiana} have also observed strong variation in fitness in time (\cite{geber2005}), and for range-wide variation in population growth rate (\cite{eckhart2011}). Transplant experiments demosntrate local adaptation of fitness components; these studies have compared the relative fitness of populations. Continued surveys have provided insight into the demographic patterns and their relation to environmental variables. In light of this work, we sought to reexamine life history patterns in populations of Clarkia in order to understand; fitness consequences of seed banks are expected to affect geometric mean fitness rather than arithmetic mean so multiple years are required to understand them.
+
+Population vital rates exhibit intraspecific variation across \textit{Clarkia xantiana}'s geographic range, including age-specific germination and seed survival (\cite{eckhart2011}). In a study of \textit{C. xantiana} population dynamics that identified a decline of long-term stochastic population growth rate from west to east across the range, \cite{eckhart2011} inferred a decrease in survival through winter ($s_1$) and an increase in germination rate ($g_1$) of first-year seeds from west to east. Demographic observations \cite{eckhart2011} and transplant experiments demonstrate that fitness can exhibit dramatic interannual variation (e.g. 30-fold between a wet and dry year in \cite{geber2005}). 
+
+Seed dormancy and persistence in the soil seed bank may be a bet-hedging strategy that is favored by environmental uncertainty. If this is the case in \textit{C. xantiana}, we might expect increased seed survival and decreased germination probabilities in populations with more variability in per-capita reproductive success. However, broad geographic patterns in rainfall variability and life history are not consistent with this cursory explanation since variation in rainfall increases from west to east, and germination probability also increases \cite{eckhart2011}. We thus sought to understand intraspecific variation in \textit{C. xantiana} seed vital rates in the context of broader life history patterns. 
+
+Bet hedging should evolve to maximize the long-term geometric population growth rate (as compared to the arithmetic population growth rate) (\cite{cohen1966,cohen1968,ellner1985,ellner1985a}). Seed banks are more likely to be selected in populations which experience higher levels of interannual variation in per-capita reproductive success. To investigate this empirical relationship, we estimate the correlation between germination and seed survival, and between germination variance in per-capita reproductive success. We also examined whether observed levels of germination are consistent with germination levels predicted by a density-independent model of bet hedging. 
+\fi
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% METHODS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+
+\subsection{Clarkia life history}
+
+\textit{Clarkia xantiana} ssp. \textit{xantiana} is a winter annual that germinates with late fall and winter rains. In our study region, the Kern Valley in the southern Sierra Nevada Mountains, germination historically happens between October and late February or early March. Seedlings grow throughout the winter and spring, and surviving plants flower in late spring and early summer, April into early July. Pollinated fruits set seed in the early summer, June to July. Seeds of \textit{C. xantiana} are produced in early summer, with fruits that dry out and gradually split open. Most seeds appear to be shed from fruits within 3-4 months after production, but can remain on the plant for up to a year. Seeds are small ($<1$ mm in width) and have no structures to aid in aerial dispersal. 
+
+We represent the \textit{C. xantiana} life history in terms of transitions from October of year $t$ to October of year $t+1$. Transitions are the product of seed survival and germination, and aboveground seedling survival to fruiting, fruit production, and seeds per fruit. For this study, we assume that the new and old seeds differ in their survival rates, but do not include additional age structure and assume germination of new and old seeds is the same. We also we assume that all plants experience the same vital rates upon germination. We describe population growth rate by the following equation:
+
+ \begin{align}
+  \begin{split}
+\lambda = g_1Y(t) s_0 s_1 + (1-g_1) s_2 s_3.  \label{eq:di-equation}
+  \end{split}
+\end{align}
+
+Germination is given by $g_1$. Seed survival from seed production to the first October is $s_0$, and survival from October to February is $s_1$ and $s_3$ for age 0, and 1 seeds, respectively. Survival from February to October is given as $s_2$. Per-capita reproductive success in year $t$, $Y(t)$ is the product of seedling survival to fruiting ($\sigma$), fruits per plant ($F$), or seeds per fruit ($\phi$).
+
+\iffalse
+ Seeds are grouped into three stages: age 0 seeds, which were produced in the current year; age 1 seeds, which were produced in the previous year; age 2+ seeds, which were produced two or more years ago. Persistence of seeds in the seed bank is represented by transitions from younger to older seeds. Production of new seeds is captured by transition to the age 0 seed state. 
+ 
+Transitions in the life cycle graph are the product of age-specific seed survival and germination, and aboveground seedling survival to fruiting, fruit production, and seeds per fruit. Seed-related rates are represented separately for age 0, 1, and 2+ seeds. Germination for each age class is given as $g_1$, $g_2$, and $g_3$, respectively. Seed survival from seed production to the first October is given as $s_0$, and survival from October to February is given as $s_1$, $s_3$, and $s_5$ for age 0, 1, and 2+ seeds, respectively. Survival from February to October is given as $s_2$, $s_4$, and $s_6$ for age 0, 1, and 2+ seeds, respectively. We assume that vital rates remain unchanged after age 2. We also we assume that all plants experience the same vital rates upon germination seed age at germination does not affect seedling survival to fruiting ($\sigma$), fruits per plant ($F$), or seeds per fruit ($\phi$).
+
+The life cycle graph (Figure \ref{fig:life-cycle}A) corresponds to the annual projection matrix
+%
+\begin{gather}
+\bm{A} = 
+\begin{bmatrix} 
+s_1 g_1 \sigma F \phi s_0 & s_3 g_2 \sigma F \phi s_0 & s_5 g_3 \sigma F \phi s_0 \\
+s_1 (1-g_1) s_2 & 0 & 0 \\
+0 & s_3 (1-g_2) s_4  & s_5 (1-g_3) s_6  \\
+\end{bmatrix}
+\label{eq:projection-matrix}
+\end{gather} 
+%
+that summarizes transitions between stages. 
+
+The census period occurs when the entire population is seeds, and corresponds to the time at which seed bags are placed into the field (\hl{see below}).
+\fi
+
+\subsection{Creating the dataset}
+
+We used field experiments and surveys to assemble observations of below- and above-ground demography for 20 populations of \textit{Clarkia xantiana} (Table \ref{tab:datasets}). Specifically, we used experiments to estimate transitions in the seed bank and surveys to estimate per-capita reproductive success. These demographic data have been used to test hypotheses about the geography of demography (\cite{eckhart2011}) and species distributions (\cite{pironon2018}). Here, we use them to obtain population-level estimates of germination and seed survival, and yearly estimates of per-capita reproductive success.
+
+To estimate transitions in the seed bank, we used observations from a seed bag burial experiment conducted in all populations from 2005-2008 (Figure \ref{fig:seed-bag-experiments}). In June-July of these years, one of us (MAG) collected mature fruits at all study populations. In each population, seeds were pooled and distributed across 5$\times$5-cm nylon mesh bags (100 seeds/bag). In October, MAG placed 30 bags at each population; one bag was staked into the ground near each permanent survey plot and covered with soil. In all populations, ten bags each were unearthed twice (in January and October) during their first, second, or third year; bags that were dug up in a given year were only used in that year and were removed at the end of the year (Figure \ref{fig:seed-bag-experiments}A). The experiment was repeated in 3 consecutive years (3 rounds). In round 1 (started in October 2005 with 30 bags/population), bags were dug up in year 1, 2, and 3. In round 2 (started in October 2006 with 20 bags/population), bags were dug up in year 1 and 2. In round 3 (started in October 2007 with 10 bags/population), bags were dug up in year 1. We thus have 3 sets of observations associated with 1 year old seeds, 2 sets of observations associated with 2 year old seeds, and 1 set of observations associated with 3 year old seeds. We use data from the experiment to estimate germination and seed survival (\hl{see Joint model for seed vital rates}) but note that we test predictions of bet-hedging theory using only a subset of transitions relevant to our analysis (\hl{see Computing vital rates}).
+
+During each experimental round, we counted the number of intact seeds ($y_{ijkm}$) for up to 3 years. We counted the number of seeds in bag $i$, in population $j$, and in year $k$ at times indexed by $m$, corresponding to the times at which bags were unearthed. These counts represent the number of seeds that remain intact in the soil seed bank. We also counted the number of seedlings ($y_{\mathrm{g},ijk}$) when we unearthed the seed bags in January. We illustrate the relationship between the experimental design and data in (Figure \ref{fig:seed-bag-experiments}B), in which we show the hypothetical, average seed counts in seed bags from the first experimental round at one population. Seeds are lost from bags through physical destruction (continuous decline in seed counts along solid lines) and germination (discrete decline in seed counts along dotted lines). 
+
+We conducted viability experiments in each year we conducted seed burial experiments. At the end of each experimental year, bags were brought to the lab and intact seeds were tested in a two-stage viability trial (Figure \ref{fig:seed-bag-experiments}C). In the lab, we conducted germination trials and viability assays on subsets of the seeds from each bag to estimate the viability of the intact seeds. First, we placed up to 15 seeds from each bag on to moist filter paper in a disposable cup and observed the number of germinants over 10 days; we counted and removed germinants every 2 days. For each bag, we summed the number of seeds tested and germinating to obtain the number of trials ($n^\mathrm{test_g}_{ijk}$) and successes ($y^{\mathrm{germ}}_{ijk}$) summarizing the germination trials. 
+
+After 10 days, up to 10 remaining ungerminated seeds were sliced in half and individually placed into the wells of 96-well plates filled with a solution of tetrazolium chloride, which stains viable tissue red. We covered the plates with foil. Each 96-well plate contained seed from at least one bag per population of a given seed-age class. Two or three tests of up to 15 seeds each were conducted for each bag. We checked and counted for viable seeds  every 2 days for 10 days. For each bag, we summed the number of seeds tested and stained to obtain the number of trials ($n^\mathrm{test_v}_{ijk}$) and successes ($y^{\mathrm{viab}}_{ijk}$) summarizing the viability trials. 
+
+To estimate the survival of seedlings to fruiting plants, we counted seedlings and fruiting plants in 30 0.5 m$^2$ permanent plots from 2006--2020 (\cite{eckhart2011}). Seedlings ($n_{ijk}$) and fruiting plants ($y_{ijk}$) were counted in February and June, respectively, in plot $i$, in population $j$, and in year $k$. Plants in each plot are counted by a single person at each visit. 
+
+To estimate seed production by plants that survive to reproduction, we combined estimates of fruits per plant and seeds per fruit (\cite{eckhart2011}). To determine the number of fruits per plant, we made two sets of counts at each population. First, from 2007--2020, we counted the number of fruits per plant on all plants in the 0.5m$^2$ permanent plots. Second, from 2006--2020, we counted the number of fruits per plant on additional plants that we sampled haphazardly across the site using throws of a 0.5m$^2$ grid. We chose to combine counts from plants in permanent and haphazardly distributed plots, because the latter often sampled a broader distribution of plant sizes and combining them allowed us to better estimate fruit number per plant in years with relatively few plants in permanent plots. 
+
+From 2006--2012, we counted the number of undamaged fruits on a plant. We then took the damaged fruits on a plant and visually stacked them end to end to estimate how many additional undamaged fruits that was equivalent to (e.g. two half fruits corresponded to one undamaged fruit). We used this as our count ($y^{TFE}_{ijk}$) of total fruit equivalents on plant $i$, in population $j$, and in year $k$. From 2013--2020, we counted and separately recorded the number of undamaged ($y^{UF}_{ijk}$) and damaged ($y^{DF}_{ijk}$) fruits on a plant plant. 
+
+From 2006--2020, we collected one undamaged fruit from each of 20-30 plants that were haphazardly chosen in each population. For each population in each year, we attempted to obtain 20-30 counts of seeds produced per undamaged fruit. The plants were outside permanent plots to avoid affecting seed input. In the lab, we counted the number of seeds in the fruit ($y^{US}_{ijk}$), corresponding to fruit $i$, in population $j$, and in year $k$. From 2013--2020, we additionally collected a damaged fruit from the same plant whenever available. We counted the number of seeds in the fruit ($y^{DS}_{ijk}$), corresponding to fruit $i$, in population $j$, and in year $k$.
+
+%
+\begin{singlespace*}
+\captionof{table}{ Summary of data sets used to estimate demographic parameters. } \label{tab:datasets} 
+\begin{center}
+\input{../tables/tables/datasets.tex}
+\end{center}
+\end{singlespace*} 
+
+\subsection{Model}
+
+We use observational and experimental data from 20 populations to estimate transition probabilities across the life cycle. We fit multilevel models to obtain population-specific estimates for belowground vital rates, and year- and population-specific estimates for aboveground vital rates. Because we were interested in describing the life histories of individual populations, we built separate models for each population. The details of each model depend on the dataset and are fully described in \hl{Appendix: Joint Posteriors}, but our general approach applies a common model structure to partially pool observations in each population. 
+
+We first explicitly describe our formulation in terms linear mixed models before defining the joint posterior (\cite{evans2010,ogle2020}). We assume that the latent mean of observations in year $j$ at a population $k$, $\theta_{jk}$, is drawn from a normal distribution with mean $\theta_{0,k}$ and variance $\sigma^2_j$.
+
+\begin{align}
+  \begin{split}
+  \theta_{jk} &  = \theta_{0,k} +\epsilon_{(jk)}.
+  \end{split}
+\end{align}
+
+Our model includes a population-level intercept $\theta_{0,k}$ and random effects $\epsilon_{(jk)}$. The random effects can be written as  $\epsilon_{(jk)}\sim N(0, \varsigma^2)$. For the moment, we focus on describing the hierarchical structure of the model but note that we use link functions for transformation to parameters that are appropriate for specific likelihoods (e.g. binomial for seed bag experiments; Poisson for counts of seed per fruit). We note that such a linear mixed effects model with random intercepts for years is one method commonly used to model interannual variation in demographic rates (e.g. \cite{metcalf2015}). Using hierarchical centering, the same model is rewritten as 
+
+\begin{align}
+  \begin{split}
+  \theta_{jk} &  = \alpha_{(jk)}.
+  \end{split}
+\end{align}
+
+The mean $\theta_{jk}$, is now drawn from a normal distribution with mean $\alpha_{(jk)}$ and variance $\sigma^2_j$. We place a prior on $\alpha_{(jk)}$ such that $\alpha_{(jk)}\sim N(\theta_{0,k}, \varsigma^2)$. The expressions are related by $\alpha_{(jk)}=\theta_{0,k}+\epsilon_{(jk)}$. We thus draw year-level means from the population-level means. 
+
+For a single population (ie. suppressing subscript $k$), we write the the posterior proportional to the joint distribution as
+
+\begin{align}
+  \begin{split}
+  [ \theta_j , \theta_0 , \sigma_j^2 , \varsigma^2 | y_{ij} ] &  \propto [ y_{ij} | \theta_j , \sigma^2_j] [ \theta_j | \theta_0 , \varsigma^2 ] [ \theta_0 ] [ \sigma^2_j] [ \varsigma^2].
+  \end{split}
+\end{align}
+
+The distribution of the observations $y_{ij}$ is conditional on the year-specific parameters $\theta_j$ and $\sigma^2_j$. In turn, the year-specific parameter $\theta_j$ is conditional on the population-specific parameters $\theta_0$ and $ \varsigma^2$. We placed priors on all parameters found only on the right hand side of conditional statements ($\theta_0, \sigma^2_j, \varsigma^2$). In practice, we implemented this model by specifying the population- and year-levels of the model with normal distributions; for example, $[ \theta_j | \theta_0 , \varsigma^2 ]$ is $\theta_j \sim N(\theta_0, \varsigma^2)$. The model thus describes a structure in which years are nested within populations.
+
+\subsection{Model statements, implementation, and fitting}
+
+We include the expression for the posterior proportional to the joint distribution, and corresponding directed acyclic graphs, in \hl{Appendix: Joint Posterior}. Priors for all parameters are defined in \hl{Table: Priors}. We applied the following principles to specify priors: (1) we used weakly informative priors that avoided placing probability mass on biologically implausible values (\hl{Gelman} \cite{lemoine2019,wesner2020}), (2) we placed positive, unbounded priors on variance components (\hl{REF}), (3) we conducted prior predictive checks to assess the scale of priors after parameter transformation (\cite{hobbs2015b,gabry2019,wesner2020}), and (4) we simulated prior predictive distributions to confirm that the joint likelihood generated data within the observed range (\cite{gabry2019,conn2018,hobbs2015b}). We provide additional detail regarding our choice of priors in \hl{Appendix: Priors}. 
+
+We prepared data for analysis using the tidyverse and tidybayes packages (\hl{CITE}) in R \hl{VERSION; CITE}. We wrote, fit all models, and estimated posterior distributions using JAGS \hl{4.3.0} with rjags (\hl{Plummer 2016}). We randomly generated initial conditions for all parameters with a prior by drawing from the corresponding probability distribution in R before passing the initial values to rjags. We ran three chains for 45,000 iterations. The first 10,000 iterations were for adaptation, the next 15,000 iterations were discarded as burn-in, and we sampled the following 15,000 iterations. To improve computational efficiency, we thinned the chains by keeping every 10th iteration.
+
+We assessed convergence of the MCMC samples with visual inspection of trace plots, by calculating the Brooks-Gelman-Rubin diagnostic (R-hat), and by calculating the Heidelberg-Welch diagnostic (\cite{elderd2015}). The Gelman-Rubin diagnostic is used to assess convergence between chains and the Heidelberg-Welch for stationarity within chains. We show trace plots for all chains, histograms of R-hat, and the percentage of chains that passed the HW in the appendix. 
+ 
+To evaluate the fit of our models to the data, we performed model checks that are described in full in \hl{Appendix: Model Checking}. We used the posterior distribution to simulate replicate datasets based on the parameters of our model. We compared samples from the simulated datasets to the real, observed datasets using both graphical, visual checks and by calculating Bayesian \textit{p}-values for test statistics calculated for the observed and simulated data. In the following section, we describe how we used the models we fit to obtain the parameters that describe the \textit{Clarkia} life history. While we do not perform model checks for these derived quantities (e.g. winter seed survival accounting for the combined effect of seed decay and loss of viability) because we combine the output of multiple models, the model checks are still essential to determine whether our inferences are reasonable.
+
+\subsection{Computing vital rates}
+
+\subsubsection{Belowground vital rates}
+
+We used the germination probabilities, survival function, and viability estimates to account for viability in estimates for the probability of germination and survival. We first discretized the survival function to times at which we observed germination and counted seeds (January and October). Estimates of survival over these intervals are the probability that a seed remains intact, but does not account for loss of viability. Next, we used viability estimates from October to calculate viability for January by interpolation (Figure \ref{fig:seed-bag-experiments}D). We tested the viability of seeds in October, and were thus able to estimate the proportion of viable seeds (Figure \ref{fig:seed-bag-experiments}B; filled points). We inferred the viability of intact seeds in January by assuming that seeds lost viability at a constant rate (exponential decay). Further, we interpolated between estimates by assuming that viability changed at a constant rate between years, and that all seeds were viable at the start of the experiment (Figure \ref{fig:seed-bag-experiments}B; open points). 
+
+We combined the discretized survival function and viability estimates to construct a survival function for the probability that a seed remains intact and viable (Table \ref{tab:structured-parameters}). Specifically, we multiplied the posteriors of the discretized survival and viability estimates. Because we combined estimates, some portions of the posterior for seed survival probability was than 1, especially for later seed ages. We restricted the posterior to be less than 1 by truncating the distribution and resampling to redistribute the probability mass. We take this step to retain parameter uncertainty about survival probability in cases where combining the estimates implies a high probability of survival. The survival function for viable seeds ($\phi$) is composed of estimates of seeds remaining intact over time ($\theta_\cdot$), estimates of viability ($\nu_\cdot$), and estimates of germination conditional on being intact ($\gamma_\cdot$).
+
+We used the discretized survival function and germination probability to obtain the estimates of germination and seed survival required to test predictions from bet-hedging theory. Table \ref{tab:structured-parameters} defines the seed-related rates in equation \ref{eq:di-equation} in terms of the survival function and germination probabilities. Figure \ref{fig:seed-bag-experiments}E-F illustrate the relationship among the various probabilities of germination and seed survival. Estimates from the seed bag experiment correspond to the probability of germination or survival conditional on being intact (e.g. $\gamma_1$). Multiplying these estimates by the probability of being intact up to a certain time gives the unconditional probability (e.g. $\theta_1 \times \gamma_1$). Finally, the probability conditional on being intact and viable is estimated by incorporating loss of viability into the survival function (e.g. $\gamma_1 / \phi_1$), and defines the parameters in the structured population model.
+
+\singlespace
+%
+\begin{center}
+\captionof{table}{ Seed persistence and viability in the soil seed bank } \label{tab:structured-parameters} 
+ \begin{tabularx}{14cm}{l  | c | l    } 
+  \multicolumn{1}{ c | }{  } & 
+  \multicolumn{1}{ c |  }{ Intact } & 
+   \multicolumn{1}{ c  }{ Intact \& viable } \\ 
+ \hline
+ \hline
+ \multicolumn{1}{ l }{ Time $(x_i)$ } & 
+\multicolumn{1}{ | c | }{ $S(x_i)$ } & 
+ \multicolumn{1}{ c }{ $S(x_i)$ } \\
+ \hline
+
+ $\mathrm{Oct_0}$ & $\theta_0$ & $\phi_0 =  \theta_0$  \\
+
+  $\mathrm{Jan_{1,total}}$ & $\theta_1$ & $\phi_1 = \theta_1 (\gamma_1 + (1-\gamma_1) \nu^{1/3}_1 ) $   \\
+
+  $\mathrm{Jan_{1,intact}}$ & $\theta_2$ & $\phi_2 = \theta_2 \nu^{1/3}_1$  \\
+
+   $\mathrm{Oct}_1$ & $\theta_3$ & $\phi_3 = \theta_3 \nu_1$  \\
+
+  $\mathrm{Jan_{2,total}}$ & $\theta_4$ & $\phi_4 = \theta_4 (\gamma_2 + (1-\gamma_2) \nu_1 (\nu_2 / \nu_1 )^{1/3}) $ \\
+  
+  \hline
+ \hline
+ \multicolumn{1}{ l }{ Description  } & 
+\multicolumn{1}{ | c | }{ Parameter } & 
+ \multicolumn{1}{ c }{ Probability } \\
+ \hline
+  
+July-October & $s_0$ &  \\
+
+October-January & $s_1$ & $ \phi_1$ \\
+
+1-year old germination &  $g_1$  & $  \gamma_1  / \phi_1 $ \\
+
+January-October & $s_2$ &  $ \phi_3 / \phi_2 $  \\
+
+October-January & $s_3$ & $  \phi_4 / \phi_3  $ \\
+ 
+  \hline
+   \hline
+ 
+  \hline
+\end{tabularx}
+\end{center}
+%
+\doublespace
+
+\subsubsection{Per-capita reproductive success}
+
+We calculate per-capita reproductive success as the number of seeds produced per seedling, on average (as in \cite{venable2007,gremer2014}), and is thus the product of the probability of seedling survival to fruiting, fruits per plant, and seeds per fruit. In terms of parameters from our statistical models (\hl{Appendix: Joint Posteriors}), per-capita reproductive success $Y_{j}(k)$ at population $j$ in year $k$ is calculated as
+
+\begin{align}
+  \begin{split}
+Y_{j}(k) = \phi_{jk} \times \lambda_{\mathrm{TFE},jk} \times \lambda_{\mathrm{US},jk}, \label{eq:percapitars}
+  \end{split}
+\end{align}
+
+where
+
+\begin{align}
+  \begin{split}
+\phi_{jk} & = \mathrm{logit}^{-1}(\mu_{\mathrm{S},jk}) \\
+\lambda_{\mathrm{TFE},jk} & = \mathrm{exp}(\mu_{\mathrm{TFE},jk}) \\
+\lambda_{\mathrm{US},jk} & = \mathrm{exp}(\mu_{\mathrm{US},jk}). 
+  \end{split}
+\end{align}
+
+We used a consistent method to estimate seedling survival to fruiting throughout the experiment, and use the population- and year-level estimates ($\mu_{\mathrm{S},jk}$) in our calculation. Because we estimated fruit production in 2 different ways during the study, we chose to use total fruit equivalents (TFE) per plant as our common estimate of fruit production. From 2006--2012, we used $\mu_{\mathrm{TFE},jk})$ as estimated in the statistical model. From 2013--2020, we used the ratio of seeds per damaged to undamaged fruit to calculate a proportion of damaged fruits to add to undamaged fruit counts, as in 
+
+\begin{align}
+\begin{split}
+\textrm{TFE} = \textrm{undamaged fruits} + \frac{\textrm{seeds per damaged fruit}}{\textrm{seeds per undamaged fruit}}\times  \textrm{damaged fruits} .
+  \end{split}
+\end{align}
+
+We used posterior distributions for population- and year-level parameters (e.g. $\mu_{\mathrm{US},jk}$) for these calculations and obtained estimates of $\mu_{\mathrm{TFE},jk})$ for 2013--2020. Finally, we used estimates of seeds per undamaged fruit ($\mu_{\mathrm{US},jk}$) as our estimate of seeds per fruit.
+
+Our multilevel models for aboveground vital rates pooled data more strongly in years with relatively little data. A benefit of this approach is that it implicitly corrects for variation in sample size. While this is beneficial for distinguishing between spurious estimates and true temporal variation, it may also underestimate variation in reproductive success. At the extreme, estimates in years without any data are pooled to the population-level means. Years with zero seedling survivorship would have estimates for fruits per plant that are pooled towards the population-mean (because there were no fruiting plants on which to count fruits). Our estimates of per-capita reproductive success are thus likely to be conservative. 
+
+Because estimates of fruits per plant are based on surveys of the whole population, we are relatively confident that per-capita reproductive success is 0 in years in which we observed no fruits per plant and obtained no counts of seeds per fruit (orange Xs in Figure~\ref{fig:intro-figure}D). We thus considered a second, less conservative estimate in which we assumed those years to have per-capita reproductive success of 0. We did this after parameter estimation, before estimating the correlation between germination and per-capita reproductive success. Finally, we also considered modeling components of per-capita reproductive success without partial pooling, but as this did not change our conclusions (\hl{to include in the appendix?}) we only report the results of the models based on partial pooling in the main text.  
+
+%We also considered a second, less conservative estimate of reproductive success in which we assumed that per-capita reproductive success was 0 in years with no seedlings germinated or survived in our permanent plots. This is equivalent to basing our calculations of per-capita reproductive success on a model with no pooling, as the posterior mode of seedling survivorship to fruiting should be very small (~0) in years without any seedlings surviving.
+
+% Strict and less strict tests of the bet-hedging model. We consider two models for per-capita reproductive success. In the first, we use partial pooling to correct for sampling bias in estimates of seedling survival, fruits per plant, and seeds per fruit. However, our model with partial pooling pools years with few plants towards the overall population mean, which will reduce the variance in per-capita reproductive success. We thus also considered a second model in which we did not pool to the population-level. In this model, we instead estimated seedling survival, fruits per plant, and seeds per fruit each year separately and did not include a population-level effect (in other words, we did not nest year in population). This would have the effect of letting the prior have a stronger effect each year. We conducted model checks for both of these. Years without data would be missing or true NAs. Finally, we could also consider a model without pooling and in which the observed estimate is uncorrected. 
+
+%We calculated the posterior mode of annual estimates for each parameter in \hl{Equation 6} before multiplying to obtain the per-capita reproductive success in that year. Using the posterior mode is equivalent to taking the BLUP of a linear model, and allowed us to estimate vital rates in years with small sample sizes. 
+
+\subsection{Climate data}
+
+A weather station network was established as part of the long-term study of \textit{C. xantiana} demography (described in \cite{eckhart2011}). The network consists of 21 data loggers (Onset Computer Corporation) that recorded temperature and precipitation starting in October 2005; between 8 and 18 weather stations were actively recording throughout the study. Data from the network was used to spatially interpolate precipitation accumulation on a 1 hectare grid throughout the study area and estimate seasonal, cumulative precipitation at the study populations. Additionally, seasonal temperatures in each year were estimated using linear models with elevation, potential estimated solar radiation, and linear azimuth as covariates; year was a categorical covariate. Coefficients of the linear model were subsequently used to project temperature across the landscape. Mean temperature and cumulative precipitation for November-January (winter) and February-June (spring) are summarized in Figure \hl{S\#}.
+
+\subsection{Analysis}
+
+\subsubsection{Correlation between germination probability and seed survival}
+
+Increased seed survivorship is predicted to decrease the optimal germination probability \cite{cohen1966,ellner1985a}. I tested whether the observed germination probability was negatively correlated with seed survival (\cite{gremer2014}). I calculated the probability that seeds which do not germinate in January remain in the seed bank until the following January ($s_2 s_3$). I obtained the posterior distribution for the correlation between germination and seed survival by calculating the correlation of $g_1$ and $s_2 s_3$ at each iteration of the MCMC output (\cite{hobbs2015b}, p 194-5). Results of this analysis are shown in Figure~\ref{fig:correlation-germ-surv}. Bet hedging models predict that germination probability should be negatively correlated with seed survival; 95\% credible intervals that do not overlap zero provide support for this prediction. The bottom panel shows the posterior distribution of correlation between the probability of germination and seed survival. 
+
+% Ref: https://discourse.mc-stan.org/t/computing-correlations-from-the-posterior/2633 \hl{Calculating the sample correlation in draws from the posterior. (quote Stan list-serv)}.
+
+\subsubsection{Correlation between germination probability and variance in per-capita reproductive success}
+
+Increased variance in per-capita reproductive success is predicted to decrease the optimal germination probability (\cite{cohen1966,ellner1985a}). I assessed whether the observed germination probability was negatively correlated with variance in per-capita reproductive success (\cite{venable2007}).
+
+To calculate the temporal variation in per-capita reproductive success for each population, I sampled the posterior distribution of reproductive success for each year and calculated the geometric standard deviation of per capita reproductive success. The geometric SD of per capita reproductive success was calculated as exp(SD (log (per capita reproductive success+0.5))) (as in \cite{venable2007}). I obtained the sample correlation of germination and geometric SD of per capita reproductive success at each iteration of the MCMC output (\cite{hobbs2015b}, p 194-5). Bet hedging models predict that germination probability should be negatively correlated with temporal variance in fitness; 95\% credible intervals that do not overlap zero provide support for this prediction. Results of this analysis are shown in Figures~\ref{fig:obs-pred}.
+
+% \hl{Calculating the sample correlation in draws from the posterior. (quote Stan list-serv)}
+
+\subsubsection{Density-independent model for germination probability}
+
+We use estimates of seed survival and reproductive success to investigate the adaptive value of delayed germination (\cite{gremer2014}). We parameterize a model of population growth rate (equation~\ref{eq:di-equation}) and calculate the optimal germination strategy for different combinations of seed survival and reproductive success. Seed survival rates ($s_0, s_1, s_2, s_3$) are population-level estimates. Per capita reproductive success ($Y(t)$) is calculated as the product of seedling survival to fruiting, fruits per plant, and seeds per fruit (equation~\eqref{eq:percapitars}). Temporal variation is incorporated into the model by varying the per-capita reproductive success, $Y(t)$, between years.
+
+For each population, I numerically calculate the optimal germination probability for the observed variation in reproductive success and seed survival. In each case, I use the posterior mode of the parameter estimates in the equation for density-independent growth (equation~\eqref{eq:di-equation}). I resampled the posterior modes of per-capita reproductive success ($Y(t)$) to obtain a sequence of 1000 years. I used this same sequence of $Y(t)$ and the seed survival probabilities to calculate long-term stochastic population growth rates ($\lambda_s$) at each germination probability along an evenly spaced grid of possible germination probabilities ($G$) between 0 and 1. The optimal germination probability is estimated as the value of $G$ that maximizes the geometric mean of the population growth rate. I repeat the simulations 50 times for each population, resampling the sequence of per-capita reproductive success, $Y(t)$, each time. I then calculated the mean of the optimal germination fractions. 
+
+%% NOTE: I think I addressed Steve's comment in the paragraph above. 
+% \hl{[note from SPE: The issue is that the posterior distribution samples parameter uncertainty. If the model includes temporal variability in certain ways, it may be sampling from the combined variance of parameter uncertainty and temporal variance. In any case, sampling the posterior does not get you a sample from the estimated distribution of temporal variability. To sample from the estimated temporal variability distribution, you estimate its parameters and sample from the fitted distribution. Between now and the committee meeting, think about how you could do that. Afterwards, to account for parameter uncertainty, you can repeat that with several different parameter sets sampled from the posterior.]} 
+
+Models in which per-capita reproductive success is density-independent predict that germination probability should respond to variance in fitness (\cite{cohen1966}). To evaluate the density-independent model, I compared modeled germination probabilities to predicted germination optima. I plot this comparison in Figure~\ref{fig:obs-pred} and ~\ref{fig:obs-pred-lowFitness}. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed.
+
+\subsubsection{Relationship of reproductive success and growing season precipitation}
+
+When we did not observe a negative correlation between germination and the geometric standard deviation of per-capita reproductive success (see Results), we examined one of our assumptions about the relationship between precipitation and fitness. Specifically, we examined the sensitivity of reproductive success to growing season precipitation. We conducted a linear regression of the log of per-capita reproductive success on the log of growing season precipitation (\cite{venable2007}). For this exploratory analysis, we used the posterior mode as our point estimate per-capita reproductive success (as in the density-independent simulation). We applied a Bonferroni correction and assessed significance of our regressions at a confidence level of $p=0.05/20=0.0025$.
+
+\subsubsection{Partitioning contributions to the total geometric standard deviation of reproductive success}
+
+We also conducted an exploratory analysis to understand how each fitness component contributed to the total variance in reproductive success. By identifying how components contribute to the total variance, we expect to guide additional hypotheses about the observed life history patterns. The log of the geometric variance of a quantity is the arithmetic variance of the log (\hl{Kirkwood 1979, deCarvalho 2016}). By the properties of logarithms this is the arithmetic variance of the sum of the logs. We can then expand the expression to:
+
+\begin{align}
+  \begin{split}
+\mathrm{geometric\ var(per\ capita\ RS)}  = e^{\mathrm{Var}( \ln \sigma ) } e^{\mathrm{Var}( \ln F ) }  e^{\mathrm{Var}( \ln \phi ) } (e^{\mathrm{Cov}( \ln \sigma, \ln F ) })^2  (e^{\mathrm{Cov}( \ln \sigma, \ln \phi ) })^2  (e^{\mathrm{Cov}( \ln F, \ln \phi ) })^2
+  \end{split}
+\end{align}
+
+We use the median of annual estimates for seedling survival to fruiting, fruits per plant, seeds per fruit, and reproductive success. Interpretation of the variance decomposition is different than for an arithmetic variance. First, the variance has a minimum value of 1; this corresponds to an arithmetic variance of 0. Second, covariances have a minimum of 0; Values of 1 for the covariance indicate a lack of covariation; values less than 1 indicate negative covariation; values greater than one indicate positive covariation. Here, we focus on presenting the variances.
+
+\iffalse
+\subsubsection*{Density-dependent model for germination fraction}
+\hl{consequences of a germination strategy for an individual?s fitness depend on the strategies being used by other individuals in the population (\cite{gremer2014}).
+
+Here is what I think the general strategy would be if I wanted to test this model. Because we don't have data on all the species in the plot, we are solely focusing on the strength of intraspecific competition, which may vary with regards to how good of a proxy for overall competition the seedling experiences. In years with high grass germination there may be strong competition from other species (for example). Our data on seeds per fruit comes from haphazard collections of fruits; there is no information in density-dependence in this estimate. Our data on fruits per plant could be informed by the number of seedlings or adult plants in the plot. However, then we are getting one step removed from where the competition happens (among seedlings). We thus start by estimating seedling survival to fruiting as a function of density, assuming that this is the stage at which density-dependence is strongest. 
+
+We use counts of seedlings in the plot to incorporate the number of seedlings into our model for seedling survival to fruiting. We assume 'low density' is a single plant, and so obtain an estimate for the probability of survival at low densities as the marginal posterior probability of survival in a plot with a single plant. In the end, we obtain an estimate of seedling survival per fruit at low density in a given year ($K$ in \cite{gremer2014}) and a competition coefficient (from our logistic regression).}
+
+\subsubsection*{Age-structured model for germination fraction}
+
+\hl{Valleriani and Tielborger build on Tuljaparkur and Easterling/Ellner to show that an age-structured seed bank can modify the expectations for how dormancy should evolve. Here, we would want to show that there is (1) age-structure in the seed bank and (2) that the importance of age structure varies across the species range.}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESULTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Results}
+
+\subsubsection*{Correlation between germination probability and seed survival}
+
+We did not observe a correlation between population-level germination and seed survival in the seed bank (Fig.~\ref{fig:correlation-germ-surv}A). The 95\% credible interval for the posterior distribution of the correlation between probabilities of germination and seed survival overlaps 0 (Fig.~\ref{fig:correlation-germ-surv}B). 
+
+\subsubsection*{Correlation between germination probability and variance in per-capita reproductive success}
+
+We examined the correlation between germination and variance in per-capita reproductive success (Figure~\ref{fig:obs-pred} and ~\ref{fig:obs-pred-lowFitness}). The bottom left panel shows the posterior distribution of correlation between modeled germination probability and geometric SD in per-capita reproductive success. Setting years without any observed plants to have a fitness of zero increases the range of the geometric standard deviation in reproductive success (compare panels A in Figure~\ref{fig:obs-pred} and ~\ref{fig:obs-pred-lowFitness}). However, for both calculations of per capita reproductive success, the median correlation is slightly positive and the 95\% credible interval overlaps 0.
+
+\subsubsection*{Optimal germination probability predicted by a density-independent model}
+
+Optimal germination probabilities were less than 1 in all populations when we assumed that years without plants had zero fitness, but not when we used the partially pooled estimates of per-capita reproductive success (Figure~\ref{fig:obs-pred} and ~\ref{fig:obs-pred-lowFitness}). In both cases, predictions from the density-independent model overestimated the probability of germination (points fall below the 1:1 line).
+
+\subsubsection*{Environment and life history}
+
+The lack of correlation between germination and variance in reproductive success suggests that populations may not share the same relationship to environmental variability. We found that populations vary in how sensitive per capita reproductive success is to growing season precipitation. While growing season precipitation alone does not explain variation in reproductive success at any population, the slope of the relationship varied from 0-3.3 indicating that sensitivity to rainfall varies among populations.
+
+\subsubsection*{Variance decomposition}
+
+The geometric variance in seedling survival to fruiting tends to make the greatest contribution to total variance. Fruits per plant and seeds per fruit have, on average, much smaller variances. Populations also vary in how the variance is distributed among components of reproductive success. Variance in seedling survival to fruiting dominates the other components at roughly half the sites, while the other half of sites have a more even distribution (e.g. compare SM and CP3). High variance in seedling survival to fruiting is likely the result of some populations experiencing very low survivorship in some years.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DISCUSSION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Discussion}
+
+\hl{Note: the discussion is an outline at this point. I've thought about some of the points that I would like to make here but have not written it out completely.}
+
+\hl{Summarize results.} (1) We use field experiments, 15 years of observation on reproductive success, and models to examine life history patterns. (2) We test multiple predictions of density-independent models of bet hedging and do not find support for these predictions. Neither correlations within seed rates, or among germination and variance in reproductive success are in line with predictions. 
+
+\hl{Place study in context of other tests of bet hedging} (1) Tests of bet hedging theory that use estimates of fitness rather than proxies remain relatively uncommon (\cite{simons2011}). Good intraspecific examples but lack interspecific cases. (2) Intraspecific studies take various experimental approaches but it may be important to understand the fitness consequences in the field in order to understand relative importance of bet hedging. 
+
+\hl{Revisit how bet hedging, predictive germination, environmentally determined germination interact} (1) Seed banks are not only shaped by bet hedging but by interaction of factors. (2) Variation in sensitivity of reproductive success to precipitation across the range supports that populations are responding to different selective pressures across distribution. (3) Emphasize value of taking an approach that focuses on geometric mean fitness in order to understand relative contribution.
+
+\hl{Explanation of result of much higher germination than predicted under bet hedging.} Possible explanations: (1) Environmental pattern and timing of rainfall/temperature might mean that eastern populations experience higher soil moisture. (2) Correlation between plant size and dormancy/germination in first year. Seeds produced on larger plants are smaller and may thus exhibit higher dormancy. Plant fruit number generally declines from west to east, which may lead to plants with lower germination in the west vs. the east, all else being equal. (3) Density-dependence; density-dependent models of bet hedging predict lower germination fractions than density-independent models. In this case the problem is no longer one of optimization but of finding an ESS strategy.
+
+\hl{Assumption of unstructured seed bank.} (1) Describe assumptions of bet hedging models and how this means that the seed bank in models is unstructured. (2) Discuss studies that have looked at structured seed bank (\cite{philippi1993a}). (3) What are the prospects/challenges for including structure in seed bank? E.g. More limited data.
+
+\hl{Revisit theory to discuss role of complete reproductive failure vs. low fitness years more generally, discuss sampling} Cohen (1966) emphasizes the role of particularly bad years. This is highlighted by the inequality in equation (12), which states that for the optimal germination strategy to be bet hedging, it is sufficient that the harmonic mean is less than the survival probability of seeds that do not germinate. Minimum fitness thus has a strong impact on harmonic mean of fitness. This means that sampling variation is important to consider because it might be important if estimates of zero fitness are the result of sampling vs. true zeros. Also emphasizes the importance of long time scales of sampling; fifteen years is a already long but may not be enough to capture the lows in all populations. 
+
+
+\iffalse
+Dormancy, dispersal, seed size (see Venable and Brown 1988 in Philippi and Seger 1989)
+
+%Research has illuminated the influence of abiotic and biotic factors on population distribution and performance: topography (\cite{kramer2011}), climate (\cite{eckhart2011}), pollinator availability (\cite{moeller2005}), and herbivory (\cite{benning2019}).
+
+\hl{Revisit theory to see particular role of complete reproductive failure versus low fitness years more generally.} Cohen (1966) emphasizes the role of particularly bad years. This is highlighted by the inequality in equation (12), which states that for the optimal germination strategy to be bet hedging, it is sufficient that the harmonic mean is less than the survival probability of seeds that do not germinate. The minimum fitness has a strong impact on the harmonic mean of fitness (see definition of harmonic mean on Wikipedia), and a single year of very low fitness would tend to make the harmonic mean small. In particular, the harmonic mean is 0 when any of its values is 0. The probability of complete reproductive failure is thus particularly important. Years with no seedling survival in the plots or no germination are those in which fitness would be zero; there are only 4/20 populations in which this does not happen. We fit two types of models to the aboveground data; one with partial pooling and one with no pooling. The first was an attempt to correct for sampling variation; the latter an attempt to estimate per-capita reproductive success as-is, providing a more extreme estimate of interannual variation but one that reflects the combined effect of sampling variation and true variation.
+
+
+
+Simons 2011
+\hl{adaptive tracking}: optimal trait values change continually and follow from natural selection; depends on standing genetic variation and mutational variance; not clear how rate interacts with fluctuating selection; effectiveness of adaptive tracking may be reduced under environmental variance but needs exploration
+\hl{phenotypic plasticity}: range of phenotypes expressed over range of environments (phenotypic norm of reaction); evolution of adaptive plasticity depends on the phenotype-fitness association being predictable; plasticity is expected to be adaptive if cues are appropriate; effectiveness of plasticity under environmental variation depends on temporal stability of the mechanism underlying the relationship between phenotype and fitness; evolution of plasticity interacts with evolution of adaptation
+\hl{bet hedging}: adaptation to unpredictability or change itself rather than adaptation to specific or predictable environmental changes; bet hedging is expected to evolve under conditions of unpredictable environmental variance \& where adaptive tracking and evolution of plasticity are constrained; bet hedging traits maximize fitness across generations but do not maximize fitness within a generation, bet-hedging can appear detrimental on short time scales; \textbf{conservative bet hedging} is a character that is safe; \hl{diversification bet hedging} spreads risk among an array of phenotypes
+
+\hl{Adaptive tracking vs. bet hedging}: Annual plants with multi-generational trend of lengthening then contracting seasons would show delayed than contracting seasons. Unpredictable variance in season length (on the other hand) is expect to result in early reproduction that minimizes the risk of reproductive failure (\hl{bet hedging strategy}).
+\hl{Phenotypic plasticity vs. bet hedging}: Plastic norms of reaction result in expression of an optimal phenotype over a range of environments; bet hedging expresses a single phenotype (may be fixed level of diversification) that is neither optimal nor a failure across all environments. Adaptive plasticity would be an environment-appropriate adjustment to flowering time and evolution would depend on reliability of season length cue.
+\hl{Predictable and unpredictable environmental variance influence fitness}: in these cases, expect a blend of plasticity and bet hedging. Eg. may expect diversification bet hedging around norms of reaction. Plasticity in seed germination may evolve in response to available cues, but the cues are imperfect representations of environment-fitness relationships, leading to evolution of both adaptive plasticity and diversification.
+\hl{Even more...} If fitness consequences of norms of reaction vary over time, the norms may themselves be subject to geometric mean principle; norms of reaction may thus be bet hedging characters that differ in shape from those that maximize fitness in short term; eg. from salmon where norm of reaction influencing freshwater vs. sea water in salmon is advantageous only over long term
+
+Key is to look at geometric mean fitness first. Prevalence of bet hedging depends on whether selection for geometric mean fitness differs from arithmetic mean
+
+Types of evidence
+\begin{enumerate}
+\item Candidate bet hedging trait (CBH) may point to environmental variation
+\item Observe unpredictable environmental factor OR genetic variation in CBH
+\item Relate environmental variation to CBH among populations, genetic basis to CBH, CBH occurs at level of genotype (environment AND genotype)
+\item Evidence linking environmental variance to fluctuating selection (fitness consequences) acting on the CBH 
+\item (direct test of adaptive significance of CBH) Compare fitness of CBH trait to a a non-bet-hedging alternative and show higher fitness (eg. diapause favored over not)
+\item (direct test of adaptive significance of CBH) Degree of bet hedging is tested for optimality against an observed extent of fluctuating selection (ideal test of bet hedging)
+\end{enumerate}
+
+In 15 years of data on 20 populations across the species range, we observed high seedling mortality and/or low germination in at least one year in all but four populations. Although most populations had at least some flowering plants in most years, there were also four populations in which no flowering plants were observed in the entire population. None of these populations, however, went extinct during the period of the study. Seeds can remain viable in the field and laboratory for at least 5 years, contrary to previous suggestions that seeds are unlikely to persist past a few years (\hl{Lewis 1962}). 
+
+General introduction to seed banks/dormancy -- Clarkia as a case where seed banks have been posited to be important -- bet hedging theory and predictions -- review of tests of bet hedging in plants -- what we did
+
+To empirically test this theory, "a density-independent model can be used to check quantitatively the optimality (or evolutionary stability) of a life history trait in a real population, because the density effects are manifested in the measured vital rates" and "to check if a species germination fraction is optimal, one would estimate seed survivorship and the probability distribution of per capita seed yield. From these, the DI model predicts an "optimal" germination fraction, which can be compared with the actual germination fraction." \cite{ellner1985a}.
+
+
+In addition to examining patterns among life-history variables, we also examined the relationship of per-capita reproductive success and growing season precipitation. Geographic patterns in precipitation prompted us to explore whether bet-hedging explains observed patterns in germination.
+\fi
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIGURES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Figures} 
+
+\iffalse
+
+
+\iffalse
+\begin{wrapfigure}[]{r}{0.5\textwidth}
+%\begin{figure}[!h]
+       \includegraphics[scale=.65]{../manuscript/figures/dag-partialpool.pdf}  
+    \caption{ Graph depicting the general structure for the hierarchical models, for one populatoin. Observations from each year, $y_{ij}$, are shown grouped and outlined by dotted lines. The observations are drawn from year-level parameters, $\theta_j$, which in turn are drawn from a population-level parameter, $\theta_0$. The graph omits variance terms. }
+ \label{fig:hierarchical-dag}
+%\end{figure}
+\end{wrapfigure}
+\fi
+
+
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.75cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+   
+    \node (i) at (90:3cm)  {seeds};
+   \node (j) at (30:3cm) {seedlings};
+%   \node (k) at (210:3cm) {$k$};
+   \node (h) at (30:1cm) {seeds};
+%   \node (m) at (210:1cm) {seeds};
+  % \node (n) at (30:1cm) {seeds};
+
+   \draw[->] (80:3cm)  arc (80:40:3cm) node[midway]{$g_1$};
+   \draw (20:3cm) arc (20:-200:3cm) node[midway]{$\sigma F \phi s_0 s_1$};
+   \draw[->] (190:3cm) arc (190:110:3cm);
+
+   \draw (10:1.25cm)  arc (10:-220:1.25cm) node[midway]{$s_2 s_3$};
+    \draw[->] (.5,2.75) -- (1,.8) node[midway]{$1-g_1$};
+    \draw[->] (-1,.8) parabola (-.5,2.75);
+
+       
+  \end{tikzpicture}
+  \caption{Life cycle diagram for \textit{Clarkia xantiana}. \hl{I would like to draw a better life cycle diagram.}}\label{lifecycle}
+ \label{fig:lifecycle}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2.75cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \tikzstyle{every state}=[
+            draw = none,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+
+        \node[state] (Y1a) [] {$y^{\mathrm{tot}}_{ijt}$};
+        \node[state] (Y1b) [right of=Y1a] {$y^{\mathrm{intact}}_{ijt}$};
+        \node[state] (N) [left of=Y1a] {$n_{ijt}$};
+        \node[state] (Y2) [right of=Y1b] {$y^{\mathrm{oct}}_{ijt}$};
+        \node[state] (G) [below of=Y1b] {$y^{\mathrm{germ}}_{ijt}$};
+     
+        \node[draw] (O1) [above of=N] {$\mathrm{October}_{t-1}$};
+        \node[draw,dotted] (J1) [above of=Y1a, align=center] {$\mathrm{January}_{t}$ \\ pre-germ};
+        \node[draw,dotted] (J2) [above of=Y1b, align=center] {$\mathrm{January}_{t}$ \\ post-germ};
+        \node[draw,fit=(J1) (J2)] {};
+        \node[draw] (O2) [above of=Y2] {$\mathrm{October}_{t}$};
+
+        \path[->] (N) edge node {$\theta_1$} (Y1a);
+        \path[->,dotted] (Y1a) edge node {$$} (Y1b);
+   	\path[->] (Y1b) edge node {$\theta_3$} (Y2);
+       	\path[->] (Y1a) edge[bend right] node {$\theta_2$} (G);
+
+        \node[state] (T1) [below right of=G] {$n^{\mathrm{gt}}_{ijt}$};
+   	\path[dotted, ->] (Y2) edge node {} (T1);
+        \node[state] (TG) [right of=T1] {$y^{\mathrm{gt}}_{ijt}$};
+   	\path[->] (T1) edge node {$\theta_g$} (TG);
+        \node[state] (T2) [below of=T1] {$n^{\mathrm{vt}}_{ijt}$};
+   	\path[dotted, ->] (TG) edge node {} (T2);
+        \node[state] (VG) [right of=T2] {$y^{\mathrm{vt}}_{ijt}$};
+   	\path[->] (T2) edge node {$\theta_v$} (VG);
+	
+	\node[draw,fit=(N) (Y1a) (Y1b) (Y2) (G) , label={[label distance=0cm, align = right]left:{Seed bag \\ experiment}}] {};
+	
+	\node[draw,fit=(T1) (T2) (TG) (VG), label={[label distance=0cm, align = right]left:{Viability \\ trials}}] {};
+
+
+  \end{tikzpicture}
+  \caption{Diagram of data from the seed bag experiments and viability trials. There are two boxes: one for the seed bag experiment and one for the viability trials. In the seed bag experiment, I split January into two steps, one for just before germination and one for just after. Solid arrows represent probabilities estimated with a binomial experiment and are labeled with corresponding parameters. Dotted arrows represent cases where the seeds at the head of the arrow include some, possibly all, seeds at the tail of the arrow.}\label{seedexperiments}
+ \label{fig:seedBagDiagram}
+\end{figure}
+
+\begin{figure}[h]
+   \centering
+       \includegraphics[scale=2]{../manuscript/figures/model-figure.pdf}  
+        \caption{ Diagram representations of Clarkia life cycle. \hl{Note: Bottom panel needs to be edited so that the dotted lines on the outside of the figure are removed.} }
+        \label{fig:life-cycle}
+\end{figure}
+
+
+\fi
+
+\begin{figure}[t]
+	\includegraphics[width=\textwidth]{../manuscript/figures/intro-figure.pdf}  
+        \caption{ \footnotesize (A) Elevation map of populations. (B) Coefficient of variation of 15 years of spring (February-June) precipitation plotted against easting. (C) Summary of 15 years of spring precipitation for study populations; study populations are arranged by position on easting. Density plots summarize the distribution of estimates, which are also represented by a point and line showing the median and interquartile range. Fifteen years of estimates are plotted to the left of the summaries. (D) Graphical summary of fifteen years of aboveground observations at study populations. Orange circles indicate that no seedlings survived in permanent plots; orange Xs indicate that no seedlings or plants were observed in surveys. (E) Simulations for a negative correlation between germination and seed survival. A copula was used to simulate a negative correlation among 20 populations using the range of values reported in \cite{eckhart2011}. Plots show 8 replicate simulations; the histogram summarizes 100,000 replicates and shows the range of data consistent with a negative correlation of -0.5. (F) Simulations for a negative correlation between germination and variance in reproductive success. The range of values for geometric SD of reproductive success was determined by the average reproductive success of populations in \cite{eckhart2011} and probability of a year with zero fitness (panel D). Plots show 8 replicate simulations; the histogram summarizes 100,000 replicates and shows the range of data consistent with a negative correlation of -0.5. }
+        \label{fig:intro-figure}
+\end{figure}
+
+
+\begin{figure}[t]
+       \includegraphics[width=\textwidth]{../manuscript/figures/seed-bag-figure.pdf}  
+    \caption{ Summary of the seed bag burial experiments and viability trials. (A) A graphical representation of the seed bag trials. Seeds were buried at the start of each experiment (100 seeds in month $0$). Seed bags were unearthed and intact seeds ($y_{\cdot \cdot}$) and seedlings ($y_{\mathrm{g},\cdot}$) counted. (B) A hypothetical survival function associated with seeds remaining intact in the soil seed bank. (C) A graphical representation of the viability trials. Seeds were tested in two rounds; germination trials were performed and then some or all of the ungerminated seeds were tested for viability. (D) Hypothetical data from a series of viability trials and the interpolated, inferred viabilities at times when viability was unobserved. (E) Germination probably is summarized in three ways. (F) The survival function for seeds remaining intact in the soil seed bank (black line) and the estimated discrete survival probabilities for intact and viable of seeds (orange points). }
+ \label{fig:seed-bag-experiments}
+\end{figure}
+
+ \begin{figure}
+\centering
+\begin{subfigure}[h]{.65\textwidth}
+\centering
+       \includegraphics[page=1,width=1\textwidth]{../figures/analysis/correlation-germ-surv.pdf}  
+\end{subfigure}
+ \caption{ (A) The observed germination probability plotted against probability of seed survival. (B) The posterior distribution of correlation between observed germination probability and the probability of seed survival. }
+  \label{fig:correlation-germ-surv}
+ \end{figure}
+ 
+
+ \begin{figure}
+\centering
+       \includegraphics[page=1,width=1\textwidth]{../manuscript/figures/analysis-figure.pdf}  
+ \caption{ \textit{Left column}: Correlation between germination and variance in reproductive success when reproductive success is calculated with partial pooling. (A) Observed germination probability plotted against the temporal variation in per capita reproductive success, expressed as geometric standard deviation of per capita reproductive success. (B) The posterior distribution of correlation between observed germination probability and geometric SD of per capita reproductive success. \textit{Right column}: Correlation between germination and variance in reproductive success when reproductive success is calculated with partial pooling, but years without any observed plants are assumed to have reproductive success of zero. Panels (C) and (D) plot the same relationships as in (A) and (B), respectively.}
+   \label{fig:obs-pred}
+ \end{figure}
+
+ 
+  \begin{figure}[h]
+   \centering
+       \includegraphics[page=1,width=.9\textwidth]{../manuscript/figures/analysis-figure-2.pdf}  
+    \caption{ Comparison of observed and optimal germination probabilities from a density-independent model of bet hedging. (A) Observed vs. predicted probabilities for reproductive success estimated from models with partial pooling. (B) Observed vs. predicted probabilities for reproductive success estimated from models with partial pooling and fitness set to 0 in years without observations. For each population, the observed germination probability is the obtained from the model for seed bank vital rates. Each point is the population-specific median of the posterior of $g_1$ for a model fit to data from seed bag experiments from 2006--2009. Data was pooled across years. The dotted line indicates a 1:1 relationship between observations and predictions. Values below the line indicate that the model predicts higher germination probabilities than observed; values above the line would indicate that the model predicts lower germination probabilities than observed. }
+ \label{fig:obs-pred-lowFitness}
+\end{figure}
+
+\begin{figure}[!h]
+       \includegraphics[width=\textwidth]{../figures/analysis/rs-climate-sensitivity.pdf}  
+    \caption{ Log of per-capita reproductive success plotted against log of cumulative growing season (spring) precipitation. Plots are arrayed by the slope of a linear regression of per-capita reproductive success on precipitation. }
+\end{figure}
+
+\begin{figure}[!h]
+       \includegraphics[width=\textwidth]{../figures/analysis/variance-decomp.pdf}  
+    \caption{ Variance decomposition for geometric standard deviation of per-capita reproductive success. Per-capita reproductive success and its components (seedling survivorship, fruits per plant, seeds per fruit) were summarized by their medians, and decomposed to assess the relative contribution of variance in each component to total geometric variance. The dotted line corresponds to $\exp(0)=1$, the level at which the component makes no contribution to total geometric variance. }
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{/Users/gregor/Dropbox/bibliography/styleFiles/ecology} 
+\bibliography{/Users/gregor/Dropbox/bibliography/chapter-1}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLEMENTARY MATERIAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Supplementary material}
+
+%\subsection*{Theoretical background for hypotheses.} Explanation of key papers that develop theoretical results about seed banks. The document describes results from these papers that are relevant to understanding and interpreting the data in this manuscript. Link to document: \url{https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/appendices/appendix-cohen-results/appendix-x-cohen-results.pdf}
+
+\subsection*{Data summary.} Summary tables for all datasets used in the manuscript. The document summarizes the types of data collected. The document provides a table summarizing each dataset (e.g. sample size per each site and year). Link to document: \url{https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/tables/data-summary.pdf}
+
+\subsection*{Joint posterior.} Expression for the posterior proportional to the joint distribution, and corresponding directed acyclic graphs. Link to document: \url{https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/appendices/appendix-joint-posteriors/appendix-joint-posteriors.pdf}
+
+\subsection*{Priors.} Explanation of priors. Link to document: \url{https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/appendices/appendix-priors/appendix-priors.pdf}
+
+\subsection*{Model checks.} Model checks, including visual posterior predictive checks and assessments with Bayesian $p$-values for test statistics. Link to document: \url{https://github.com/gregor-fausto/clarkiaSeedBanks/blob/master/products/appendices/appendix-model-checks/appendix-x-model-checks.pdf}
+
+\end{document}
