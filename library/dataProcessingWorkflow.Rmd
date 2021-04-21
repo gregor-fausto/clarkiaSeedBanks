@@ -1172,13 +1172,13 @@ readr::write_rds(seedPotData,"~/Dropbox/dataLibrary/postProcessingData/seedPotDa
 ```{r, message=FALSE, warning=FALSE}
 dir=c("/Users/Gregor/Dropbox/dataLibrary/Clarkia-LTREB/20_demography_sites/")
 
-tmp <- readxl::read_excel(paste0(dir,"20_site_env_climate_2005-2014.xls"), 
-                            sheet = 1, range = "B2:M22")
+tmp <- readxl::read_excel(paste0(dir,"20_site_env_climate_2005-2015.xls"), 
+                            sheet = 1, range = "B2:BV22")
 
 tmp <- tmp %>%
   janitor::clean_names(case="lower_camel")
 
 siteAbioticData <- tmp
 
-readr::write_rds(siteAbioticData,"~/Dropbox/dataLibrary/postProcessingData/siteAbioticData.rds")
+readr::write_rds(siteAbioticData,"~/Dropbox/dataLibrary/postProcessingData-2021/siteAbioticData.rds")
 ```
