@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  5 APR 2021 15:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  5 APR 2021 22:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**intro-figure.tex
-(./intro-figure.tex
+**analysis-figure-2.tex
+(./analysis-figure-2.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03>
 (/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
@@ -161,8 +161,8 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-LaTeX Font Info:    Trying to load font information for OT1+phv on input line 4
-6.
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
+3.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
@@ -172,26 +172,25 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count194
 \l__pdf_internal_box=\box50
 )
-(./intro-figure.aux)
-\openout1 = `intro-figure.aux'.
+No file analysis-figure-2.aux.
+\openout1 = `analysis-figure-2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count195
@@ -214,66 +213,45 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<../../figures/analysis/map.pdf, id=1, 578.16pt x 578.16pt>
-File: ../../figures/analysis/map.pdf Graphic file (type pdf)
-<use ../../figures/analysis/map.pdf>
-Package pdftex.def Info: ../../figures/analysis/map.pdf  used on input line 51.
-
-(pdftex.def)             Requested size: 162.18062pt x 162.17482pt.
-<../../figures/analysis/precip.pdf, id=2, 578.16pt x 433.62pt>
-File: ../../figures/analysis/precip.pdf Graphic file (type pdf)
-<use ../../figures/analysis/precip.pdf>
-Package pdftex.def Info: ../../figures/analysis/precip.pdf  used on input line 
-52.
-(pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
+<../../figures/analysis/obs-pred-germ.pdf, id=1, 433.62pt x 289.08pt>
+File: ../../figures/analysis/obs-pred-germ.pdf Graphic file (type pdf)
+<use ../../figures/analysis/obs-pred-germ.pdf>
+Package pdftex.def Info: ../../figures/analysis/obs-pred-germ.pdf  used on inpu
+t line 39.
+(pdftex.def)             Requested size: 170.71652pt x 113.8126pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 53.
+(Font)              <7> on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 53.
-<../../figures/analysis/zero-fitness.pdf, id=3, 578.16pt x 433.62pt>
-File: ../../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
-<use ../../figures/analysis/zero-fitness.pdf>
-Package pdftex.def Info: ../../figures/analysis/zero-fitness.pdf  used on input
- line 55.
-(pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
-<../../figures/analysis/simulation-1.pdf, id=4, 578.16pt x 289.08pt>
-File: ../../figures/analysis/simulation-1.pdf Graphic file (type pdf)
-<use ../../figures/analysis/simulation-1.pdf>
-Package pdftex.def Info: ../../figures/analysis/simulation-1.pdf  used on input
- line 57.
-(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
-<../../figures/analysis/simulation-2.pdf, id=5, 578.16pt x 289.08pt>
-File: ../../figures/analysis/simulation-2.pdf Graphic file (type pdf)
-<use ../../figures/analysis/simulation-2.pdf>
-Package pdftex.def Info: ../../figures/analysis/simulation-2.pdf  used on input
- line 59.
-(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 55--60
-[][][][][][]
- []
+(Font)              <5> on input line 40.
+<../../figures/analysis/obs-pred-germ-lowFitness.pdf, id=2, 433.62pt x 289.08pt
+>
+File: ../../figures/analysis/obs-pred-germ-lowFitness.pdf Graphic file (type pd
+f)
+<use ../../figures/analysis/obs-pred-germ-lowFitness.pdf>
+Package pdftex.def Info: ../../figures/analysis/obs-pred-germ-lowFitness.pdf  u
+sed on input line 43.
+(pdftex.def)             Requested size: 170.71652pt x 113.8126pt.
 
 [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../../f
-igures/analysis/map.pdf> <../../figures/analysis/precip.pdf> <../../figures/ana
-lysis/zero-fitness.pdf> <../../figures/analysis/simulation-1.pdf> <../../figure
-s/analysis/simulation-2.pdf>] (./intro-figure.aux) ) 
+igures/analysis/obs-pred-germ.pdf> <../../figures/analysis/obs-pred-germ-lowFit
+ness.pdf>] (./analysis-figure-2.aux) ) 
 Here is how much of TeX's memory you used:
- 4377 strings out of 479383
- 73812 string characters out of 5869387
- 343125 words of memory out of 5000000
- 21461 multiletter control sequences out of 15000+600000
+ 4353 strings out of 479383
+ 73182 string characters out of 5869387
+ 341005 words of memory out of 5000000
+ 21442 multiletter control sequences out of 15000+600000
  405190 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 80i,11n,128p,349b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/te
-xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/
-type1/urw/helvetic/uhvr8a.pfb>
-Output written on intro-figure.pdf (1 page, 430905 bytes).
+ 80i,9n,128p,354b,431s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/texmf-dist/fonts
+/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/urw/helv
+etic/uhvr8a.pfb>
+Output written on analysis-figure-2.pdf (1 page, 11994 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 27 PDF objects out of 1000 (max. 8388607)
+ 18 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

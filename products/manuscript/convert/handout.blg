@@ -1,11 +1,11 @@
 This is BibTeX, Version 0.99d (TeX Live 2020)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: seedBankMS.aux
+The top-level auxiliary file: handout.aux
 The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
 Database file #1: /Users/gregor/Dropbox/bibliography/chapter-1.bib
 You've used 37 entries,
             2706 wiz_defined-function locations,
-            847 strings with 13871 characters,
+            847 strings with 13865 characters,
 and the built_in function-call counts, 19199 in all, are:
 = -- 1854
 > -- 995
