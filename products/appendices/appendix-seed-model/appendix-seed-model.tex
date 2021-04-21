@@ -142,43 +142,168 @@
 
 Last updated: \today
 
-\iffalse
+\section{Introduction}
 
-\section{Summary}
+\hl{Introduction} Soil seed banks can be a key part of plant life history strategies that rely on bet hedging and predictive germination to persist in variable environments. Theory and empirical work on seed banks have a long history. Integrating this knowledge into demographic models has proven more challenging. While aboveground individuals can be readily observed, additional experiments are often required to estimate seed survival, viability, and germination. Studies have identified consequences to omitting seed banks from stage-structured models and highlighted the effects of parameter uncertainty associated with dormant stages.
 
-Persistent soil seed banks are recognized as a life history phenomenon that can buffer plant populations in variable environments. Representing seed banks in demographic models has proven more challenging: while aboveground individuals can be readily observed, additional experiments are often required to estimate seed survival, viability, and germination. Studies have identified consequences to omitting seed banks from stage-structured models and highlighted the effects of parameter uncertainty associated with dormant stages. 
+\hl{Conservation implications} Seed banks are generally important for persistence and potentially critical for rare/endangered plant species. Selecting seeds with seed banks can be an important part of restoration strategies \hl{Barga and Leger}. Persistent seed banks may be critical for helping species make it through periods of environmental uncertainty, for desiccation resistant seeds in arid climates experiencing droughts as well as for seeds that must remain moist in tropical climates. 
 
-We encountered these challenges when we sought to estimate seed survival and germination for population models of the winter annual Clarkia xantiana ssp. xantiana. We thus built on existing approaches by developing and evaluating a hierarchical model that includes a process component to represent loss from the seed bank via decay and germination, and a sampling model to represent the design of the seed burial experiments. Finally, we combined data from estimates of reproduction and seedling emergence in permanent plots with the seed experiments. We used our approach to assess the extent of intraspecific variation in the seed survivorship curve and in age-specific germination for seeds of C. xantiana.
+\hl{Seed banks in structured models: matrix structure} Structured demographic models (whether matrix models or integral projection models) require choices about the structure of the life cycle. It's possible to evaluate the consequences of incorrectly specifying the life cycle by, for example, omitting the seed bank stage when it is important. For example, \cite{doak2002,nguyen2019} reviewed published seed bank studies and assessed the effects of removing seed banks on the estimated population growth rate. 
+
+\hl{Seed banks in structured models: parameter uncertainty} Parameter uncertainty can also influence estimates of population growth rate. Because relatively little is often known about the seed bank, authors may be less likely to include uncertainty in their assumptions. \cite{paniw2017} evaluated the consequences of uncertainty associated with seed bank transitions and quantified the effect of this uncertainty on estimates of population growth rate and population extinction. So, we know that it can be important to include seed banks and that uncertainty about them can be important.
+
+\hl{Seed banks in structured models: data-parameter mismatch} One challenge is that we are often interested in conditional probabilities; say, the probability of survival or germination for a 2-year old seed. However, because seeds are buried in the soil we can not observe the events leading up to a particular outcome. This idea is closely related to the concept of a hazard in survival analysis \hl{Zens and Peart 2003}, also referred to as the 'force of mortality'. This reflects the instantaneous death rate. While we may want to observe how this changes over time, we often only have data from the end of a time period. 
+
+\hl{Focus of this article: new models, model checking} An important gap is that there seem to be few ways of checking whether particular representations of seed bank persistence are appropriate. Building a model checking and/or model selection step into the process of constructing stage-structured population models creates the opportunity to consider a richer array of data when modeling seed bank. For example, \cite{peterson2019} describe model selection for considering beta vs. normal growth.
+
+\hl{Motivation: Clarkia} We encountered these challenges when we sought to estimate seed survival and germination for population models of the winter annual Clarkia xantiana ssp. xantiana. We thus built on existing approaches by developing and evaluating a hierarchical model that includes a process component to represent loss from the seed bank via decay and germination, and a sampling model to represent the design of the seed burial experiments. Finally, we combined data from estimates of reproduction and seedling emergence in permanent plots with the seed experiments. We used our approach to assess the extent of intraspecific variation in the seed survivorship curve and in age-specific germination for seeds of C. xantiana.
 
 We observed substantial variation in the survivorship curves of seeds in our C. xantiana study populations, corresponding to Type I, II, and III seed survivorship trajectories. The Weibull survival process proved to be a good representation of persistence in the seed bank, and population-level estimates for the shape parameter ranged from .25 to 1.25. We summarized uncertainty about the full survivorship curve as a function of both the shape and inverse-rate parameter. We also propagated uncertainty about survival to estimates of age-specific germination.
 
 In addition to fitting our model to empirical data, we conducted a simulation study to aid with computational implementation. We compared a nonparametric representation of seed survival and several parametric survival functions (negative exponential, continuous exponential, Weibull). We simulated data from each survival process and fit models to confirm we recovered known parameter combinations. We also tested the consequences of fitting a model to data generated under a different process (e.g. fit a model with nonparametric survival to data generated by a Weibull). Overall, we propose that one of the strengths of the approach we describe is that it makes it possible to compare representations of seed decay and germination in the model fitting step before moving on to evaluating its impact on population growth rate. 
 
-Our approach to analyzing seed bag burial experiments contributes to efforts to make richer inferences from the trove of demographic data collected by plant ecologists. The combination of data from aboveground observations and belowground experiments highlights the value of data fusion techniques even in the case of relatively small datasets.  
+\hl{Goals} Our approach to analyzing seed bag burial experiments contributes to efforts to make richer inferences from the trove of demographic data collected by plant ecologists. The combination of data from aboveground observations and belowground experiments highlights the value of data fusion techniques even in the case of relatively small datasets. (1) Survey combination of data collection and modeling approaches for seed banks. (2) Describe continuous representations of seed survival in the soil seed bank. (3) Use product integral to combine processes of germination and seed survival. (4) Highlight careful model selection as tool to supplement construction of structured models with seed banks.
 
-\hl{Fox 2001; Failure time analysis chapter}, \hl{Zens and Peart 2003}
+\hl{Outline} (Aim 1) Explain product integral and P(S)*P(G) (Aim 2) Describe approach for the simplest case: exponential model, constant germination, ie. unstructured seed bank. Simulate for different values of decay and germination, attempt to recover parameters. Plot 1: show 'true' decay+germination, simulated values, and estimated decay+germination. Plot 2: repeat for a range of k+germination values, from low-high half-life (0-1) to show that sampling variance is highest in the middle, and that uncertainty in parameter estimates can increase at old ages even in unstructured model. Plot 3: true vs. observed parameter values for different sample sizes. (Aim 3) Introduce Weibull model and explain why alternative decay functions might be of interest. Repeat simulations from Aim 2 but only show Plot 2+Plot 3.
 
-\hl{McNair, Seed Science Research 2012}. Discuss non-parametric and semi-parametric methods for seed germination data.
 
-\hl{Paniw et al. 2016} describe the consequences of parameter uncertainty in dormant life stages on stochastic demographic models.
+\section{Literature review}
 
-\hl{Meyer et al. 2006} 12 year seed bank experiment with Lepidium
+To examine the range of strategies used to model seed banks, we examined data associated with COMPADRE. We identified all matrix models that included seeds or seed banks, and read the associated publications to identify how the authors handled seed stages. Before reading papers for this project, we developed a preliminary coding scheme based on our general understanding of methods in the literature. We considered the following categories for data collection: (1) no data, (2) lab experiments, (3) field experiments, (4) observations, (5) combination. We considered the following categories for representation in models: (1) ignore seed bank, (2) model rates as constant, (3) model rates as random, (4) model rates as function of covariates, (5) model rates with differential equations.
 
-\hl{Menges 2000} reviews plant PVAs
+We applied our coding scheme to the literature and then discussed the codings to refine our callings. We summarize our findings in a table (supplement) and in a matrix that cross-tabulates data collection and model representation to understand how ecologists implement methods to study seed banks.
 
-\hl{Satterthwaite et al. 2007} conservation application
+\singlespace
+\begin{itemize}
 
-\hl{Peterson et al. 2019} discusses improving structured models with representations of non-normal growth; similar logic could be applied to seed bank.
+\item \hl{Fox 2001; Failure time analysis chapter}, \hl{Zens and Peart 2003}
 
-\hl{Bartholomew et al. 1973} and \hl{Lewis 1962} discuss catastrophic selection and lack of seed bank in Clarkia. 
+\item \hl{McNair, Seed Science Research 2012}. Discuss non-parametric and semi-parametric methods for seed germination data.
 
-\hl{Ecology of Soil Seed Banks}: book describing the soil seed bank, includes chapter by Venable on evolutionary ecology.
+\item \hl{Paniw et al. 2016} describe the consequences of parameter uncertainty in dormant life stages on stochastic demographic models.
 
-\hl{Doak et al. 2002} describes challenges of modeling seed banks
+\item \hl{Meyer et al. 2006} 12 year seed bank experiment with Lepidium
 
-Stage-structured demographic models require choices about the structure of the life cycle. It's possible to evaluate the consequences of incorrectly specifying the life cycle by, for example, omitting the seed bank stage when it is important. This is what was done by \hl{Doak et al. 2002} and then \hl{Nguyen et al. 2019}. Both of these papers reviewed published seed bank studies and assessed what the effects of removing seed banks was on the estimated population growth rate. Another approach that has been taken is to look at the effect of uncertainty about parameters associated with the seed bank on population growth rate. This is is what was done by \hl{Paniw et al. 2017}; they associated uncertainty with seed bank transitions and quantified the effect of this uncertainty on estimates of population growth rate and population extinction. So, we know that it can be important to include seed banks and that uncertainty about them can be important.
+\item \hl{Menges 2000} reviews plant PVAs
 
-One important gap is that there seem to be few ways of checking whether particular representations of seed bank persistence are appropriate. Building a model checking and/or model selection step into the process of constructing stage-structured population models creates the opportunity to consider a richer array of data when modeling seed bank. For example, \hl{Peterson et al. 2019} describe model selection for considering beta vs. normal growth  
+\item \hl{Satterthwaite et al. 2007} conservation application
+
+\item \hl{Peterson et al. 2019} discusses improving structured models with representations of non-normal growth; similar logic could be applied to seed bank.
+
+\item \hl{Bartholomew et al. 1973} and \hl{Lewis 1962} discuss catastrophic selection and lack of seed bank in Clarkia. 
+
+\item \hl{Ecology of Soil Seed Banks}: book describing the soil seed bank, includes chapter by Venable on evolutionary ecology.
+
+\item \hl{Doak et al. 2002} describes challenges of modeling seed banks
+
+\end{itemize}
+\doublespace
+
+\section{Models}
+
+Seed banks present a challenge for models of plant population demography. Individual seeds can not be tracked in the field so ecologists have turned to various methods to assess survival and germination from the seed bank, including experimental burials and seed addition experiments. This makes seed banks a good case for combining observation and process models in order to separate variation due to sampling and variation due to the process in question. 
+
+
+While inputs to the soil seed bank come solely from seed rain, seeds can leave the soil seed bank through various routes. These may include predation, pathogens, deep burial, physiological death, failed germination, and successful germination \hl{Simpson et al. Ch. 1 Ecology of seed banks; Figure 1}. Seeds can be destroyed by predators or decomposers, lose viability through natural causes (i.e. age-related loss of vitality) \hl{Baker Chapter 2 Ecology of seed banks}
+
+See \hl{Baskin and Baskin Chapter X Ecology of seed banks} for description of progression of dormancy. See \hl{McCue and Holtsford 1998} for description of how dormancy progresses over time in Clarkia.
+
+Seeds leave the soil seed bank through destruction, physiological death, and germination. The persistence of seeds in the soil combines discrete and continuous processes. Seeds leave the seed bank through germination (discrete) or destruction (continuous). The persistence of seeds to the first winter combines destruction and physiological death. However, in January we only directly observe seed loss due to destruction. We also observe loss through germination. Seeds are then buried again and unearthed in October at which point we observe additional loss due to destruction. We also estimate physiological death at that time. We estimate loss due to destruction at January. We estimate loss due to germination at January. We then estimate loss due to destruction in October, conditional on not being destroyed or germinating in January. Finally, we then estimate loss due to physiological death in October, conditional on not being destroyed. We want to estimate the loss due to physiological death, conditional on not germinating and not being destroyed in January;
+
+Loss of seeds from the soil seed bank reflect the product of destruction and germination. Seeds that persist to a given time are those that have not been destroyed and did not germinate. Additionally, we estimate the proportion of seeds that persist to October of each year that are viable. However, these tests are conducted on a subset of seeds; we can say viability in October | intact in October. We are interested in the proportion of seeds that did not germinate and are intact in January that are viable. To get this number requires some additional assumptions. The product of persistence and viability gives the expected proportion of seeds viable in October. 
+
+Here is another option. I could estimate viability in October and then calculate the proportion of seeds that are viable in January using either an exponential decay OR assuming decay proceeds at the same rate as physical death. In either case, we just use data from each age to estimate the viability of seeds of that age, rather than inferring the viability of seeds at all points in time. 
+
+Basically, describe two different events (physical destruction) and (germination). The curve for physical destruction is the product of seed decay and germination. Germination is discrete and includes survival to time x, viability at time x, and then germination. 
+
+The persistence of seeds beyond the first germination time is thus conditional on the absence of germination. Both germination and mortality remove seeds from the soil seed bank; we define hazard functions for these events. The survival function thus describes the persistence of seeds in the soil (seeds that do not experience mortality or germination).
+
+The survival function is defined by the product integral of the discrete and continuous hazards:
+%
+\begin{align}
+  \begin{split}
+\Pr( B|A )  & = \frac{\Pr( A|B ) \Pr( B )}{ \Pr ( A )} \\
+\Pr( g | s )  & = \frac{\Pr( s | g ) \Pr( g )}{ \Pr ( s )} \\ 
+ \Pr( g ) & = Pr( g | s ) \Pr( s ) \
+  \end{split}
+\end{align}
+%
+
+Finally, seeds can also leave the soil seed bank through loss of viability. We expect that loss of viability is a continuous process but our estimates of viability are discrete.
+
+ For the deterministic process model, I turned to literature on litter decomposition \hl{e.g. Olson 1963, Cornwell et al. 2014}. \hl{Cornwell et al. 2014} describe several functions that I considered as "process models". Some of these are the same as the survival functions underlying the models in \hl{Rees and Long 1993}. There are several models that could be considered to represent the survival process that I briefly describe below. A separate study with different objectives might be interested in coding up these competing models and using model selection to evaluate the relative support for different models of survival. 
+
+The negative exponential model corresponds to a constant decay rate, as in \hl{Gremer and Venable 2014}. This model has a constant decay parameter $k$ that implies the decaying material be treated as a homogeneous mass with each seed having an equal probability of mortality throughout time. The negative exponential decay model may be appropriate if seed survival is random in time and largely unrelated to seed characteristics. But we know that seeds exhibit phenotypic variation in dormancy-related traits \hl{Lonsdale 1988}.
+
+The continuous exponential model is one in which seed mortality is described by a continuous quality distribution. For example, if seed survival is a function of a continuous phenotypic trait, we could imagine this model describing the survival process. 
+
+The Weibull residence time model represents the seed pool as a distribution of survival times. Parameter alpha controls the shape of the decomposition trajectory and beta the rate of decomposition. This model can reduce to the exponential model when alpha is 1. If alpha is less than 1, the decomposition rate decreases through time. If alpha is greater than 1, the decomposition rate increases through time. 
+
+The table below summarizes the models we considered, the parameters, and the number of parameters for each model. The product of the mortality and germination process is a deterministic function that equals the average proportion of seeds that are expected to be intact or germinated. This average proportion is the mean of a beta distribution with process variance that captures variation beyond the effect of seed age on mortality as represented with a mortality process and germination.  We might also consider a germination process where germination is randomly distributed and independent for each bag?
+
+\singlespace
+
+\begin{center}
+\captionof{table}{ Deterministic process models for seed mortality and germination } \label{tab:title2} 
+ \begin{tabularx}{\linewidth}{l c c c c} 
+ \hline
+ \hline
+ \multicolumn{1}{ c }{ Model } & 
+\multicolumn{1}{ c }{ Mortality process } & 
+\multicolumn{1}{ c }{ Germination process } & 
+ \multicolumn{1}{ c }{ Parameters } & 
+  \multicolumn{1}{ c }{ Parameter number }   \\
+ \hline
+ %%%% VIABILITY TRIALS
+% \multicolumn{2}{ l }{ \sc{Viability trials }} \\
+
+ A1 & Negative exponential & Constant & $k,g$ & 2 \\
+
+ A2 & Negative exponential & Age-dependent & $k,g_{1-3}$ & 4 \\
+ 
+  B1 &  Compound exponential & Constant & $a,b,g$ & 3  \\
+
+  B2 &  Compound exponential & Age-dependent & $a,b,g_{1-3}$ & 5\\
+
+  C1 &   Weibull residence time & Constant & $\alpha,\beta,g$ & 3 \\
+
+  C2 &   Weibull residence time & Age-dependent & $\alpha,\beta,g_{1-3}$ & 5 \\
+  
+  \hline
+\end{tabularx}
+\end{center}
+
+\doublespace
+
+
+
+\subsection{Linking to seed pots}
+
+The seed bag burial experiment made it possible to estimate conditional germination; that is, the probability of germination for seeds of a given age that were intact at a given time. In the seed pot experiment, observations of seedlings reflect unconditional germination; the probability of emergence for a seedling that was buried some time ago. This process reflects both seed survival and conditional germination, but we only observe the emergence outcome.
+
+In the model defined above, survival has been reduced to a two-parameter process: roughly, a scale and shape parameter. I estimated a population-level shape parameter ($\alpha_j$) that defines how the probability of survival changes through time. For each population, I estimated a scale parameter ($\eta_{jk}$) for each year; this describes the magnitude of change and essentially shifts the survival curve up or down. The posteriors from these estimates could serve as informed priors.
+
+For the seed pot data, we only have observations on unconditional germination. The latent probability would thus be the product of survival up to the time of germination and conditional germination. This amounts to changing the equations for the compound event histories to reflect the events under observation. The germination probabilities are indexed by site $j$, experimental year $k$, and age $l$; for example, emergence of 1-year old seeds at site $j$ from the experimental year $k$ is given by $\gamma_{jkl}$. The compound event histories are now defined as:
+\singlespace
+%
+\begin{align}
+  \begin{split}
+\theta_{j1,1} & = \gamma_{j1,1} \\
+\theta_{j1,2} & = (1-\gamma_{j1,1}) \times \gamma_{j1,2} \\
+\theta_{j1,3} & = (1-\gamma_{j1,1}) \times (1-\gamma_{j1,2}) \gamma_{j1,3} \\
+  \end{split}
+\end{align}
+%
+\doublespace
+In each experimental year $k$, we have data on emergence 1, 2, and 3 years after the seeds were buried. Multiplying these with the survival functions returns the unconditional probability of germination, which is the latent probability underlying the binomial likelihood for the observed counts of seedlings.
+
+We would use the estimates for the parameters of the survival functions from the seed bags as informed priors. The posteriors on parameters of the survival function would remain the same if the data from the seed pot experiments was consistent with the estimates from after the seed bag experiments. They would change if additional information from the seed pot experiments influenced the estimate. Similarly, the population-level conditional germination probabilities could also serve as informed priors. 
+
+\subsection{Model selection}
+
+For the deterministic process model, I turned to literature on litter decomposition \hl{e.g. Olson 1963, Cornwell et al. 2014}. \hl{Cornwell et al. 2014} describe several functions that I considered as "process models". Some of these are the same as the survival functions underlying the models in \hl{Rees and Long 1993}. There are several models that could be considered to represent the survival process that I briefly describe below. A separate study with different objectives might be interested in coding up these competing models and using model selection to evaluate the relative support for different models of survival. 
+
+
 
 \section{Overview}
 
@@ -213,7 +338,7 @@ Finally, seed production happens in June/July but the seed bags were buried in O
 
  For the deterministic process model, I turned to literature on litter decomposition \hl{e.g. Olson 1963, Cornwell et al. 2014}. \hl{Cornwell et al. 2014} describe several functions that I considered as "process models". Some of these are the same as the survival functions underlying the models in \hl{Rees and Long 1993}. There are several models that could be considered to represent the survival process that I briefly describe below. A separate study with different objectives might be interested in coding up these competing models and using model selection to evaluate the relative support for different models of survival. 
 
-The negative exponential model corresponds to a constant decay rate, as in \hl{Gremer and Venable 2014}. This model has a constant decay parameter $k$ that implies the decaying material be treated as a homogeneous mass with each seed having an equal probability of mortality throughout time. The negative exponential decay model may be appropriate if seed survival is random in time and largely unrelated to seed characteristics. But we know that seeds exhibit phenotypic variation in dormancy-related traits \hl{Lonsdale 1988}.
+The negative exponential model corresponds to a constant decay rate, as in \hl{Gremer and Venable 2014}. This model has a constant decay parameter $k$ that implies the decaying material be treated as a homogeneous mass with each seed having an equal probability of mortality throughout time. The negative exponential decay model may be appropriate if seed survival is random in time and largely unrelated to seed characteristics. But we know that seeds exhibit phenotypic variation in dormancy-related traits (\cite{lonsdale1988}).
 
 The continuous exponential model is one in which seed mortality is described by a continuous quality distribution. For example, if seed survival is a function of a continuous phenotypic trait, we could imagine this model describing the survival process. 
 
@@ -256,7 +381,7 @@ The table below summarizes the models we considered, the parameters, and the num
 \doublespace
 
 
-\iffalse
+
 The table above shows the survival, probability mass, and hazard functions for the persistence of seeds in the soil. It also shows the survival, probability mass, and hazard functions for viable seeds in the soil. 
 Because the event $X$ here is the mortality of seeds, the probability of survival over an interval is the complementary probability to the hazard function. Seeds that physically persist in the soil may be physiologically dead, so this is closer to apparent survival as in the mark-recapture literature. The table above can be translated into parameters used in the stage-structured matrix model as follows:
 
@@ -295,7 +420,7 @@ $s_5$ & $P(S_5|S_4,G^c_2S_3,S_2,G^c_1,S_1)$ &  $ \theta_7 / \theta_6  $  \\
   \hline
 \end{tabularx}
 \end{center}
-\fi
+
 
 
 
@@ -329,36 +454,9 @@ Finally, seeds can also leave the soil seed bank through loss of viability. We e
 
 
 
-\subsection{Linking to seed pots}
-
-The seed bag burial experiment made it possible to estimate conditional germination; that is, the probability of germination for seeds of a given age that were intact at a given time. In the seed pot experiment, observations of seedlings reflect unconditional germination; the probability of emergence for a seedling that was buried some time ago. This process reflects both seed survival and conditional germination, but we only observe the emergence outcome.
-
-In the model defined above, survival has been reduced to a two-parameter process: roughly, a scale and shape parameter. I estimated a population-level shape parameter ($\alpha_j$) that defines how the probability of survival changes through time. For each population, I estimated a scale parameter ($\eta_{jk}$) for each year; this describes the magnitude of change and essentially shifts the survival curve up or down. The posteriors from these estimates could serve as informed priors.
-
-For the seed pot data, we only have observations on unconditional germination. The latent probability would thus be the product of survival up to the time of germination and conditional germination. This amounts to changing the equations for the compound event histories to reflect the events under observation. The germination probabilities are indexed by site $j$, experimental year $k$, and age $l$; for example, emergence of 1-year old seeds at site $j$ from the experimental year $k$ is given by $\gamma_{jkl}$. The compound event histories are now defined as:
-\singlespace
-%
-\begin{align}
-  \begin{split}
-\theta_{j1,1} & = \gamma_{j1,1} \\
-\theta_{j1,2} & = (1-\gamma_{j1,1}) \times \gamma_{j1,2} \\
-\theta_{j1,3} & = (1-\gamma_{j1,1}) \times (1-\gamma_{j1,2}) \gamma_{j1,3} \\
-  \end{split}
-\end{align}
-%
-\doublespace
-In each experimental year $k$, we have data on emergence 1, 2, and 3 years after the seeds were buried. Multiplying these with the survival functions returns the unconditional probability of germination, which is the latent probability underlying the binomial likelihood for the observed counts of seedlings.
-
-We would use the estimates for the parameters of the survival functions from the seed bags as informed priors. The posteriors on parameters of the survival function would remain the same if the data from the seed pot experiments was consistent with the estimates from after the seed bag experiments. They would change if additional information from the seed pot experiments influenced the estimate. Similarly, the population-level conditional germination probabilities could also serve as informed priors. 
-
-\subsection{Model selection}
-
-For the deterministic process model, I turned to literature on litter decomposition \hl{e.g. Olson 1963, Cornwell et al. 2014}. \hl{Cornwell et al. 2014} describe several functions that I considered as "process models". Some of these are the same as the survival functions underlying the models in \hl{Rees and Long 1993}. There are several models that could be considered to represent the survival process that I briefly describe below. A separate study with different objectives might be interested in coding up these competing models and using model selection to evaluate the relative support for different models of survival. 
 
 
 
-
-\fi
 
 
 % \subsection{Survival model}
@@ -1176,7 +1274,6 @@ With all of these pieces in hand, we calculate values of $\phi$, which are the p
 \end{figure}
 
 
-\iffalse
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DIRECTED ACYCLIC GRAPHS FOR AGE 1 SEED BAGS
@@ -1435,10 +1532,8 @@ With all of these pieces in hand, we calculate values of $\phi$, which are the p
 \clearpage
 \newpage
 
-\fi
 
 
-\iffalse
 %% NEXT: DESCRIBE THE SURVIVAL FUNCTION FOR WEIBULL RESIDENCE TIME
 
 
@@ -1758,9 +1853,13 @@ Which seems like an interesting extension of the data on hand. If we don't assum
 
 \clearpage
 \newpage
-\fi
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{/Users/gregor/Dropbox/bibliography/styleFiles/ecology} 
+\bibliography{/Users/gregor/Dropbox/bibliography/chapter-4}
 
 
 \end{document}

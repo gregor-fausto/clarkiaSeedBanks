@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  19 MAR 2021 16:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  5 APR 2021 23:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -239,7 +239,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  67i,9n,115p,257b,416s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on appendix-convergence.pdf (1 page, 430575 bytes).
+Output written on appendix-convergence.pdf (1 page, 417473 bytes).
 PDF statistics:
  15 PDF objects out of 1000 (max. 8388607)
  4 compressed objects within 1 object stream

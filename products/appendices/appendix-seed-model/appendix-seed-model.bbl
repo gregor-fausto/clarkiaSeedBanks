@@ -1,0 +1,37 @@
+\begin{thebibliography}{4}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Doak et~al.(2002)Doak, Thomson, and Jules}]{doak2002}
+Doak, D.~F., D.~Thomson, and E.~S. Jules. 2002.
+\newblock Population {Viability} {Analysis} for {Plants}: {Understanding} the
+  {Demographic} {Consequences} of {Seed} {Banks} for {Population} {Health}.
+\newblock In Population viability analysis, pages 312--337.
+
+\bibitem[{Nguyen et~al.(2019)Nguyen, Buckley, Salguero-Gómez, and
+  Wardle}]{nguyen2019}
+Nguyen, V., Y.~M. Buckley, R.~Salguero-Gómez, and G.~M. Wardle. 2019.
+\newblock Consequences of neglecting cryptic life stages from demographic
+  models.
+\newblock Ecological Modelling, {\bf 408}:108723.
+
+\bibitem[{Paniw et~al.(2017)Paniw, Quintana‐Ascencio, Ojeda, and
+  Salguero‐Gómez}]{paniw2017}
+Paniw, M., P.~F. Quintana‐Ascencio, F.~Ojeda, and R.~Salguero‐Gómez. 2017.
+\newblock Accounting for uncertainty in dormant life stages in stochastic
+  demographic models.
+\newblock Oikos, {\bf 126}:900--909.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/oik.03696.
+
+\bibitem[{Peterson et~al.(2019)Peterson, Morris, Linares, and
+  Doak}]{peterson2019}
+Peterson, M.~L., W.~Morris, C.~Linares, and D.~Doak. 2019.
+\newblock Improving structured population models with more realistic
+  representations of non-normal growth.
+\newblock Methods in Ecology and Evolution, {\bf 10}:1431--1444.
+\newblock \_eprint:
+  https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/2041-210X.13240.
+
+\end{thebibliography}
