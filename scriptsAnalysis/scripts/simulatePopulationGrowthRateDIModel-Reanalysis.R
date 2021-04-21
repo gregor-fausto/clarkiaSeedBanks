@@ -156,8 +156,11 @@ n.iter=dim(rs)[1]
 # -------------------------------------------------------------------
 
 for( k in 1:20){
-  pop.index=index[,1]==k
-  rs.tmp = rs.hat[pop.index]
+  rs.tmp = rs[,grep(paste0("\\[",k,","),colnames(rs))]
+  rs.tmp = rs.tmp[sample(1:4500,1),]
+#  rs.tmp = rs.hat[grep(paste0("\\[",k,","),names(rs.hat))]
+ # pop.index=index[,1]==k
+ # rs.tmp = rs.hat[pop.index]
   yt = sample(rs.tmp,1000,replace=TRUE)
     for( i in 1:length(g)){
         fit<-fitness(g=g[i],s0.hat[k],s1.hat[k],s2.hat[k],s3.hat[k],rs=yt)
@@ -169,8 +172,9 @@ for( k in 1:20){
 }
 
 par(mfrow=c(1,1))
-plot(g.seq,apply(g.mat,2,gm_mean))
+#plot(g.seq,apply(g.mat,2,gm_mean))
 
+apply(g.mat,2,prod)
 # -------------------------------------------------------------------
 # Plots of geometric mean fitness
 # note that without reproductive failure fitness
@@ -295,8 +299,10 @@ yt = c()
 n.iter=dim(rs)[1]
 
 for( k in 1:20){
-  pop.index=index[,1]==k
-  rs.tmp = rs.hat[pop.index]
+  rs.tmp = rs[,grep(paste0("\\[",k,","),colnames(rs))]
+  rs.tmp = rs.tmp[sample(1:4500,1),]
+  #  rs.tmp = rs.hat[grep(paste0("\\[",k,","),names(rs.hat))]
+  
   yt = sample(rs.tmp,1000,replace=TRUE)
   for( i in 1:length(g)){
     fit<-fitness(g=g[i],s0.hat[k],s1.hat[k],s2.hat[k],s3.hat[k],rs=yt)

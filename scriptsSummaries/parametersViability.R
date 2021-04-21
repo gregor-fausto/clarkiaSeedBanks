@@ -49,7 +49,7 @@ f.param = function(x.v,parm="g1"){
   
   axis(2, seq(0,1,by=.2), col.ticks = 1)
   axis(1, seq(340,375,by=5),
-       labels = seq(340,375,by=5), las = 1, 
+       labels = seq(340,375,by=5), las = 1,
        col.ticks = 1, cex.axis = 1)
   mtext("Probability",
         side=2,line=2.5,adj=.5,col='black',cex=1)
@@ -70,7 +70,7 @@ data2 <- readRDS(dataFiles[[1]])
 siteNames = unique(data2$siteBags)
 
 position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>% 
-  dplyr::select(site,easting,dominant.surface.rock.type) %>%
+  dplyr::select(site,easting,elevation,dominant.surface.rock.type) %>%
   dplyr::mutate(easting=easting/1000)
 
 # -------------------------------------------------------------------
@@ -106,14 +106,14 @@ mu_v<-MCMCchains(samples.rjagsViability, params = "mu_v")
 # calculate total viability; calculation on latent scale
 nu=exp(mu_g)/(1+exp(mu_g))+(exp(-mu_g+mu_v)/(1+exp(-mu_g)+exp(mu_v)+exp(-mu_g+mu_v)))
 
-pdf("~/Downloads/totalviability-lab-trials.pdf",width=8,height=4)
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/totalviability-lab-trials.pdf",width=8,height=4)
 par(mfrow=c(1,2))
 f.param(nu0[,1:20],parm="v.1")
 f.param(nu0[,21:40],parm="v.2")
 f.param(nu[,101:120],parm="v.3")
 dev.off()
 
-pdf("~/Downloads/germ-cond-lab-trials.pdf",width=8,height=4)
+pdf("~/Dropbox/clarkiaSeedBanks/products/figures/germ-cond-lab-trials.pdf",width=8,height=4)
 par(mfrow=c(1,2))
 f.param(viab.g[,1:20]/nu0[,1:20],parm="v.gc1")
 f.param(viab.g[,21:40]/nu0[,21:40],parm="v.gc2")

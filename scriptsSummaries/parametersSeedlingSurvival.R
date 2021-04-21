@@ -19,10 +19,9 @@ library(magrittr)
 library(bayesplot)
 library(rethinking)
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
-simFiles <- paste0(directory,list.files(directory))
-
-mcmcSamples <- readRDS(simFiles[[3]])
+directory = "/Users/Gregor/Dropbox/dataLibrary/mcmcSamplesThinned/"
+mcmcSampleDirectory <- paste0(directory,list.files(directory))
+mcmcSamples <- readRDS(mcmcSampleDirectory[[grep("seedlingSurvivalSamples.rds",mcmcSampleDirectory)]])
 
 dirPars = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/parameterSummary/"
 dir.create(file.path(dirPars), showWarnings = FALSE)
@@ -31,21 +30,17 @@ dir.create(file.path(dirPars), showWarnings = FALSE)
 # Data directory
 #################################################################################
 
-directory = "/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/seedlingSurvival/"
-dataFiles <- paste0(directory,list.files(directory))
-
-data <- readRDS(dataFiles[[2]])
-censusSeedlingsFruitingPlants <- readRDS(dataFiles[[1]])
+data <- readRDS(mcmcSampleDirectory[[grep("seedlingSurvivalData.rds",mcmcSampleDirectory)]])
 
 # -------------------------------------------------------------------
 # Get site names and position
 # -------------------------------------------------------------------
 
-directory2 = "/Users/Gregor/Dropbox/dataLibrary/workflow/tidyData/"
-dataFiles <- paste0(directory2,list.files(directory2))
+directory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData-2021/"
+dataFiles <- paste0(directory,list.files(directory))
+censusSeedlingsFruitingPlants = readRDS(dataFiles[[grep("censusSeedlingsFruitingPlants.RDS",dataFiles)]])
 
-data2 <- readRDS(dataFiles[[1]])
-siteNames = unique(data2$siteBags)
+siteNames = unique(censusSeedlingsFruitingPlants$site)
 years = as.numeric(unique(censusSeedlingsFruitingPlants$year))
 yearNames = years[order(years)]
 
@@ -172,11 +167,11 @@ sigma_py = summary.df
 
 tmp = sigma_py %>%
   dplyr::rename(lambda.med = med) %>%
-  dplyr::left_join(sigma_p,by = "site")
+  dplyr::left_join(sigma_p,by = "site") 
 
 
 interannualSigmaDF =  tmp %>%
-  dplyr::arrange(med) %>% 
+  dplyr::arrange(easting) %>% 
   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
   dplyr::group_by(site) %>%
   dplyr::arrange(desc(lambda.med),.by_group = TRUE) %>%
@@ -227,28 +222,140 @@ ggsave(filename=paste0(dirFigures,"spatialSigma.pdf"),
 # Make summary plots
 #################################################################################
 
+f.param = function(x.v,parm="g1"){
+  
+  x.sum=apply(boot::inv.logit(x.v),2,quantile,probs=c(0.025,.25,.5,.75,.975))
+  
+  plot(NA,NA,type='n',xlim=c(0,1),ylim=c(0,20),
+       axes=FALSE,frame=FALSE,
+       xlab="",ylab="")
+  
+  position.index=order(position$easting)
+  
+  y.pt = 20:1
+  for(i in 20:1){
+    tmp<-x.sum[,position.index[i]]
+    segments(x0=tmp[1],x1=tmp[5],y0=y.pt[i])
+    segments(x0=tmp[2],x1=tmp[4],y0=y.pt[i],lwd=3)
+    points(x=tmp[3],y=y.pt[i],pch=21,bg='white')
+  }
+  
+  axis(1,  seq(0,1,by=.2), col.ticks = 1)
+  axis(2, (1:20),
+       labels = (siteNames)[position.index], las = 1, 
+       col = NA, col.ticks = 1, cex.axis = 1)
+  mtext("Probability",
+        side=1,line=2.5,adj=.5,col='black',cex=1)
+  mtext(paste("Parameter:",parm),
+        side=3,line=0,adj=0,col='black',cex=.65)
+  
+  x.sum.df<-data.frame(t(x.sum),position)
+  names(x.sum.df)[1:5] = c("ci.lolo","ci.lo","ci.med","ci.hi","ci.hihi")
+  
+  plot(NA,NA,type='n',ylim=seq(0,1),xlim=c(340,375),
+       axes=FALSE,frame=FALSE,
+       xlab="",ylab="")
+  #abline(h=0,col='gray')
+  
+  segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lolo,y1=x.sum.df$ci.hihi,lwd=1)
+  segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lo,y1=x.sum.df$ci.hi,lwd=3)
+  points(x=x.sum.df$easting,y=x.sum.df$ci.med,pch=21,bg='white')
+  
+  axis(2, seq(0,1,by=.2), col.ticks = 1)
+  axis(1, seq(340,375,by=5),
+       labels = seq(340,375,by=5), las = 1,
+       col.ticks = 1, cex.axis = 1)
+  mtext("Probability",
+        side=2,line=2.5,adj=.5,col='black',cex=1)
+  mtext("Easting (km)",
+        side=1,line=2.5,adj=.5,col='black',cex=1)
+}
+
+par(mfrow=c(1,2),mar=c(0,2,2,0),
+    oma=c(4,1,1,1))
+f.param(parm.mu0,parm="sigma")
+
+
+### INDIVIDUAL PLOTS
+dev.off()
+par(mfrow=c(1,1))
+x.v = parm.mu0
+x.sum=apply(boot::inv.logit(x.v),2,quantile,probs=c(0.025,.25,.5,.75,.975))
+
+plot(NA,NA,type='n',xlim=c(0,20),ylim=c(0,1),
+     axes=FALSE,frame=FALSE,
+     xlab="",ylab="")
+
+position.index=order(position$easting)
+
+y.pt = 20:1
+for(i in 20:1){
+  tmp<-x.sum[,position.index[i]]
+  segments(y0=tmp[1],y1=tmp[5],x0=y.pt[i])
+  segments(y0=tmp[2],y1=tmp[4],x0=y.pt[i],lwd=3)
+  points(y=tmp[3],x=y.pt[i],pch=21,bg='white')
+}
+
+axis(2,  seq(0,1,by=.2), col.ticks = 1, las =1)
+axis(1, (1:20),
+     labels = (siteNames)[position.index], las = 3, 
+     col = NA, col.ticks = 1, cex.axis = 1)
+mtext("Probability of seedling survival to fruiting",
+      side=2,line=2.5,adj=.5,col='black',cex=1)
+
+x.sum.df<-data.frame(t(x.sum),position)
+names(x.sum.df)[1:5] = c("ci.lolo","ci.lo","ci.med","ci.hi","ci.hihi")
+
+plot(NA,NA,type='n',ylim=seq(0,1),xlim=c(340,375),
+     axes=FALSE,frame=FALSE,
+     xlab="",ylab="")
+#abline(h=0,col='gray')
+
+segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lolo,y1=x.sum.df$ci.hihi,lwd=1)
+segments(x0=x.sum.df$easting,y0=x.sum.df$ci.lo,y1=x.sum.df$ci.hi,lwd=3)
+points(x=x.sum.df$easting,y=x.sum.df$ci.med,pch=21,bg='white')
+
+axis(2, seq(0,1,by=.2), col.ticks = 1, las = 1)
+axis(1, seq(340,375,by=5),
+     labels = seq(340,375,by=5), las = 1,
+     col.ticks = 1, cex.axis = 1)
+mtext("Probability of seedling survival to fruiting",
+      side=2,line=2.5,adj=.5,col='black',cex=1)
+mtext("Easting (km)",
+      side=1,line=2.5,adj=.5,col='black',cex=1)
+
+
+
+position.index = order(position$easting)
+
+
+
+
+
+
 sigma_py
 sigma_p = summary.pop.df
 
-par(mfrow = c(4,5),
-    oma = c(5,4,0,0) + 0.1,
-    mar = c(0,0,1,1) + 0.1)
+dev.off()
 
-time.sample = 1:14+2005
+
+par(mfrow=c(4,5),mar=c(0,.25,.25,0),
+    oma=c(4,4,1,1))
+
+time.sample = 1:15+2005
+
 for(i in 1:20){
 
-  tmp=sigma_py[sigma_py$site==siteNames[i],]
-  tmp.pop=sigma_p[sigma_p$site==siteNames[i],]
+  tmp=sigma_py[sigma_py$site==siteNames[position.index[i]],]
+  tmp.pop=sigma_p[sigma_p$site==siteNames[position.index[i]],]
   
   tmp.vec=c()
-  for(j in 1:14){
-    tmp.vec[j]=sum(data$seedlingNumber[data$site==i&data$year==j])
+  for(j in 1:15){
+    tmp.vec[j]=sum(data$seedlingNumber[data$site==position.index[i]&data$year==j])
   }
 
-
-  
   plot(NA,NA,
-       ylim=c(0,1),pch=16,xlim=c(2006,2019),
+       ylim=c(0,1),pch=16,xlim=c(2006,2020),
        ylab='',xlab='',xaxt='n',yaxt='n')
   
   index=tmp.vec==0
@@ -260,7 +367,7 @@ for(i in 1:20){
   }} else {NA}
   
   
-  polygon(x=c(2005,2020,2020,2005),
+  polygon(x=c(2005,2021,2021,2005),
           y=c(tmp.pop$ci.lo,tmp.pop$ci.lo,tmp.pop$ci.hi,tmp.pop$ci.hi),
           col='gray95',border='gray95')
   
@@ -271,9 +378,9 @@ for(i in 1:20){
          col="black",bg='white')
   
   
-  text(x=2005.5,y=.95,siteNames[i],pos=4)
-  ifelse(i%in%c(16:20),axis(1L),NA)
-  ifelse(i%in%c(1,6,11,16),axis(2L),NA)
+  text(x=2005.5,y=.95,siteNames[position.index[i]],pos=4)
+  ifelse(i%in%c(16:20),axis(1L,c(2006,2010,2014,2018),las=3),NA)
+  ifelse(i%in%c(1,6,11,16),axis(2, las = 1),NA)
   ifelse(i%in%c(5), legend(x = 15, y = 1,
                            col = c('gray','orange'),
                            lty = c(1,1),
@@ -320,14 +427,14 @@ par(mfrow = c(4,5),
     oma = c(5,4,0,0) + 0.1,
     mar = c(0,0,1,1) + 0.1)
 
-time.sample = 1:14+2005
+time.sample = 1:15+2005
 for(i in 1:20){
   
   index=grep(paste0("\\[",i,","),colnames(x.sum))
   tmp=x.sum[,index]
   
   plot(NA,NA,
-       ylim=c(0,4),pch=16,xlim=c(2006,2019),
+       ylim=c(0,4),pch=16,xlim=c(2006,2020),
        ylab='',xlab='',xaxt='n',yaxt='n')
   
   segments(time.sample,y0=tmp[1,],y1=tmp[5,])

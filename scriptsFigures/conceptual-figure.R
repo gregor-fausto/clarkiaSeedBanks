@@ -342,7 +342,7 @@ points( x = c(1,2,3),
 legend(x = 1, y = 1,
        pch = c(21,19,21),
        col = c('black','gray','orange'),
-       legend = c("Unconditional","Conditional on persistence","Conditional on viability"),
+       legend = c("Unconditional","Conditional on being intact","Conditional on being viable"),
        cex=.75,
        box.lty=0)
 
@@ -1046,7 +1046,7 @@ dev.off()
 ## GERMINATION PROBABILITIES
 #########################
 
-#pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/germination.pdf",width=4,height=4)
+pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/germination.pdf",width=4,height=4)
 
 par(mfrow=c(1,1))
 
@@ -1079,18 +1079,18 @@ points( x = c(1,2,3),
 legend(x = 1, y = 1,
        pch = c(19,19,19),
        col = c(rgb(1,.647,0,.75),c('black','gray')),
-       legend = c("Conditional on viability","Conditional on persistence","Unconditional"),
+       legend = c("Conditional on being viable","Conditional on being intact","Unconditional"),
        cex=.75,
        box.lty=0)
 
-#dev.off()
+dev.off()
 
 #########################
 ## SURVIVAL PROBABILITIES
 #########################
 
 
-#pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/survival.pdf",width=4,height=4)
+pdf("~/Dropbox/clarkiaSeedBanks/products/miscellaneous/conceptual/survival.pdf",width=4,height=4)
 
 par(mfrow=c(1,1))
 t.sample = c(0,4,4,12,16,16,24,28,28,36)/36
@@ -1203,13 +1203,13 @@ legend(x = 10, y = 1,
        col = c('black','orange'),
        lty = c(1,NA),
        pch = c(NA,19),
-       legend = c("Persistence only","Persistence and viability"),
+       legend = c("Intact only","Intact and viable"),
        cex=.75,
        box.lty=0)
 
 
 
-#dev.off()
+dev.off()
 
 
 

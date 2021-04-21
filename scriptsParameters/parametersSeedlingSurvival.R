@@ -29,6 +29,17 @@ data <- readRDS(mcmcSampleDirectory[[grep("seedlingSurvivalData.rds",mcmcSampleD
 #################################################################################
 
 mu=MCMCchains(mcmcSamples,params="mu")
-#mu.p = apply(mu,2,boot::inv.logit)
 
 saveRDS(mu,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma.RDS")
+
+
+################################################################################
+# No pool
+#################################################################################
+
+mcmcSamples <- readRDS(mcmcSampleDirectory[[grep("seedlingSurvivalSamples-noPool.rds",mcmcSampleDirectory)]])
+data <- readRDS(mcmcSampleDirectory[[grep("seedlingSurvivalData-noPool.rds",mcmcSampleDirectory)]])
+
+mu=MCMCchains(mcmcSamples,params="mu")
+
+saveRDS(mu,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/sigma-noPool.RDS")

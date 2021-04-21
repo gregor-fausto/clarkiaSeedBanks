@@ -30,3 +30,12 @@ data <- readRDS(mcmcSampleDirectory[[grep("seedsPerFruitData.rds",mcmcSampleDire
 mu_seeds=exp(MCMCchains(mcmcSamples, params=c("mu.log_seeds")))
 
 saveRDS(mu_seeds,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/seedsPerFruit.RDS")
+
+################################################################################
+# No pool
+#################################################################################
+mcmcSamples <- readRDS(mcmcSampleDirectory[[grep("seedsPerFruitSamples-noPool.rds",mcmcSampleDirectory)]])
+
+mu_seeds=exp(MCMCchains(mcmcSamples, params=c("mu.log_seeds")))
+
+saveRDS(mu_seeds,"/Users/Gregor/Dropbox/dataLibrary/clarkiaSeedBanks/modelAnalysis/seedsPerFruit-noPool.RDS")
