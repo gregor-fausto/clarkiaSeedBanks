@@ -1,0 +1,141 @@
+\documentclass[tikz, border=10pt]{standalone}
+\usetikzlibrary{backgrounds, chains, positioning, shadows,patterns}
+\usepackage{standalone}
+
+ \renewcommand{\familydefault}{\sfdefault}
+%\fontfamily{helvetica}
+  %\selectfont
+  
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,fillbetween}
+\usepackage{animate}
+\usepackage{xcolor}
+
+\usepackage{pgf}
+\usepackage{tikz}
+
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{automata}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+
+
+\definecolor{green}{HTML}{1b9e77}
+\definecolor{purple}{HTML}{e7298a}
+
+\begin{document}
+    \begin{tikzpicture}[
+            node distance = 2cm, % distance between nodes
+   start chain = going below,
+               > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+          %  node distance = 2.5cm, % distance between nodes
+            semithick, % line style
+    box/.style = {rectangle, rounded corners, draw=gray, very thick,
+                  minimum height=8mm, minimum width = 4 cm, align=flush center,
+                  top color=#1!30, bottom color=#1!30},
+   boxpattern/.style = {rectangle, rounded corners, draw=gray, very thick,
+                  minimum height=8mm, minimum width = 4 cm, align=flush center,
+                  pattern=north west lines, pattern color=#1},
+    cir/.style = {circle, draw=black, very thick,
+                  minimum size=16mm, inner sep=2pt, outer sep=0pt,
+                  top color=white, bottom color=white},
+   state/.style={ circle, draw = #1 ,
+           very thick,
+            fill = white,
+            minimum size = 4mm},
+            brace/.style={thick,decorate,
+        decoration={calligraphic brace, amplitude=7pt,raise=0.5ex,mirror}}]
+                        
+
+\draw [draw, thick,dotted,->] (1,0) -- (1,-2.9) ;
+\draw [draw, thick,dotted,->] (8,0) -- (8,-2.9) ;
+\draw [draw, thick,dotted,->] (5.1,-6) -- (4.6,-6) ;
+
+% Data collection (now opacity=0 to keep structure)
+\node (n1) [ box=white,opacity=0] {Seedlings};
+\node (n2) [right =.25cm of n1, box=white,opacity=0] {Fruiting plants};
+\node (n3) [right =1cm of n2, box=white,opacity=0] {Fruits per plant};
+
+% Data structure
+\node (d3) [box=white] at (.75,2)  {Field experiments: seed bag burials};          
+\node (d4) [ box=white] at (8.25,2)  {Lab trials: germination and viability assays};
+  
+% Seed bag burial experiment
+\node[below = 1 cm of d3, box=white] (burial) at (1.4, 1.5)
+    {\includegraphics[trim={0 .5cm 0 1cm},clip,scale=.32]{seed-bag-trials.pdf}};    
+\path[dotted] (d3) edge node {} (burial);
+
+% Lab trials
+\node[below = 1 cm of d4, box=white,green] (labtrials) at (8.25, 1.4)
+    {\includegraphics[trim={2cm 1.5cm 0cm 1cm},clip,scale=.5]{lab-trials.pdf}};    
+\path[dotted] (d4) edge node {} (labtrials);
+
+\draw [draw, ->, thick,opacity=.5] plot [smooth, tension=1] coordinates { (.75,.2)  (3, 1)  (6.5,0) } ;
+\draw [draw, ->, thick,opacity=.5] plot [smooth, tension=1] coordinates { (2.15,-.4)  (3, .5)  (6.5,0) } ;\draw [draw, ->, thick,opacity=.5] plot [smooth, tension=1] coordinates { (3.8,-1.1)  (4.5, 0)  (6.5,0) } ;
+
+            
+% Observations
+\node [below = .4 cm of n1,  cir=gray,opacity=0] (d1)    {$n^\mathrm{seedling}_{ijk}$};
+\node [below = .4 cm of n2, cir=gray,opacity=0] (d2)   {$y^\mathrm{fruiting}_{ijk}$};
+
+% Timeline
+% \node[box=white,inner sep=.25pt,minimum width = 2.25cm] (gantt2) at (12.25,-1)
+%   {\includestandalone[scale=.5,trim={.5cm 0 .5cm 0},clip]{gantt-2}};      
+
+% SURVIVAL MODEL
+       
+          \path[dashed,->,opacity=0] (d1) edge node {} (d2);
+                  
+         % hyperparameters
+         \node[state=none,opacity=0] (AB) [below of = d1] {$\alpha_{\mathrm{S},ijk}$};
+                
+         \path[->,opacity=0] (AB) edge node {} (d2);
+         
+          % hyperparameters
+        
+         \node[state=orange,opacity=0] (MS) [below of = AB] {$\mu_{\mathrm{S},jk}$};
+         \node[state=orange,opacity=0] (A) [below left of = AB] {$\sigma_{\mathrm{S},jk}$};
+         
+         \path[->,opacity=0] (A) edge node {} (AB);       
+         \path[->,opacity=0] (MS) edge node {} (AB);       
+         
+         \node[state=purple,opacity=0] (H) [below of = MS] {$\mu^\mathrm{pop}_{\mathrm{S},j},\sigma^\mathrm{pop}_{\mathrm{S},j}$};
+         \path[->,opacity=0] (H) edge node {} (MS);       
+    
+\node[inner sep=0.25pt] (viability) at (8.25,-6)
+    {\includegraphics[trim={0 0 0 0},clip,scale=.6]{viability-data}};         
+\node[inner sep=0.25pt] (survival) at (1.4,-6)
+    {\includegraphics[trim={0 0 0 1cm},clip,width=6.5cm]{survival}}; 
+                
+\node[inner sep=0.25pt,opacity=0] (sigma) at (5.5,-6)
+    {\includegraphics[trim={0 0 0 0},clip,scale=.4]{parameter}};
+
+
+\draw [draw, thick] 
+  (-3,.5) -- (-3,-2.5) node[midway,yshift=0em,xshift=-7em]{Observations};
+\draw [draw, thick]
+  (-3,-3) -- (-3,-9) node[midway,yshift=0em,xshift=-7em]{Models};  
+  \node [below = .5 cm of d1 ] (a1)  {};
+    \node [left = 3.5 cm of d1 ] (a2)  {};
+    
+    
+    \draw (11,-9.75)    coordinate (TL) (-2,-9.75) coordinate (O) ;
+\draw[brace , very thick] (O)   -- node[box=white,below=3ex]{Population-level estimates of germination for 1-year old seeds and seed survival adjusted for loss of viability} (TL);
+
+   \begin{scope}[on background layer]
+%   \node [fit=(t1) (n3), fill= gray!20, rounded corners, inner sep=.1cm] {};
+   \node [fit=(n1) (n3) (d1), fill= gray!30, rounded corners, inner sep=.2cm] {};
+   \node [fit=(a1) (A) (H) (sigma) (viability), fill= gray!30, rounded corners, inner sep=.2cm] {};
+   \node [fit=(viability), fill= white!30, rounded corners, inner sep=0cm] {};
+   \node [fit=(survival), fill= white!30, rounded corners, inner sep=0cm] {};
+   \node [fit=(d3) (a1) (viability), draw, very thick, rounded corners, inner sep=.5cm] {};
+   \end{scope}
+
+                
+    \end{tikzpicture}
+\end{document}

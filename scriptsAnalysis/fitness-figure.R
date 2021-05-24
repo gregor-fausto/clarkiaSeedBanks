@@ -129,6 +129,92 @@ points(2006:2020,rs.sum[3,],pch=21,cex=1,bg='white',type='b')
 mtext("Per-capita reproductive success", side=2,line = 2.2,cex=.5)
 
 
+directory = "/Users/Gregor/Dropbox/dataLibrary/postProcessingData-2021/"
+dataFiles <- paste0(directory,list.files(directory))
+censusSeedlingsFruitingPlants = readRDS(dataFiles[[grep("censusSeedlingsFruitingPlants.RDS",dataFiles)]])
+
+sigma.all = readRDS(file="~/Dropbox/dataLibrary/mcmcSamplesThinned/seedlingSurvivalSamples.RDS")
+mu_pop=MCMCchains(sigma.all,params='mu0')[,siteNumber]
+sigma_pop = MCMCchains(sigma.all,params="sigma0")[,siteNumber]
+dist=rnorm(4500,mean=mu_pop,sd=sigma_pop)
+
+siteNames =censusSeedlingsFruitingPlants$site %>% unique
+df=censusSeedlingsFruitingPlants[censusSeedlingsFruitingPlants$site==siteNames[siteNumber],]
+years=2006:2020
+# seedling survival to fruiting
+dev.off()
+library(plotrix)
+
+pdf("~/Dropbox/clarkiaSeedBanks/products/manuscript/figures-overview/interannual-model.pdf",width=10,height=7)
+par(mfrow=c(1,1))
+plot(x=NA,NA,
+     type='n',
+     xlim=c(2006,2022.5),ylim=c(0,1),
+     #axes=FALSE,
+     frame=FALSE,xaxt='n',yaxt='n',
+     ylab="Probability of seedling survival to fruiting",
+     xlab="Year",cex=3,cex.axis=3)
+year=2006:2020
+
+# put a break at the default axis and position
+
+
+polygon(x=c(2007,2007,2008,2008)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2009,2009,2010,2010)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2011,2011,2012,2012)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2013,2013,2014,2014)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2015,2015,2016,2016)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2017,2017,2018,2018)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+# polygon(x=c(2019,2019,2020,2020)-.25,y=c(-1,2,2,-1),col='gray98',border=0)
+
+abline(v=2005.3)
+for(i in c(1,2,3)){
+  df.tmp=sigma[,i]
+  dat.tmp = df[df$year==years[i],] %>%
+    dplyr::mutate(p = fruitplNumber/seedlingNumber) %>%
+    dplyr::filter(!is.na(p))
+  upper.limit=max(f(df.tmp)[,2])*1.5
+  polygon(x=year[i]+f(df.tmp)[,2]/upper.limit,y=f(df.tmp)[,1],col='orange',border='orange')
+  f.boxplot(year[i],df.tmp)
+  n.obs = length(dat.tmp$seedlingNumber)
+  size = dat.tmp$seedlingNumber/max(df$seedlingNumber,na.rm=TRUE)
+   points(rep(i+2005-0.1,n.obs)+rnorm(n.obs,0,.025),dat.tmp$p, pch = 16, cex = .5)
+}
+
+for(i in 14:15){
+
+df.tmp=sigma[,i]
+dat.tmp = df[df$year==years[i],] %>%
+  dplyr::mutate(p = fruitplNumber/seedlingNumber) %>%
+  dplyr::filter(!is.na(p))
+upper.limit=max(f(df.tmp)[,2])*1.5
+polygon(x=year[i]-10+f(df.tmp)[,2]/upper.limit,y=f(df.tmp)[,1],col='orange',border='orange')
+f.boxplot(year[i]-10,df.tmp)
+n.obs = length(dat.tmp$seedlingNumber)
+size = dat.tmp$seedlingNumber/max(df$seedlingNumber,na.rm=TRUE)
+points(rep(i-10+2005-0.1,n.obs)+rnorm(n.obs,0,.025),dat.tmp$p, pch = 16, cex = .5)
+
+}
+
+axis(2, seq(0,1,by=.2),
+     labels = seq(0,1,by=.2), las = 2,
+     col = NA, col.ticks = 1, cex.axis = 1)
+axis(1, c(seq(2006,2020,by=2)),
+     labels = c(seq(2006,2020,by=2)), las = 1,
+     col = NA, col.ticks = 1, cex.axis = 1)
+
+rect(2021,-1,2024,2,col='gray80',border='gray80')
+  df.tmp=boot::inv.logit(dist)
+  upper.limit=max(f(df.tmp)[,2])*1
+  polygon(x=2021.5+f(df.tmp)[,2]/upper.limit,y=f(df.tmp)[,1],col='purple',border='purple')
+  f.boxplot(2021.5,df.tmp)
+
+#abline(h=c(0,1))
+box()
+axis.break(1,2009,style='zigzag')
+
+dev.off()
+
 
 # RS
 par(mfrow=c(1,1))

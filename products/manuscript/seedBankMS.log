@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  5 APR 2021 23:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  26 APR 2021 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -380,7 +380,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip64
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 37.
+Package hyperref Info: Option `colorlinks' set `true' on input line 36.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
@@ -833,7 +833,7 @@ Package csquotes Info: ... none found.
 
 
 Package csquotes Warning: No multilingual support.
-(csquotes)                Cannot enable multilingual quotes on input line 137.
+(csquotes)                Cannot enable multilingual quotes on input line 136.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
@@ -843,22 +843,22 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 (./seedBankMS.aux)
 \openout1 = `seedBankMS.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
 
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -923,7 +923,7 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 137.
+Package hyperref Info: Link coloring ON on input line 136.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 
@@ -936,659 +936,499 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count335
 )
-LaTeX Info: Redefining \ref on input line 137.
-LaTeX Info: Redefining \pageref on input line 137.
-LaTeX Info: Redefining \nameref on input line 137.
+LaTeX Info: Redefining \ref on input line 136.
+LaTeX Info: Redefining \pageref on input line 136.
+LaTeX Info: Redefining \nameref on input line 136.
  (./seedBankMS.out) (./seedBankMS.out)
 \@outlinefile=\write4
 \openout4 = `seedBankMS.out'.
 
-Package csquotes Info: Making character " active on input line 137.
+Package csquotes Info: Making character " active on input line 136.
 \c@lstlisting=\count336
  [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `eager2014' on page 1 undefined on input line 
+165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `paniw2017' on page 1 undefined on input line 
+165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `nunney2002' on page 1 undefined on input line
+ 165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `waples2006' on page 1 undefined on input line
+ 165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `mccue1998b' on page 1 undefined on input line
+ 165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `evans2005' on page 1 undefined on input line 
+165.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `philippi1989' on page 1 undefined on input li
+ne 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `simons2011' on page 1 undefined on input line
+ 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `cohen1966' on page 1 undefined on input line 
+167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `ellner1985' on page 1 undefined on input line
+ 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `ellner1985a' on page 1 undefined on input lin
+e 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 166.
+Package natbib Warning: Citation `cohen1967' on page 1 undefined on input line 
+167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `simons2011' on page 1 undefined on input line
+ 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `venable2007' on page 1 undefined on input lin
+e 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `gremer2014' on page 1 undefined on input line
+ 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `gremer2016' on page 1 undefined on input line
+ 167.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `hacker1984' on page 1 undefined on input line
+ 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `hacker1989' on page 1 undefined on input line
+ 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `philippi1993a' on page 1 undefined on input l
+ine 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `clauss2000' on page 1 undefined on input line
+ 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `fernandez-pascual2013' on page 1 undefined on
+ input line 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `gremer2020' on page 1 undefined on input line
+ 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `philippi1993' on page 1 undefined on input li
+ne 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `venable2007' on page 1 undefined on input lin
+e 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
+Package natbib Warning: Citation `gremer2014' on page 1 undefined on input line
+ 169.
 
 
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 168.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
-
-
-Package xcolor Warning: Incompatible color definition on input line 170.
+Package natbib Warning: Citation `gremer2016' on page 1 undefined on input line
+ 169.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.171 
+l.170 
        [1]
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `lewis1962' on page 2 undefined on input line 
+171.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `eckhart2011' on page 2 undefined on input lin
+e 171.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `knies2004' on page 2 undefined on input line 
+171.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `kramer2011' on page 2 undefined on input line
+ 171.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `eckhart2011' on page 2 undefined on input lin
+e 173.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `eckhart2011' on page 2 undefined on input lin
+e 173.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
+Package natbib Warning: Citation `eckhart2011' on page 2 undefined on input lin
+e 173.
 
 
-Package xcolor Warning: Incompatible color definition on input line 172.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
-
-
-Package xcolor Warning: Incompatible color definition on input line 174.
+Package natbib Warning: Citation `geber2005' on page 2 undefined on input line 
+173.
 
 [2]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 276
+LaTeX Font Info:    Trying to load font information for U+msa on input line 275
 .
  (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 276
+LaTeX Font Info:    Trying to load font information for U+msb on input line 275
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [3] [4]
+) [3]
 
-Package xcolor Warning: Incompatible color definition on input line 312.
-
-
-Package xcolor Warning: Incompatible color definition on input line 312.
+Package natbib Warning: Citation `eckhart2011' on page 4 undefined on input lin
+e 289.
 
 
-Package xcolor Warning: Incompatible color definition on input line 312.
+Package natbib Warning: Citation `pironon2018' on page 4 undefined on input lin
+e 289.
+
+[4] [5]
+
+Package natbib Warning: Citation `eckhart2011' on page 6 undefined on input lin
+e 299.
 
 
-Package xcolor Warning: Incompatible color definition on input line 312.
+Package natbib Warning: Citation `eckhart2011' on page 6 undefined on input lin
+e 301.
 
-[5] [6]
-
-Package xcolor Warning: Incompatible color definition on input line 322.
-
-
-Package xcolor Warning: Incompatible color definition on input line 322.
-
-
-Package xcolor Warning: Incompatible color definition on input line 324.
-
-
-Package xcolor Warning: Incompatible color definition on input line 324.
-
-[7]
+[6]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 332.
+(caption)                particular \caption on input line 309.
 See the caption package documentation for explanation.
 
-(../tables/tables/datasets.tex)
+(../tables/tables/datasets.tex) [7]
 
-Package xcolor Warning: Incompatible color definition on input line 342.
-
-
-Package xcolor Warning: Incompatible color definition on input line 342.
+Package natbib Warning: Citation `evans2010' on page 8 undefined on input line 
+319.
 
 
-Package xcolor Warning: Incompatible color definition on input line 342.
+Package natbib Warning: Citation `ogle2020' on page 8 undefined on input line 3
+19.
 
 
-Package xcolor Warning: Incompatible color definition on input line 342.
+Package natbib Warning: Citation `metcalf2015' on page 8 undefined on input lin
+e 327.
 
-[8]
+[8] [9]
 
-Package xcolor Warning: Incompatible color definition on input line 350.
-
-
-Package xcolor Warning: Incompatible color definition on input line 350.
-
-[9]
-
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `lemoine2019' on page 10 undefined on input li
+ne 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `wesner2020' on page 10 undefined on input lin
+e 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `hobbs2015b' on page 10 undefined on input lin
+e 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `gabry2019' on page 10 undefined on input line
+ 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `wesner2020' on page 10 undefined on input lin
+e 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `gabry2019' on page 10 undefined on input line
+ 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `conn2018' on page 10 undefined on input line 
+349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `hobbs2015b' on page 10 undefined on input lin
+e 349.
 
 
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package natbib Warning: Citation `elderd2015' on page 10 undefined on input lin
+e 353.
 
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-[10]
-
-Package xcolor Warning: Incompatible color definition on input line 376.
-
-
-Package xcolor Warning: Incompatible color definition on input line 376.
-
-[11] [12]
+[10] [11]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 393.
+(caption)                particular \caption on input line 370.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 10000) in alignment at lines 436--436
+Underfull \hbox (badness 10000) in alignment at lines 413--413
 [][][] 
  []
 
+[12]
 
-Package xcolor Warning: Incompatible color definition on input line 443.
-
-
-Package xcolor Warning: Incompatible color definition on input line 443.
-
-
-Package xcolor Warning: Incompatible color definition on input line 443.
+Package natbib Warning: Citation `venable2007' on page 13 undefined on input li
+ne 420.
 
 
-Package xcolor Warning: Incompatible color definition on input line 443.
+Package natbib Warning: Citation `gremer2014' on page 13 undefined on input lin
+e 420.
 
 [13] [14]
 
-Package xcolor Warning: Incompatible color definition on input line 483.
+Package natbib Warning: Citation `eckhart2011' on page 15 undefined on input li
+ne 460.
 
 
-Package xcolor Warning: Incompatible color definition on input line 483.
+Package natbib Warning: Citation `cohen1966' on page 15 undefined on input line
+ 466.
 
 
-Package xcolor Warning: Incompatible color definition on input line 489.
+Package natbib Warning: Citation `ellner1985a' on page 15 undefined on input li
+ne 466.
 
 
-Package xcolor Warning: Incompatible color definition on input line 489.
+Package natbib Warning: Citation `gremer2014' on page 15 undefined on input lin
+e 466.
 
 
-Package xcolor Warning: Incompatible color definition on input line 489.
-
-
-Package xcolor Warning: Incompatible color definition on input line 489.
-
-
-Package xcolor Warning: Incompatible color definition on input line 489.
-
-
-Package xcolor Warning: Incompatible color definition on input line 489.
-
-
-Package xcolor Warning: Incompatible color definition on input line 489.
-
-
-Package xcolor Warning: Incompatible color definition on input line 489.
+Package natbib Warning: Citation `hobbs2015b' on page 15 undefined on input lin
+e 466.
 
 [15]
 
-Package xcolor Warning: Incompatible color definition on input line 495.
+Package natbib Warning: Citation `cohen1966' on page 16 undefined on input line
+ 472.
 
 
-Package xcolor Warning: Incompatible color definition on input line 495.
+Package natbib Warning: Citation `ellner1985a' on page 16 undefined on input li
+ne 472.
 
 
-Package xcolor Warning: Incompatible color definition on input line 495.
+Package natbib Warning: Citation `venable2007' on page 16 undefined on input li
+ne 472.
 
 
-Package xcolor Warning: Incompatible color definition on input line 495.
+Package natbib Warning: Citation `venable2007' on page 16 undefined on input li
+ne 474.
 
 
-Package xcolor Warning: Incompatible color definition on input line 495.
+Package natbib Warning: Citation `hobbs2015b' on page 16 undefined on input lin
+e 474.
 
 
-Package xcolor Warning: Incompatible color definition on input line 495.
-
-
-Package xcolor Warning: Incompatible color definition on input line 497.
-
-
-Package xcolor Warning: Incompatible color definition on input line 497.
-
-
-Package xcolor Warning: Incompatible color definition on input line 497.
-
-
-Package xcolor Warning: Incompatible color definition on input line 497.
+Package natbib Warning: Citation `gremer2014' on page 16 undefined on input lin
+e 480.
 
 [16]
 
-Package xcolor Warning: Incompatible color definition on input line 503.
+Package natbib Warning: Citation `cohen1966' on page 17 undefined on input line
+ 487.
 
 
-Package xcolor Warning: Incompatible color definition on input line 503.
-
-
-Package xcolor Warning: Incompatible color definition on input line 510.
-
-
-Package xcolor Warning: Incompatible color definition on input line 510.
+Package natbib Warning: Citation `venable2007' on page 17 undefined on input li
+ne 491.
 
 [17]
-
-Package xcolor Warning: Incompatible color definition on input line 514.
-
-
-Package xcolor Warning: Incompatible color definition on input line 514.
-
-[18]
-Overfull \hbox (28.60623pt too wide) detected at line 524
+Overfull \hbox (28.60623pt too wide) detected at line 501
 []
  []
 
-[19] [20]
+[18] [19]
 
-Package xcolor Warning: Incompatible color definition on input line 575.
+Package natbib Warning: Citation `simons2011' on page 20 undefined on input lin
+e 552.
 
+[20]
 
-Package xcolor Warning: Incompatible color definition on input line 575.
+Package natbib Warning: Citation `philippi1993a' on page 21 undefined on input 
+line 558.
 
-[21]
-
-Package xcolor Warning: Incompatible color definition on input line 581.
-
-
-Package xcolor Warning: Incompatible color definition on input line 581.
-
-[22]
-<../manuscript/figures/intro-figure.pdf, id=413, 341.4326pt x 309.05965pt>
+[21] [22]
+<../manuscript/figures/intro-figure.pdf, id=233, 341.4326pt x 309.05965pt>
 File: ../manuscript/figures/intro-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/intro-figure.pdf>
 Package pdftex.def Info: ../manuscript/figures/intro-figure.pdf  used on input 
-line 751.
+line 749.
 (pdftex.def)             Requested size: 469.75499pt x 425.24362pt.
 
 
-Package xcolor Warning: Incompatible color definition on input line 752.
+Package natbib Warning: Citation `eckhart2011' on page 23 undefined on input li
+ne 750.
 
 
-Package xcolor Warning: Incompatible color definition on input line 752.
+Package natbib Warning: Citation `eckhart2011' on page 23 undefined on input li
+ne 750.
 
 
-Package xcolor Warning: Incompatible color definition on input line 752.
+Package natbib Warning: Citation `eckhart2011' on page 23 undefined on input li
+ne 750.
 
 
-Package xcolor Warning: Incompatible color definition on input line 752.
+Package natbib Warning: Citation `eckhart2011' on page 23 undefined on input li
+ne 750.
 
 
-Package xcolor Warning: Incompatible color definition on input line 752.
+LaTeX Warning: Float too large for page by 2.69861pt on input line 752.
 
-
-Package xcolor Warning: Incompatible color definition on input line 752.
-
-
-Package xcolor Warning: Incompatible color definition on input line 752.
-
-
-Package xcolor Warning: Incompatible color definition on input line 752.
-
-
-LaTeX Warning: Float too large for page by 2.69861pt on input line 754.
-
-<../manuscript/figures/seed-bag-figure.pdf, id=422, 401.11858pt x 228.6161pt>
+<../manuscript/figures/seed-bag-figure.pdf, id=234, 401.11858pt x 228.6161pt>
 File: ../manuscript/figures/seed-bag-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/seed-bag-figure.pdf>
 Package pdftex.def Info: ../manuscript/figures/seed-bag-figure.pdf  used on inp
-ut line 758.
+ut line 756.
 (pdftex.def)             Requested size: 469.75499pt x 267.74837pt.
-<../figures/analysis/correlation-germ-surv.pdf, id=423, page=1, 433.62pt x 578.
+<../figures/analysis/correlation-germ-surv.pdf, id=235, page=1, 433.62pt x 578.
 16pt>
 File: ../figures/analysis/correlation-germ-surv.pdf Graphic file (type pdf)
 <use ../figures/analysis/correlation-germ-surv.pdf, page 1>
 Package pdftex.def Info: ../figures/analysis/correlation-germ-surv.pdf , page1 
-used on input line 780.
+used on input line 765.
 (pdftex.def)             Requested size: 305.33788pt x 407.13528pt.
-<../manuscript/figures/analysis-figure.pdf, id=424, page=1, 341.4326pt x 229.30
+<../manuscript/figures/analysis-figure.pdf, id=236, page=1, 341.4326pt x 229.30
 57pt>
 File: ../manuscript/figures/analysis-figure.pdf Graphic file (type pdf)
 <use ../manuscript/figures/analysis-figure.pdf, page 1>
 Package pdftex.def Info: ../manuscript/figures/analysis-figure.pdf , page1 used
- on input line 789.
+ on input line 774.
 (pdftex.def)             Requested size: 469.75499pt x 315.50798pt.
-<../manuscript/figures/analysis-figure-2.pdf, id=425, page=1, 341.4326pt x 113.
+<../manuscript/figures/analysis-figure-2.pdf, id=237, page=1, 341.4326pt x 113.
 8122pt>
 File: ../manuscript/figures/analysis-figure-2.pdf Graphic file (type pdf)
 <use ../manuscript/figures/analysis-figure-2.pdf, page 1>
 Package pdftex.def Info: ../manuscript/figures/analysis-figure-2.pdf , page1 us
-ed on input line 797.
+ed on input line 782.
 (pdftex.def)             Requested size: 422.77661pt x 140.93636pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../figures/analysis/rs-climate-sensitivity.pdf, id=426, 578.16pt x 578.16pt>
+<../figures/analysis/rs-climate-sensitivity.pdf, id=238, 578.16pt x 578.16pt>
 File: ../figures/analysis/rs-climate-sensitivity.pdf Graphic file (type pdf)
 <use ../figures/analysis/rs-climate-sensitivity.pdf>
 Package pdftex.def Info: ../figures/analysis/rs-climate-sensitivity.pdf  used o
-n input line 803.
+n input line 788.
 (pdftex.def)             Requested size: 469.75499pt x 469.75385pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../figures/analysis/variance-decomp.pdf, id=427, 578.16pt x 433.62pt>
+<../figures/analysis/variance-decomp.pdf, id=239, 578.16pt x 433.62pt>
 File: ../figures/analysis/variance-decomp.pdf Graphic file (type pdf)
 <use ../figures/analysis/variance-decomp.pdf>
 Package pdftex.def Info: ../figures/analysis/variance-decomp.pdf  used on input
- line 808.
+ line 793.
 (pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+<../manuscript/figures-overview/diagram-figure.pdf, id=240, 248.96112pt x 479.0
+6377pt>
+File: ../manuscript/figures-overview/diagram-figure.pdf Graphic file (type pdf)
+
+<use ../manuscript/figures-overview/diagram-figure.pdf>
+Package pdftex.def Info: ../manuscript/figures-overview/diagram-figure.pdf  use
+d on input line 799.
+(pdftex.def)             Requested size: 298.75183pt x 574.87364pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+No file seedBankMS.bbl.
 [23
 
 ] [24 <../manuscript/figures/intro-figure.pdf>] [25 <../manuscript/figures/seed
 -bag-figure.pdf>] [26 <../figures/analysis/correlation-germ-surv.pdf>]
 [27 <../manuscript/figures/analysis-figure.pdf>] [28 <../manuscript/figures/ana
 lysis-figure-2.pdf>] [29 <../figures/analysis/rs-climate-sensitivity.pdf>]
-[30 <../figures/analysis/variance-decomp.pdf>] (./seedBankMS.bbl [31
-
-] [32]
-Underfull \hbox (badness 6658) in paragraph at lines 132--136
-[]\OT1/cmr/m/n/12 Hobbs, N. T. and M. B. Hooten. 2015.  Bayesian mod-els: a sta
--tis-ti-cal
- []
-
-
-Underfull \hbox (badness 6675) in paragraph at lines 132--136
-\OT1/cmr/m/n/12 primer for ecol-o-gists.  Prince-ton Uni-ver-sity Press, Prince
--ton, New Jer-sey.
- []
-
-
-Underfull \hbox (badness 1755) in paragraph at lines 152--157
-[]\OT1/cmr/m/n/12 Lemoine, N. P. 2019.  Mov-ing be-yond non-in-for-ma-tive pri-
-ors: why and how to
- []
-
-[33]
-Underfull \hbox (badness 10000) in paragraph at lines 188--194
-[]\OT1/cmr/m/n/12 Ogle, K. and J. J. Bar-ber. 2020.  En-sur-ing iden-ti-fi-a-bi
-l-ity in hi-er-ar-chi-cal
- []
-
-
-Underfull \hbox (badness 3138) in paragraph at lines 188--194
-\OT1/cmr/m/n/12 mixed ef-fects Bayesian mod-els.  Eco-log-i-cal Ap-pli-ca-tions
-, \OT1/cmr/bx/n/12 30\OT1/cmr/m/n/12 :e02159.  []eprint:
- []
-
-[34]) [35]
-Overfull \hbox (15.53455pt too wide) in paragraph at lines 829--830
+[30 <../figures/analysis/variance-decomp.pdf>] [31 <../manuscript/figures-overv
+iew/diagram-figure.pdf>]
+Overfull \hbox (15.53455pt too wide) in paragraph at lines 820--821
 \OT1/cmr/m/n/12 acyclic graphs. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/12 https
  : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (50.94527pt too wide) in paragraph at lines 829--830
+Overfull \hbox (50.94527pt too wide) in paragraph at lines 820--821
 \OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]joint-[]pos
 teriors / appendix-[]joint-[]posteriors .
  []
 
 
-Overfull \hbox (51.27168pt too wide) in paragraph at lines 831--832
+Overfull \hbox (51.27168pt too wide) in paragraph at lines 822--823
 \OT1/cmr/m/n/12 Explanation of pri-ors. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/
 12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (61.81601pt too wide) in paragraph at lines 833--834
+Overfull \hbox (61.81601pt too wide) in paragraph at lines 824--825
 \OT1/cmr/m/n/12 values for test statis-tics. Link to doc-u-ment: [][]$\OT1/cmtt
 /m/n/12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
  []
 
 
-Overfull \hbox (14.39525pt too wide) in paragraph at lines 833--834
+Overfull \hbox (14.39525pt too wide) in paragraph at lines 824--825
 \OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]model-[]che
 cks / appendix-[]x-[]model-[]checks .
  []
 
-[36
+
+Package natbib Warning: There were undefined citations.
+
+[32
 
 ] (./seedBankMS.aux)
 Package rerunfilecheck Info: File `seedBankMS.out' has not changed.
 (rerunfilecheck)             Checksum: 5343CC3E3DDB8259489469380C540D0C;1403.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  )
 (\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 439 (\begingroup)
+### semi simple group (level 1) entered at line 416 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23383 strings out of 479383
- 439714 string characters out of 5869387
- 943091 words of memory out of 5000000
- 39905 multiletter control sequences out of 15000+600000
- 413485 words of font info for 63 fonts, out of 8000000 for 9000
+ 23233 strings out of 479383
+ 437380 string characters out of 5869387
+ 944091 words of memory out of 5000000
+ 39795 multiletter control sequences out of 15000+600000
+ 413793 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,17n,74p,1809b,685s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,17n,74p,1809b,540s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6
-.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
-b></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></u
-sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr
-/local/texlive/2020/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on seedBankMS.pdf (37 pages, 731944 bytes).
+/cm/cmbx10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmcsc10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+12.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.
+pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
+r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/
+local/texlive/2020/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on seedBankMS.pdf (33 pages, 899140 bytes).
 PDF statistics:
- 727 PDF objects out of 1000 (max. 8388607)
- 626 compressed objects within 7 object streams
- 121 named destinations out of 1000 (max. 500000)
- 176 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 636 PDF objects out of 1000 (max. 8388607)
+ 512 compressed objects within 6 object streams
+ 80 named destinations out of 1000 (max. 500000)
+ 181 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -305,7 +305,7 @@ HPDI.correlation.lo <- hdi(posterior.correlation, c(.5))
 
 pdf(
   "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/correlation-germ-rs-lowfitness.pdf",
-  height = 8, width = 6)
+  height = 10, width = 6)
 par(mar=c(4,4,2,1))
 par(fig=c(0,10,4,10)/10)
 # plot median of g1 vs. median of RS with CIs

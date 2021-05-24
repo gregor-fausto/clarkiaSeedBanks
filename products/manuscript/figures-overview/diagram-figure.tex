@@ -1,0 +1,50 @@
+\documentclass[varwidth=\maxdimen,border=0pt]{standalone}
+\renewcommand{\sfdefault}{phv}
+
+ \renewcommand{\familydefault}{\sfdefault}
+%\fontfamily{helvetica}
+  %\selectfont
+
+
+\usepackage{subcaption}
+\usepackage[labelformat=parens,labelsep=quad,skip=3pt]{caption}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+
+\definecolor{gray90}{HTML}{F8F8F8	}
+
+\newcommand{\subfigimg}[3][,]{%
+  \setbox1=\hbox{\includegraphics[#1]{#3}}% Store image in box
+  \leavevmode\rlap{\usebox1}% Print image
+  \rlap{\hspace*{30pt}\raisebox{\dimexpr\ht1+0\baselineskip}{#2}}% Print label
+  \phantom{\usebox1}% Insert appropriate spcing
+}
+
+\newcommand{\subfigimgb}[3][,]{%
+  \setbox1=\hbox{\includegraphics[#1]{#3}}% Store image in box
+  \leavevmode\rlap{\usebox1}% Print image
+  \rlap{\hspace*{10pt}\raisebox{\dimexpr\ht1+0\baselineskip}{#2}}% Print label
+  \phantom{\usebox1}% Insert appropriate spcing
+}
+
+\begin{document}    
+
+\begin{figure}
+
+    \begin{subfigure}[htb]{8.75cm}
+        \subfigimgb[height=6cm,right]{A.}{aboveground-only.pdf} 
+    \end{subfigure}
+    
+        \begin{subfigure}[htb]{7cm}
+        \subfigimgb[height=6cm,left]{B.}{belowground-only.pdf} 
+   	\end{subfigure}
+	
+	 \begin{subfigure}[htb]{7cm}
+        \subfigimgb[height=4cm,left]{C.}{gantt.pdf}
+   	\end{subfigure}
+	
+      \end{figure}
+      
+  
+  \end{document}

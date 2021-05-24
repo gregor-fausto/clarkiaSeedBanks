@@ -1,0 +1,262 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  24 APR 2021 13:11
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**diagram-figure.tex
+(./diagram-figure.tex
+LaTeX2e <2020-10-01> patch level 2
+L3 programming layer <2020-12-07> xparse <2020-03-03>
+(/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cls
+Document Class: standalone 2018/03/26 v1.3a Class to compile TeX sub-files stan
+dalone
+(/usr/local/texlive/2020/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2020/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks15
+\XKV@tempa@toks=\toks16
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count177
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+\sa@internal=\count178
+\c@sapage=\count179
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/standalone/standalone.cfg
+File: standalone.cfg 2018/03/26 v1.3a Default configuration file for 'standalon
+e' class
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count180
+\c@section=\count181
+\c@subsection=\count182
+\c@subsubsection=\count183
+\c@paragraph=\count184
+\c@subparagraph=\count185
+\c@figure=\count186
+\c@table=\count187
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box47
+\sift@deathcycles=\count188
+\@vwid@loff=\dimen139
+\@vwid@roff=\dimen140
+)
+\sa@box=\box48
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen141
+\captionmargin@=\dimen142
+\captionwidth=\dimen143
+\caption@tempdima=\dimen144
+\caption@indent=\dimen145
+\caption@parindent=\dimen146
+\caption@hangindent=\dimen147
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count189
+\c@continuedfloat=\count190
+)
+\c@subfigure=\count191
+\c@subtable=\count192
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen148
+\Gin@req@width=\dimen149
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box49
+)
+\tc@llx=\dimen150
+\tc@lly=\dimen151
+\tc@urx=\dimen152
+\tc@ury=\dimen153
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen154
+\adjbox@Height=\dimen155
+\adjbox@Depth=\dimen156
+\adjbox@Totalheight=\dimen157
+\adjbox@pwidth=\dimen158
+\adjbox@pheight=\dimen159
+\adjbox@pdepth=\dimen160
+\adjbox@ptotalheight=\dimen161
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count193
+))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
+1.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count194
+\l__pdf_internal_box=\box50
+)
+(./diagram-figure.aux)
+\openout1 = `diagram-figure.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count195
+\scratchdimen=\dimen162
+\scratchbox=\box51
+\nofMPsegments=\count196
+\nofMParguments=\count197
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count198
+\MPscratchDim=\dimen163
+\MPnumerator=\count199
+\makeMPintoPDFobject=\count266
+\everyMPtoPDFconversion=\toks18
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+<aboveground-only.pdf, id=1, 612.79942pt x 418.42223pt>
+File: aboveground-only.pdf Graphic file (type pdf)
+<use aboveground-only.pdf>
+Package pdftex.def Info: aboveground-only.pdf  used on input line 36.
+(pdftex.def)             Requested size: 250.02446pt x 170.71652pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 37.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 37.
+<belowground-only.pdf, id=2, 531.30391pt x 418.42223pt>
+File: belowground-only.pdf Graphic file (type pdf)
+<use belowground-only.pdf>
+Package pdftex.def Info: belowground-only.pdf  used on input line 40.
+(pdftex.def)             Requested size: 216.77399pt x 170.71652pt.
+<gantt.pdf, id=3, 549.41258pt x 274.22751pt>
+File: gantt.pdf Graphic file (type pdf)
+<use gantt.pdf>
+Package pdftex.def Info: gantt.pdf  used on input line 44.
+(pdftex.def)             Requested size: 228.01872pt x 113.81102pt.
+
+[1
+
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./above
+ground-only.pdf> <./belowground-only.pdf> <./gantt.pdf>]
+(./diagram-figure.aux) ) 
+Here is how much of TeX's memory you used:
+ 4360 strings out of 479383
+ 73010 string characters out of 5869387
+ 341979 words of memory out of 5000000
+ 21447 multiletter control sequences out of 15000+600000
+ 405190 words of font info for 29 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 80i,11n,128p,351b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/bas
+e/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.p
+fb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pf
+b></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on diagram-figure.pdf (1 page, 179414 bytes).
+PDF statistics:
+ 127 PDF objects out of 1000 (max. 8388607)
+ 92 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+
