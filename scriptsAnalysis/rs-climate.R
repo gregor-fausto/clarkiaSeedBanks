@@ -61,10 +61,16 @@ for(i in 1:20){
     b.vec[i]=b
 }
 
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>%
+  dplyr::select(site,easting,northing,elevation) %>%
+  dplyr::mutate(easting=easting/1000,northing=northing/1000)
+siteNames=position$site
+
+
 pdf(
   "~/Dropbox/clarkiaSeedBanks/products/figures/analysis/rs-climate-sensitivity.pdf",
   height = 8, width = 8)
-index=order(b.vec)
+index=order(position$easting)
 par(mfrow=c(4,5),mar=c(0,.25,.25,0),
     oma=c(4,4,1,1))
 p.val=c()

@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: seedBankMS.aux
+The style file: /Users/gregor/Dropbox/bibliography/styleFiles/ecology.bst
+Database file #1: /Users/gregor/Dropbox/bibliography/chapter-1.bib
+Warning--empty journal in clauss1999a
+You've used 40 entries,
+            2706 wiz_defined-function locations,
+            868 strings with 14723 characters,
+and the built_in function-call counts, 20623 in all, are:
+= -- 1992
+> -- 1068
+< -- 27
++ -- 364
+- -- 312
+* -- 1687
+:= -- 3739
+add.period$ -- 167
+call.type$ -- 40
+change.case$ -- 312
+chr.to.int$ -- 38
+cite$ -- 41
+duplicate$ -- 899
+empty$ -- 1405
+format.name$ -- 428
+if$ -- 4050
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 41
+newline$ -- 214
+num.names$ -- 160
+pop$ -- 361
+preamble$ -- 1
+purify$ -- 264
+quote$ -- 0
+skip$ -- 521
+stack$ -- 0
+substring$ -- 1293
+swap$ -- 114
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 354
+warning$ -- 1
+while$ -- 187
+width$ -- 0
+write$ -- 538
+(There was 1 warning)

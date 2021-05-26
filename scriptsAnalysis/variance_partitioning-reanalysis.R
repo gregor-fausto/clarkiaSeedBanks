@@ -276,22 +276,30 @@ comparisonPlot <- ggplot(varianceComponents,aes(x=var_rs,y=var.total,label=site)
 varianceComponents <- varianceComponents %>% 
   dplyr::mutate(corrected=ifelse(var.total-var_rs>.1,as.character(0),as.character(1)))
 
+position<-read.csv(file="~/Dropbox/projects/clarkiaScripts/data/reshapeData/siteAbiotic.csv",header=TRUE) %>%
+  dplyr::select(site,easting,northing,elevation) %>%
+  dplyr::mutate(easting=easting/1000,northing=northing/1000)
+
+varianceComponents=position %>%
+  dplyr::select(site,easting) %>%
+  dplyr::left_join(varianceComponents,by='site')
 
 variancePlot <- varianceComponents %>%
   dplyr::mutate(site=as.factor(site)) %>%
+  dplyr::mutate(site = fct_reorder(site, easting))%>%
   tidyr::pivot_longer(cols=c(var_sigma,var_fec,var_phi)) %>%
-  dplyr::mutate(name=ifelse(name=="var_sigma","Var(sigma)",name),
-                name=ifelse(name=="var_fec","Var(fec)",name),
-                name=ifelse(name=="var_phi","Var(phi)",name)) %>%
+  dplyr::mutate(name=ifelse(name=="var_sigma","Var(log(seedling survival))",name),
+                name=ifelse(name=="var_fec","Var(log(fruits per plant))",name),
+                name=ifelse(name=="var_phi","Var(log(seeds per fruit))",name)) %>%
   dplyr::mutate(name = factor(name, 
-                              levels = c("Var(sigma)", "Var(fec)", "Var(phi)"))) %>% 
+                              levels = c("Var(log(seedling survival))", "Var(log(fruits per plant))", "Var(log(seeds per fruit))"))) %>% 
   ggplot(aes(x=site,y=value)) +
   geom_hline(yintercept=c(exp(0)),linetype='dotted') +
   geom_point() +
   scale_shape_manual(values = c(16)) +
   theme_classic() +
-  xlab("Site") + ylab("Variance") +
-  facet_wrap(~name) +
+  xlab("Population") + ylab("Variance") +
+  facet_wrap(~name,scales='free_y') +
  # ylim(c(0.5,7.5))  +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 

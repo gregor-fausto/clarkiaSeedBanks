@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  5 APR 2021 15:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  26 MAY 2021 16:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -219,61 +219,44 @@ File: ../../figures/analysis/map.pdf Graphic file (type pdf)
 <use ../../figures/analysis/map.pdf>
 Package pdftex.def Info: ../../figures/analysis/map.pdf  used on input line 51.
 
-(pdftex.def)             Requested size: 162.18062pt x 162.17482pt.
+(pdftex.def)             Requested size: 247.53888pt x 247.53648pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 52.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 52.
 <../../figures/analysis/precip.pdf, id=2, 578.16pt x 433.62pt>
 File: ../../figures/analysis/precip.pdf Graphic file (type pdf)
 <use ../../figures/analysis/precip.pdf>
 Package pdftex.def Info: ../../figures/analysis/precip.pdf  used on input line 
-52.
+54.
 (pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 53.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 53.
 <../../figures/analysis/zero-fitness.pdf, id=3, 578.16pt x 433.62pt>
 File: ../../figures/analysis/zero-fitness.pdf Graphic file (type pdf)
 <use ../../figures/analysis/zero-fitness.pdf>
 Package pdftex.def Info: ../../figures/analysis/zero-fitness.pdf  used on input
  line 55.
 (pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
-<../../figures/analysis/simulation-1.pdf, id=4, 578.16pt x 289.08pt>
-File: ../../figures/analysis/simulation-1.pdf Graphic file (type pdf)
-<use ../../figures/analysis/simulation-1.pdf>
-Package pdftex.def Info: ../../figures/analysis/simulation-1.pdf  used on input
- line 57.
-(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
-<../../figures/analysis/simulation-2.pdf, id=5, 578.16pt x 289.08pt>
-File: ../../figures/analysis/simulation-2.pdf Graphic file (type pdf)
-<use ../../figures/analysis/simulation-2.pdf>
-Package pdftex.def Info: ../../figures/analysis/simulation-2.pdf  used on input
- line 59.
-(pdftex.def)             Requested size: 156.49014pt x 78.24231pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 55--60
-[][][][][][]
- []
 
 [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../../f
 igures/analysis/map.pdf> <../../figures/analysis/precip.pdf> <../../figures/ana
-lysis/zero-fitness.pdf> <../../figures/analysis/simulation-1.pdf> <../../figure
-s/analysis/simulation-2.pdf>] (./intro-figure.aux) ) 
+lysis/zero-fitness.pdf>] (./intro-figure.aux) ) 
 Here is how much of TeX's memory you used:
- 4377 strings out of 479383
- 73812 string characters out of 5869387
- 343125 words of memory out of 5000000
- 21461 multiletter control sequences out of 15000+600000
+ 4365 strings out of 479383
+ 73304 string characters out of 5869387
+ 342125 words of memory out of 5000000
+ 21451 multiletter control sequences out of 15000+600000
  405190 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  80i,11n,128p,349b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/te
-xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/
-type1/urw/helvetic/uhvr8a.pfb>
-Output written on intro-figure.pdf (1 page, 430905 bytes).
+{/usr/local/texlive/2020/texmf-d
+ist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1
+/urw/helvetic/uhvr8a.pfb>
+Output written on intro-figure.pdf (1 page, 419398 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 39 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,272 @@
+\begin{thebibliography}{40}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Clauss(1999)}]{clauss1999a}
+Clauss, M.~J. 1999.
+\newblock Life history strategies in variable environments: {Demography},
+  delayed germination and bet-hedging in a desert annual {Plantago}.
+\newblock Accepted: 2013-04-18T10:09:53Z Publisher: The University of Arizona.
+
+\bibitem[{Clauss and Venable(2000)}]{clauss2000}
+Clauss, M.~J. and D.~L. Venable. 2000.
+\newblock Seed {Germination} in {Desert} {Annuals}: {An} {Empirical} {Test} of
+  {Adaptive} {Bet} {Hedging}.
+\newblock The American Naturalist, {\bf 155}:168--186.
+
+\bibitem[{Cohen(1966)}]{cohen1966}
+Cohen, D. 1966.
+\newblock Optimizing reproduction in a randomly varying environment.
+\newblock Journal of Theoretical Biology, {\bf 12}:119--129.
+
+\bibitem[{Cohen(1967)}]{cohen1967}
+Cohen, D. 1967.
+\newblock Optimizing {Reproduction} in a {Randomly} {Varying} {Environment}
+  when a {Correlation} {May} {Exist} between the {Conditions} at the {Time} a
+  {Choice} has to be {Made} and the {Subsequent} {Outcome}.
+\newblock Journal of Theoretical Biology, {\bf 16}:1--14.
+
+\bibitem[{Conn et~al.(2018)Conn, Johnson, Williams, Melin, and
+  Hooten}]{conn2018}
+Conn, P.~B., D.~S. Johnson, P.~J. Williams, S.~R. Melin, and M.~B. Hooten.
+  2018.
+\newblock A guide to {Bayesian} model checking for ecologists.
+\newblock Ecological Monographs, {\bf 88}:526--542.
+
+\bibitem[{Eager et~al.(2014)Eager, Rebarber, and Tenhumberg}]{eager2014}
+Eager, E.~A., R.~Rebarber, and B.~Tenhumberg. 2014.
+\newblock Modeling and {Analysis} of a {Density}-{Dependent} {Stochastic}
+  {Integral} {Projection} {Model} for a {Disturbance} {Specialist} {Plant} and
+  {Its} {Seed} {Bank}.
+\newblock Bulletin of Mathematical Biology, {\bf 76}:1809--1834.
+
+\bibitem[{Eckhart et~al.(2011)Eckhart, Geber, Morris, Fabio, Tiffin, and
+  Moeller}]{eckhart2011}
+Eckhart, V.~M., M.~A. Geber, W.~F. Morris, E.~S. Fabio, P.~Tiffin, and D.~A.
+  Moeller. 2011.
+\newblock The {Geography} of {Demography}: {Long}-{Term} {Demographic}
+  {Studies} and {Species} {Distribution} {Models} {Reveal} a {Species} {Border}
+  {Limited} by {Adaptation}.
+\newblock The American Naturalist, {\bf 178}:S26--S43.
+
+\bibitem[{Elderd and Miller(2015)}]{elderd2015}
+Elderd, B.~D. and T.~E.~X. Miller. 2015.
+\newblock Quantifying demographic uncertainty: {Bayesian} methods for
+  {Integral} {Projection} {Models} ({IPMs}).
+\newblock Ecological Monographs, pages 15--1526.1.
+
+\bibitem[{Ellner(1985{\natexlab{{\em a\/}}})}]{ellner1985a}
+Ellner, S. 1985{\natexlab{{\em a\/}}}.
+\newblock {ESS} germination strategies in randomly varying environments. {I}.
+  {Logistic}-type models.
+\newblock Theoretical Population Biology, {\bf 28}:50--79.
+
+\bibitem[{Ellner(1985{\natexlab{{\em b\/}}})}]{ellner1985}
+Ellner, S. 1985{\natexlab{{\em b\/}}}.
+\newblock {ESS} germination strategies in randomly varying environments. {II}.
+  {Reciprocal} {Yield}-{Law} models.
+\newblock Theoretical Population Biology, {\bf 28}:80--116.
+
+\bibitem[{Evans et~al.(2007)Evans, Ferrière, Kane, and Venable}]{evans2007}
+Evans, M., R.~Ferrière, M.~Kane, and D.~Venable. 2007.
+\newblock Bet {Hedging} via {Seed} {Banking} in {Desert} {Evening} {Primroses}
+  ({Oenothera}, {Onagraceae}): {Demographic} {Evidence} from {Natural}
+  {Populations}.
+\newblock The American Naturalist, {\bf 169}:184--194.
+\newblock Tex.ids= evans2007a publisher: The University of Chicago Press.
+
+\bibitem[{Evans and Dennehy(2005)}]{evans2005}
+Evans, M. E.~K. and J.~J. Dennehy. 2005.
+\newblock Germ {Banking}: {Bet}‐{Hedging} and {Variable} {Release} {From}
+  {Egg} and {Seed} {Dormancy}.
+\newblock The Quarterly Review of Biology, {\bf 80}:431--451.
+
+\bibitem[{Evans et~al.(2010)Evans, Holsinger, and Menges}]{evans2010}
+Evans, M. E.~K., K.~E. Holsinger, and E.~S. Menges. 2010.
+\newblock Fire, vital rates, and population viability: a hierarchical
+  {Bayesian} analysis of the endangered {Florida} scrub mint.
+\newblock Ecological Monographs, {\bf 80}:627--649.
+
+\bibitem[{Fernández-Pascual et~al.(2013)Fernández-Pascual, Jiménez-Alfaro,
+  Caujapé-Castells, Jaén-Molina, and Díaz}]{fernandez-pascual2013}
+Fernández-Pascual, E., B.~Jiménez-Alfaro, J.~Caujapé-Castells,
+  R.~Jaén-Molina, and T.~E. Díaz. 2013.
+\newblock A local dormancy cline is related to the seed maturation environment,
+  population genetic composition and climate.
+\newblock Annals of Botany, {\bf 112}:937--945.
+
+\bibitem[{Gabry et~al.(2019)Gabry, Simpson, Vehtari, Betancourt, and
+  Gelman}]{gabry2019}
+Gabry, J., D.~Simpson, A.~Vehtari, M.~Betancourt, and A.~Gelman. 2019.
+\newblock Visualization in {Bayesian} workflow.
+\newblock Journal of the Royal Statistical Society: Series A (Statistics in
+  Society), {\bf 182}:389--402.
+
+\bibitem[{Geber and Eckhart(2005)}]{geber2005}
+Geber, M.~A. and V.~M. Eckhart. 2005.
+\newblock Experimental studies of adaptation in {Clarkia} xantiana: {II}.
+  {Fitness} variation across a subspecies border.
+\newblock Evolution, {\bf 59}:521--531.
+
+\bibitem[{Gremer et~al.(2020)Gremer, Chiono, Suglia, Bontrager, Okafor, and
+  Schmitt}]{gremer2020}
+Gremer, J.~R., A.~Chiono, E.~Suglia, M.~Bontrager, L.~Okafor, and J.~Schmitt.
+  2020.
+\newblock Variation in the seasonal germination niche across an elevational
+  gradient: the role of germination cueing in current and future climates.
+\newblock American Journal of Botany, {\bf 107}:350--363.
+
+\bibitem[{Gremer et~al.(2016)Gremer, Kimball, and Venable}]{gremer2016}
+Gremer, J.~R., S.~Kimball, and D.~L. Venable. 2016.
+\newblock Within-and among-year germination in {Sonoran} {Desert} winter
+  annuals: bet hedging and predictive germination in a variable environment.
+\newblock Ecology Letters, {\bf 19}:1209--1218.
+
+\bibitem[{Gremer and Venable(2014)}]{gremer2014}
+Gremer, J.~R. and D.~L. Venable. 2014.
+\newblock Bet hedging in desert winter annual plants: optimal germination
+  strategies in a variable environment.
+\newblock Ecology Letters, {\bf 17}:380--387.
+
+\bibitem[{Hacker(1984)}]{hacker1984}
+Hacker, J.~B. 1984.
+\newblock Genetic {Variation} in {Seed} {Dormancy} in {Digitaria} milanjiana in
+  {Relation} to {Rainfall} at the {Collection} {Site}.
+\newblock The Journal of Applied Ecology, {\bf 21}:947.
+
+\bibitem[{Hacker and Ratcliff(1989)}]{hacker1989}
+Hacker, J.~B. and D.~Ratcliff. 1989.
+\newblock Seed {Dormancy} and {Factors} {Controlling} {Dormancy} {Breakdown} in
+  {Buffel} {Grass} {Accession} from {Contrasting} {Provenances}.
+\newblock The Journal of Applied Ecology, {\bf 26}:201.
+
+\bibitem[{Hobbs and Hooten(2015)}]{hobbs2015b}
+Hobbs, N.~T. and M.~B. Hooten. 2015.
+\newblock Bayesian models: a statistical primer for ecologists.
+\newblock Princeton University Press, Princeton, New Jersey.
+\newblock Http://newcatalog.library.cornell.edu/catalog/9201001.
+
+\bibitem[{Klein and Moeschberger(2003)}]{klein2003}
+Klein, J.~P. and M.~L. Moeschberger. 2003.
+\newblock Survival analysis: techniques for censored and truncated data.
+\newblock Springer, New York, 2nd ed. edition.
+\newblock Http://newcatalog.library.cornell.edu/catalog/4602814.
+
+\bibitem[{Knies et~al.(2004)Knies, Delesalle, and Cavaliere}]{knies2004}
+Knies, J.~L., V.~A. Delesalle, and A.~R. Cavaliere. 2004.
+\newblock Seed {Mass} and {Morphology} in {Outcrossing} and {Selfing} {Species}
+  of \textit{{Clarkia}} ({Onagraceae}): {An} {SEM} {Study}.
+\newblock International Journal of Plant Sciences, {\bf 165}:85--96.
+
+\bibitem[{Kramer et~al.(2011)Kramer, Montgomery, Eckhart, and
+  Geber}]{kramer2011}
+Kramer, H. A.~C., D.~M. Montgomery, V.~M. Eckhart, and M.~A. Geber. 2011.
+\newblock Environmental and dispersal controls of an annual plant’s
+  distribution: how similar are patterns and apparent processes at two spatial
+  scales?
+\newblock Plant Ecology, {\bf 212}:1887.
+
+\bibitem[{Lemoine(2019)}]{lemoine2019}
+Lemoine, N.~P. 2019.
+\newblock Moving beyond noninformative priors: why and how to choose weakly
+  informative priors in {Bayesian} analyses.
+\newblock Oikos, {\bf 128}:912--928.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/oik.05985.
+
+\bibitem[{Lewis(1962)}]{lewis1962}
+Lewis, H. 1962.
+\newblock Catastrophic {Selection} as a {Factor} in {Speciation}.
+\newblock Evolution, {\bf 16}:257--271.
+\newblock Publisher: [Society for the Study of Evolution, Wiley].
+
+\bibitem[{McCue and Holtsford(1998)}]{mccue1998}
+McCue, K.~A. and T.~P. Holtsford. 1998.
+\newblock Seed bank influences on genetic diversity in the rare annual
+  {Clarkia} springvillensis ({Onagraceae}).
+\newblock American Journal of Botany, {\bf 85}:30--36.
+\newblock \_eprint:
+  https://bsapubs.onlinelibrary.wiley.com/doi/pdf/10.2307/2446551.
+
+\bibitem[{Metcalf et~al.(2015)Metcalf, Ellner, Childs, Salguero‐Gómez,
+  Merow, McMahon, Jongejans, and Rees}]{metcalf2015}
+Metcalf, C. J.~E., S.~P. Ellner, D.~Z. Childs, R.~Salguero‐Gómez, C.~Merow,
+  S.~M. McMahon, E.~Jongejans, and M.~Rees. 2015.
+\newblock Statistical modelling of annual variation for inference on stochastic
+  population dynamics using {Integral} {Projection} {Models}.
+\newblock Methods in Ecology and Evolution, {\bf 6}:1007--1017.
+
+\bibitem[{Nunney(2002)}]{nunney2002}
+Nunney, L. 2002.
+\newblock The {Effective} {Size} of {Annual} {Plant} {Populations}: {The}
+  {Interaction} of a {Seed} {Bank} with {Fluctuating} {Population} {Size} in
+  {Maintaining} {Genetic} {Variation}.
+\newblock The American Naturalist, {\bf 160}:195.
+
+\bibitem[{Ogle and Barber(2020)}]{ogle2020}
+Ogle, K. and J.~J. Barber. 2020.
+\newblock Ensuring identifiability in hierarchical mixed effects {Bayesian}
+  models.
+\newblock Ecological Applications, {\bf 30}:e02159.
+\newblock \_eprint:
+  https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1002/eap.2159.
+
+\bibitem[{Paniw et~al.(2017)Paniw, Quintana-Ascencio, Ojeda, and
+  Salguero-Gómez}]{paniw2017}
+Paniw, M., P.~F. Quintana-Ascencio, F.~Ojeda, and R.~Salguero-Gómez. 2017.
+\newblock Accounting for uncertainty in dormant life stages in stochastic
+  demographic models.
+\newblock Oikos, {\bf 126}:900--909.
+
+\bibitem[{Philippi(1993{\natexlab{{\em a\/}}})}]{philippi1993}
+Philippi, T. 1993{\natexlab{{\em a\/}}}.
+\newblock Bet-{Hedging} {Germination} of {Desert} {Annuals}: {Beyond} the
+  {First} {Year}.
+\newblock The American Naturalist, {\bf 142}:474--487.
+
+\bibitem[{Philippi(1993{\natexlab{{\em b\/}}})}]{philippi1993a}
+Philippi, T. 1993{\natexlab{{\em b\/}}}.
+\newblock Bet-{Hedging} {Germination} of {Desert} {Annuals}: {Variation}
+  {Among} {Populations} and {Maternal} {Effects} in {Lepidium} lasiocarpum.
+\newblock The American Naturalist, {\bf 142}:488--507.
+
+\bibitem[{Philippi and Seger(1989)}]{philippi1989}
+Philippi, T. and J.~Seger. 1989.
+\newblock Hedging one's evolutionary bets, revisited.
+\newblock Trends in Ecology \& Evolution, {\bf 4}:41--44.
+
+\bibitem[{Pironon et~al.(2018)Pironon, Villellas, Thuiller, Eckhart, Geber,
+  Moeller, and García}]{pironon2018}
+Pironon, S., J.~Villellas, W.~Thuiller, V.~M. Eckhart, M.~A. Geber, D.~A.
+  Moeller, and M.~B. García. 2018.
+\newblock The ‘{Hutchinsonian} niche’ as an assemblage of demographic
+  niches: implications for species geographic ranges.
+\newblock Ecography, {\bf 41}:1103--1113.
+
+\bibitem[{Simons(2011)}]{simons2011}
+Simons, A.~M. 2011.
+\newblock Modes of response to environmental change and the elusive empirical
+  evidence for bet hedging.
+\newblock Proceedings of the Royal Society B: Biological Sciences, {\bf
+  278}:1601--1609.
+
+\bibitem[{Venable(2007)}]{venable2007}
+Venable, D.~L. 2007.
+\newblock Bet hedging in a guild of desert annuals.
+\newblock Ecology, {\bf 88}:1086--1090.
+
+\bibitem[{Waples(2006)}]{waples2006}
+Waples, R.~S. 2006.
+\newblock Seed {Banks}, {Salmon}, and {Sleeping} {Genes}: {Effective}
+  {Population} {Size} in {Semelparous}, {Age}-{Structured} {Species} with
+  {Fluctuating} {Abundance}.
+\newblock The American Naturalist, {\bf 167}:118.
+
+\bibitem[{Wesner and Pomeranz(2020)}]{wesner2020}
+Wesner, J.~S. and J.~P. Pomeranz. 2020.
+\newblock Choosing priors in {Bayesian} ecological models by simulating from
+  the prior predictive distribution.
+\newblock preprint, Ecology.
+
+\end{thebibliography}

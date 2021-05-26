@@ -142,7 +142,9 @@ tm_shape(ned_kern, unit.size = 1)+
   tm_compass(position=c(0.9,0.9))+
   tm_scale_bar(position=c('left','top'),width = 0.2,
                text.size=1,text.color='white',
-               breaks = c(0,4,8,12)) 
+               breaks = c(0,4,8,12)) +
+  tm_ylab("Latitude",size=1,space=1) +
+  tm_xlab("Longitude",size=1,space=1)
 dev.off()
 # 
 # par(mfrow=c(1,1), cex=1, mar=c(2.5,2.5,2.5,2.5))

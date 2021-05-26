@@ -2,15 +2,19 @@
 \BOOKMARK [1][-]{section.2}{Methods}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Clarkia life history}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Creating the dataset}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Model}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Model statements, implementation, and fitting}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.5}{Computing vital rates}{section.2}% 7
-\BOOKMARK [3][-]{subsubsection.2.5.1}{Belowground vital rates}{subsection.2.5}% 8
-\BOOKMARK [3][-]{subsubsection.2.5.2}{Per-capita reproductive success}{subsection.2.5}% 9
-\BOOKMARK [2][-]{subsection.2.6}{Climate data}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.7}{Analysis}{section.2}% 11
-\BOOKMARK [3][-]{subsubsection.2.7.1}{Correlation between germination probability and seed survival}{subsection.2.7}% 12
-\BOOKMARK [3][-]{subsubsection.2.7.2}{Correlation between germination probability and variance in per-capita reproductive success}{subsection.2.7}% 13
-\BOOKMARK [3][-]{subsubsection.2.7.3}{Density-independent model for germination probability}{subsection.2.7}% 14
-\BOOKMARK [3][-]{subsubsection.2.7.4}{Relationship of reproductive success and growing season precipitation}{subsection.2.7}% 15
-\BOOKMARK [3][-]{subsubsection.2.7.5}{Partitioning contributions to the total geometric standard deviation of reproductive success}{subsection.2.7}% 16
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Field surveys for aboveground components of demography}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Field experiments for belowground components of demography}{subsection.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Models}{section.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Model for aboveground components of demography}{subsection.2.3}% 8
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Model for belowground components of demography}{subsection.2.3}% 9
+\BOOKMARK [2][-]{subsection.2.4}{Model statements, implementation, and fitting}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.5}{Computing vital rates}{section.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.5.1}{Per-capita reproductive success}{subsection.2.5}% 12
+\BOOKMARK [3][-]{subsubsection.2.5.2}{Belowground vital rates}{subsection.2.5}% 13
+\BOOKMARK [2][-]{subsection.2.6}{Climate data}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.7}{Analysis}{section.2}% 15
+\BOOKMARK [3][-]{subsubsection.2.7.1}{Correlation between germination probability and seed survival}{subsection.2.7}% 16
+\BOOKMARK [3][-]{subsubsection.2.7.2}{Correlation between germination probability and variance in per-capita reproductive success}{subsection.2.7}% 17
+\BOOKMARK [3][-]{subsubsection.2.7.3}{Density-independent model for germination probability}{subsection.2.7}% 18
+\BOOKMARK [3][-]{subsubsection.2.7.4}{Relationship of reproductive success and growing season precipitation}{subsection.2.7}% 19
+\BOOKMARK [3][-]{subsubsection.2.7.5}{Partitioning contributions to the total geometric standard deviation of reproductive success}{subsection.2.7}% 20

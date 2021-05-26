@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Model}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Joint model for seed vital rates}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Viability}{7}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Seedling survival to fruiting}{7}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Fruits per plant \& seeds per fruit}{8}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Model statements, implementation, and fitting}{8}{section.2}%
+\contentsline {section}{\numberline {3}Computing vital rates}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Belowground vital rates - seed bank paper}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Per-capita reproductive success}{12}{subsection.3.2}%
