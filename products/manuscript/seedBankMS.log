@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  26 MAY 2021 16:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.14)  28 MAY 2021 13:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1415,202 +1415,63 @@ Package xcolor Warning: Incompatible color definition on input line 313.
 
 [17] [18]
 
-Package xcolor Warning: Incompatible color definition on input line 349.
+Package xcolor Warning: Incompatible color definition on input line 336.
 
 
-Package xcolor Warning: Incompatible color definition on input line 349.
+Package xcolor Warning: Incompatible color definition on input line 336.
 
-[19] [20]
+[19]
 
-Package xcolor Warning: Incompatible color definition on input line 372.
-
-
-Package xcolor Warning: Incompatible color definition on input line 372.
+Package xcolor Warning: Incompatible color definition on input line 357.
 
 
-Package xcolor Warning: Incompatible color definition on input line 378.
+Package xcolor Warning: Incompatible color definition on input line 357.
 
 
-Package xcolor Warning: Incompatible color definition on input line 378.
-
-[21] [22]
-<../manuscript/figures/intro-figure.pdf, id=450, 426.79147pt x 261.09645pt>
-File: ../manuscript/figures/intro-figure.pdf Graphic file (type pdf)
-<use ../manuscript/figures/intro-figure.pdf>
-Package pdftex.def Info: ../manuscript/figures/intro-figure.pdf  used on input 
-line 455.
-(pdftex.def)             Requested size: 469.75499pt x 287.38228pt.
-<../manuscript/figures-overview/diagram-figure.pdf, id=451, 248.96112pt x 479.0
-6377pt>
-File: ../manuscript/figures-overview/diagram-figure.pdf Graphic file (type pdf)
-
-<use ../manuscript/figures-overview/diagram-figure.pdf>
-Package pdftex.def Info: ../manuscript/figures-overview/diagram-figure.pdf  use
-d on input line 463.
-(pdftex.def)             Requested size: 248.9605pt x 479.06259pt.
+Package natbib Warning: Citation `clauss199a' on page 20 undefined on input lin
+e 357.
 
 
-LaTeX Warning: Float too large for page by 48.76758pt on input line 466.
+Package xcolor Warning: Incompatible color definition on input line 357.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package xcolor Warning: Incompatible color definition on input line 357.
 
-<../figures/analysis/correlation-germ-surv.pdf, id=452, page=1, 433.62pt x 578.
-16pt>
-File: ../figures/analysis/correlation-germ-surv.pdf Graphic file (type pdf)
-<use ../figures/analysis/correlation-germ-surv.pdf, page 1>
-Package pdftex.def Info: ../figures/analysis/correlation-germ-surv.pdf , page1 
-used on input line 472.
-(pdftex.def)             Requested size: 305.33788pt x 407.13528pt.
-<../manuscript/figures/analysis-figure.pdf, id=453, page=1, 341.4326pt x 229.30
-57pt>
-File: ../manuscript/figures/analysis-figure.pdf Graphic file (type pdf)
-<use ../manuscript/figures/analysis-figure.pdf, page 1>
-Package pdftex.def Info: ../manuscript/figures/analysis-figure.pdf , page1 used
- on input line 481.
-(pdftex.def)             Requested size: 469.75499pt x 315.50798pt.
-<../manuscript/figures/analysis-figure-2.pdf, id=454, page=1, 341.4326pt x 113.
-8122pt>
-File: ../manuscript/figures/analysis-figure-2.pdf Graphic file (type pdf)
-<use ../manuscript/figures/analysis-figure-2.pdf, page 1>
-Package pdftex.def Info: ../manuscript/figures/analysis-figure-2.pdf , page1 us
-ed on input line 489.
-(pdftex.def)             Requested size: 422.77661pt x 140.93636pt.
+[20]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<../figures/analysis/rs-climate-sensitivity.pdf, id=455, 578.16pt x 578.16pt>
-File: ../figures/analysis/rs-climate-sensitivity.pdf Graphic file (type pdf)
-<use ../figures/analysis/rs-climate-sensitivity.pdf>
-Package pdftex.def Info: ../figures/analysis/rs-climate-sensitivity.pdf  used o
-n input line 495.
-(pdftex.def)             Requested size: 469.75499pt x 469.75385pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<../figures/analysis/variance-decomp.pdf, id=456, 578.16pt x 433.62pt>
-File: ../figures/analysis/variance-decomp.pdf Graphic file (type pdf)
-<use ../figures/analysis/variance-decomp.pdf>
-Package pdftex.def Info: ../figures/analysis/variance-decomp.pdf  used on input
- line 501.
-(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[23
-
- <../manuscript/figures/intro-figure.pdf>] [24 <../manuscript/figures-overview/
-diagram-figure.pdf>] [25 <../figures/analysis/correlation-germ-surv.pdf>]
-[26 <../manuscript/figures/analysis-figure.pdf>] [27 <../manuscript/figures/ana
-lysis-figure-2.pdf>] [28 <../figures/analysis/rs-climate-sensitivity.pdf>]
-[29 <../figures/analysis/variance-decomp.pdf>] (./seedBankMS.bbl [30
-
-] [31]
-Underfull \hbox (badness 6658) in paragraph at lines 146--150
-[]\OT1/cmr/m/n/12 Hobbs, N. T. and M. B. Hooten. 2015.  Bayesian mod-els: a sta
--tis-ti-cal
- []
+Package xcolor Warning: Incompatible color definition on input line 361.
 
 
-Underfull \hbox (badness 6675) in paragraph at lines 146--150
-\OT1/cmr/m/n/12 primer for ecol-o-gists.  Prince-ton Uni-ver-sity Press, Prince
--ton, New Jer-sey.
- []
+Package xcolor Warning: Incompatible color definition on input line 361.
 
+[21]
 
-Underfull \hbox (badness 4927) in paragraph at lines 152--156
-[]\OT1/cmr/m/n/12 Klein, J. P. and M. L. Moeschberger. 2003.  Sur-vival anal-y-
-sis: tech-niques
- []
+Package natbib Warning: Citation `dettinger2004' on page 22 undefined on input 
+line 367.
 
+)
+Runaway argument?
+{cite Eckhart 2010 or WRCC?). Elevation also changes across the \par \ETC.
+! File ended while scanning use of \SOUL@n.
+<inserted text> 
+                \par 
+<*> seedBankMS.tex
+                  
+? 
+! Emergency stop.
+<inserted text> 
+                \par 
+<*> seedBankMS.tex
+                  
+End of file on the terminal!
 
-Underfull \hbox (badness 6047) in paragraph at lines 152--156
-\OT1/cmr/m/n/12 for cen-sored and trun-cated data.  Springer, New York, 2nd ed.
- edi-tion.
- []
-
-[32]
-Underfull \hbox (badness 1755) in paragraph at lines 172--177
-[]\OT1/cmr/m/n/12 Lemoine, N. P. 2019.  Mov-ing be-yond non-in-for-ma-tive pri-
-ors: why and how to
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 208--214
-[]\OT1/cmr/m/n/12 Ogle, K. and J. J. Bar-ber. 2020.  En-sur-ing iden-ti-fi-a-bi
-l-ity in hi-er-ar-chi-cal
- []
-
-
-Underfull \hbox (badness 3138) in paragraph at lines 208--214
-\OT1/cmr/m/n/12 mixed ef-fects Bayesian mod-els.  Eco-log-i-cal Ap-pli-ca-tions
-, \OT1/cmr/bx/n/12 30\OT1/cmr/m/n/12 :e02159.  []eprint:
- []
-
-[33]) [34]
-Overfull \hbox (15.53455pt too wide) in paragraph at lines 523--524
-\OT1/cmr/m/n/12 acyclic graphs. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/12 https
- : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
- []
-
-
-Overfull \hbox (50.94527pt too wide) in paragraph at lines 523--524
-\OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]joint-[]pos
-teriors / appendix-[]joint-[]posteriors .
- []
-
-
-Overfull \hbox (51.27168pt too wide) in paragraph at lines 525--526
-\OT1/cmr/m/n/12 Explanation of pri-ors. Link to doc-u-ment: [][]$\OT1/cmtt/m/n/
-12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
- []
-
-
-Overfull \hbox (61.81601pt too wide) in paragraph at lines 527--528
-\OT1/cmr/m/n/12 values for test statis-tics. Link to doc-u-ment: [][]$\OT1/cmtt
-/m/n/12 https : / / github . com / gregor-[]fausto / clarkiaSeedBanks /
- []
-
-
-Overfull \hbox (14.39525pt too wide) in paragraph at lines 527--528
-\OT1/cmtt/m/n/12 blob / master / products / appendices / appendix-[]model-[]che
-cks / appendix-[]x-[]model-[]checks .
- []
-
-[35
-
-] (./seedBankMS.aux)
-Package rerunfilecheck Info: File `seedBankMS.out' has not changed.
-(rerunfilecheck)             Checksum: 0283EFD9E665A28C41C40E5DDACBA28F;1848.
-
-
-LaTeX Warning: There were undefined references.
-
- ) 
+ 
 Here is how much of TeX's memory you used:
- 23395 strings out of 479383
- 440054 string characters out of 5869387
- 939091 words of memory out of 5000000
- 39918 multiletter control sequences out of 15000+600000
- 413485 words of font info for 63 fonts, out of 8000000 for 9000
+ 23229 strings out of 479383
+ 435853 string characters out of 5869387
+ 934091 words of memory out of 5000000
+ 39789 multiletter control sequences out of 15000+600000
+ 413316 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,13n,74p,1620b,573s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
-></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
-</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
-usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local
-/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
-exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
-xlive/2020/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on seedBankMS.pdf (36 pages, 854256 bytes).
-PDF statistics:
- 808 PDF objects out of 1000 (max. 8388607)
- 696 compressed objects within 7 object streams
- 119 named destinations out of 1000 (max. 500000)
- 208 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 66i,13n,74p,1620b,540s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!

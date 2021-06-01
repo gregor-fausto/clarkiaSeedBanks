@@ -2,6 +2,9 @@
 # with seed bag data
 # rainclouds from Allen et al. 2019
 
+library(tidyverse)
+library(reshape2)
+
 climate = read.csv(file="/Users/Gregor/Dropbox/clarkia-LTREB/weather data/datafile_demography_site_environmental_data_2005-2020.csv")
 
 climate <- climate %>%
@@ -252,6 +255,129 @@ text(4.75,320,paste0("Pearson's r=",signif(cor(clim.bound$t.x,clim.bound$p.y,use
 dev.off()
 
 
+ggplot(climate.sp) +
+  geom_point(aes(x=easting,y=p)) +
+  facet_wrap(~year,scales='free_y') +
+  theme_bw()
+
+ggplot(climate.sp %>% 
+         dplyr::filter(year<2011)) +
+  geom_point(aes(x=easting,y=p)) +
+  facet_wrap(~year,scales='free_y') +
+  theme_bw()
+
+df=climate.sp %>% 
+  dplyr::group_by(site) %>% 
+  dplyr::summarise(mu = mean(p),
+                   sd= sd(p))
+
+
+
+ggplot(climate.sp %>% 
+         dplyr::left_join(df,by='site')) +
+  geom_point(aes(x=easting,y=mu,group=year)) +
+  geom_label(aes(x=easting,y=mu,label=site)) +
+  theme_bw()
+
+f.cv = function(x){ sd(x)/mean(x) }
+# sliding window calculation
+library("slider")
+
+roll.cv=climate.sp %>%
+  group_by(site) %>%
+  mutate(cv_roll = slide_dbl(p, f.cv, .before = Inf, .complete = TRUE)) %>%
+  mutate(mu_roll = slide_dbl(p, mean, .before = Inf, .complete = TRUE)) %>%
+  mutate(sd_roll = slide_dbl(p, sd, .before = Inf, .complete = TRUE))
+
+ggplot(climate.w%>% dplyr::filter(site%in%c("LO","GCN")))+
+         geom_line(aes(x=year,y=p,group=site,color=site)) +
+  theme_bw() +xlim(c(2005,2020))
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) %>%
+         dplyr::filter(site%in%c("LO","CF","CP3"))) +
+  geom_line(aes(x=year,y=mu_roll,group=site,color=easting)) +
+  geom_label(aes(x=year,y=mu_roll,label=site)) +
+  theme_bw()
+
+
+ggplot(data=roll.cv) +
+  geom_line(aes(x=year,y=cv_roll,group=site)) +
+  geom_label(data=roll.cv %>% 
+               dplyr::filter(year%in%c(2020)),
+             aes(x=year,y=cv_roll,label=site)) +
+  theme_bw()
+  
+roll.cv %>% dplyr::filter(year %in% c(2010,2020))
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) ) +
+  geom_line(aes(x=year,y=mu_roll,group=site,color=easting)) +
+  theme_bw()
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) ) +
+  geom_line(aes(x=year,y=sd_roll,group=site,color=easting)) +
+  theme_bw()
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) ) +
+  geom_line(aes(x=year,y=cv_roll,group=site,color=easting)) +
+  theme_bw() +
+  geom_label(data=roll.cv %>% 
+               dplyr::filter(year%in%c(2020)),
+             aes(x=year,y=cv_roll,label=site)) 
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009)) +
+  geom_point(aes(x=easting,y=cv_roll)) +
+  facet_wrap(~year) + theme_bw()
+
+
+ggplot(data=roll.cv %>% dplyr::filter(year==2020)) +
+  geom_point(aes(x=easting,y=cv_roll)) +
+  facet_wrap(~year,scales="free_y") + theme_bw() +
+  geom_label(aes(x=easting,y=cv_roll,label=site)) 
+
+# winter
+
+roll.cv=climate.w %>%
+  group_by(site) %>%
+  mutate(cv_roll = slide_dbl(p, f.cv, .before = Inf, .complete = TRUE)) %>%
+  mutate(mu_roll = slide_dbl(p, mean, .before = Inf, .complete = TRUE)) %>%
+  mutate(sd_roll = slide_dbl(p, sd, .before = Inf, .complete = TRUE))
+
+
+ggplot(data=roll.cv %>% dplyr::filter(site=="BR")) +
+  geom_line(aes(x=year,y=cv_roll,group=site)) +
+  geom_label(data=roll.cv %>% 
+               dplyr::filter(year%in%c(2020)),
+             aes(x=year,y=cv_roll,label=site)) +
+  theme_bw()
+
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) %>%
+         dplyr::filter(site%in%c("LO","CF","S22"))) +
+  geom_line(aes(x=year,y=mu_roll,group=site,color=easting)) +
+  geom_label(aes(x=year,y=mu_roll,label=site)) +
+  theme_bw()
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) ) +
+  geom_line(aes(x=year,y=sd_roll,group=site,color=easting)) +
+  theme_bw()
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009) ) +
+  geom_line(aes(x=year,y=cv_roll,group=site,color=easting)) +
+  theme_bw() +
+  geom_label(data=roll.cv %>% 
+               dplyr::filter(year%in%c(2020)),
+             aes(x=year,y=cv_roll,label=site)) 
+
+ggplot(data=roll.cv %>% dplyr::filter(year>2009)) +
+  geom_point(aes(x=easting,y=cv_roll)) +
+  facet_wrap(~year,scales="free_y") + theme_bw() +
+  geom_label(data=roll.cv%>% dplyr::filter(year>2009) ,
+             aes(x=easting,y=cv_roll,label=site)) 
+
+ggplot(data=roll.cv %>% dplyr::filter(year==2020)) +
+  geom_point(aes(x=easting,y=cv_roll)) +
+  facet_wrap(~year,scales="free_y") + theme_bw() +
+  geom_label(aes(x=easting,y=cv_roll,label=site)) 
 
 
 
@@ -403,9 +529,13 @@ plot(clim.sum[clim.sum$season=="spring",]$easting,clim.sum[clim.sum$season=="spr
 plot(clim.sum[clim.sum$season=="winter",]$easting,clim.sum[clim.sum$season=="winter",]$mu.p,
      ylab="Winter precipitation (mm)",xlab="Easting (km)")
 mtext("Easting (km)",line=2,side=1,cex=.75)
+#text(clim.sum[clim.sum$season=="winter",]$easting,clim.sum[clim.sum$season=="winter",]$mu.p,clim.sum[clim.sum$season=="winter",]$site)
+
+
 plot(clim.sum[clim.sum$season=="spring",]$easting,clim.sum[clim.sum$season=="spring",]$mu.p,
      ylab="Spring precipitation (mm)",xlab="Easting (km)")
 mtext("Easting (km)",line=2,side=1,cex=.75)
+#text(clim.sum[clim.sum$season=="spring",]$easting,clim.sum[clim.sum$season=="spring",]$mu.p,clim.sum[clim.sum$season=="spring",]$site)
 
 
 
@@ -470,17 +600,26 @@ plot(clim.sum[clim.sum$season=="spring",]$elevation,clim.sum[clim.sum$season=="s
      ylab="Spring temperature (\u00B0C)")
 
 plot(clim.sum[clim.sum$season=="winter",]$elevation,clim.sum[clim.sum$season=="winter",]$mu.p,
-     ylab="Winter precipitation (mm)",xlab="Easting (km)")
+     ylab="Winter precipitation (mm)")
 mtext("Elevation (m)",line=2,side=1,cex=.75)
+#text(clim.sum[clim.sum$season=="winter",]$elevation,clim.sum[clim.sum$season=="winter",]$mu.p,clim.sum[clim.sum$season=="winter",]$site)
+
 plot(clim.sum[clim.sum$season=="spring",]$elevation,clim.sum[clim.sum$season=="spring",]$mu.p,
-     ylab="Spring precipitation (mm)",xlab="Easting (km)")
+     ylab="Spring precipitation (mm)")
 mtext("Elevation (m)",line=2,side=1,cex=.75)
+#text(clim.sum[clim.sum$season=="spring",]$elevation,clim.sum[clim.sum$season=="spring",]$mu.p,clim.sum[clim.sum$season=="spring",]$site)
+
 
 par(mfrow=c(1,1),mar=c(4,4,3,3))
 plot(clim.sum$easting,clim.sum$elevation,pch=21,lwd=1,
      xlab="Easting (km)",ylab="Elevation (m)")
 text(342,1100,paste0("Pearson's r=",signif(cor(clim.sum$easting,clim.sum$elevation),2)),pos=4)
 dev.off()
+
+plot(clim.sum$easting,clim.sum$elevation,pch=21,lwd=1,
+     xlab="Easting (km)",ylab="Elevation (m)",type='n')
+text(342,1100,paste0("Pearson's r=",signif(cor(clim.sum$easting,clim.sum$elevation),2)),pos=4)
+text(clim.sum$easting,clim.sum$elevation,clim.sum$site)
 
 # climate=climate %>% dplyr::filter(year %in% 2006:2018)
 # climate.w = climate %>% dplyr::filter(season=="winter")

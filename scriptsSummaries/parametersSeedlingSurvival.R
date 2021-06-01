@@ -171,6 +171,7 @@ tmp = sigma_py %>%
 
 
 interannualSigmaDF =  tmp %>%
+  dplyr::left_join(position,by='site') %>%
   dplyr::arrange(easting) %>% 
   dplyr::mutate(site=factor(site,levels=unique(site))) %>%
   dplyr::group_by(site) %>%
@@ -183,14 +184,15 @@ interannualSigma <- interannualSigmaDF %>%
   geom_hline(aes(yintercept=med),linetype='dotted') +
   geom_point(aes(color=year)) +
   geom_linerange(aes(x=id,ymin=ci.lo,ymax=ci.hi),size=.25) +
-  coord_flip() +
-  facet_grid(site ~ ., scales="free_x", space="free_x") +
+  #coord_flip() +
+  facet_grid(. ~ site, scales="free_x", space="free_x") +
   theme_bw() +
   theme(panel.spacing=unit(0,"pt"), 
         panel.border=element_rect(colour="grey50", fill=NA)) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  xlab('') +
   ylab("Probability of seedling survival to fruiting") +
   ylim(c(0,1)) +
   labs(color="Year") 
@@ -212,7 +214,7 @@ spatialSigma <- sigma_p %>%
 dirFigures = "/Users/Gregor/Dropbox/clarkiaSeedBanks/products/figures/"
 
 ggsave(filename=paste0(dirFigures,"interannualSigma.pdf"),
-       plot=interannualSigma,width=6,height=12)
+       plot=interannualSigma,width=12,height=6)
 
 ggsave(filename=paste0(dirFigures,"spatialSigma.pdf"),
        plot=spatialSigma,width=6,height=12)
